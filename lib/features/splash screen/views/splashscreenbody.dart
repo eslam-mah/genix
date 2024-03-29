@@ -20,12 +20,11 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
 
   void goToAuth() {
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).push(NextPage());
+      Navigator.of(context).push(nextPage());
     });
   }
 
-  // ignore: non_constant_identifier_names
-  Route NextPage() {
+  Route nextPage() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => const LogIn(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
