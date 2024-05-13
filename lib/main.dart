@@ -17,6 +17,7 @@ class Genix extends StatelessWidget {
         splitScreenMode: true,
         builder: (_, child) {
           return MaterialApp.router(
+            theme: ThemeData.light(),
             routerConfig: Rout.router,
             debugShowCheckedModeBanner: false,
           );

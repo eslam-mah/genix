@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:genix/core/utils/colors.dart';
+import 'package:genix/core/utils/images.dart';
 import 'package:genix/features/login%20screen/loginscreen.dart';
 
 class SplashScreenBody extends StatefulWidget {
@@ -41,18 +42,19 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
           child: child,
         );
       },
+      transitionDuration: const Duration(milliseconds: 1200),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff01924F),
+      backgroundColor: AppColors.kPrimaryColor,
       body: Center(
         child: SizedBox(
           width: 110.w,
           height: 110.h,
-          child: Image.asset('assets/icons/gen.png'),
+          child: Image.asset(AppImages.kWhiteLogo),
         ),
       ),
     );
