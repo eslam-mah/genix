@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -41,7 +41,7 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                               'Help the short creator.',
                               style: TextStyle(
                                   fontSize: 13.sp, color: Colors.grey),
-                            )
+                            ),
                           ],
                         ),
                         SizedBox(
@@ -68,15 +68,15 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                                     ),
                                     Row(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           FontAwesomeIcons.coins,
-                                          color: const Color.fromARGB(
-                                              255, 196, 176, 1),
+                                          color:
+                                              Color.fromARGB(255, 196, 176, 1),
                                         ),
                                         SizedBox(
                                           width: 10.w,
                                         ),
-                                        Text('10000')
+                                        const Text('10000')
                                       ],
                                     )
                                   ],
@@ -128,12 +128,13 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                                                         SizedBox(
                                                           width: 50.w,
                                                         ),
-                                                        Icon(FontAwesomeIcons
-                                                            .coins),
+                                                        const Icon(
+                                                            FontAwesomeIcons
+                                                                .coins),
                                                         SizedBox(
                                                           width: 10.w,
                                                         ),
-                                                        Text('Donate')
+                                                        const Text('Donate')
                                                       ],
                                                     ),
                                                   ),
@@ -146,12 +147,14 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                                                         SizedBox(
                                                           width: 50.w,
                                                         ),
-                                                        Icon(FontAwesomeIcons
-                                                            .users),
+                                                        const Icon(
+                                                            FontAwesomeIcons
+                                                                .users),
                                                         SizedBox(
                                                           width: 10.w,
                                                         ),
-                                                        Text('Top donations')
+                                                        const Text(
+                                                            'Top donations')
                                                       ],
                                                     ),
                                                   ),
