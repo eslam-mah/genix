@@ -118,7 +118,7 @@ class LoginScreenBody extends StatelessWidget {
                 CustomIconButton(
                   onTap: () {},
                   width: 100.w,
-                  hieght: 33.h,
+                  height: 33.h,
                   icon: FontAwesomeIcons.key,
                   borderRadius: 50.r,
                   buttonText: 'Sign in',
@@ -132,7 +132,7 @@ class LoginScreenBody extends StatelessWidget {
                     GoRouter.of(context).push(Rout.kRegister);
                   },
                   width: 100.w,
-                  hieght: 33.h,
+                  height: 33.h,
                   icon: FontAwesomeIcons.penRuler,
                   borderRadius: 50.r,
                   buttonText: 'Sign up',

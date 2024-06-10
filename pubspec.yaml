@@ -28,8 +28,6 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
- # appinio_video_player: ^1.2.2
- # cached_video_player: ^2.0.4
   country_picker: ^2.0.25
   cupertino_icons: ^1.0.6
   flutter:
@@ -42,6 +40,8 @@ dependencies:
   go_router: ^13.2.2
   intl: ^0.19.0
   lottie: ^3.1.0
+  modal_progress_hud_nsn: ^0.5.1
+  shared_preferences: ^2.2.3
   video_player: ^2.6.0
 
 dev_dependencies:
@@ -68,7 +68,6 @@ flutter:
     - assets/images/gifs/
     - assets/images/reacts/
     - assets/images/animations/
-
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

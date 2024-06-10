@@ -8,7 +8,7 @@ class CustomIconButton extends StatelessWidget {
     required this.buttonText,
     required this.borderRadius,
     required this.width,
-    required this.hieght,
+    required this.height,
     required this.color,
     required this.onTap,
   });
@@ -16,7 +16,7 @@ class CustomIconButton extends StatelessWidget {
   final String buttonText;
   final double borderRadius;
   final double width;
-  final double hieght;
+  final double height;
   final Color color;
   final Function() onTap;
   @override
@@ -25,7 +25,7 @@ class CustomIconButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: width,
-        height: hieght,
+        height: height,
         decoration: BoxDecoration(
             color: color, borderRadius: BorderRadius.circular(borderRadius)),
         child: Row(

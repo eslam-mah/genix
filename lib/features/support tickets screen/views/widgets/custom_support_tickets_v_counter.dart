@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
+import 'package:genix/core/widgets/custombutton.dart';
+import 'package:genix/core/widgets/customiconbutton.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 
 class CustomSupportTicketsVCounter extends StatelessWidget {
@@ -16,11 +18,11 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
   final String title;
   final String text;
   final String buttonText;
-  final String buttonIcon;
+  final IconData buttonIcon;
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100.w,
+      width: 150.w,
       height: 250.h,
       decoration: BoxDecoration(
           color: AppColors.kAppBar2Color,
@@ -30,26 +32,38 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
         children: [
           Expanded(
             child: Column(
-              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
                   icon,
-                  size: 25.r,
+                  size: 38.r,
+                  color: AppColors.kPrimaryColor,
                 ),
                 CustomTextWidget(
-                  textSize: 40.sp,
+                  textSize: 20.sp,
                   fontFamily: '',
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                   text: title,
                 ),
-                CustomTextWidget(
-                    textSize: 10.sp,
-                    fontFamily: '',
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                    text: text)
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w),
+                  child: CustomTextWidget(
+                      textSize: 12.sp,
+                      fontFamily: '',
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                      text: text),
+                ),
+                CustomIconButton(
+                    icon: buttonIcon,
+                    buttonText: buttonText,
+                    borderRadius: 8.r,
+                    width: 120.w,
+                    height: 30.h,
+                    color: Colors.grey.withOpacity(0.6),
+                    onTap: () {})
               ],
             ),
           ),

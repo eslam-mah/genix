@@ -168,7 +168,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                     GoRouter.of(context).pop();
                   },
                   width: 100.w,
-                  hieght: 33.h,
+                  height: 33.h,
                   icon: FontAwesomeIcons.key,
                   borderRadius: 50.r,
                   buttonText: 'Sign in',
@@ -180,7 +180,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                 CustomIconButton(
                   onTap: () {},
                   width: 100.w,
-                  hieght: 33.h,
+                  height: 33.h,
                   icon: FontAwesomeIcons.penRuler,
                   borderRadius: 50.r,
                   buttonText: 'Sign up',
