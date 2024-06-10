@@ -12,6 +12,7 @@ import 'package:genix/features/photos%20page/photosscreen.dart';
 import 'package:genix/features/register%20screen/register.dart';
 import 'package:genix/features/settings%20screen/settingscreen.dart';
 import 'package:genix/features/splash%20screen/splashscreen.dart';
+import 'package:genix/features/support%20tickets%20screen/support_tickets_router.dart';
 import 'package:genix/features/video%20shorts%20screen/videoshorts.dart';
 import 'package:genix/features/videos%20page/videosscreen.dart';
 import 'package:go_router/go_router.dart';
@@ -32,6 +33,7 @@ abstract class Rout {
   static const kFollowersScreen = '/followers';
   static const kSettingsScreen = '/settings';
   static const kVideoShorts = '/videoShorts';
+  static const kSupportTickets = '/supportTickets';
   static final router = GoRouter(routes: [
     GoRoute(
       path: '/',
@@ -92,6 +94,10 @@ abstract class Rout {
     GoRoute(
       path: kVideoShorts,
       builder: (context, state) => const VideoShorts(),
+    ),
+    GoRoute(
+      path: kSupportTickets,
+      builder: (context, state) => const SupportTickets(),
     ),
   ]);
 }

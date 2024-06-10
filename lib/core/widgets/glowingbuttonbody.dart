@@ -104,7 +104,9 @@ class GlowingButtonBody extends StatelessWidget {
               CustomImageIcon(
                 image: AppImages.kSupportTickets,
                 text: 'Support tickets',
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).push(Rout.kSupportTickets);
+                },
                 duration: 1000,
               ),
             ],
