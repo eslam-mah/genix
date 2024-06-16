@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
+import 'package:genix/core/utils/pref_keys.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customlisttile.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
@@ -131,6 +133,8 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                           setState(() {
                             isNightMode = value;
                             widget.onNightModeChanged(value);
+                            CacheData.setData(
+                                key: PrefKeys.kDarkMode, value: value);
                           });
                         },
                         activeTrackColor: AppColors.kPrimaryColor2,

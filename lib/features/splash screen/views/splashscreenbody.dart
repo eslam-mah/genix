@@ -1,8 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:genix/core/services/shared_preferences.dart';
+import 'package:genix/core/services/http_helper.dart';
+import 'package:genix/core/utils/api_end_points.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
-import 'package:genix/features/login%20screen/loginscreen.dart';
+import 'package:genix/core/utils/router.dart';
+
+import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashScreenBody extends StatefulWidget {
   const SplashScreenBody({super.key});
@@ -15,35 +23,55 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
   @override
   void initState() {
     super.initState();
-
     goToAuth();
   }
 
-  void goToAuth() {
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).push(nextPage());
-    });
+  void goToAuth() async {
+    await Future.delayed(const Duration(seconds: 3));
+    bool isAuthenticated = await _checkAuthStatus();
+
+    if (isAuthenticated) {
+      // Navigate to Home Screen if user is authenticated
+      GoRouter.of(context).push(Rout.kHome);
+    } else {
+      // Navigate to Login Screen if user is not authenticated
+      GoRouter.of(context).push(LoginScreen.route, extra: LogInScreenArgs());
+    }
   }
 
-  Route nextPage() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const LogIn(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = 0.0;
-        var end = 1.0;
-        var curve = Curves.easeIn;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-        var fadedAnimation = animation.drive(tween);
-
-        return FadeTransition(
-          opacity: fadedAnimation,
-          child: child,
+  Future<bool> _checkAuthStatus() async {
+    print("Checking authentication status...");
+    if (CacheData.isUserSignedIn()) {
+      try {
+        print("Token found. Checking authentication status...");
+        final response = await HttpHelper.getData(
+          linkUrl: "https://api.genix.social/api/firstload",
+          token: CacheData.getCustomToken()!,
         );
-      },
-      transitionDuration: const Duration(milliseconds: 1200),
-    );
+
+        if (response.statusCode == 202) {
+          var data = jsonDecode(response.body);
+          print("Authentication response: $data");
+          return data['success'] == true && data['data']['user']['id'] != null;
+        } else if (response.statusCode == 401) {
+          print("Token expired. Refreshing token...");
+          final newToken = await HttpHelper.refreshToken();
+          if (newToken != null) {
+            await CacheData.setData(key: 'customToken', value: newToken);
+            return await _checkAuthStatus();
+          } else {
+            await CacheData.clearData();
+            return false;
+          }
+        }
+      } catch (e) {
+        // Handle error, possibly no internet connection
+        print("Error during authentication check: $e");
+        return false;
+      }
+    }
+    print("No valid token found.");
+    return false;
   }
 
   @override

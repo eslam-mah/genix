@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/custombottomappbar.dart';
-import 'package:genix/core/widgets/customdrawerwidget.dart';
+import 'package:genix/features/drawer/view/customdrawerwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/core/widgets/videoplayerpage.dart';
 import 'package:genix/features/video%20shorts%20screen/widgets/addvideobottomsheet.dart';

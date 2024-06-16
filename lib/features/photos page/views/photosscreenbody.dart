@@ -6,7 +6,7 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customappbar.dart';
 
 import 'package:genix/core/widgets/custombottomappbar.dart';
-import 'package:genix/core/widgets/customdrawerwidget.dart';
+import 'package:genix/features/drawer/view/customdrawerwidget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';

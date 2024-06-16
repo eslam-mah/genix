@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/router.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheData.cacheInitialization();
   runApp(const Genix());
 }
 

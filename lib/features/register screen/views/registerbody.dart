@@ -59,6 +59,7 @@ class _RegisterBodyState extends State<RegisterBody> {
               height: 20.h,
             ),
             CustomTextField(
+                isObscure: false,
                 hintText: 'Your name',
                 readOnly: false,
                 onTap: () {},
@@ -67,6 +68,7 @@ class _RegisterBodyState extends State<RegisterBody> {
               height: 26.h,
             ),
             CustomTextField(
+                isObscure: false,
                 hintText: 'Username',
                 readOnly: false,
                 onTap: () {},
@@ -75,6 +77,7 @@ class _RegisterBodyState extends State<RegisterBody> {
               height: 20.h,
             ),
             CustomTextField(
+                isObscure: false,
                 hintText: 'E-mail',
                 readOnly: false,
                 onTap: () {},
@@ -83,6 +86,7 @@ class _RegisterBodyState extends State<RegisterBody> {
               height: 20.h,
             ),
             CustomTextField(
+                isObscure: true,
                 hintText: 'password',
                 readOnly: false,
                 onTap: () {},
@@ -91,6 +95,7 @@ class _RegisterBodyState extends State<RegisterBody> {
               height: 20.h,
             ),
             CustomTextField(
+              isObscure: true,
               hintText: 'Retype password',
               readOnly: false,
               onTap: () {},
@@ -100,6 +105,7 @@ class _RegisterBodyState extends State<RegisterBody> {
               height: 20.h,
             ),
             CustomTextField(
+              isObscure: false,
               controller: dateController,
               hintText: 'Date',
               readOnly: true,

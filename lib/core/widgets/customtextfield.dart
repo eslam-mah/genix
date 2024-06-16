@@ -8,16 +8,19 @@ class CustomTextField extends StatelessWidget {
     required this.readOnly,
     required this.onTap,
     required this.controller,
+    required this.isObscure,
   });
   final String hintText;
   final bool readOnly;
   final Function() onTap;
   final TextEditingController controller;
+  final bool isObscure;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 30.w),
-      child: TextField(
+      child: TextFormField(
+        obscureText: isObscure,
         controller: controller,
         onTap: onTap,
         readOnly: readOnly,

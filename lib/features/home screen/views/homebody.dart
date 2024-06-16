@@ -3,10 +3,12 @@ import 'package:flutter/widgets.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
+import 'package:genix/core/utils/pref_keys.dart';
 
 import 'package:genix/core/widgets/custombottomappbar.dart';
-import 'package:genix/core/widgets/customdrawerwidget.dart';
+import 'package:genix/features/drawer/view/customdrawerwidget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 
@@ -29,17 +31,23 @@ class _HomeBodyState extends State<HomeBody> {
   bool isSelected = false;
 
   bool isNightModeEnabled = false;
+  @override
+  void initState() {
+    super.initState();
+    isNightModeEnabled = CacheData.getData(key: PrefKeys.kDarkMode) ?? false;
+  }
 
   void handleNightModeChanged(bool isNightMode) {
     setState(() {
       isNightModeEnabled = isNightMode;
     });
+    CacheData.setData(key: PrefKeys.kDarkMode, value: isNightMode);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isSelected ? AppColors.kAppBar2Color : Colors.white,
+      backgroundColor: isNightModeEnabled ? Colors.black : Colors.white,
       key: _scaffoldKey,
       bottomNavigationBar: SafeArea(
           child: Stack(

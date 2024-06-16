@@ -3,18 +3,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
-import 'package:genix/core/widgets/custom_small_user_profile_image.dart';
+
 import 'package:genix/core/widgets/customappbar.dart';
 import 'package:genix/core/widgets/custombottomappbar.dart';
-import 'package:genix/core/widgets/customdrawerwidget.dart';
+import 'package:genix/features/drawer/view/customdrawerwidget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
-import 'package:genix/core/widgets/customtextwidget.dart';
-import 'package:genix/core/widgets/customuserprofileimage.dart';
+
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
-import 'package:genix/features/support%20tickets%20screen/views/widgets/custom_support_tickets_h_counter.dart';
-import 'package:genix/features/support%20tickets%20screen/views/widgets/custom_support_tickets_v_counter.dart';
-import 'package:genix/features/support%20tickets%20screen/views/widgets/custom_tickets_item.dart';
 
 class TicketItemPage extends StatefulWidget {
   const TicketItemPage({super.key});
@@ -85,9 +81,9 @@ class _TicketItemPageState extends State<TicketItemPage> {
       body: isSelected
           ? const GlowingButtonBody()
           : CustomScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
-                SliverToBoxAdapter(
+                const SliverToBoxAdapter(
                   child: CustomHeaderWidget(text: 'Support tickets'),
                 ),
                 SliverToBoxAdapter(

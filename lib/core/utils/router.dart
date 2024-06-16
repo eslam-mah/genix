@@ -3,7 +3,7 @@ import 'package:genix/features/comments%20section/replies.dart';
 import 'package:genix/features/followers%20list%20page/followersscreen.dart';
 import 'package:genix/features/groups%20page/groupsscreen.dart';
 import 'package:genix/features/home%20screen/home.dart';
-import 'package:genix/features/login%20screen/loginscreen.dart';
+import 'package:genix/features/login%20screen/login_router.dart';
 import 'package:genix/features/my%20profile%20screen/myprofilescreen.dart';
 import 'package:genix/features/notifications%20screen/notifications.dart';
 import 'package:genix/features/pages%20list%20page/pagesscreen.dart';
@@ -19,7 +19,6 @@ import 'package:genix/features/videos%20page/videosscreen.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class Rout {
-  static const kLogIn = '/login';
   static const kMyProfile = '/myprofile';
   static const kRegister = '/register';
   static const kHome = '/home';
@@ -40,10 +39,6 @@ abstract class Rout {
     GoRoute(
       path: '/',
       builder: (context, state) => const SplashScreen(),
-    ),
-    GoRoute(
-      path: kLogIn,
-      builder: (context, state) => const LogIn(),
     ),
     GoRoute(
       path: kRegister,
@@ -105,5 +100,6 @@ abstract class Rout {
       path: kTicketItemPage,
       builder: (context, state) => const TicketItemPage(),
     ),
+    ...LoginRouter.goRoutes,
   ]);
 }
