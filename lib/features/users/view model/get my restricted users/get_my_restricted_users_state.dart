@@ -4,3 +4,12 @@ part of 'get_my_restricted_users_cubit.dart';
 sealed class GetMyRestrictedUsersState {}
 
 final class GetMyRestrictedUsersInitial extends GetMyRestrictedUsersState {}
+
+final class GetMyRestrictedUsersLoading extends GetMyRestrictedUsersState {}
+
+final class GetMyRestrictedUsersSuccess extends GetMyRestrictedUsersState {
+  final UserList users;
+  GetMyRestrictedUsersSuccess({required this.users});
+}
+
+final class GetMyRestrictedUsersError extends GetMyRestrictedUsersState {}
