@@ -213,16 +213,10 @@ class HttpHelper {
           String message = jsonDecode(response.body)['message'];
           print('Error message: $message');
           if (response.statusCode == 401) {
-            var newToken = await refreshToken();
-            if (newToken != null) {
-              await CacheData.setData(key: 'customToken', value: newToken);
-              return handleRequest(requestFunction);
-            } else {
-              _handleLogout();
-              return Left(FailureModel(
-                  responseStatus: HttpResponseStatus.invalidData,
-                  message: message));
-            }
+            _handleLogout();
+            return Left(FailureModel(
+                responseStatus: HttpResponseStatus.invalidData,
+                message: message));
           } else {
             return Left(FailureModel(
                 responseStatus: HttpResponseStatus.invalidData,
@@ -247,46 +241,16 @@ class HttpHelper {
   static Future<http.Response> _handleResponse(
       http.Response response, Function retryRequest) async {
     if (response.statusCode == 401) {
-      var newToken = await refreshToken();
-      if (newToken != null) {
-        await CacheData.setData(key: 'customToken', value: newToken);
-        return await retryRequest();
-      } else {
-        _handleLogout();
-      }
+      _handleLogout();
     }
     return response;
   }
 
-  static Future<String?> refreshToken() async {
-    try {
-      var response = await http.post(
-        Uri.parse("YOUR_REFRESH_TOKEN_ENDPOINT"),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode(
-            {'refresh_token': CacheData.getData(key: 'refreshToken')}),
-      );
-
-      if (response.statusCode == 202) {
-        var data = jsonDecode(response.body);
-        print("Token refreshed successfully.");
-        return data['data']['token'];
-      } else {
-        print('Failed to refresh token, status code: ${response.statusCode}');
-        return null;
-      }
-    } catch (e) {
-      print('Error refreshing token: $e');
-      return null;
-    }
-  }
-
   static void _handleLogout() {
     // Clear the cached data
-    CacheData.clearData();
+    //  CacheData.clearData();
     print("Token expired. Logging out...");
     // Navigate to login screen or handle logout logic
+    // Note: You need to implement the logic for navigating to the login screen
   }
 }

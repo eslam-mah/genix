@@ -34,8 +34,8 @@ class CacheData {
     return value;
   }
 
-  static void deleteData({required String key}) {
-    sharedPreferences.remove(key);
+  static Future<void> deleteData({required String key}) async {
+    await sharedPreferences.remove(key);
     print("Deleted data for key $key");
   }
 

@@ -12,4 +12,6 @@ class ApiEndPoints {
   static const String deleteBlockUser = baseUrl + "/accounts/block";
   static const String updateUser = baseUrl + "/accounts/user";
   static const String deleteUser = baseUrl + "/accounts/user";
+  // first load
+  static const String getFirstLoad = baseUrl + "/firstload";
 }

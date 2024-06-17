@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/router.dart';
+import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,10 +21,13 @@ class Genix extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (_, child) {
-          return MaterialApp.router(
-            theme: ThemeData.light(),
-            routerConfig: Rout.router,
-            debugShowCheckedModeBanner: false,
+          return BlocProvider(
+            create: (context) => FirstLoadCubit(),
+            child: MaterialApp.router(
+              theme: ThemeData.light(),
+              routerConfig: Rout.router,
+              debugShowCheckedModeBanner: false,
+            ),
           );
         });
   }

@@ -24,19 +24,18 @@ class UserModel {
       this.status,
       this.activeAt});
 
-  UserModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    username = json['username'];
-    showname = json['showname'];
-    profileImg = json['profile_img'];
-    coverImg = json['cover_img'];
-    roles = json['roles'].cast<String>();
-    isVerified = json['is_verified'];
-    createdAt = json['created_at'];
-    isActive = json['is_active'];
-    status = json['status'];
-    activeAt = json['active_at'];
-  }
+  UserModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        username = json['username'],
+        showname = json['showname'],
+        profileImg = json['profile_img'],
+        coverImg = json['cover_img'],
+        roles = json['roles'].cast<String>(),
+        isVerified = json['is_verified'],
+        createdAt = json['created_at'],
+        isActive = json['is_active'],
+        status = json['status'],
+        activeAt = json['active_at'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -71,14 +70,13 @@ class Pagination {
       this.to,
       this.total});
 
-  Pagination.fromJson(Map<String, dynamic> json) {
-    currentPage = json['current_page'];
-    from = json['from'];
-    lastPage = json['last_page'];
-    perPage = json['per_page'];
-    to = json['to'];
-    total = json['total'];
-  }
+  Pagination.fromJson(Map<String, dynamic> json)
+      : currentPage = json['current_page'],
+        from = json['from'],
+        lastPage = json['last_page'],
+        perPage = json['per_page'],
+        to = json['to'],
+        total = json['total'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
