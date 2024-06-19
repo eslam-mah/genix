@@ -21,8 +21,12 @@ class Genix extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (_, child) {
-          return BlocProvider(
-            create: (context) => FirstLoadCubit(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => FirstLoadCubit(),
+              )
+            ],
             child: MaterialApp.router(
               theme: ThemeData.light(),
               routerConfig: Rout.router,

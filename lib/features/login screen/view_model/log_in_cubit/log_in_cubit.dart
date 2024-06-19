@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:genix/features/login%20screen/data/repos/log_in_repository.dart';
 import 'package:meta/meta.dart';

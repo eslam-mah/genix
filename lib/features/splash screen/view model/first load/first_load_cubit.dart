@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:genix/features/splash%20screen/data/models/validation_model.dart';
 import 'package:genix/features/splash%20screen/data/repos/first_load_repository.dart';
 import 'package:meta/meta.dart';

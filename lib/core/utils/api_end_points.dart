@@ -14,4 +14,14 @@ class ApiEndPoints {
   static const String deleteUser = baseUrl + "/accounts/user";
   // first load
   static const String getFirstLoad = baseUrl + "/firstload";
+  // tickets
+  static const String getAllTickets = baseUrl + "/app/tickets";
+  static const String getTicketById = baseUrl + "/app/ticket";
+  static const String postTicket = baseUrl + "/app/ticket";
+  static const String updateTicket = baseUrl + "/app/ticket";
+  static const String updateTicketStatus = baseUrl + "/app/ticket/status";
+  static const String deleteTicket = baseUrl + "/app/ticket";
+  static const String postTicketComment = baseUrl + "/app/tickets/comment";
+  static const String updateTicketComment = baseUrl + "/app/tickets/comment/";
+  static const String deleteTicketComment = baseUrl + "/app/tickets/comment/";
 }

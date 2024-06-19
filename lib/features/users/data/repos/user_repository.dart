@@ -72,7 +72,7 @@ class UserRepository {
   }
 
   Future<Either<FailureModel, Map>> updateUserDetails(Map<String, dynamic> data,
-      {required String uid}) async {
+      {required int uid}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.patchData(
           linkUrl: ApiEndPoints.updateUser + "/$uid", data: data, token: token);

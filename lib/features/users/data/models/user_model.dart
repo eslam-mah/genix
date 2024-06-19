@@ -1,5 +1,5 @@
 class UserModel {
-  int? id;
+  int id;
   String? username;
   String? showname;
   String? profileImg;
@@ -12,7 +12,7 @@ class UserModel {
   String? activeAt;
 
   UserModel(
-      {this.id,
+      {required this.id,
       this.username,
       this.showname,
       this.profileImg,

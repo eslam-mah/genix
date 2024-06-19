@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:genix/features/users/data/models/user_model.dart';
 import 'package:genix/features/users/data/repos/user_repository.dart';
 import 'package:meta/meta.dart';
