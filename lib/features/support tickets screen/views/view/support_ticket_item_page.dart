@@ -12,9 +12,14 @@ import 'package:genix/core/widgets/customheaderwidget.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
 
-class TicketItemPage extends StatefulWidget {
-  const TicketItemPage({super.key});
+class TicketsItemPageArgs {
+  const TicketsItemPageArgs();
+}
 
+class TicketItemPage extends StatefulWidget {
+  const TicketItemPage({super.key, required this.args});
+  static const route = '/ticketItemPage';
+  final TicketsItemPageArgs args;
   @override
   State<TicketItemPage> createState() => _TicketItemPageState();
 }

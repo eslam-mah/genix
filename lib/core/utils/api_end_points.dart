@@ -24,4 +24,17 @@ class ApiEndPoints {
   static const String postTicketComment = baseUrl + "/app/tickets/comment";
   static const String updateTicketComment = baseUrl + "/app/tickets/comment/";
   static const String deleteTicketComment = baseUrl + "/app/tickets/comment/";
+  // settings
+  static const String getMyAccount = baseUrl + "/accounts/me";
+  static const String updateMyAccount = baseUrl + "/accounts/me";
+  static const String updateMyAccountProfile = baseUrl + "/accounts/me/profile";
+  static const String updateGeneralSetting = baseUrl + "/accounts/me/general";
+  static const String updateMyPassword = baseUrl + "/accounts/me/security";
+  static const String updateMyEmail = baseUrl + "/accounts/me/emails";
+  static const String updateStatus = baseUrl + "/accounts/me/status";
+  static const String deleteMyAccount = baseUrl + "/accounts/me";
+  static const String getAllTransactions =
+      baseUrl + "/accounts/me/transactions";
+  static const String getAllPayouts = baseUrl + "/accounts/me/payouts";
+  static const String postPayout = baseUrl + "/accounts/me/payout";
 }

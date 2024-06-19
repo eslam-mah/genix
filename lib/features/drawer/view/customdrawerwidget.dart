@@ -8,6 +8,7 @@ import 'package:genix/core/utils/pref_keys.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customlisttile.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
+import 'package:genix/features/settings%20screen/views/view/settingsbody.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomDrawerWidget extends StatefulWidget {
@@ -82,7 +83,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                     icon: FontAwesomeIcons.gear,
                     text: 'Settings',
                     onTap: () {
-                      GoRouter.of(context).push(Rout.kSettingsScreen);
+                      GoRouter.of(context).push(SettingsPage.route);
                     },
                   ),
                   CustomListTile(

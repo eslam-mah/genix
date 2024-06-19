@@ -1,7 +1,7 @@
 class TicketCommentForm {
-  String? content;
+  String content;
 
-  TicketCommentForm({this.content});
+  TicketCommentForm({required this.content});
 
   TicketCommentForm.fromJson(Map<String, dynamic> json)
       : content = json['content'];

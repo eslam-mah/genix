@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customimagewidget.dart';
+import 'package:genix/features/settings%20screen/views/view/settingsbody.dart';
+import 'package:genix/features/support%20tickets%20screen/views/view/support_tickets_page.dart';
 import 'package:go_router/go_router.dart';
 
 class GlowingButtonBody extends StatelessWidget {
@@ -89,7 +91,7 @@ class GlowingButtonBody extends StatelessWidget {
                 image: AppImages.kSettings,
                 text: 'Settings',
                 onTap: () {
-                  GoRouter.of(context).push(Rout.kSettingsScreen);
+                  GoRouter.of(context).push(SettingsPage.route);
                 },
                 duration: 800,
               ),
@@ -105,7 +107,7 @@ class GlowingButtonBody extends StatelessWidget {
                 image: AppImages.kSupportTickets,
                 text: 'Support tickets',
                 onTap: () {
-                  GoRouter.of(context).push(Rout.kSupportTickets);
+                  GoRouter.of(context).push(SupportTicketsPage.route);
                 },
                 duration: 1000,
               ),

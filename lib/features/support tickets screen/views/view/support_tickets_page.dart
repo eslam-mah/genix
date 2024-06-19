@@ -13,14 +13,20 @@ import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/features/support%20tickets%20screen/views/view/support_ticket_item_page.dart';
 import 'package:genix/features/support%20tickets%20screen/views/widgets/custom_support_tickets_h_counter.dart';
 import 'package:genix/features/support%20tickets%20screen/views/widgets/custom_support_tickets_v_counter.dart';
 import 'package:genix/features/support%20tickets%20screen/views/widgets/custom_tickets_item.dart';
 import 'package:go_router/go_router.dart';
 
-class SupportTicketsPage extends StatefulWidget {
-  const SupportTicketsPage({super.key});
+class SupportTicketsPageArgs {
+  const SupportTicketsPageArgs();
+}
 
+class SupportTicketsPage extends StatefulWidget {
+  const SupportTicketsPage({super.key, required this.args});
+  static const String route = '/supportTickets';
+  final SupportTicketsPageArgs args;
   @override
   State<SupportTicketsPage> createState() => _SupportTicketsPageState();
 }
@@ -155,7 +161,8 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                               onTap: () {
-                                GoRouter.of(context).push(Rout.kTicketItemPage);
+                                GoRouter.of(context).push(TicketItemPage.route,
+                                    extra: TicketsItemPageArgs());
                               },
                               child: const CustomTicketsItem());
                         },

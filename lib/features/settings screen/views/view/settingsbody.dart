@@ -12,21 +12,26 @@ import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
-import 'package:genix/features/settings%20screen/views/billingsettingbody.dart';
-import 'package:genix/features/settings%20screen/views/emailssettingbody.dart';
+import 'package:genix/features/settings%20screen/views/view/billingsettingbody.dart';
+import 'package:genix/features/settings%20screen/views/view/emailssettingbody.dart';
 
-import 'package:genix/features/settings%20screen/views/generalsettings.dart';
-import 'package:genix/features/settings%20screen/views/profilesettings.dart';
-import 'package:genix/features/settings%20screen/views/securitysettingbody.dart';
+import 'package:genix/features/settings%20screen/views/view/generalsettings.dart';
+import 'package:genix/features/settings%20screen/views/view/profilesettings.dart';
+import 'package:genix/features/settings%20screen/views/view/securitysettingbody.dart';
 
-class SettingsBody extends StatefulWidget {
-  const SettingsBody({super.key});
-
-  @override
-  State<SettingsBody> createState() => _SettingsBodyState();
+class SettingsPageArgs {
+  const SettingsPageArgs();
 }
 
-class _SettingsBodyState extends State<SettingsBody> {
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key, required this.args});
+  final SettingsPageArgs args;
+  static const route = '/settings';
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isSelected = false;
   bool isNightModeEnabled = false;

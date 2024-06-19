@@ -1,8 +1,8 @@
 class TicketForm {
-  String? title;
-  String? content;
+  String title;
+  String content;
 
-  TicketForm({this.title, this.content});
+  TicketForm({required this.title, required this.content});
 
   TicketForm.fromJson(Map<String, dynamic> json)
       : title = json['title'],
