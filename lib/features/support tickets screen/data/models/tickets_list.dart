@@ -27,7 +27,7 @@ class Data {
   Data({required this.tickets});
 
   factory Data.fromJson(Map<String, dynamic> json) {
-    var ticketsJson = json['tickets'] as List;
+    var ticketsJson = json['collection'] as List;
     List<TicketsModel> ticketsList =
         ticketsJson.map((i) => TicketsModel.fromJson(i)).toList();
 
@@ -38,7 +38,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['tickets'] =
+    data['collection'] =
         this.tickets.map((TicketsModel) => TicketsModel.toJson()).toList();
     return data;
   }

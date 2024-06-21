@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customappbaricon.dart';
+import 'package:genix/features/notifications%20screen/views/view/notifications_page.dart';
 
 import 'package:go_router/go_router.dart';
 
@@ -34,7 +35,8 @@ class CustomShortsBottomAppBar extends StatelessWidget {
             color: AppColors.kPrimaryColor2,
             icon: FontAwesomeIcons.solidBell,
             onTap: () {
-              GoRouter.of(context).push(Rout.kNotifications);
+              GoRouter.of(context).push(NotificationsPage.route,
+                  extra: NotificationsPageArgs());
             },
             size: 18.sp,
           ),

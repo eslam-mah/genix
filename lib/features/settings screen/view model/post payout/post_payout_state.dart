@@ -8,3 +8,12 @@ sealed class PostPayoutState extends Equatable {
 }
 
 final class PostPayoutInitial extends PostPayoutState {}
+
+final class PostPayoutLoading extends PostPayoutState {}
+
+final class PostPayoutSuccess extends PostPayoutState {
+  final PayoutModel payout;
+  const PostPayoutSuccess({required this.payout});
+}
+
+final class PostPayoutError extends PostPayoutState {}

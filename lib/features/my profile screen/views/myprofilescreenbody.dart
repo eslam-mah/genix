@@ -15,7 +15,7 @@ import 'package:genix/core/widgets/glowingbuttonbody.dart';
 import 'package:genix/core/widgets/restricteduserslistview.dart';
 import 'package:genix/core/widgets/savedphotosandvideosview.dart';
 import 'package:genix/core/widgets/shortsgridview.dart';
-import 'package:genix/features/followers%20list%20page/widgets/followerslistview.dart';
+import 'package:genix/features/followers%20list%20page/views/widgets/followerslistview.dart';
 import 'package:genix/features/groups%20page/widgets/groupsgridview.dart';
 import 'package:genix/features/my%20profile%20screen/widgets/customiconlistview.dart';
 import 'package:genix/features/my%20profile%20screen/widgets/customprofileheader.dart';

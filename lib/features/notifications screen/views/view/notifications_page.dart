@@ -12,14 +12,19 @@ import 'package:genix/core/widgets/customglowingbutton.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
 
-class NotificationsBody extends StatefulWidget {
-  const NotificationsBody({super.key});
-
-  @override
-  State<NotificationsBody> createState() => _NotificationsBodyState();
+class NotificationsPageArgs {
+  const NotificationsPageArgs();
 }
 
-class _NotificationsBodyState extends State<NotificationsBody> {
+class NotificationsPage extends StatefulWidget {
+  const NotificationsPage({super.key, required this.args});
+  static const route = '/notifications';
+  final NotificationsPageArgs args;
+  @override
+  State<NotificationsPage> createState() => _NotificationsPageState();
+}
+
+class _NotificationsPageState extends State<NotificationsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isSelected = false;
   bool isNightModeEnabled = false;

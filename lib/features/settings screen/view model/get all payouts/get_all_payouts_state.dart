@@ -8,3 +8,12 @@ sealed class GetAllPayoutsState extends Equatable {
 }
 
 final class GetAllPayoutsInitial extends GetAllPayoutsState {}
+
+final class GetAllPayoutsLoading extends GetAllPayoutsState {}
+
+final class GetAllPayoutsSuccess extends GetAllPayoutsState {
+  final PayoutModel payouts;
+  const GetAllPayoutsSuccess({required this.payouts});
+}
+
+final class GetAllPayoutsError extends GetAllPayoutsState {}

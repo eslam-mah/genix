@@ -1,7 +1,11 @@
 class ApiEndPoints {
   static const String baseUrl = 'https://api.genix.social/api';
+  // register
+
   //log in
   static const String logIn = baseUrl + "/login";
+  // log out
+
   // users
   static const String getUsers = baseUrl + "/accounts/users";
   static const String getBlockedUsers = baseUrl + "/accounts/blocks";
@@ -37,4 +41,23 @@ class ApiEndPoints {
       baseUrl + "/accounts/me/transactions";
   static const String getAllPayouts = baseUrl + "/accounts/me/payouts";
   static const String postPayout = baseUrl + "/accounts/me/payout";
+  // get profile
+  static const String getProfile = baseUrl + "/accounts/profile";
+  // friendships
+  static const String getFollowers =
+      baseUrl + "/accounts/friendships/followers";
+  static const String getFollowings =
+      baseUrl + "/accounts/friendships/following";
+  static const String addFriend = baseUrl + "/accounts/friendship";
+  static const String updateCloseFriend = baseUrl + "/accounts/friendship";
+  static const String removeFriend = baseUrl + "/accounts/friendship";
+  // notifications
+  static const String getNotifications = baseUrl + "/app/notifications";
+  static const String updateNotifications = baseUrl + "/app/notifications";
+  // search
+  static const String search = baseUrl + "/app/search";
+  // lock screen
+  static const String getLock = baseUrl + "/auth/lock";
+  static const String postLock = baseUrl + "/auth/lock";
+  static const String removeLock = baseUrl + "/auth/lock";
 }

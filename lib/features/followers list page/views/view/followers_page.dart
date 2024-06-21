@@ -12,16 +12,21 @@ import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
-import 'package:genix/features/followers%20list%20page/widgets/followerslistview.dart';
+import 'package:genix/features/followers%20list%20page/views/widgets/followerslistview.dart';
 
-class FollowersScreenBody extends StatefulWidget {
-  const FollowersScreenBody({super.key});
-
-  @override
-  State<FollowersScreenBody> createState() => _FollowersScreenBodyState();
+class FollowersPageArgs {
+  const FollowersPageArgs();
 }
 
-class _FollowersScreenBodyState extends State<FollowersScreenBody> {
+class FollowersPage extends StatefulWidget {
+  const FollowersPage({super.key, required this.args});
+  static const route = '/followers';
+  final FollowersPageArgs args;
+  @override
+  State<FollowersPage> createState() => _FollowersPageState();
+}
+
+class _FollowersPageState extends State<FollowersPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isSelected = false;
 
