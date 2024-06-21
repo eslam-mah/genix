@@ -119,46 +119,46 @@ class SettingsModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> SettingsModel = new Map<String, dynamic>();
-    SettingsModel['id'] = this.id;
-    SettingsModel['username'] = this.username;
-    SettingsModel['showname'] = this.showname;
-    SettingsModel['email'] = this.email;
-    SettingsModel['coins'] = this.coins;
-    SettingsModel['revenue_coins'] = this.revenueCoins;
-    SettingsModel['revenue'] = this.revenue;
-    SettingsModel['allow_followers'] = this.allowFollowers;
-    SettingsModel['allow_notifications'] = this.allowNotifications;
-    SettingsModel['allow_tags'] = this.allowTags;
-    SettingsModel['allow_search_engines'] = this.allowSearchEngines;
-    SettingsModel['allow_emails'] = this.allowEmails;
-    SettingsModel['date_of_birth'] = this.dateOfBirth;
-    SettingsModel['paypal_email'] = this.paypalEmail;
-    SettingsModel['profile_img'] = this.profileImg;
-    SettingsModel['cover_img'] = this.coverImg;
-    SettingsModel['gender'] = this.gender;
-    SettingsModel['bio'] = this.bio;
-    SettingsModel['country'] = this.country;
-    SettingsModel['city'] = this.city;
-    SettingsModel['age'] = this.age;
-    SettingsModel['social_facebook'] = this.socialFacebook;
-    SettingsModel['social_tiktok'] = this.socialTiktok;
-    SettingsModel['social_instagram'] = this.socialInstagram;
-    SettingsModel['social_twitter'] = this.socialTwitter;
-    SettingsModel['social_steam'] = this.socialSteam;
-    SettingsModel['social_pinterest'] = this.socialPinterest;
-    SettingsModel['social_linkedin'] = this.socialLinkedin;
-    SettingsModel['roles'] = this.roles;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['username'] = this.username;
+    data['showname'] = this.showname;
+    data['email'] = this.email;
+    data['coins'] = this.coins;
+    data['revenue_coins'] = this.revenueCoins;
+    data['revenue'] = this.revenue;
+    data['allow_followers'] = this.allowFollowers;
+    data['allow_notifications'] = this.allowNotifications;
+    data['allow_tags'] = this.allowTags;
+    data['allow_search_engines'] = this.allowSearchEngines;
+    data['allow_emails'] = this.allowEmails;
+    data['date_of_birth'] = this.dateOfBirth;
+    data['paypal_email'] = this.paypalEmail;
+    data['profile_img'] = this.profileImg;
+    data['cover_img'] = this.coverImg;
+    data['gender'] = this.gender;
+    data['bio'] = this.bio;
+    data['country'] = this.country;
+    data['city'] = this.city;
+    data['age'] = this.age;
+    data['social_facebook'] = this.socialFacebook;
+    data['social_tiktok'] = this.socialTiktok;
+    data['social_instagram'] = this.socialInstagram;
+    data['social_twitter'] = this.socialTwitter;
+    data['social_steam'] = this.socialSteam;
+    data['social_pinterest'] = this.socialPinterest;
+    data['social_linkedin'] = this.socialLinkedin;
+    data['roles'] = this.roles;
 
-    SettingsModel['permissions'] = this.permissions;
+    data['permissions'] = this.permissions;
 
-    SettingsModel['verified'] = this.verified;
-    SettingsModel['tfa_enabled'] = this.tfaEnabled;
-    SettingsModel['is_verified'] = this.isVerified;
-    SettingsModel['created_at'] = this.createdAt;
-    SettingsModel['is_active'] = this.isActive;
-    SettingsModel['status'] = this.status;
-    SettingsModel['active_at'] = this.activeAt;
-    return SettingsModel;
+    data['verified'] = this.verified;
+    data['tfa_enabled'] = this.tfaEnabled;
+    data['is_verified'] = this.isVerified;
+    data['created_at'] = this.createdAt;
+    data['is_active'] = this.isActive;
+    data['status'] = this.status;
+    data['active_at'] = this.activeAt;
+    return data;
   }
 }

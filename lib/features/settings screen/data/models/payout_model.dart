@@ -11,14 +11,14 @@ class PayoutModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> PayoutModel = new Map<String, dynamic>();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.payout != null) {
-      PayoutModel['payout'] = this.payout!.toJson();
+      data['payout'] = this.payout!.toJson();
     }
     if (this.user != null) {
-      PayoutModel['user'] = this.user!.toJson();
+      data['user'] = this.user!.toJson();
     }
-    return PayoutModel;
+    return data;
   }
 }
 
@@ -57,21 +57,21 @@ class Payout {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> PayoutModel = new Map<String, dynamic>();
-    PayoutModel['id'] = this.id;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     if (this.user != null) {
-      PayoutModel['user'] = this.user!.toJson();
+      data['user'] = this.user!.toJson();
     }
-    PayoutModel['name'] = this.name;
-    PayoutModel['mode'] = this.mode;
-    PayoutModel['status'] = this.status;
-    PayoutModel['old_coins'] = this.oldCoins;
-    PayoutModel['new_coins'] = this.newCoins;
+    data['name'] = this.name;
+    data['mode'] = this.mode;
+    data['status'] = this.status;
+    data['old_coins'] = this.oldCoins;
+    data['new_coins'] = this.newCoins;
     if (this.misc != null) {
-      PayoutModel['misc'] = this.misc!.toJson();
+      data['misc'] = this.misc!.toJson();
     }
-    PayoutModel['created_at'] = this.createdAt;
-    return PayoutModel;
+    data['created_at'] = this.createdAt;
+    return data;
   }
 }
 
@@ -98,13 +98,13 @@ class Misc {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> PayoutModel = new Map<String, dynamic>();
-    PayoutModel['coins'] = this.coins;
-    PayoutModel['total_revenue'] = this.totalRevenue;
-    PayoutModel['fee_percent'] = this.feePercent;
-    PayoutModel['fee'] = this.fee;
-    PayoutModel['final_revenue'] = this.finalRevenue;
-    return PayoutModel;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['coins'] = this.coins;
+    data['total_revenue'] = this.totalRevenue;
+    data['fee_percent'] = this.feePercent;
+    data['fee'] = this.fee;
+    data['final_revenue'] = this.finalRevenue;
+    return data;
   }
 }
 
@@ -140,15 +140,15 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> PayoutModel = new Map<String, dynamic>();
-    PayoutModel['id'] = this.id;
-    PayoutModel['username'] = this.username;
-    PayoutModel['showname'] = this.showname;
-    PayoutModel['coins'] = this.coins;
-    PayoutModel['revenue_coins'] = this.revenueCoins;
-    PayoutModel['revenue'] = this.revenue;
-    PayoutModel['profile_img'] = this.profileImg;
-    PayoutModel['cover_img'] = this.coverImg;
-    return PayoutModel;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['username'] = this.username;
+    data['showname'] = this.showname;
+    data['coins'] = this.coins;
+    data['revenue_coins'] = this.revenueCoins;
+    data['revenue'] = this.revenue;
+    data['profile_img'] = this.profileImg;
+    data['cover_img'] = this.coverImg;
+    return data;
   }
 }

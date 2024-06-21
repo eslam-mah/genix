@@ -12,15 +12,14 @@ class TransactionsModel {
             : null;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> TransactionsModel = new Map<String, dynamic>();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.collection != null) {
-      TransactionsModel['collection'] =
-          this.collection!.map((v) => v.toJson()).toList();
+      data['collection'] = this.collection!.map((v) => v.toJson()).toList();
     }
     if (this.pagination != null) {
-      TransactionsModel['pagination'] = this.pagination!.toJson();
+      data['pagination'] = this.pagination!.toJson();
     }
-    return TransactionsModel;
+    return data;
   }
 }
 
@@ -58,21 +57,21 @@ class Collection {
         createdAt = json['created_at'];
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> TransactionsModel = new Map<String, dynamic>();
-    TransactionsModel['id'] = this.id;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     if (this.user != null) {
-      TransactionsModel['user'] = this.user!.toJson();
+      data['user'] = this.user!.toJson();
     }
-    TransactionsModel['name'] = this.name;
-    TransactionsModel['mode'] = this.mode;
-    TransactionsModel['status'] = this.status;
-    TransactionsModel['old_coins'] = this.oldCoins;
-    TransactionsModel['new_coins'] = this.newCoins;
+    data['name'] = this.name;
+    data['mode'] = this.mode;
+    data['status'] = this.status;
+    data['old_coins'] = this.oldCoins;
+    data['new_coins'] = this.newCoins;
     if (this.misc != null) {
-      TransactionsModel['misc'] = this.misc!.toJson();
+      data['misc'] = this.misc!.toJson();
     }
-    TransactionsModel['created_at'] = this.createdAt;
-    return TransactionsModel;
+    data['created_at'] = this.createdAt;
+    return data;
   }
 }
 
@@ -117,19 +116,19 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> TransactionsModel = new Map<String, dynamic>();
-    TransactionsModel['id'] = this.id;
-    TransactionsModel['username'] = this.username;
-    TransactionsModel['showname'] = this.showname;
-    TransactionsModel['profile_img'] = this.profileImg;
-    TransactionsModel['cover_img'] = this.coverImg;
-    TransactionsModel['roles'] = this.roles;
-    TransactionsModel['is_verified'] = this.isVerified;
-    TransactionsModel['created_at'] = this.createdAt;
-    TransactionsModel['is_active'] = this.isActive;
-    TransactionsModel['status'] = this.status;
-    TransactionsModel['active_at'] = this.activeAt;
-    return TransactionsModel;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['username'] = this.username;
+    data['showname'] = this.showname;
+    data['profile_img'] = this.profileImg;
+    data['cover_img'] = this.coverImg;
+    data['roles'] = this.roles;
+    data['is_verified'] = this.isVerified;
+    data['created_at'] = this.createdAt;
+    data['is_active'] = this.isActive;
+    data['status'] = this.status;
+    data['active_at'] = this.activeAt;
+    return data;
   }
 }
 
@@ -143,9 +142,9 @@ class Misc {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> TransactionsModel = new Map<String, dynamic>();
-    TransactionsModel['rate'] = this.rate;
-    return TransactionsModel;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['rate'] = this.rate;
+    return data;
   }
 }
 
@@ -175,13 +174,13 @@ class Pagination {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> TransactionsModel = new Map<String, dynamic>();
-    TransactionsModel['current_page'] = this.currentPage;
-    TransactionsModel['from'] = this.from;
-    TransactionsModel['last_page'] = this.lastPage;
-    TransactionsModel['per_page'] = this.perPage;
-    TransactionsModel['to'] = this.to;
-    TransactionsModel['total'] = this.total;
-    return TransactionsModel;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['current_page'] = this.currentPage;
+    data['from'] = this.from;
+    data['last_page'] = this.lastPage;
+    data['per_page'] = this.perPage;
+    data['to'] = this.to;
+    data['total'] = this.total;
+    return data;
   }
 }

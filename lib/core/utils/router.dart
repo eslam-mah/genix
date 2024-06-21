@@ -4,13 +4,16 @@ import 'package:genix/features/followers%20list%20page/followers_router.dart';
 import 'package:genix/features/followings%20list%20page/followings_router.dart';
 import 'package:genix/features/groups%20page/groupsscreen.dart';
 import 'package:genix/features/home%20screen/home.dart';
+import 'package:genix/features/lock%20screen/lock_router.dart';
 import 'package:genix/features/login%20screen/login_router.dart';
 import 'package:genix/features/my%20profile%20screen/myprofilescreen.dart';
 import 'package:genix/features/notifications%20screen/notifications_router.dart';
 import 'package:genix/features/pages%20list%20page/pagesscreen.dart';
 
 import 'package:genix/features/photos%20page/photosscreen.dart';
+import 'package:genix/features/profile%20screen/profile_router.dart';
 import 'package:genix/features/register%20screen/register.dart';
+import 'package:genix/features/search%20page/search_router.dart';
 import 'package:genix/features/settings%20screen/setting_router.dart';
 import 'package:genix/features/splash%20screen/splashscreen.dart';
 import 'package:genix/features/support%20tickets%20screen/support_tickets_router.dart';
@@ -77,6 +80,9 @@ abstract class Rout {
       path: kVideoShorts,
       builder: (context, state) => const VideoShorts(),
     ),
+    ...LockRouter.goRoutes,
+    ...SearchRouter.goRoutes,
+    ...ProfileRouter.goRoutes,
     ...NotificationsRouter.goRoutes,
     ...FollowingsRouter.goRoutes,
     ...FollowersRouter.goRoutes,

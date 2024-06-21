@@ -12,14 +12,19 @@ import 'package:genix/core/widgets/customglowingbutton.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
 
-class HelpScreenBody extends StatefulWidget {
-  const HelpScreenBody({super.key});
-
-  @override
-  State<HelpScreenBody> createState() => _HelpScreenBodyState();
+class HelpPageArgs {
+  const HelpPageArgs();
 }
 
-class _HelpScreenBodyState extends State<HelpScreenBody> {
+class HelpPage extends StatefulWidget {
+  const HelpPage({super.key, required this.args});
+  static const String route = '/help';
+  final HelpPageArgs args;
+  @override
+  State<HelpPage> createState() => _HelpPageState();
+}
+
+class _HelpPageState extends State<HelpPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isSelected = false;
   bool isNightModeEnabled = false;

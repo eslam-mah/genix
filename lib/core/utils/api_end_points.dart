@@ -5,7 +5,7 @@ class ApiEndPoints {
   //log in
   static const String logIn = baseUrl + "/login";
   // log out
-
+  static const String logOut = baseUrl + "/logout";
   // users
   static const String getUsers = baseUrl + "/accounts/users";
   static const String getBlockedUsers = baseUrl + "/accounts/blocks";
@@ -60,4 +60,9 @@ class ApiEndPoints {
   static const String getLock = baseUrl + "/auth/lock";
   static const String postLock = baseUrl + "/auth/lock";
   static const String removeLock = baseUrl + "/auth/lock";
+  // documents
+  static const String getDocuments = baseUrl + "/app/documents";
+  static const String getDocumentById = baseUrl + "/app/document";
+  // report
+  static const String postReport = baseUrl + "/app/report";
 }
