@@ -22,6 +22,11 @@ class LogInCubit extends Cubit<LogInState> {
         // error state
         (l) => emit(LogInError()),
         // success state
-        (r) => emit(LogInSuccess(data: r)));
+
+        (r) {
+      emit(LogInSuccess(
+        data: r,
+      ));
+    });
   }
 }
