@@ -54,7 +54,7 @@ class Data {
 
   void updateNotification({required NotificationModel newNotification}) {
     final updatedNotificationIndex = this.notifications.indexWhere(
-        (n) => n.collection?.first.id == newNotification.collection?.first.id);
+        (n) => n.collection.first.id == newNotification.collection.first.id);
     if (updatedNotificationIndex != -1) {
       this.notifications[updatedNotificationIndex] = newNotification;
     }
@@ -63,7 +63,7 @@ class Data {
   void deleteNotification(String notificationId) {
     final removedNotificationIndex = this
         .notifications
-        .indexWhere((n) => n.collection?.first.id == notificationId);
+        .indexWhere((n) => n.collection.first.id == notificationId);
     if (removedNotificationIndex != -1) {
       this.notifications.removeAt(removedNotificationIndex);
     }
