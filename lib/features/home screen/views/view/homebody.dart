@@ -14,10 +14,10 @@ import 'package:genix/core/widgets/customheaderwidget.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
 
-import 'package:genix/features/home%20screen/widgets/customhomeappbar.dart';
+import 'package:genix/features/home%20screen/views/widgets/custom_home_appbar.dart';
 
-import 'package:genix/features/home%20screen/widgets/postitem.dart';
-import 'package:genix/features/home%20screen/widgets/storylist.dart';
+import 'package:genix/features/home%20screen/views/widgets/post_item.dart';
+import 'package:genix/features/home%20screen/views/widgets/story_list.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key});

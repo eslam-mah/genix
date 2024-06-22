@@ -8,9 +8,9 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 
-import 'package:genix/features/home%20screen/widgets/custompostcomponents.dart';
-import 'package:genix/features/home%20screen/widgets/sharebottomsheet.dart';
-import 'package:genix/features/home%20screen/widgets/showposttabbardialoge.dart';
+import 'package:genix/features/home%20screen/views/widgets/custom_post_components.dart';
+import 'package:genix/features/home%20screen/views/widgets/share_bottom_sheet.dart';
+import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 

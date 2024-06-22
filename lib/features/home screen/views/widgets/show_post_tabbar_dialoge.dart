@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:genix/features/home%20screen/widgets/promotebottomsheet.dart';
-import 'package:genix/features/home%20screen/widgets/showreportbottomsheet.dart';
+import 'package:genix/features/home%20screen/views/widgets/promote_bottom_sheet.dart';
+import 'package:genix/features/home%20screen/views/widgets/show_report_bottom_sheet.dart';
 
 Future<dynamic> showPostTabBar(BuildContext context, bool isNightModeEnabled) {
   return showDialog(

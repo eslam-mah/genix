@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:genix/features/home%20screen/widgets/customstorywidget.dart';
+import 'package:genix/features/home%20screen/views/widgets/custom_story_widget.dart';
 
 class StoryList extends StatelessWidget {
   const StoryList({
