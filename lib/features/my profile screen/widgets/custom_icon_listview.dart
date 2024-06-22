@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:genix/features/my%20profile%20screen/widgets/customiconprofilebutton.dart';
+import 'package:genix/features/my%20profile%20screen/widgets/custom_icon_profile_button.dart';
 
 class CustomIconButtonListView extends StatelessWidget {
   const CustomIconButtonListView({

@@ -10,7 +10,7 @@ import 'package:genix/features/settings%20screen/view%20model/update%20my%20emai
 import 'package:genix/features/settings%20screen/view%20model/update%20my%20password/update_my_password_cubit.dart';
 import 'package:genix/features/settings%20screen/view%20model/update%20my%20profile/update_my_profile_cubit.dart';
 import 'package:genix/features/settings%20screen/view%20model/update%20status/update_status_cubit.dart';
-import 'package:genix/features/settings%20screen/views/view/settingsbody.dart';
+import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class SettingRouter {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:genix/features/comments%20section/widgets/replybubble.dart';
+import 'package:genix/features/comments%20section/widgets/reply_bubble.dart';
 
 class RepliesList extends StatelessWidget {
   const RepliesList({

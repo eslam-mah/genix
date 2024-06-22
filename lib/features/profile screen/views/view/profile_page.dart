@@ -6,7 +6,7 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/blockeduserslistview.dart';
 import 'package:genix/core/widgets/customappbar.dart';
 import 'package:genix/core/widgets/custombottomappbar.dart';
-import 'package:genix/features/drawer/view/customdrawerwidget.dart';
+import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 import 'package:genix/core/widgets/followingslistview.dart';
@@ -15,13 +15,13 @@ import 'package:genix/core/widgets/glowingbuttonbody.dart';
 import 'package:genix/core/widgets/restricteduserslistview.dart';
 import 'package:genix/core/widgets/savedphotosandvideosview.dart';
 import 'package:genix/core/widgets/shortsgridview.dart';
-import 'package:genix/features/followers%20list%20page/views/widgets/followerslistview.dart';
-import 'package:genix/features/groups%20page/widgets/groupsgridview.dart';
-import 'package:genix/features/my%20profile%20screen/widgets/customiconlistview.dart';
-import 'package:genix/features/my%20profile%20screen/widgets/customprofileheader.dart';
+import 'package:genix/features/followers%20list%20page/views/widgets/followers_list_view.dart';
+import 'package:genix/features/groups%20page/widgets/groups_gridview.dart';
+import 'package:genix/features/my%20profile%20screen/widgets/custom_icon_listview.dart';
+import 'package:genix/features/my%20profile%20screen/widgets/custom_profile_header.dart';
 
-import 'package:genix/features/photos%20page/widgets/photosgridview.dart';
-import 'package:genix/features/videos%20page/widgets/videosgridview.dart';
+import 'package:genix/features/photos%20page/widgets/photos_grid_view.dart';
+import 'package:genix/features/videos%20page/widgets/videos_grid_view.dart';
 
 class ProfilePageArgs {
   const ProfilePageArgs();

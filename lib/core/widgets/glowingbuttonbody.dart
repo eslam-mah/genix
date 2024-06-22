@@ -4,7 +4,7 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customimagewidget.dart';
 import 'package:genix/features/followers%20list%20page/views/view/followers_page.dart';
-import 'package:genix/features/settings%20screen/views/view/settingsbody.dart';
+import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
 import 'package:genix/features/support%20tickets%20screen/views/view/support_tickets_page.dart';
 import 'package:go_router/go_router.dart';
 

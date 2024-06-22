@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customeditingprofilewidget.dart';
-import 'package:genix/features/my%20profile%20screen/widgets/customiconcounter.dart';
-import 'package:genix/features/my%20profile%20screen/widgets/editbackgroundpic.dart';
-import 'package:genix/features/my%20profile%20screen/widgets/editprofilepic.dart';
+import 'package:genix/features/my%20profile%20screen/widgets/custom_icon_counter.dart';
+import 'package:genix/features/my%20profile%20screen/widgets/edit_background_pic.dart';
+import 'package:genix/features/my%20profile%20screen/widgets/edit_profile_pic.dart';
 
 class CustomProfileHeader extends StatelessWidget {
   const CustomProfileHeader({

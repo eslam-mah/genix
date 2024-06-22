@@ -8,7 +8,7 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/pref_keys.dart';
 
 import 'package:genix/core/widgets/custombottomappbar.dart';
-import 'package:genix/features/drawer/view/customdrawerwidget.dart';
+import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 

@@ -7,17 +7,17 @@ import 'package:genix/core/widgets/customappbar.dart';
 
 import 'package:genix/core/widgets/custombottomappbar.dart';
 
-import 'package:genix/features/drawer/view/customdrawerwidget.dart';
+import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
-import 'package:genix/features/settings%20screen/views/view/billingsettingbody.dart';
-import 'package:genix/features/settings%20screen/views/view/emailssettingbody.dart';
+import 'package:genix/features/settings%20screen/views/view/billing_setting_view.dart';
+import 'package:genix/features/settings%20screen/views/view/emails_setting_view.dart';
 
-import 'package:genix/features/settings%20screen/views/view/generalsettings.dart';
-import 'package:genix/features/settings%20screen/views/view/profilesettings.dart';
-import 'package:genix/features/settings%20screen/views/view/securitysettingbody.dart';
+import 'package:genix/features/settings%20screen/views/view/general_settings_view.dart';
+import 'package:genix/features/settings%20screen/views/view/profile_settings_view.dart';
+import 'package:genix/features/settings%20screen/views/view/security_setting_view.dart';
 
 class SettingsPageArgs {
   const SettingsPageArgs();

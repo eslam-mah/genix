@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:genix/features/my%20profile%20screen/widgets/groupscard.dart';
+import 'package:genix/features/my%20profile%20screen/widgets/groups_card.dart';
 
 class GroupsGridView extends StatelessWidget {
   const GroupsGridView({

@@ -5,16 +5,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/custombottomappbar.dart';
-import 'package:genix/features/drawer/view/customdrawerwidget.dart';
+import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/core/widgets/videoplayerpage.dart';
-import 'package:genix/features/video%20shorts%20screen/widgets/addvideobottomsheet.dart';
-import 'package:genix/features/video%20shorts%20screen/widgets/donationsbottomsheet.dart';
-import 'package:genix/features/video%20shorts%20screen/widgets/shortscommentsbottomsheet.dart';
-import 'package:genix/features/video%20shorts%20screen/widgets/customaddbutton.dart';
-import 'package:genix/features/video%20shorts%20screen/widgets/customshortsbutton.dart';
-import 'package:genix/features/video%20shorts%20screen/widgets/shortsbottomappbar.dart';
-import 'package:genix/features/video%20shorts%20screen/widgets/shortssharebottomsheet.dart';
+import 'package:genix/features/video%20shorts%20screen/widgets/add_video_bottom_sheet.dart';
+import 'package:genix/features/video%20shorts%20screen/widgets/donations_bottom_sheet.dart';
+import 'package:genix/features/video%20shorts%20screen/widgets/shorts_comments_bottom_sheet.dart';
+import 'package:genix/features/video%20shorts%20screen/widgets/custom_add_button.dart';
+import 'package:genix/features/video%20shorts%20screen/widgets/custom_shorts_button.dart';
+import 'package:genix/features/video%20shorts%20screen/widgets/shorts_bottom_appbar.dart';
+import 'package:genix/features/video%20shorts%20screen/widgets/shorts_share_bottom_sheet.dart';
 import 'package:go_router/go_router.dart';
 
 class VideoShortsBody extends StatefulWidget {

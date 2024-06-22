@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
-import 'package:genix/features/video%20shorts%20screen/widgets/shortscommentslist.dart';
+import 'package:genix/features/video%20shorts%20screen/widgets/shorts_comments_list.dart';
 
 Future<dynamic> shortsCommentBottomSheet(
     BuildContext context, StateSetter setState) {

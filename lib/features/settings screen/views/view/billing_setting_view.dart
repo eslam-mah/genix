@@ -7,10 +7,10 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 import 'package:genix/core/widgets/customtextfield2.dart';
-import 'package:genix/features/settings%20screen/views/widgets/balanceandrevenuecard.dart';
-import 'package:genix/features/settings%20screen/views/widgets/custombillingwidget.dart';
-import 'package:genix/features/settings%20screen/views/widgets/custombillingwidget2.dart';
-import 'package:genix/features/settings%20screen/views/widgets/transactionhistorycard.dart';
+import 'package:genix/features/settings%20screen/views/widgets/balance_and_revenue_card.dart';
+import 'package:genix/features/settings%20screen/views/widgets/custom_billing_widget.dart';
+import 'package:genix/features/settings%20screen/views/widgets/custom_billing_widget2.dart';
+import 'package:genix/features/settings%20screen/views/widgets/transaction_history_card.dart';
 
 class BillingAreaSettings extends StatefulWidget {
   const BillingAreaSettings({

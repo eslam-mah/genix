@@ -6,13 +6,13 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customappbar.dart';
 
 import 'package:genix/core/widgets/custombottomappbar.dart';
-import 'package:genix/features/drawer/view/customdrawerwidget.dart';
+import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
-import 'package:genix/features/groups%20page/widgets/groupsgridview.dart';
+import 'package:genix/features/groups%20page/widgets/groups_gridview.dart';
 
 class GroupsScreenBody extends StatefulWidget {
   const GroupsScreenBody({super.key});
