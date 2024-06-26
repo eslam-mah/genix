@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:genix/features/comments%20section/views/commentsbody.dart';
+import 'package:genix/features/comments%20section/views/view/commentsbody.dart';
 
 class Comments extends StatelessWidget {
   const Comments({super.key});

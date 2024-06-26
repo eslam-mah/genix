@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
-import 'package:genix/features/comments%20section/widgets/comment_bubble.dart';
-import 'package:genix/features/comments%20section/widgets/replies_list.dart';
+import 'package:genix/features/comments%20section/views/widgets/comment_bubble.dart';
+import 'package:genix/features/comments%20section/views/widgets/replies_list.dart';
 
 class RepliesBody extends StatefulWidget {
   const RepliesBody({super.key});

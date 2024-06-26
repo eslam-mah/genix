@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/router.dart';
-import 'package:genix/features/comments%20section/widgets/comment_bubble.dart';
+import 'package:genix/features/comments%20section/views/widgets/comment_bubble.dart';
 import 'package:go_router/go_router.dart';
 
 class CommentsList extends StatelessWidget {
