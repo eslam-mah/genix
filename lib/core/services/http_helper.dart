@@ -38,6 +38,7 @@ class HttpHelper {
     var headers = {
       'Authorization': 'Bearer $token',
       'Accept': 'application/json',
+      'Content-Type': 'application/json'
     };
     var response = await http.get(Uri.parse(linkUrl), headers: headers);
 

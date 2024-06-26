@@ -65,4 +65,38 @@ class ApiEndPoints {
   static const String getDocumentById = baseUrl + "/app/document";
   // report
   static const String postReport = baseUrl + "/app/report";
+  // post
+  static const String addPost = baseUrl + "/post";
+  static const String getPostById = baseUrl + "/post";
+  static const String updatePostById = baseUrl + "/post";
+  static const String addPollPost = baseUrl + "/post/poll";
+  static const String deletePost = baseUrl + "/post";
+  static const String reactOnPost = baseUrl + "/posts/react";
+  static const String sharePost = baseUrl + "/posts/share";
+  static const String addComment = baseUrl + "/posts/comment";
+  static const String deleteComment = baseUrl + "/posts/comment";
+  static const String reactOnComment = baseUrl + "/posts/react/comment";
+  static const String getReaction = baseUrl + "/posts/reactions";
+  static const String getPostsInTimeLineById = baseUrl + "/posts/timeline";
+  static const String getPostsInNewsFeed = baseUrl + "/posts/newsfeed";
+  static const String getPhotoPosts = baseUrl + "/posts/photos";
+  static const String getVideoPosts = baseUrl + "/posts/videos";
+  static const String getStories = baseUrl + "/posts/stories";
+  static const String getStoryViewers = baseUrl + "/posts/story/viewers";
+  static const String makeStorySeen = baseUrl + "/posts/story/seen";
+  static const String addReactOnStory = baseUrl + "/posts/story/react";
+  static const String savePost = baseUrl + "/posts/save";
+  static const String viewPost = baseUrl + "/posts/view";
+  static const String addDonation = baseUrl + "/posts/donate";
+  static const String getLiveChannel = baseUrl + "/posts/live/channel";
+  static const String deleteUserPost = baseUrl + "/accounts/user/posts";
+  static const String deleteUserComment =
+      baseUrl + "/accounts/user/posts/comments";
+  // shorts
+  static const String getShorts = baseUrl + "/posts/shorts";
+  static const String getSavedShorts = baseUrl + "/posts/shorts/saved";
+  static const String getPostedShorts = baseUrl + "/posts/shorts/posted";
+  static const String searchShorts = baseUrl + "/posts/shorts/search";
+  static const String addShort = baseUrl + "/posts/short";
+  static const String updateShort = baseUrl + "/posts/short";
 }
