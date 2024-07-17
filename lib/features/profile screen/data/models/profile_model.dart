@@ -86,7 +86,7 @@ class ProfileModel {
     data['followersCount'] = this.followersCount;
     data['followingCount'] = this.followingCount;
     data['followingCollection'] =
-        this.followingCollection?.map((e) => e.toJson()).toList();
+        this.followingCollection.map((e) => e.toJson()).toList();
     data['followersCollection'] =
         this.followersCollection?.map((e) => e.toJson()).toList();
     data['blockCollection'] = this.blockCollection;

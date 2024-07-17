@@ -80,7 +80,7 @@ class User {
   String? username;
   String? showname;
   String? profileImg;
-  Null? coverImg;
+  String? coverImg;
   List<String>? roles;
   bool? isVerified;
   String? createdAt;

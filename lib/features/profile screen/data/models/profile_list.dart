@@ -1,11 +1,3 @@
-import 'followers_collection.dart';
-import 'following_collection.dart';
-import 'groups_collection.dart';
-import 'photo.dart';
-import 'posted_short.dart';
-import 'recent_post.dart';
-import 'saved_short.dart';
-import 'user.dart';
 import 'profile_model.dart';
 
 class ProfileList {

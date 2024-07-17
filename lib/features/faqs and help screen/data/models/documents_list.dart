@@ -49,7 +49,7 @@ class DocumentData {
 
   void updateDocument({required DocumentModel newDocument}) {
     final updatedDocumentIndex = this.documents.indexWhere(
-        (d) => d.collection?.first.id == newDocument.collection?.first.id);
+        (d) => d.collection.first.id == newDocument.collection.first.id);
     if (updatedDocumentIndex != -1) {
       this.documents[updatedDocumentIndex] = newDocument;
     }
@@ -57,7 +57,7 @@ class DocumentData {
 
   void deleteDocument(int documentId) {
     final removedDocumentIndex =
-        this.documents.indexWhere((d) => d.collection?.first.id == documentId);
+        this.documents.indexWhere((d) => d.collection.first.id == documentId);
     if (removedDocumentIndex != -1) {
       this.documents.removeAt(removedDocumentIndex);
     }

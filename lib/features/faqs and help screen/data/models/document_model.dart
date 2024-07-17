@@ -14,7 +14,7 @@ class DocumentModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['collection'] = this.collection?.map((v) => v.toJson()).toList();
+    data['collection'] = this.collection.map((v) => v.toJson()).toList();
     data['pagination'] = this.pagination?.toJson();
     return data;
   }
