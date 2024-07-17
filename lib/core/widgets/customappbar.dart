@@ -5,6 +5,7 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/addpostbottomsheet.dart';
 import 'package:genix/core/widgets/customappbaricon.dart';
+import 'package:genix/features/home%20screen/views/view/homebody.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -33,7 +34,7 @@ class CustomAppBar extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            GoRouter.of(context).pushReplacement(Rout.kHome);
+            GoRouter.of(context).pushReplacement(HomePage.routeName);
           },
           child: Image.asset(
             AppImages.kLogo,

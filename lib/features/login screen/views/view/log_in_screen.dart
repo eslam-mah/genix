@@ -7,6 +7,7 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customiconbutton.dart';
+import 'package:genix/features/home%20screen/views/view/homebody.dart';
 import 'package:genix/features/login%20screen/view_model/log_in_cubit/log_in_cubit.dart';
 import 'package:go_router/go_router.dart';
 
@@ -81,7 +82,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
             setState(() {
               isLoading = false;
             });
-            GoRouter.of(context).go(Rout.kHome); // Adjust the route accordingly
+            GoRouter.of(context).go(HomePage.routeName);
           }
         },
         child: ModalProgressHUD(

@@ -12,7 +12,7 @@ final class GetProfileInitial extends GetProfileState {}
 final class GetProfileLoading extends GetProfileState {}
 
 final class GetProfileSuccess extends GetProfileState {
-  final ProfileModelList profiles;
+  final ProfileList profiles;
   const GetProfileSuccess({required this.profiles});
 }
 

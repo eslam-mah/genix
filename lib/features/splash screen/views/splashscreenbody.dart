@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
-import 'package:genix/core/utils/router.dart';
+import 'package:genix/features/home%20screen/views/view/homebody.dart';
 import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 import 'package:go_router/go_router.dart';
@@ -42,7 +41,7 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
             if (state is FirstLoadSuccess) {
               final hasUser = state.firstLoad.user != null;
               if (hasUser) {
-                GoRouter.of(context).push(Rout.kHome);
+                GoRouter.of(context).push(HomePage.routeName);
               }
             } else if (state is FirstLoadError) {
               GoRouter.of(context)

@@ -19,14 +19,20 @@ import 'package:genix/features/home%20screen/views/widgets/custom_home_appbar.da
 import 'package:genix/features/home%20screen/views/widgets/post_item.dart';
 import 'package:genix/features/home%20screen/views/widgets/story_list.dart';
 
-class HomeBody extends StatefulWidget {
-  const HomeBody({super.key});
-
-  @override
-  State<HomeBody> createState() => _HomeBodyState();
+class HomePageArgs {
+  const HomePageArgs();
 }
 
-class _HomeBodyState extends State<HomeBody> {
+class HomePage extends StatefulWidget {
+  static const String routeName = '/home_body_page';
+  final HomePageArgs homePageArgs;
+  const HomePage({super.key, required this.homePageArgs});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isSelected = false;
 

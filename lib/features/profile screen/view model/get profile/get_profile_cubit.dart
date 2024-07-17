@@ -14,7 +14,7 @@ class GetProfileCubit extends Cubit<GetProfileState> {
     final result = await getProfileRepo.getProfileData(
         profileName: profileName.user.showname);
     result.fold((l) => emit(GetProfileError()), (r) {
-      final profiles = ProfileModelList.fromJson(r as Map<String, dynamic>);
+      final profiles = ProfileList.fromJson(r as Map<String, dynamic>);
       emit(GetProfileSuccess(profiles: profiles));
     });
   }

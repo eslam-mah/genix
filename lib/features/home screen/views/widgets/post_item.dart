@@ -23,8 +23,7 @@ enum Reaction {
   sad,
   surprise,
   wink,
-  like,
-  heart,
+
   none
 }
 
@@ -45,10 +44,6 @@ class _PostItemState extends State<PostItem> {
   bool isPoll = false;
   int reactNum = 0;
   final List<dynamic> reactions = [
-    ReactionElement2(
-        Image.asset(AppGifs.kLikeReact, height: 30.h), Reaction.like),
-    ReactionElement2(
-        Image.asset(AppGifs.kHeartReact, height: 30.h), Reaction.heart),
     ReactionElement(Lottie.asset(AppLotties.kLaughReact), Reaction.laugh),
     ReactionElement(Lottie.asset(AppLotties.kSadReact), Reaction.sad),
     ReactionElement(Lottie.asset(AppLotties.kWowReact), Reaction.surprise),
@@ -189,7 +184,7 @@ class _PostItemState extends State<PostItem> {
                                     reactionView = false;
                                   } else {
                                     if (reaction == Reaction.none) {
-                                      reaction = Reaction.like;
+                                      reaction = Reaction.love;
                                       reactNum++;
                                     } else {
                                       reaction = Reaction.none;
@@ -324,22 +319,7 @@ class _PostItemState extends State<PostItem> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [Lottie.asset(AppLotties.kWinkReact), const Text('Wink')],
         );
-      case Reaction.like:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image.asset(AppGifs.kLikeReact, height: 20.h),
-            const Text('Like'),
-          ],
-        );
-      case Reaction.heart:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image.asset(AppGifs.kHeartReact, height: 20.h),
-            const Text('Heart')
-          ],
-        );
+
       case Reaction.love:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -363,10 +343,4 @@ class ReactionElement {
   final Reaction reaction;
   final LottieBuilder image;
   ReactionElement(this.image, this.reaction);
-}
-
-class ReactionElement2 {
-  final Reaction reaction;
-  final Image image;
-  ReactionElement2(this.image, this.reaction);
 }

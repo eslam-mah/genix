@@ -30,10 +30,12 @@ class PostsRepository {
   }
 
   Future<Either<FailureModel, Map>> addPollPost(
-      {required Map<String, dynamic> data, required int postId}) async {
+      {required Map<String, dynamic> data,
+      required int postId,
+      required int option}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.postData(
-          linkUrl: ApiEndPoints.addPollPost + '/$postId',
+          linkUrl: ApiEndPoints.addPollPost + '/$postId?option=$option',
           data: data,
           token: token);
     });
@@ -129,10 +131,12 @@ class PostsRepository {
   }
 
   Future<Either<FailureModel, Map>> addDonationOnPost(
-      {required Map<String, dynamic> data, required int postId}) async {
+      {required Map<String, dynamic> data,
+      required int postId,
+      required String giftId}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.postData(
-          linkUrl: ApiEndPoints.addDonation + '/$postId',
+          linkUrl: ApiEndPoints.addDonation + '/$postId?gift_id=$giftId',
           data: data,
           token: token);
     });

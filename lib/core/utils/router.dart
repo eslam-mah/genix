@@ -3,7 +3,7 @@ import 'package:genix/features/comments%20section/replies.dart';
 import 'package:genix/features/followers%20list%20page/followers_router.dart';
 import 'package:genix/features/followings%20list%20page/followings_router.dart';
 import 'package:genix/features/groups%20page/groupsscreen.dart';
-import 'package:genix/features/home%20screen/home.dart';
+import 'package:genix/features/home%20screen/home_router.dart';
 import 'package:genix/features/lock%20screen/lock_router.dart';
 import 'package:genix/features/login%20screen/login_router.dart';
 import 'package:genix/features/my%20profile%20screen/myprofilescreen.dart';
@@ -24,8 +24,6 @@ import 'package:go_router/go_router.dart';
 abstract class Rout {
   static const kMyProfile = '/myprofile';
   static const kRegister = '/register';
-  static const kHome = '/home';
-
   static const kGlb = '/glb';
   static const kComments = '/comments';
   static const kReplies = '/replies';
@@ -43,10 +41,6 @@ abstract class Rout {
     GoRoute(
       path: kRegister,
       builder: (context, state) => const Register(),
-    ),
-    GoRoute(
-      path: kHome,
-      builder: (context, state) => const Home(),
     ),
     GoRoute(
       path: kComments,
@@ -80,6 +74,7 @@ abstract class Rout {
       path: kVideoShorts,
       builder: (context, state) => const VideoShorts(),
     ),
+    ...HomeRouter.goRoutes,
     ...LockRouter.goRoutes,
     ...SearchRouter.goRoutes,
     ...ProfileRouter.goRoutes,
