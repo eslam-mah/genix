@@ -12,7 +12,10 @@ class ShortsCommentBubble extends StatelessWidget {
       children: [
         Row(
           children: [
-            const CustomUserProfileImage(),
+            const CustomUserProfileImage(
+              isActive: true,
+              image: '',
+            ),
             SizedBox(width: 15.w),
             Flexible(
               child: Container(

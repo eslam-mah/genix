@@ -19,7 +19,10 @@ class CustomTicketsItem extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CustomUserProfileImage(),
+              CustomUserProfileImage(
+                image: '',
+                isActive: true,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

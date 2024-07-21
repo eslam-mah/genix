@@ -164,7 +164,7 @@ Iterable<Widget> customCommentMethod(
                   children: [
                     Row(
                       children: [
-                        const CustomUserProfileImage(),
+                        const CustomUserProfileImage(image: '', isActive: true),
                         SizedBox(width: 15.w),
                         Flexible(
                           child: Container(
@@ -305,7 +305,7 @@ Widget commentReplyWidget(
         Row(
           children: [
             SizedBox(width: 40.w),
-            const CustomUserProfileImage(),
+            const CustomUserProfileImage(image: '', isActive: true),
             SizedBox(width: 15.w),
             Flexible(
               child: Container(

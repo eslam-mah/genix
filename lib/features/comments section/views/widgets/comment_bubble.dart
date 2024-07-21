@@ -63,7 +63,7 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
           children: [
             Row(
               children: [
-                const CustomUserProfileImage(),
+                const CustomUserProfileImage(image: '', isActive: true),
                 SizedBox(width: 15.w),
                 Flexible(
                   child: Container(

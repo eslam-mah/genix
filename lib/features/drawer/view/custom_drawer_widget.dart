@@ -38,7 +38,10 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const CustomUserProfileImage(),
+                      const CustomUserProfileImage(
+                        image: '',
+                        isActive: true,
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

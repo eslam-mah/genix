@@ -79,7 +79,10 @@ class _PostItemState extends State<PostItem> {
                   children: [
                     Row(
                       children: [
-                        const CustomUserProfileImage(),
+                        CustomUserProfileImage(
+                            image: widget.postsModel.user!.profileImg ?? '',
+                            isActive:
+                                widget.postsModel.user!.isActive ?? false),
                         SizedBox(
                           width: 10.w,
                         ),

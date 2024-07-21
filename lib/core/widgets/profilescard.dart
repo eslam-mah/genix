@@ -27,7 +27,10 @@ class ProfilesCard extends StatelessWidget {
               SizedBox(
                 width: 12.w,
               ),
-              const CustomUserProfileImage(),
+              const CustomUserProfileImage(
+                image: '',
+                isActive: true,
+              ),
               SizedBox(
                 width: 15.w,
               ),

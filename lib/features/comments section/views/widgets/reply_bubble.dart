@@ -64,7 +64,7 @@ class _CustomReplyBubbleState extends State<CustomReplyBubble> {
             Row(
               children: [
                 SizedBox(width: 60.w),
-                const CustomUserProfileImage(),
+                const CustomUserProfileImage(image: '', isActive: true),
                 SizedBox(width: 15.w),
                 Flexible(
                   child: Container(

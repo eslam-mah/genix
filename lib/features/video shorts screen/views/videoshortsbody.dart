@@ -187,7 +187,10 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                         children: [
                           Row(
                             children: [
-                              const CustomUserProfileImage(),
+                              const CustomUserProfileImage(
+                                image: '',
+                                isActive: true,
+                              ),
                               SizedBox(
                                 width: 10.w,
                               ),
