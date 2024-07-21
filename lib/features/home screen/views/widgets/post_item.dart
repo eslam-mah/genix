@@ -8,9 +8,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/utils/router.dart';
+import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/data.dart';
 
 import 'package:genix/features/home%20screen/views/widgets/custom_post_components.dart';
 import 'package:genix/features/home%20screen/views/widgets/share_bottom_sheet.dart';
@@ -18,18 +18,7 @@ import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dial
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
-enum Reaction {
-  cry,
-  cute,
-  angry,
-  laugh,
-  love,
-  sad,
-  surprise,
-  wink,
-
-  none
-}
+enum Reaction { cry, cute, angry, laugh, love, sad, surprise, wink, none }
 
 class PostItem extends StatefulWidget {
   const PostItem({
@@ -39,6 +28,7 @@ class PostItem extends StatefulWidget {
   });
   final bool isNightModeEnabled;
   final PostsModel postsModel;
+
   @override
   State<PostItem> createState() => _PostItemState();
 }
@@ -49,6 +39,7 @@ class _PostItemState extends State<PostItem> {
   bool isVideo = false;
   bool isPoll = false;
   int reactNum = 0;
+
   final List<dynamic> reactions = [
     ReactionElement(Lottie.asset(AppLotties.kLaughReact), Reaction.laugh),
     ReactionElement(Lottie.asset(AppLotties.kSadReact), Reaction.sad),
@@ -62,215 +53,213 @@ class _PostItemState extends State<PostItem> {
 
   @override
   Widget build(BuildContext context) {
-    print('Post title: ${widget.postsModel}');
+    final user = widget.postsModel.user;
+    final uploads = widget.postsModel.uploads;
+
+    if (user == null || uploads == null || uploads.isEmpty) {
+      return Container(); // Return an empty container or a placeholder if the data is invalid
+    }
 
     return Stack(
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
           child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6.r),
-                color: AppColors.kPostColor,
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 7.h),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        CustomUserProfileImage(
-                            image: widget.postsModel.user!.profileImg ?? '',
-                            isActive:
-                                widget.postsModel.user!.isActive ?? false),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(widget.postsModel.user!.showname ?? ''),
-                              Text('${widget.postsModel.user!.createdAt}')
-                            ],
-                          ),
-                        ),
-                        IconButton(
-                            onPressed: () {
-                              showPostTabBar(
-                                  context, widget.isNightModeEnabled);
-                            },
-                            icon: const Icon(FontAwesomeIcons.ellipsis))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 7.h,
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(6.r),
-                      child: Image.asset(AppImages.kPost),
-                      // VideoPlayerWidget()
-                      // : Image.asset(AppImages.kPost)
-                    ),
-                    SizedBox(
-                      height: 4.h,
-                    ),
-                    Container(
-                      width: 290.w,
-                      height: 1.h,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      height: 4.h,
-                    ),
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 12.r,
-                          child: Lottie.asset(
-                            AppLotties.kAngryReact,
-                            height: 405.h,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 3.w,
-                        ),
-                        SizedBox(
-                            width: 30.w,
-                            child: Text(
-                              ' $reactNum',
-                              overflow: TextOverflow.ellipsis,
-                            )),
-                        SizedBox(
-                          width: 90.w,
-                        ),
-                        Icon(
-                          FontAwesomeIcons.solidComment,
-                          size: 11.sp,
-                        ),
-                        SizedBox(
-                          width: 25.w,
-                          child: Text(
-                            '100000',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 11.sp),
-                          ),
-                        ),
-                        Text(
-                          'Comments',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 11.sp),
-                        ),
-                        SizedBox(
-                          width: 9.w,
-                        ),
-                        Icon(
-                          FontAwesomeIcons.share,
-                          size: 11.sp,
-                        ),
-                        SizedBox(
-                          width: 26.w,
-                          child: Text(
-                            '1000000',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 11.sp),
-                          ),
-                        ),
-                        Text(
-                          'shares',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 11.sp),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Stack(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6.r),
+              color: AppColors.kPostColor,
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 7.h),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      CustomUserProfileImage(
+                        image: user.profileImg ?? '',
+                        isActive: user.isActive ?? false,
+                      ),
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            InkWell(
-                                onTap: () {
-                                  if (reactionView) {
-                                    reactionView = false;
-                                  } else {
-                                    if (reaction == Reaction.none) {
-                                      reaction = Reaction.love;
-                                      reactNum++;
-                                    } else {
-                                      reaction = Reaction.none;
-                                      if (reactNum > 0) {
-                                        reactNum--;
-                                      }
-                                    }
-                                  }
-                                  setState(() {});
-                                },
-                                onLongPress: () {
-                                  setState(() {
-                                    reactionView = true;
-                                  });
-                                },
-                                child: Container(
-                                    height: 30.h,
-                                    width: 100.w,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(8.r)),
-                                    child: getReactionIcon(reaction))),
+                            Text(user.showname ?? 'Unknown User'),
+                            Text('${user.createdAt ?? 'Unknown Date'}')
                           ],
                         ),
-                        CustomPostComponents(
-                          icon: FontAwesomeIcons.solidComment,
-                          text: 'Comment',
-                          ontap: () {
-                            GoRouter.of(context).push(Rout.kComments);
-                          },
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          showPostTabBar(context, widget.isNightModeEnabled);
+                        },
+                        icon: const Icon(FontAwesomeIcons.ellipsis),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4.h),
+                  widget.postsModel.content != null
+                      ? Column(
+                          children: [
+                            CustomTextWidget(
+                                textSize: 15.sp,
+                                fontFamily: '',
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black,
+                                text: widget.postsModel.content ?? ''),
+                            SizedBox(height: 7.h),
+                          ],
+                        )
+                      : const SizedBox.shrink(),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(6.r),
+                    child: uploads.length == 1
+                        ? Image.network(
+                            uploads.first.fileUrl,
+                            width: double.infinity,
+                            height: 200.h,
+                            fit: BoxFit.cover,
+                          )
+                        : GridView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: uploads.length == 2
+                                  ? 2
+                                  : 3, // Adjust crossAxisCount based on the number of uploads
+                              crossAxisSpacing: 1,
+                              mainAxisSpacing: 1,
+                              childAspectRatio: 1,
+                            ),
+                            itemCount: uploads.length,
+                            itemBuilder: (context, index) {
+                              final upload = uploads[index];
+                              return Image.network(upload.fileUrl,
+                                  fit: BoxFit.cover);
+                              // Handle null URLs
+                            },
+                          ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Divider(color: Colors.white),
+                  SizedBox(height: 4.h),
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 12.r,
+                        child:
+                            Lottie.asset(AppLotties.kAngryReact, height: 405.h),
+                      ),
+                      SizedBox(width: 3.w),
+                      SizedBox(
+                        width: 30.w,
+                        child: Text(
+                          ' $reactNum',
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        CustomPostComponents(
-                          icon: FontAwesomeIcons.share,
-                          text: 'Share',
-                          ontap: () {
-                            shareBottomSheet(context);
-                          },
+                      ),
+                      Spacer(),
+                      Icon(FontAwesomeIcons.solidComment, size: 11.sp),
+                      SizedBox(width: 9.w),
+                      SizedBox(
+                          width: widget.postsModel.commentsCount!.toDouble(),
+                          child: Text("${widget.postsModel.commentsCount}",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 11.sp))),
+                      SizedBox(width: 9.w),
+                      Text('Comments', style: TextStyle(fontSize: 11.sp)),
+                      SizedBox(width: 9.w),
+                      Icon(FontAwesomeIcons.share, size: 11.sp),
+                      SizedBox(width: 9.w),
+                      SizedBox(
+                          width: widget.postsModel.sharesCount!.toDouble(),
+                          child: Text("${widget.postsModel.sharesCount}",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 11.sp))),
+                      SizedBox(width: 9.w),
+                      Text('Shares', style: TextStyle(fontSize: 11.sp)),
+                    ],
+                  ),
+                  SizedBox(height: 20.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (reaction == Reaction.none) {
+                              reaction = Reaction.love;
+                              reactNum++;
+                            } else {
+                              reaction = Reaction.none;
+                              if (reactNum > 0) reactNum--;
+                            }
+                          });
+                        },
+                        onLongPress: () {
+                          setState(() {
+                            reactionView = true;
+                          });
+                        },
+                        child: Container(
+                          height: 30.h,
+                          width: 100.w,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: getReactionIcon(reaction),
                         ),
-                      ],
-                    )
-                  ],
-                ),
-              )),
+                      ),
+                      CustomPostComponents(
+                        icon: FontAwesomeIcons.solidComment,
+                        text: 'Comment',
+                        ontap: () {
+                          GoRouter.of(context).push(Rout.kComments);
+                        },
+                      ),
+                      CustomPostComponents(
+                        icon: FontAwesomeIcons.share,
+                        text: 'Share',
+                        ontap: () {
+                          shareBottomSheet(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
         if (reactionView)
           Positioned(
             bottom: 60.h,
             left: 30.w,
             child: Container(
-                height: 60.h,
-                width: 300.w,
-                decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.8),
-                    borderRadius: BorderRadius.circular(50.r)),
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: reactions.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      duration: const Duration(milliseconds: 375),
-                      child: SlideAnimation(
-                        verticalOffset: 15 + index + 15,
-                        child: FadeInAnimation(
-                            child: IconButton(
+              height: 60.h,
+              width: 300.w,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(50.r),
+              ),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: reactions.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    duration: const Duration(milliseconds: 375),
+                    child: SlideAnimation(
+                      verticalOffset: 15 + index + 15,
+                      child: FadeInAnimation(
+                        child: IconButton(
                           onPressed: () {
                             setState(() {
                               if (reactionView &&
                                   reaction != reactions[index].reaction) {
-                                if (reaction != Reaction.none) {
-                                  reactNum--;
-                                }
+                                if (reaction != Reaction.none) reactNum--;
                                 reaction = reactions[index].reaction;
                                 reactNum++;
                               } else if (reaction ==
@@ -282,11 +271,13 @@ class _PostItemState extends State<PostItem> {
                             });
                           },
                           icon: reactions[index].image,
-                        )),
+                        ),
                       ),
-                    );
-                  },
-                )),
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
       ],
     );
@@ -332,7 +323,6 @@ class _PostItemState extends State<PostItem> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [Lottie.asset(AppLotties.kWinkReact), const Text('Wink')],
         );
-
       case Reaction.love:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -342,10 +332,8 @@ class _PostItemState extends State<PostItem> {
         return const Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(
-              FontAwesomeIcons.solidHeart,
-            ),
-            Text('Like')
+            Icon(FontAwesomeIcons.solidHeart),
+            Text('Like'),
           ],
         );
     }

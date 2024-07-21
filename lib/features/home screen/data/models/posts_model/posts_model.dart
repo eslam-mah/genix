@@ -1,3 +1,5 @@
+import 'package:genix/features/home%20screen/data/models/posts_model/uploads.dart';
+
 import 'og_info.dart';
 import 'reactions.dart';
 import 'user.dart';
@@ -14,8 +16,8 @@ class PostsModel {
   bool? isEvent;
   bool? toCloseFriends;
   bool? isProcessing;
-  List<dynamic>? uploads;
-  Reactions? reactions;
+  List<Upload>? uploads;
+  List<dynamic>? reactions;
   List<dynamic>? comments;
   num? commentsCount;
   num? sharesCount;
@@ -61,9 +63,15 @@ class PostsModel {
         isEvent = json['is_event'] as bool?,
         toCloseFriends = json['to_close_friends'] as bool?,
         isProcessing = json['is_processing'] as bool?,
-        uploads = json['uploads'] as List<dynamic>?,
+        uploads = json['uploads'] != null
+            ? (json['uploads'] as List<dynamic>)
+                .map((v) => Upload.fromJson(v as Map<String, dynamic>))
+                .toList()
+            : null,
         // reactions = json['reactions'] != null
-        //     ? Reactions.fromJson(json['reactions'] as Map<String, dynamic>)
+        //     ? (json['reactions'] as List<dynamic>)
+        //         .map((v) => Reactions.fromJson(v as Map<String, dynamic>))
+        //         .toList()
         //     : null,
         comments = json['comments'] as List<dynamic>?,
         commentsCount = json['comments_count'] as num?,
@@ -71,7 +79,7 @@ class PostsModel {
         ogInfo = json['og_info'] != null
             ? OgInfo.fromJson(json['og_info'] as Map<String, dynamic>)
             : null,
-        // misc = json['misc'],
+        // misc = json['misc'] as List<dynamic>?,
         createdAt = json['created_at'] != null
             ? DateTime.parse(json['created_at'] as String)
             : null,
@@ -80,9 +88,11 @@ class PostsModel {
             : null;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['user'] = user?.toJson();
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
     data['page'] = page;
     data['group'] = group;
     data['content'] = content;
@@ -92,15 +102,21 @@ class PostsModel {
     data['is_event'] = isEvent;
     data['to_close_friends'] = toCloseFriends;
     data['is_processing'] = isProcessing;
-    data['uploads'] = uploads;
-    data['reactions'] = reactions?.toJson();
+    if (uploads != null) {
+      data['uploads'] = uploads!.map((v) => v.toJson()).toList();
+    }
+    if (reactions != null) {
+      data['reactions'] = reactions;
+    }
     data['comments'] = comments;
     data['comments_count'] = commentsCount;
     data['shares_count'] = sharesCount;
-    data['og_info'] = ogInfo?.toJson();
+    if (ogInfo != null) {
+      data['og_info'] = ogInfo!.toJson();
+    }
     data['misc'] = misc;
-    data['created_at'] = createdAt?.toString();
-    data['updated_at'] = updatedAt?.toString();
+    data['created_at'] = createdAt?.toIso8601String();
+    data['updated_at'] = updatedAt?.toIso8601String();
     return data;
   }
 }
