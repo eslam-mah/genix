@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/data.dart';
 import 'package:genix/features/home%20screen/data/models/share_form.dart';
 import 'package:genix/features/home%20screen/data/repos/posts_repository.dart';
 
@@ -10,7 +10,7 @@ class SharePostCubit extends Cubit<SharePostState> {
   SharePostCubit() : super(SharePostInitial());
   final PostsRepository sharePostRepo = PostsRepository();
   Future<void> sharePost(
-      {required ShareForm data, required PostsModel postId}) async {
+      {required ShareForm data, required Data postId}) async {
     emit(SharePostLoading());
     final result = await sharePostRepo.sharePost(
         data: data.toJson(), postId: postId.collection!.first.id);

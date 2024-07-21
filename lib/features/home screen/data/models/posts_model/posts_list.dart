@@ -1,66 +1,80 @@
+import 'package:genix/features/home%20screen/data/models/posts_model/pagination.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 
 class PostsList {
-  String status;
+  bool success;
   Data data;
 
-  PostsList({required this.status, required this.data});
+  PostsList({required this.success, required this.data});
 
   factory PostsList.fromJson(Map<String, dynamic> json) {
     return PostsList(
-      status: json['status'],
+      success: json['success'],
       data: Data.fromJson(json['data']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = this.status;
+    data['success'] = this.success;
     data['data'] = this.data.toJson();
     return data;
   }
 }
 
 class Data {
-  List<PostsModel> posts;
+  List<PostsModel> postsModel;
+  Pagination? pagination;
+  dynamic promoted;
+  bool? suggested;
 
-  Data({required this.posts});
+  Data({
+    required this.postsModel,
+    this.pagination,
+    this.promoted,
+    this.suggested,
+  });
 
   factory Data.fromJson(Map<String, dynamic> json) {
-    var postsJson = json['collection'] as List;
-    List<PostsModel> postsList =
-        postsJson.map((i) => PostsModel.fromJson(i)).toList();
-
     return Data(
-      posts: postsList,
+      postsModel: (json['collection'] as List<dynamic>)
+          .map((item) => PostsModel.fromJson(item as Map<String, dynamic>))
+          .toList(),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'] as Map<String, dynamic>)
+          : null,
+      promoted: json['promoted'],
+      suggested: json['suggested'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['collection'] =
-        this.posts.map((postsModel) => postsModel.toJson()).toList();
+    data['collection'] = this.postsModel.map((item) => item.toJson()).toList();
+    if (pagination != null) {
+      data['pagination'] = pagination!.toJson();
+    }
+    data['promoted'] = promoted;
+    data['suggested'] = suggested;
     return data;
   }
 
   void addPost({required PostsModel post}) {
-    this.posts.add(post);
+    this.postsModel.add(post);
   }
 
   void updatePost({required PostsModel newPost}) {
-    final updatedPostIndex = this
-        .posts
-        .indexWhere((p) => p.collection?[0].id == newPost.collection?[0].id);
+    final updatedPostIndex =
+        this.postsModel.indexWhere((p) => p.id == newPost.id);
     if (updatedPostIndex != -1) {
-      this.posts[updatedPostIndex] = newPost;
+      this.postsModel[updatedPostIndex] = newPost;
     }
   }
 
   void deletePost(int postId) {
-    final removedPostIndex =
-        this.posts.indexWhere((p) => p.collection?[0].id == postId);
+    final removedPostIndex = this.postsModel.indexWhere((p) => p.id == postId);
     if (removedPostIndex != -1) {
-      this.posts.removeAt(removedPostIndex);
+      this.postsModel.removeAt(removedPostIndex);
     }
   }
 }

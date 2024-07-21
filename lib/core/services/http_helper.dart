@@ -4,21 +4,76 @@ import 'package:dartz/dartz.dart';
 import 'package:genix/core/services/checkinternet.dart';
 import 'package:genix/core/services/failure_model.dart';
 import 'package:genix/core/services/http_reponse_status.dart';
-import 'package:genix/core/services/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
 
 class HttpHelper {
+  // Function to save token
+  static Future<void> _saveToken(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('auth_token', token);
+  }
+
+  // Function to get token
+  static Future<String?> _getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('auth_token');
+  }
+
+  // Function to handle login and store token
+  static Future<Either<FailureModel, Map>> login({
+    required String linkUrl,
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse(linkUrl),
+        body: json.encode(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 202) {
+        final responseBody = jsonDecode(response.body);
+        if (responseBody['success']) {
+          final token = responseBody['data']['token'];
+          await _saveToken(token); // Save token
+          print('Token stored successfully');
+          return Right(responseBody);
+        } else {
+          return Left(FailureModel(
+            responseStatus: HttpResponseStatus.invalidData,
+            message: responseBody['message'],
+          ));
+        }
+      } else {
+        return Left(FailureModel(
+          responseStatus: HttpResponseStatus.failure,
+          message: 'Request failed with status: ${response.statusCode}',
+        ));
+      }
+    } catch (e) {
+      return Left(FailureModel(
+        responseStatus: HttpResponseStatus.failure,
+        message: e.toString(),
+      ));
+    }
+  }
+
   static Future<http.Response> postData({
     required String linkUrl,
     required Map data,
-    required String? token,
+    String? token,
   }) async {
+    token ??= await _getToken(); // Get token if not provided
     var headers = {
-      'Authorization': token != null ? 'Bearer $token' : '',
+      'Authorization': 'Bearer $token',
       'accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
 
     var response = await http.post(
@@ -27,171 +82,137 @@ class HttpHelper {
       headers: headers,
     );
 
-    return _handleResponse(
-        response, () => postData(linkUrl: linkUrl, data: data, token: token));
+    return response;
   }
 
   static Future<http.Response> getData({
     required String linkUrl,
-    required String token,
+    String? token,
   }) async {
+    token ??= await _getToken(); // Get token if not provided
     var headers = {
       'Authorization': 'Bearer $token',
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
     };
+
     var response = await http.get(Uri.parse(linkUrl), headers: headers);
 
-    return _handleResponse(
-        response, () => getData(linkUrl: linkUrl, token: token));
+    return response;
   }
 
   static Future<http.Response> putData({
     required String linkUrl,
     required Map<String, dynamic> data,
-    required String? token,
+    String? token,
   }) async {
+    token ??= await _getToken(); // Get token if not provided
     var headers = {
-      'Authorization': token != null ? 'Bearer $token' : '',
+      'Authorization': 'Bearer $token',
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
     };
-    var response = await http.put(Uri.parse(linkUrl),
-        body: json.encode(data), headers: headers);
-    return _handleResponse(
-        response, () => putData(linkUrl: linkUrl, data: data, token: token));
+
+    var response = await http.put(
+      Uri.parse(linkUrl),
+      body: json.encode(data),
+      headers: headers,
+    );
+
+    return response;
   }
 
   static Future<http.Response> patchData({
     required String linkUrl,
     required Map<String, dynamic> data,
-    required String? token,
+    String? token,
   }) async {
+    token ??= await _getToken(); // Get token if not provided
     var headers = {
-      'Authorization': token != null ? 'Bearer $token' : '',
+      'Authorization': 'Bearer $token',
       'accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
-    String jsonBody = json.encode(data);
 
-    var response =
-        await http.patch(Uri.parse(linkUrl), body: jsonBody, headers: headers);
-    return _handleResponse(
-        response, () => patchData(linkUrl: linkUrl, data: data, token: token));
+    var response = await http.patch(
+      Uri.parse(linkUrl),
+      body: json.encode(data),
+      headers: headers,
+    );
+
+    return response;
   }
 
   static Future<http.Response> deleteData({
     required String linkUrl,
     Map? data,
-    required String? token,
+    String? token,
   }) async {
+    token ??= await _getToken(); // Get token if not provided
     var headers = {
-      'Authorization': token != null ? 'Bearer $token' : '',
+      'Authorization': 'Bearer $token',
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
     };
-    var response = await http.delete(Uri.parse(linkUrl),
-        body: json.encode(data), headers: headers);
-    return _handleResponse(
-        response, () => deleteData(linkUrl: linkUrl, data: data, token: token));
+
+    var response = await http.delete(
+      Uri.parse(linkUrl),
+      body: data,
+      headers: headers,
+    );
+
+    return response;
   }
 
   static Future<http.Response> patchFile({
     required String linkUrl,
     required File file,
     required String name,
-    required String? token,
+    String? token,
   }) async {
-    try {
-      print("Attempting to upload file...");
+    token ??= await _getToken(); // Get token if not provided
+    var request = http.MultipartRequest('PATCH', Uri.parse(linkUrl));
+    request.headers['Authorization'] = 'Bearer $token';
 
-      var request = http.MultipartRequest('PATCH', Uri.parse(linkUrl));
-      if (token != null) {
-        request.headers['Authorization'] = 'Bearer $token';
-      }
-
-      if (!await file.exists()) {
-        throw Exception("File not found at path: ${file.path}");
-      }
-
-      var mimeType = lookupMimeType(file.path) ?? 'application/octet-stream';
-      var mimeTypeData = mimeType.split('/');
-      if (mimeTypeData.length != 2) {
-        throw Exception("Invalid MIME type: $mimeType");
-      }
-
-      request.files.add(await http.MultipartFile.fromPath(
-        name,
-        file.path,
-        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
-      ));
-
-      final response = await request.send();
-      final http.Response res = await http.Response.fromStream(response);
-      var resFile = json.decode(res.body);
-
-      print("Response Status: ${response.statusCode}");
-      print("Response Headers: ${response.headers}");
-      print("Response Body: ${res.body}");
-
-      if (response.statusCode != 202) {
-        print("Failed to upload file: ${resFile['message']}");
-      }
-
-      return res;
-    } catch (e) {
-      print("Error in patchFile: $e");
-      rethrow;
+    if (!await file.exists()) {
+      throw Exception("File not found at path: ${file.path}");
     }
+
+    var mimeType = lookupMimeType(file.path) ?? 'application/octet-stream';
+    var mimeTypeData = mimeType.split('/');
+
+    request.files.add(await http.MultipartFile.fromPath(
+      name,
+      file.path,
+      contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+    ));
+
+    final response = await request.send();
+    return await http.Response.fromStream(response);
   }
 
   static Future<http.Response> postFile({
     required String linkUrl,
     required File file,
     required String name,
-    required String? token,
+    String? token,
   }) async {
-    try {
-      print("Attempting to upload file...");
+    token ??= await _getToken(); // Get token if not provided
+    var request = http.MultipartRequest('POST', Uri.parse(linkUrl));
+    request.headers['Authorization'] = 'Bearer $token';
 
-      var request = http.MultipartRequest('POST', Uri.parse(linkUrl));
-      if (token != null) {
-        request.headers['Authorization'] = 'Bearer $token';
-      }
-
-      if (!await file.exists()) {
-        throw Exception("File not found at path: ${file.path}");
-      }
-
-      var mimeType = lookupMimeType(file.path) ?? 'application/octet-stream';
-      var mimeTypeData = mimeType.split('/');
-      if (mimeTypeData.length != 2) {
-        throw Exception("Invalid MIME type: $mimeType");
-      }
-
-      request.files.add(await http.MultipartFile.fromPath(
-        name,
-        file.path,
-        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
-      ));
-
-      final response = await request.send();
-      final http.Response res = await http.Response.fromStream(response);
-      var resFile = json.decode(res.body);
-
-      print("Response Status: ${response.statusCode}");
-      print("Response Headers: ${response.headers}");
-      print("Response Body: ${res.body}");
-
-      if (response.statusCode != 202) {
-        print("Failed to upload file: ${resFile['message']}");
-      }
-
-      return res;
-    } catch (e) {
-      print("Error in postFile: $e");
-      rethrow;
+    if (!await file.exists()) {
+      throw Exception("File not found at path: ${file.path}");
     }
+
+    var mimeType = lookupMimeType(file.path) ?? 'application/octet-stream';
+    var mimeTypeData = mimeType.split('/');
+
+    request.files.add(await http.MultipartFile.fromPath(
+      name,
+      file.path,
+      contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+    ));
+
+    final response = await request.send();
+    return await http.Response.fromStream(response);
   }
 
   static Future<Either<FailureModel, Map>> handleRequest(
@@ -199,59 +220,31 @@ class HttpHelper {
   ) async {
     try {
       if (await isConnectedToInternet()) {
-        String customToken = CacheData.getData(key: 'customToken') ?? "";
+        String token = await _getToken() ?? "";
+        http.Response response = await requestFunction(token);
 
-        print("customToken");
-        print(customToken);
-
-        http.Response response = await requestFunction(customToken);
-
-        if (response.statusCode == 202) {
-          print(
-              "++++++++++Backend Response +++++++++++${jsonDecode(response.body)}");
+        if (response.statusCode == 200 || response.statusCode == 202) {
           return Right(jsonDecode(response.body));
-        } else if (response.statusCode == 400 || response.statusCode == 401) {
+        } else if (response.statusCode == 401 || response.statusCode == 400) {
           String message = jsonDecode(response.body)['message'];
-          print('Error message: $message');
-          if (response.statusCode == 401) {
-            _handleLogout();
-            return Left(FailureModel(
-                responseStatus: HttpResponseStatus.invalidData,
-                message: message));
-          } else {
-            return Left(FailureModel(
-                responseStatus: HttpResponseStatus.invalidData,
-                message: message));
-          }
+          return Left(FailureModel(
+            responseStatus: HttpResponseStatus.invalidData,
+            message: message,
+          ));
         } else {
           String message = jsonDecode(response.body)['message'];
-          print('Backend request error: $message');
-          return Left(FailureModel(responseStatus: HttpResponseStatus.failure));
+          return Left(FailureModel(
+            responseStatus: HttpResponseStatus.failure,
+            message: message,
+          ));
         }
       } else {
         return Left(
-            FailureModel(responseStatus: HttpResponseStatus.noInternet));
+          FailureModel(responseStatus: HttpResponseStatus.noInternet),
+        );
       }
     } catch (e) {
-      print("RequestHandler Error");
-      print(e.toString());
       return Left(FailureModel(responseStatus: HttpResponseStatus.failure));
     }
-  }
-
-  static Future<http.Response> _handleResponse(
-      http.Response response, Function retryRequest) async {
-    if (response.statusCode == 401) {
-      _handleLogout();
-    }
-    return response;
-  }
-
-  static void _handleLogout() {
-    // Clear the cached data
-    //  CacheData.clearData();
-    print("Token expired. Logging out...");
-    // Navigate to login screen or handle logout logic
-    // Note: You need to implement the logic for navigating to the login screen
   }
 }

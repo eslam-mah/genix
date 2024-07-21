@@ -6,7 +6,7 @@ class Summary {
   int? angry;
   int? sad;
 
-  Summary({this.love, this.wow, this.haha, this.like});
+  Summary({this.love, this.wow, this.haha, this.like, this.angry, this.sad});
 
   Summary.fromJson(Map<String, dynamic> json)
       : love = json['love'],

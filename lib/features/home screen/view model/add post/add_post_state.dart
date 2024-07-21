@@ -12,7 +12,7 @@ final class AddPostInitial extends AddPostState {}
 final class AddPostLoading extends AddPostState {}
 
 final class AddPostSuccess extends AddPostState {
-  final PostForm post;
+  final PostsModel post;
   const AddPostSuccess({required this.post});
 }
 

@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/post_form.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/data.dart';
 import 'package:genix/features/home%20screen/data/repos/posts_repository.dart';
 
 part 'add_post_state.dart';
@@ -12,7 +14,7 @@ class AddPostCubit extends Cubit<AddPostState> {
     emit(AddPostLoading());
     final result = await addPostRepo.addPost(data: data.toJson());
     result.fold((l) => emit(AddPostError()), (r) {
-      final post = PostForm.fromJson(data.toJson());
+      final post = PostsModel.fromJson(data.toJson());
       emit(AddPostSuccess(post: post));
     });
   }

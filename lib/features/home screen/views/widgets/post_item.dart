@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -7,6 +9,8 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/data.dart';
 
 import 'package:genix/features/home%20screen/views/widgets/custom_post_components.dart';
 import 'package:genix/features/home%20screen/views/widgets/share_bottom_sheet.dart';
@@ -31,8 +35,10 @@ class PostItem extends StatefulWidget {
   const PostItem({
     super.key,
     required this.isNightModeEnabled,
+    required this.postsModel,
   });
   final bool isNightModeEnabled;
+  final PostsModel postsModel;
   @override
   State<PostItem> createState() => _PostItemState();
 }
@@ -56,6 +62,8 @@ class _PostItemState extends State<PostItem> {
 
   @override
   Widget build(BuildContext context) {
+    print('Post title: ${widget.postsModel}');
+
     return Stack(
       children: [
         Padding(
@@ -75,12 +83,14 @@ class _PostItemState extends State<PostItem> {
                         SizedBox(
                           width: 10.w,
                         ),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [Text('Name'), Text('Time posted')],
-                        ),
-                        SizedBox(
-                          width: 156.w,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(widget.postsModel.user!.showname ?? ''),
+                              Text('${widget.postsModel.user!.createdAt}')
+                            ],
+                          ),
                         ),
                         IconButton(
                             onPressed: () {

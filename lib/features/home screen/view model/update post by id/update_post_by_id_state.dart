@@ -12,7 +12,7 @@ final class UpdatePostByIdInitial extends UpdatePostByIdState {}
 final class UpdatePostByIdLoading extends UpdatePostByIdState {}
 
 final class UpdatePostByIdSuccess extends UpdatePostByIdState {
-  final UpdatePostForm updatePost;
+  final PostsModel updatePost;
   const UpdatePostByIdSuccess({required this.updatePost});
 }
 

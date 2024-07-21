@@ -1,19 +1,19 @@
 part of 'get_newsfeed_posts_cubit.dart';
 
-sealed class GetNewsfeedPostsState extends Equatable {
-  const GetNewsfeedPostsState();
+sealed class GetNewsFeedPostsState extends Equatable {
+  const GetNewsFeedPostsState();
 
   @override
   List<Object> get props => [];
 }
 
-final class GetNewsfeedPostsInitial extends GetNewsfeedPostsState {}
+final class GetNewsfeedPostsInitial extends GetNewsFeedPostsState {}
 
-final class GetNewsfeedPostsLoading extends GetNewsfeedPostsState {}
+final class GetNewsFeedPostsLoading extends GetNewsFeedPostsState {}
 
-final class GetNewsfeedPostsSuccess extends GetNewsfeedPostsState {
+final class GetNewsFeedPostsSuccess extends GetNewsFeedPostsState {
   final PostsList posts;
-  const GetNewsfeedPostsSuccess({required this.posts});
+  const GetNewsFeedPostsSuccess({required this.posts});
 }
 
-final class GetNewsfeedPostsError extends GetNewsfeedPostsState {}
+final class GetNewsFeedPostsError extends GetNewsFeedPostsState {}

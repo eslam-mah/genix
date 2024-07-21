@@ -106,7 +106,7 @@ abstract class HomeRouter {
                 value: viewPostCubit,
               ),
             ],
-            child: HomePage(homePageArgs: state.extra as HomePageArgs),
+            child: HomePage(),
           );
         }),
   ];

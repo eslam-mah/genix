@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/data.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/summary.dart';
 import 'package:genix/features/home%20screen/data/repos/posts_repository.dart';
 
@@ -11,7 +11,7 @@ class AddReactCubit extends Cubit<AddReactState> {
   final PostsRepository addReactionsRepo = PostsRepository();
 
   Future<void> addReactions(
-      {required Summary data, required PostsModel postId}) async {
+      {required Summary data, required Data postId}) async {
     emit(AddReactLoading());
     final result = await addReactionsRepo.addReact(
         data: data.toJson(), postId: postId.collection!.first.id);

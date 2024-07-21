@@ -12,7 +12,7 @@ class PostsRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> getPostById({required int postId}) async {
+  Future<Either<FailureModel, Map>> getPostById({required num postId}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(
           linkUrl: ApiEndPoints.getPostById + '/$postId', token: token);
@@ -20,7 +20,7 @@ class PostsRepository {
   }
 
   Future<Either<FailureModel, Map>> updatePostById(
-      {required Map<String, dynamic> data, required int postId}) async {
+      {required Map<String, dynamic> data, required num postId}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.patchData(
           linkUrl: ApiEndPoints.updatePostById + '/$postId',
@@ -31,8 +31,8 @@ class PostsRepository {
 
   Future<Either<FailureModel, Map>> addPollPost(
       {required Map<String, dynamic> data,
-      required int postId,
-      required int option}) async {
+      required num postId,
+      required num option}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.postData(
           linkUrl: ApiEndPoints.addPollPost + '/$postId?option=$option',
@@ -41,7 +41,7 @@ class PostsRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> deletePost({required int postId}) async {
+  Future<Either<FailureModel, Map>> deletePost({required num postId}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.deleteData(
           linkUrl: ApiEndPoints.deletePost + '/$postId', token: token);
@@ -49,7 +49,7 @@ class PostsRepository {
   }
 
   Future<Either<FailureModel, Map>> addReact(
-      {required Map<String, dynamic> data, required int postId}) async {
+      {required Map<String, dynamic> data, required num postId}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.postData(
           linkUrl: ApiEndPoints.reactOnPost + '/$postId',
@@ -59,7 +59,7 @@ class PostsRepository {
   }
 
   Future<Either<FailureModel, Map>> sharePost(
-      {required Map<String, dynamic> data, required int postId}) async {
+      {required Map<String, dynamic> data, required num postId}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.postData(
           linkUrl: ApiEndPoints.sharePost + '/$postId',
@@ -75,7 +75,7 @@ class PostsRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> getTimelinePosts({required int uid}) async {
+  Future<Either<FailureModel, Map>> getTimelinePosts({required num uid}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(
           linkUrl: ApiEndPoints.getPostsInTimeLineById + '/$uid', token: token);
@@ -84,19 +84,20 @@ class PostsRepository {
 
   Future<Either<FailureModel, Map>> getNewsFeedPosts() async {
     return await HttpHelper.handleRequest((token) async {
+      print('Token: $token');
       return await HttpHelper.getData(
           linkUrl: ApiEndPoints.getPostsInNewsFeed, token: token);
     });
   }
 
-  Future<Either<FailureModel, Map>> getPhotoPosts({required int uid}) async {
+  Future<Either<FailureModel, Map>> getPhotoPosts({required num uid}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(
           linkUrl: ApiEndPoints.getPhotoPosts + '/$uid', token: token);
     });
   }
 
-  Future<Either<FailureModel, Map>> getVideoPosts({required int uid}) async {
+  Future<Either<FailureModel, Map>> getVideoPosts({required num uid}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(
           linkUrl: ApiEndPoints.getVideoPosts + '/$uid', token: token);
@@ -111,7 +112,7 @@ class PostsRepository {
   }
 
   Future<Either<FailureModel, Map>> savePost(
-      {required Map<String, dynamic> data, required int postId}) async {
+      {required Map<String, dynamic> data, required num postId}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.postData(
           linkUrl: ApiEndPoints.savePost + '/$postId',
@@ -121,7 +122,7 @@ class PostsRepository {
   }
 
   Future<Either<FailureModel, Map>> viewPost(
-      {required Map<String, dynamic> data, required int postId}) async {
+      {required Map<String, dynamic> data, required num postId}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.postData(
           linkUrl: ApiEndPoints.viewPost + '/$postId',
@@ -132,7 +133,7 @@ class PostsRepository {
 
   Future<Either<FailureModel, Map>> addDonationOnPost(
       {required Map<String, dynamic> data,
-      required int postId,
+      required num postId,
       required String giftId}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.postData(
@@ -142,14 +143,14 @@ class PostsRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> getLiveChannel({required int id}) async {
+  Future<Either<FailureModel, Map>> getLiveChannel({required num id}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(
           linkUrl: ApiEndPoints.getLiveChannel + '/$id', token: token);
     });
   }
 
-  Future<Either<FailureModel, Map>> deleteUserPost({required int uid}) async {
+  Future<Either<FailureModel, Map>> deleteUserPost({required num uid}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.deleteData(
           linkUrl: ApiEndPoints.deleteUserPost + '/$uid', token: token);

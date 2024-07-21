@@ -5,17 +5,17 @@ import 'package:genix/features/home%20screen/data/repos/posts_repository.dart';
 
 part 'get_newsfeed_posts_state.dart';
 
-class GetNewsFeedPostsCubit extends Cubit<GetNewsfeedPostsState> {
+class GetNewsFeedPostsCubit extends Cubit<GetNewsFeedPostsState> {
   GetNewsFeedPostsCubit() : super(GetNewsfeedPostsInitial());
   final PostsRepository getNewsFeedPostsRepo = PostsRepository();
   Future<void> getNewsFeedPosts() async {
-    emit(GetNewsfeedPostsLoading());
+    emit(GetNewsFeedPostsLoading());
     final result = await getNewsFeedPostsRepo.getNewsFeedPosts();
     result.fold((l) {
-      emit(GetNewsfeedPostsError());
+      emit(GetNewsFeedPostsError());
     }, (r) {
       final posts = PostsList.fromJson(r as Map<String, dynamic>);
-      emit(GetNewsfeedPostsSuccess(posts: posts));
+      emit(GetNewsFeedPostsSuccess(posts: posts));
     });
   }
 }
