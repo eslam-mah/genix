@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:genix/core/utils/colors.dart';
 
 class NewPageProgressIndicator extends StatelessWidget {
   const NewPageProgressIndicator({
@@ -9,6 +10,9 @@ class NewPageProgressIndicator extends StatelessWidget {
   Widget build(BuildContext context) =>
       // FooterTile(
       //       child:
-      Center(child: CircularProgressIndicator());
+      Center(
+          child: CircularProgressIndicator(
+        color: AppColors.kPrimaryColor,
+      ));
   //);
 }

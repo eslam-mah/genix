@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/images.dart';
@@ -17,11 +18,11 @@ class CustomUserProfileImage extends StatelessWidget {
         CircleAvatar(
           backgroundColor: Colors.transparent,
           child: ClipOval(
-            child: Image.network(
-              image,
+            child: CachedNetworkImage(
+              imageUrl: image,
               width: 40.w,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
+              errorWidget: (context, error, stackTrace) {
                 return Container(
                   color: Colors.grey,
                   alignment: Alignment.center,

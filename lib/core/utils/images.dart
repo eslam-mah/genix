@@ -40,6 +40,7 @@ class AppGifs {
   static const kLove = 'assets/images/gifs/love.gif';
   static const kLikeReact = 'assets/images/resources/like.gif';
   static const kHeartReact = 'assets/images/resources/love.gif';
+  static const kVerified = 'assets/images/resources/verified.gif';
 }
 
 class AppLotties {

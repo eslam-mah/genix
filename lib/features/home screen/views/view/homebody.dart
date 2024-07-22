@@ -13,6 +13,7 @@ import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts
 import 'package:genix/features/home%20screen/view%20model/get%20stories/get_stories_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/update%20post%20by%20id/update_post_by_id_cubit.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_story_widget.dart';
+import 'package:genix/features/home%20screen/views/widgets/event_item.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -202,7 +203,8 @@ class _HomePageState extends State<HomePage> {
                                 firstPageProgressIndicatorBuilder: (_) =>
                                     FirstPageProgressIndicator(),
                                 newPageProgressIndicatorBuilder: (_) =>
-                                    NewPageProgressIndicator(),
+                                    const Center(
+                                        child: NewPageProgressIndicator()),
                                 noItemsFoundIndicatorBuilder: (_) =>
                                     NoItemsFoundIndicator(),
                                 itemBuilder: (context, item, index) {
@@ -302,7 +304,10 @@ class _HomePageState extends State<HomePage> {
       case PostType.poll:
         return Text('poll'); // Implement poll widget
       case PostType.event:
-        return Text('event'); // Implement event widget
+        return EventItem(
+          isNightModeEnabled: isNightModeEnabled,
+          postsModel: postModel,
+        ); // Implement event widget
       case PostType.link:
         return Text('link'); // Implement link widget
       case PostType.short:

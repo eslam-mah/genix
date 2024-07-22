@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,6 +16,7 @@ import 'package:genix/features/home%20screen/views/widgets/custom_post_component
 import 'package:genix/features/home%20screen/views/widgets/share_bottom_sheet.dart';
 import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
 enum Reaction { cry, cute, angry, laugh, love, sad, surprise, wink, none }
@@ -83,8 +85,19 @@ class _PostItemState extends State<PostItem> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(user.showname ?? 'Unknown User'),
-                            Text('${user.createdAt ?? 'Unknown Date'}')
+                            Row(
+                              children: [
+                                Text(user.showname ?? 'Unknown User'),
+                                if (widget.postsModel.user!.isVerified == true)
+                                  Image.asset(
+                                    AppGifs.kVerified,
+                                    width: 20.w,
+                                  ),
+                              ],
+                            ),
+                            if (user.createdAt != null)
+                              Text(DateFormat('MMMM d, yyyy')
+                                  .format(user.createdAt!))
                           ],
                         ),
                       ),
@@ -113,8 +126,8 @@ class _PostItemState extends State<PostItem> {
                   ClipRRect(
                       borderRadius: BorderRadius.circular(6.r),
                       child: uploads.length == 1
-                          ? Image.network(
-                              uploads.first.fileUrl,
+                          ? CachedNetworkImage(
+                              imageUrl: uploads.first.fileUrl,
                               width: double.infinity,
                               height: 200.h,
                               fit: BoxFit.cover,
@@ -132,7 +145,8 @@ class _PostItemState extends State<PostItem> {
                               itemCount: uploads.length,
                               itemBuilder: (context, index) {
                                 final upload = uploads[index];
-                                return Image.network(upload.fileUrl,
+                                return CachedNetworkImage(
+                                    imageUrl: upload.fileUrl,
                                     fit: BoxFit.cover);
                                 // Handle null URLs
                               },

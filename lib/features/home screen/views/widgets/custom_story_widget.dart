@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/images.dart';
@@ -32,11 +33,11 @@ class CustomStoryWidget extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 27.r,
                       child: ClipOval(
-                        child: Image.network(
-                          storyModel.profileImg ?? '',
+                        child: CachedNetworkImage(
+                          imageUrl: storyModel.profileImg ?? '',
                           width: 60.w,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
+                          errorWidget: (context, error, stackTrace) {
                             return Container(
                               color: Colors.grey,
                               alignment: Alignment.center,

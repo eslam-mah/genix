@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/services/shared_preferences.dart';
+import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 
@@ -28,7 +29,8 @@ class Genix extends StatelessWidget {
               )
             ],
             child: MaterialApp.router(
-              theme: ThemeData.light(),
+              theme: ThemeData.light()
+                  .copyWith(primaryColor: AppColors.kPrimaryColor),
               routerConfig: Rout.router,
               debugShowCheckedModeBanner: false,
             ),
