@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,8 +9,8 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/posts_list.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
-
 import 'package:genix/features/home%20screen/views/widgets/custom_post_components.dart';
 import 'package:genix/features/home%20screen/views/widgets/share_bottom_sheet.dart';
 import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
@@ -112,35 +111,32 @@ class _PostItemState extends State<PostItem> {
                         )
                       : const SizedBox.shrink(),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(6.r),
-                    child: uploads.length == 1
-                        ? Image.network(
-                            uploads.first.fileUrl,
-                            width: double.infinity,
-                            height: 200.h,
-                            fit: BoxFit.cover,
-                          )
-                        : GridView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: uploads.length == 2
-                                  ? 2
-                                  : 3, // Adjust crossAxisCount based on the number of uploads
-                              crossAxisSpacing: 1,
-                              mainAxisSpacing: 1,
-                              childAspectRatio: 1,
-                            ),
-                            itemCount: uploads.length,
-                            itemBuilder: (context, index) {
-                              final upload = uploads[index];
-                              return Image.network(upload.fileUrl,
-                                  fit: BoxFit.cover);
-                              // Handle null URLs
-                            },
-                          ),
-                  ),
+                      borderRadius: BorderRadius.circular(6.r),
+                      child: uploads.length == 1
+                          ? Image.network(
+                              uploads.first.fileUrl,
+                              width: double.infinity,
+                              height: 200.h,
+                              fit: BoxFit.cover,
+                            )
+                          : GridView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: uploads.length,
+                                crossAxisSpacing: 1,
+                                mainAxisSpacing: 1,
+                                childAspectRatio: 1,
+                              ),
+                              itemCount: uploads.length,
+                              itemBuilder: (context, index) {
+                                final upload = uploads[index];
+                                return Image.network(upload.fileUrl,
+                                    fit: BoxFit.cover);
+                                // Handle null URLs
+                              },
+                            )),
                   SizedBox(height: 4.h),
                   Divider(color: Colors.white),
                   SizedBox(height: 4.h),
@@ -209,7 +205,7 @@ class _PostItemState extends State<PostItem> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8.r),
                           ),
-                          child: getReactionIcon(reaction),
+                          child: _getReactionIcon(reaction),
                         ),
                       ),
                       CustomPostComponents(
@@ -283,7 +279,7 @@ class _PostItemState extends State<PostItem> {
     );
   }
 
-  Widget getReactionIcon(Reaction r) {
+  Widget _getReactionIcon(Reaction r) {
     switch (r) {
       case Reaction.cry:
         return Row(

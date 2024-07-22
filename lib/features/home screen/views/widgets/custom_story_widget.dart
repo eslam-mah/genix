@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:genix/core/utils/images.dart';
+
+import 'package:genix/features/home%20screen/data/models/stories_list_model.dart';
 
 class CustomStoryWidget extends StatelessWidget {
   const CustomStoryWidget({
     super.key,
+    required this.storyModel,
   });
-
+  final StoriesListModel storyModel;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,15 +27,30 @@ class CustomStoryWidget extends StatelessWidget {
                   radius: 30.r,
                 ),
                 Positioned(
-                    left: 3,
-                    bottom: 3,
+                    left: 3.w,
+                    bottom: 3.h,
                     child: CircleAvatar(
                       radius: 27.r,
-                      child: Image.asset(AppImages.kMyProfile),
+                      child: ClipOval(
+                        child: Image.network(
+                          storyModel.profileImg ?? '',
+                          width: 60.w,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              color: Colors.grey,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                AppImages.kLogo,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ))
               ],
             ),
-            const Text('userr')
+            Text(storyModel.showname ?? '')
           ],
         ),
       ),

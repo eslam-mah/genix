@@ -12,7 +12,7 @@ final class GetStoriesInitial extends GetStoriesState {}
 final class GetStoriesLoading extends GetStoriesState {}
 
 final class GetStoriesSuccess extends GetStoriesState {
-  final PostsList stories;
+  final StoryList stories;
   const GetStoriesSuccess({required this.stories});
 }
 

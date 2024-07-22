@@ -7,9 +7,12 @@ import 'package:genix/core/default_status_indicators/new_page_progress_indicator
 import 'package:genix/core/default_status_indicators/no_items_found_indicator.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/data.dart';
+import 'package:genix/features/home%20screen/data/models/stories_list_model.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20post/add_post_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts/get_newsfeed_posts_cubit.dart';
+import 'package:genix/features/home%20screen/view%20model/get%20stories/get_stories_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/update%20post%20by%20id/update_post_by_id_cubit.dart';
+import 'package:genix/features/home%20screen/views/widgets/custom_story_widget.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,6 +32,8 @@ import 'package:genix/features/home%20screen/views/widgets/custom_home_appbar.da
 import 'package:genix/features/home%20screen/views/widgets/post_item.dart';
 import 'package:genix/features/home%20screen/views/widgets/story_list.dart';
 
+enum PostType { image, video, poll, link, event, short, content }
+
 class HomePage extends StatefulWidget {
   static const String routeName = '/home_body_page';
   const HomePage({
@@ -44,8 +49,11 @@ class _HomePageState extends State<HomePage> {
   bool isSelected = false;
   final PagingController<int, PostsModel> _pagingController =
       PagingController(firstPageKey: 1);
-  int _nextPagekey = 1;
+  final PagingController<int, StoriesListModel> _storiesPagingController =
+      PagingController(firstPageKey: 1);
+  int _nextPageKey = 1;
   late GetNewsFeedPostsCubit getPostsCubit;
+  late GetStoriesCubit getStoriesCubit;
   bool isNightModeEnabled = false;
 
   @override
@@ -53,10 +61,14 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     isNightModeEnabled = CacheData.getData(key: PrefKeys.kDarkMode) ?? false;
     getPostsCubit = BlocProvider.of<GetNewsFeedPostsCubit>(context);
-
+    getStoriesCubit = BlocProvider.of<GetStoriesCubit>(context);
     _pagingController.addPageRequestListener((page) {
       print('**********PAGEKEY************ $page');
       getPostsCubit.getNewsFeedPosts();
+    });
+    _storiesPagingController.addPageRequestListener((page) {
+      print('**********PAGEKEY************ $page');
+      getStoriesCubit.getStories();
     });
   }
 
@@ -80,13 +92,22 @@ class _HomePageState extends State<HomePage> {
             }
           },
         ),
+        BlocListener<GetStoriesCubit, GetStoriesState>(
+          listener: (context, state) {
+            if (state is GetStoriesSuccess) {
+              print('LENGTH All:: ${state.stories.data.stories.length}');
+              print('RESPONSE:: ${state.stories.data.stories}');
+              _fetchStories(state.stories.data.stories);
+            }
+          },
+        ),
         BlocListener<AddPostCubit, AddPostState>(
           listener: (context, addState) {
             if (addState is AddPostSuccess) {
               List<PostsModel> items = _pagingController.itemList ?? [];
               items.insert(0, addState.post);
               _pagingController.itemList = items;
-              print('adinggggggggggg successssssssss+++');
+              print('adding success');
               setState(() {});
             }
           },
@@ -94,16 +115,14 @@ class _HomePageState extends State<HomePage> {
         BlocListener<UpdatePostByIdCubit, UpdatePostByIdState>(
           listener: (context, updateState) {
             if (updateState is UpdatePostByIdSuccess) {
-              final int? index;
-              index = _pagingController.itemList?.indexWhere((oldPost) {
+              final int? index =
+                  _pagingController.itemList?.indexWhere((oldPost) {
                 return (oldPost.id == updateState.updatePost.id);
               });
-              print('=============---------&&&&&&&&&&------ $index');
-              _pagingController.itemList?.removeAt(index!);
-
-              _pagingController.itemList
-                  ?.insert(index!, updateState.updatePost);
-              setState(() {});
+              if (index != null && index >= 0) {
+                _pagingController.itemList?[index] = updateState.updatePost;
+                setState(() {});
+              }
             }
           },
         )
@@ -156,14 +175,44 @@ class _HomePageState extends State<HomePage> {
             ? const GlowingButtonBody()
             : CustomScrollView(
                 slivers: [
-                  const SliverToBoxAdapter(
+                  SliverToBoxAdapter(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomHeaderWidget(
                           text: 'Newsfeed',
                         ),
-                        StoryList()
+                        SizedBox(
+                          width: double.infinity,
+                          height: 90.h,
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: PagedListView<int, StoriesListModel>(
+                              scrollDirection: Axis.horizontal,
+                              padding: EdgeInsets.zero,
+                              pagingController: _storiesPagingController,
+                              builderDelegate:
+                                  PagedChildBuilderDelegate<StoriesListModel>(
+                                animateTransitions: true,
+                                firstPageErrorIndicatorBuilder: (_) =>
+                                    FirstPageErrorIndicator(
+                                  onTryAgain: () =>
+                                      _storiesPagingController.refresh(),
+                                ),
+                                firstPageProgressIndicatorBuilder: (_) =>
+                                    FirstPageProgressIndicator(),
+                                newPageProgressIndicatorBuilder: (_) =>
+                                    NewPageProgressIndicator(),
+                                noItemsFoundIndicatorBuilder: (_) =>
+                                    NoItemsFoundIndicator(),
+                                itemBuilder: (context, item, index) {
+                                  print('++++++++++ $index');
+                                  return CustomStoryWidget(storyModel: item);
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -183,9 +232,10 @@ class _HomePageState extends State<HomePage> {
                           NoItemsFoundIndicator(),
                       itemBuilder: (context, item, index) {
                         print('++++++++++ $index');
-                        return PostItem(
-                          isNightModeEnabled: isNightModeEnabled,
-                          postsModel: item,
+                        final postTypes = _determinePostTypes(item);
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: _getPostTypeWidgets(postTypes, item),
                         );
                       },
                     ),
@@ -196,6 +246,74 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  List<PostType> _determinePostTypes(PostsModel postModel) {
+    final List<PostType> postTypes = [];
+    if (postModel.uploads != null) {
+      if (postModel.uploads!.any((upload) =>
+          upload.type == "image/png" ||
+          upload.type == "image/jpeg" ||
+          upload.type == "image/webp")) {
+        postTypes.add(PostType.image);
+      }
+      if (postModel.uploads!.any((upload) => upload.type == 'video')) {
+        postTypes.add(PostType.video);
+      }
+    }
+    if (postModel.misc != null && postModel.misc!.poll != null) {
+      if (postModel.misc!.poll != null) {
+        postTypes.add(PostType.poll);
+      }
+    }
+    if (postModel.ogInfo != null) {
+      postTypes.add(PostType.link);
+    }
+    if (postModel.isEvent == true) {
+      postTypes.add(PostType.event);
+    }
+    if (postModel.isVideoShort == true) {
+      postTypes.add(PostType.short);
+    }
+    if (postModel.uploads == null &&
+        postModel.ogInfo == null &&
+        postModel.misc == null) {
+      postTypes.add(PostType.content);
+    }
+    return postTypes;
+  }
+
+  List<Widget> _getPostTypeWidgets(
+      List<PostType> postTypes, PostsModel postModel) {
+    return postTypes
+        .map((postType) => _getPostType(postType, postModel))
+        .toList();
+  }
+
+  Widget _getPostType(PostType postType, PostsModel postModel) {
+    switch (postType) {
+      case PostType.image:
+        print(
+            "_____________________${postModel.misc}___________________________");
+        return PostItem(
+          isNightModeEnabled: isNightModeEnabled,
+          postsModel: postModel,
+        );
+      case PostType.video:
+        return Text('video'); // Implement video widget
+      case PostType.poll:
+        return Text('poll'); // Implement poll widget
+      case PostType.event:
+        return Text('event'); // Implement event widget
+      case PostType.link:
+        return Text('link'); // Implement link widget
+      case PostType.short:
+        return Text('short'); // Implement short video widget
+      case PostType.content:
+        return Text('content'); // Implement content widget
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
   Future<void> _fetchPage(List<PostsModel> postsList) async {
     try {
       final newItems = postsList;
@@ -204,12 +322,29 @@ class _HomePageState extends State<HomePage> {
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
-        _nextPagekey = _nextPagekey + 1;
-        _pagingController.appendPage(newItems, _nextPagekey);
+        _nextPageKey = _nextPageKey + 1;
+        _pagingController.appendPage(newItems, _nextPageKey);
       }
     } catch (error) {
-      print('?????????????? pagination error ${error.toString()}');
+      print('Pagination error: ${error.toString()}');
       _pagingController.error = error;
+    }
+  }
+
+  Future<void> _fetchStories(List<StoriesListModel> storiesList) async {
+    try {
+      final newItems = storiesList;
+      print('fetch:: ${newItems.length}');
+      final isLastPage = newItems.length < 20;
+      if (isLastPage) {
+        _storiesPagingController.appendLastPage(newItems);
+      } else {
+        _nextPageKey = _nextPageKey + 1;
+        _storiesPagingController.appendPage(newItems, _nextPageKey);
+      }
+    } catch (error) {
+      print('Pagination error: ${error.toString()}');
+      _storiesPagingController.error = error;
     }
   }
 }

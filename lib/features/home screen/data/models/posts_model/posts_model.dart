@@ -1,3 +1,4 @@
+import 'package:genix/features/home%20screen/data/models/posts_model/misc.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/uploads.dart';
 
 import 'og_info.dart';
@@ -22,7 +23,7 @@ class PostsModel {
   num? commentsCount;
   num? sharesCount;
   OgInfo? ogInfo;
-  List<dynamic>? misc;
+  Misc? misc;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -79,6 +80,9 @@ class PostsModel {
         ogInfo = json['og_info'] != null
             ? OgInfo.fromJson(json['og_info'] as Map<String, dynamic>)
             : null,
+        misc = json['misc'] is Map<String, dynamic> && json['misc'] != null
+            ? Misc.fromJson(json['misc'] as Map<String, dynamic>)
+            : null,
         // misc = json['misc'] as List<dynamic>?,
         createdAt = json['created_at'] != null
             ? DateTime.parse(json['created_at'] as String)
@@ -114,7 +118,9 @@ class PostsModel {
     if (ogInfo != null) {
       data['og_info'] = ogInfo!.toJson();
     }
-    data['misc'] = misc;
+    if (misc != null) {
+      data['misc'] = misc!.toJson();
+    }
     data['created_at'] = createdAt?.toIso8601String();
     data['updated_at'] = updatedAt?.toIso8601String();
     return data;
