@@ -50,8 +50,8 @@ class _RepliesBodyState extends State<RepliesBody> {
             Expanded(
               child: Column(
                 children: [
-                  CustomCommentBubble(
-                      onTap: focusTextField, commentText: 'commentText'),
+                  // CustomCommentBubble(
+                  //     onTap: focusTextField, commentText: 'commentText'),
                   Expanded(
                     child: RepliesList(
                       replies: replies,

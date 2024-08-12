@@ -18,12 +18,12 @@ class CommentsList extends StatelessWidget {
       itemBuilder: (context, index) {
         return Column(
           children: [
-            CustomCommentBubble(
-              commentText: comments[index],
-              onTap: () {
-                GoRouter.of(context).push(Rout.kReplies);
-              },
-            ),
+            // CustomCommentBubble(
+            //   commentText: comments[index],
+            //   onTap: () {
+            //     GoRouter.of(context).push(Rout.kReplies);
+            //   }, postsModel: '',
+            // ),
             SizedBox(
               height: 10.h,
             ),

@@ -4,8 +4,10 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customimagewidget.dart';
 import 'package:genix/features/followers%20list%20page/views/view/followers_page.dart';
+import 'package:genix/features/profile%20screen/views/view/my_profile_page.dart';
 import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
 import 'package:genix/features/support%20tickets%20screen/views/view/support_tickets_page.dart';
+import 'package:genix/features/video%20shorts%20screen/views/videoshortsbody.dart';
 import 'package:go_router/go_router.dart';
 
 class GlowingButtonBody extends StatelessWidget {
@@ -28,7 +30,7 @@ class GlowingButtonBody extends StatelessWidget {
                 image: AppImages.kMyProfile,
                 text: 'My profile',
                 onTap: () {
-                  GoRouter.of(context).push(Rout.kMyProfile);
+                  GoRouter.of(context).push(MyProfilePage.route);
                 },
                 duration: 200,
               ),
@@ -102,7 +104,7 @@ class GlowingButtonBody extends StatelessWidget {
                 image: AppImages.kVideoShorts,
                 text: 'Video shorts',
                 onTap: () {
-                  GoRouter.of(context).push(Rout.kVideoShorts);
+                  GoRouter.of(context).push(VideoShortsBody.route);
                 },
                 duration: 900,
               ),

@@ -1,3 +1,4 @@
+import 'package:genix/features/comments%20section/data/models/comments_model.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/misc.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/uploads.dart';
 
@@ -19,7 +20,7 @@ class PostsModel {
   bool? isProcessing;
   List<Upload>? uploads;
   List<dynamic>? reactions;
-  List<dynamic>? comments;
+  List<Comment>? comments;
   num? commentsCount;
   num? sharesCount;
   OgInfo? ogInfo;
@@ -74,7 +75,12 @@ class PostsModel {
         //         .map((v) => Reactions.fromJson(v as Map<String, dynamic>))
         //         .toList()
         //     : null,
-        comments = json['comments'] as List<dynamic>?,
+
+        comments = json['comments'] != null && json['comments'] is List<dynamic>
+            ? (json['comments'] as List<dynamic>)
+                .map((v) => Comment.fromJson(v as Map<String, dynamic>))
+                .toList()
+            : null,
         commentsCount = json['comments_count'] as num?,
         sharesCount = json['shares_count'] as num?,
         ogInfo = json['og_info'] != null
@@ -83,7 +89,6 @@ class PostsModel {
         misc = json['misc'] is Map<String, dynamic> && json['misc'] != null
             ? Misc.fromJson(json['misc'] as Map<String, dynamic>)
             : null,
-        // misc = json['misc'] as List<dynamic>?,
         createdAt = json['created_at'] != null
             ? DateTime.parse(json['created_at'] as String)
             : null,

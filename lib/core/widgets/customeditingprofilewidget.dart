@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:genix/core/utils/images.dart';
 
 class CustomUserProfileEditingImage extends StatelessWidget {
   const CustomUserProfileEditingImage({
@@ -12,7 +14,9 @@ class CustomUserProfileEditingImage extends StatelessWidget {
     required this.positionRight,
     required this.icon,
     required this.onTapIcon,
+    required this.imageUrl,
   });
+  final String imageUrl;
   final double size;
   final double whiteSize;
   final double smallSize;
@@ -25,23 +29,36 @@ class CustomUserProfileEditingImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(1000.r),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black,
-                  spreadRadius: 3,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
-                ),
-              ]),
-          child: CircleAvatar(
-            radius: size,
-            backgroundColor: Colors.purple,
-            child: Text(
-              'RA',
-              style: TextStyle(fontSize: fontSize, color: Colors.white),
+        ClipOval(
+          child: Container(
+            width: 80.r,
+            height: 80.r,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              // borderRadius: BorderRadius.circular(1000.r),
+              // boxShadow: const [
+              //   BoxShadow(
+              //     color: Colors.black,
+              //     spreadRadius: 3,
+              //     blurRadius: 7,
+              //     offset: Offset(0, 3),
+              //   ),
+              // ]
+            ),
+            child: CircleAvatar(
+              radius: size,
+              child: CachedNetworkImage(
+                errorWidget: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.white,
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      AppImages.kLogo,
+                    ),
+                  );
+                },
+                imageUrl: imageUrl,
+              ),
             ),
           ),
         ),

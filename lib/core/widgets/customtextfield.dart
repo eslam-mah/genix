@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:genix/core/utils/colors.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
@@ -24,7 +25,12 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         onTap: onTap,
         readOnly: readOnly,
-        decoration: InputDecoration(hintText: hintText),
+        decoration: InputDecoration(
+          hintText: hintText,
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: AppColors.kPrimaryColor),
+          ),
+        ),
       ),
     );
   }

@@ -12,7 +12,7 @@ final class GetMyAccountDetailsInitial extends GetMyAccountDetailsState {}
 final class GetMyAccountDetailsLoading extends GetMyAccountDetailsState {}
 
 final class GetMyAccountDetailsSuccess extends GetMyAccountDetailsState {
-  final SettingsList account;
+  final SettingsModel account;
   const GetMyAccountDetailsSuccess({required this.account});
 }
 

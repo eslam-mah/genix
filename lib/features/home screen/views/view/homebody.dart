@@ -12,8 +12,12 @@ import 'package:genix/features/home%20screen/view%20model/add%20post/add_post_cu
 import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts/get_newsfeed_posts_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20stories/get_stories_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/update%20post%20by%20id/update_post_by_id_cubit.dart';
+import 'package:genix/features/home%20screen/views/widgets/content_post_item.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_story_widget.dart';
 import 'package:genix/features/home%20screen/views/widgets/event_item.dart';
+import 'package:genix/features/home%20screen/views/widgets/link_post_item.dart';
+import 'package:genix/features/home%20screen/views/widgets/poll_post_item.dart';
+import 'package:genix/features/home%20screen/views/widgets/video_post_item.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -50,6 +54,7 @@ class _HomePageState extends State<HomePage> {
   bool isSelected = false;
   final PagingController<int, PostsModel> _pagingController =
       PagingController(firstPageKey: 1);
+
   final PagingController<int, StoriesListModel> _storiesPagingController =
       PagingController(firstPageKey: 1);
   int _nextPageKey = 1;
@@ -174,75 +179,93 @@ class _HomePageState extends State<HomePage> {
         ),
         body: isSelected
             ? const GlowingButtonBody()
-            : CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomHeaderWidget(
-                          text: 'Newsfeed',
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 90.h,
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: PagedListView<int, StoriesListModel>(
-                              scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.zero,
-                              pagingController: _storiesPagingController,
-                              builderDelegate:
-                                  PagedChildBuilderDelegate<StoriesListModel>(
-                                animateTransitions: true,
-                                firstPageErrorIndicatorBuilder: (_) =>
-                                    FirstPageErrorIndicator(
-                                  onTryAgain: () =>
-                                      _storiesPagingController.refresh(),
-                                ),
-                                firstPageProgressIndicatorBuilder: (_) =>
-                                    FirstPageProgressIndicator(),
-                                newPageProgressIndicatorBuilder: (_) =>
-                                    const Center(
-                                        child: NewPageProgressIndicator()),
-                                noItemsFoundIndicatorBuilder: (_) =>
-                                    NoItemsFoundIndicator(),
-                                itemBuilder: (context, item, index) {
-                                  print('++++++++++ $index');
-                                  return CustomStoryWidget(storyModel: item);
-                                },
+            : RefreshIndicator(
+                color: AppColors.kPrimaryColor,
+                onRefresh: () => Future.sync(
+                  () {
+                    setState(() {
+                      _nextPageKey = 1;
+                    });
+                    _pagingController.refresh();
+                  },
+                ),
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: BlocBuilder<GetStoriesCubit, GetStoriesState>(
+                        builder: (context, state) {
+                          final hasStories = state is GetStoriesSuccess &&
+                              state.stories.data.stories.isNotEmpty;
+                          return Column(
+                            children: [
+                              CustomHeaderWidget(
+                                text: 'Newsfeed',
                               ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  PagedSliverList<int, PostsModel>(
-                    pagingController: _pagingController,
-                    builderDelegate: PagedChildBuilderDelegate<PostsModel>(
-                      animateTransitions: true,
-                      firstPageErrorIndicatorBuilder: (_) =>
-                          FirstPageErrorIndicator(
-                        onTryAgain: () => _pagingController.refresh(),
+                              SizedBox(
+                                width: double.infinity,
+                                height: hasStories ? 90.h : 0,
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: PagedListView<int, StoriesListModel>(
+                                    scrollDirection: Axis.horizontal,
+                                    padding: EdgeInsets.zero,
+                                    pagingController: _storiesPagingController,
+                                    builderDelegate: PagedChildBuilderDelegate<
+                                        StoriesListModel>(
+                                      animateTransitions: true,
+                                      firstPageErrorIndicatorBuilder: (_) =>
+                                          FirstPageErrorIndicator(
+                                        onTryAgain: () =>
+                                            _storiesPagingController.refresh(),
+                                      ),
+                                      firstPageProgressIndicatorBuilder: (_) =>
+                                          FirstPageProgressIndicator(),
+                                      newPageProgressIndicatorBuilder: (_) =>
+                                          const Center(
+                                              child:
+                                                  NewPageProgressIndicator()),
+                                      noItemsFoundIndicatorBuilder: (_) =>
+                                          SizedBox.shrink(),
+                                      itemBuilder: (context, item, index) {
+                                        print('++++++++++ $index');
+                                        return CustomStoryWidget(
+                                            storyModel: item);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
-                      firstPageProgressIndicatorBuilder: (_) =>
-                          FirstPageProgressIndicator(),
-                      newPageProgressIndicatorBuilder: (_) =>
-                          const NewPageProgressIndicator(),
-                      noItemsFoundIndicatorBuilder: (_) =>
-                          NoItemsFoundIndicator(),
-                      itemBuilder: (context, item, index) {
-                        print('++++++++++ $index');
-                        final postTypes = _determinePostTypes(item);
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: _getPostTypeWidgets(postTypes, item),
-                        );
-                      },
                     ),
-                  ),
-                ],
+                    PagedSliverList<int, PostsModel>(
+                      pagingController: _pagingController,
+                      builderDelegate: PagedChildBuilderDelegate<PostsModel>(
+                        animateTransitions: true,
+                        firstPageErrorIndicatorBuilder: (_) =>
+                            FirstPageErrorIndicator(
+                          onTryAgain: () => _pagingController.refresh(),
+                        ),
+                        firstPageProgressIndicatorBuilder: (_) =>
+                            FirstPageProgressIndicator(),
+                        newPageProgressIndicatorBuilder: (_) =>
+                            const NewPageProgressIndicator(),
+                        noItemsFoundIndicatorBuilder: (_) =>
+                            NoItemsFoundIndicator(),
+                        itemBuilder: (context, item, index) {
+                          print('++++++++++ $index');
+                          final postTypes = _determinePostTypes(item);
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: _getPostTypeWidgets(postTypes, item),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
       ),
     );
@@ -300,20 +323,27 @@ class _HomePageState extends State<HomePage> {
           postsModel: postModel,
         );
       case PostType.video:
-        return Text('video'); // Implement video widget
+        return VideoPostItem(
+            isNightModeEnabled: isNightModeEnabled,
+            postsModel: postModel); // Implement video widget
       case PostType.poll:
-        return Text('poll'); // Implement poll widget
+        return PollPostItem(
+            isNightModeEnabled: isNightModeEnabled,
+            postsModel: postModel); // Implement poll widget
       case PostType.event:
         return EventItem(
           isNightModeEnabled: isNightModeEnabled,
           postsModel: postModel,
         ); // Implement event widget
       case PostType.link:
-        return Text('link'); // Implement link widget
+        return LinkPostItem(
+            isNightModeEnabled: isNightModeEnabled, postsModel: postModel);
       case PostType.short:
         return Text('short'); // Implement short video widget
       case PostType.content:
-        return Text('content'); // Implement content widget
+        return ContentPostItem(
+            isNightModeEnabled: isNightModeEnabled,
+            postsModel: postModel); // Implement content widget
       default:
         return const SizedBox.shrink();
     }

@@ -1,26 +1,19 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
-import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/posts_list.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
-import 'package:genix/features/home%20screen/views/widgets/custom_post_components.dart';
 import 'package:genix/features/home%20screen/views/widgets/event_widget.dart';
-import 'package:genix/features/home%20screen/views/widgets/share_bottom_sheet.dart';
 import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
+import 'package:genix/features/profile%20screen/views/view/profile_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
-
-enum Reaction { cry, cute, angry, laugh, love, sad, surprise, wink, none }
+import 'package:html/parser.dart' show parse; // Add this import
 
 class EventItem extends StatefulWidget {
   const EventItem({
@@ -36,16 +29,21 @@ class EventItem extends StatefulWidget {
 }
 
 class _EventItemState extends State<EventItem> {
-  Reaction reaction = Reaction.none;
   bool reactionView = false;
   bool isVideo = false;
   bool isPoll = false;
   int reactNum = 0;
+  String _removeHtmlTags(String htmlString) {
+    final document = parse(htmlString);
+    return document.body?.text ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = widget.postsModel.user;
-
+    final content = widget.postsModel.content != null
+        ? _removeHtmlTags(widget.postsModel.content!)
+        : '';
     if (user == null) {
       return Container();
     }
@@ -65,9 +63,16 @@ class _EventItemState extends State<EventItem> {
                 children: [
                   Row(
                     children: [
-                      CustomUserProfileImage(
-                        image: user.profileImg ?? '',
-                        isActive: user.isActive ?? false,
+                      InkWell(
+                        onTap: () {
+                          GoRouter.of(context).push(ProfilePage.route,
+                              extra: widget.postsModel);
+                        },
+                        borderRadius: BorderRadius.circular(400.r),
+                        child: CustomUserProfileImage(
+                          image: user.profileImg ?? '',
+                          isActive: user.isActive ?? false,
+                        ),
                       ),
                       SizedBox(width: 10.w),
                       Expanded(
@@ -86,7 +91,7 @@ class _EventItemState extends State<EventItem> {
                             ),
                             if (user.createdAt != null)
                               Text(DateFormat('MMMM d, yyyy')
-                                  .format(user.createdAt!))
+                                  .format(widget.postsModel.createdAt!))
                           ],
                         ),
                       ),
@@ -102,12 +107,15 @@ class _EventItemState extends State<EventItem> {
                   widget.postsModel.content != null
                       ? Column(
                           children: [
-                            CustomTextWidget(
-                                textSize: 15.sp,
-                                fontFamily: '',
-                                fontWeight: FontWeight.normal,
-                                color: Colors.black,
-                                text: widget.postsModel.content ?? ''),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: CustomTextWidget(
+                                  textSize: 15.sp,
+                                  fontFamily: '',
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black,
+                                  text: content),
+                            ),
                             SizedBox(height: 7.h),
                           ],
                         )

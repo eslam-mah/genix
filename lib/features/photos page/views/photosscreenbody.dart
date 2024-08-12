@@ -12,7 +12,8 @@ import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
-import 'package:genix/features/photos%20page/widgets/photos_grid_view.dart';
+import 'package:genix/features/photos%20page/widgets/photos_List_view.dart';
+import 'package:genix/features/profile%20screen/data/profile_model/profile_model.dart';
 
 class PhotosScreenBody extends StatefulWidget {
   const PhotosScreenBody({super.key});

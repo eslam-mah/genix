@@ -12,7 +12,7 @@ import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
-import 'package:genix/features/videos%20page/widgets/videos_grid_view.dart';
+import 'package:genix/features/videos%20page/widgets/videos_list_view.dart';
 
 class VideosScreenBody extends StatefulWidget {
   const VideosScreenBody({super.key});

@@ -4,8 +4,16 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 
 class ProfilesCard extends StatelessWidget {
+  final String imageUrl;
+  final String userName;
+  final String userBio;
+  final bool isActive;
   const ProfilesCard({
     super.key,
+    required this.imageUrl,
+    required this.userName,
+    required this.userBio,
+    required this.isActive,
   });
 
   @override
@@ -27,9 +35,9 @@ class ProfilesCard extends StatelessWidget {
               SizedBox(
                 width: 12.w,
               ),
-              const CustomUserProfileImage(
-                image: '',
-                isActive: true,
+              CustomUserProfileImage(
+                image: imageUrl,
+                isActive: isActive,
               ),
               SizedBox(
                 width: 15.w,
@@ -40,11 +48,11 @@ class ProfilesCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'user name',
+                      userName,
                       style: TextStyle(fontSize: 15.sp),
                     ),
                     Text(
-                      'hey iam using genix it is the best social media website ever ',
+                      userBio,
                       style: TextStyle(fontSize: 11.sp),
                     )
                   ],

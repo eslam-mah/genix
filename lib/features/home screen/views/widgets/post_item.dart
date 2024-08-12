@@ -10,14 +10,17 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
+import 'package:genix/features/comments%20section/views/view/commentsbody.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_list.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_post_components.dart';
 import 'package:genix/features/home%20screen/views/widgets/share_bottom_sheet.dart';
 import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
+import 'package:genix/features/profile%20screen/views/view/profile_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:html/parser.dart' show parse;
 
 enum Reaction { cry, cute, angry, laugh, love, sad, surprise, wink, none }
 
@@ -41,6 +44,11 @@ class _PostItemState extends State<PostItem> {
   bool isPoll = false;
   int reactNum = 0;
 
+  String _removeHtmlTags(String htmlString) {
+    final document = parse(htmlString);
+    return document.body?.text ?? '';
+  }
+
   final List<dynamic> reactions = [
     ReactionElement(Lottie.asset(AppLotties.kLaughReact), Reaction.laugh),
     ReactionElement(Lottie.asset(AppLotties.kSadReact), Reaction.sad),
@@ -52,11 +60,31 @@ class _PostItemState extends State<PostItem> {
     ReactionElement(Lottie.asset(AppLotties.kCute), Reaction.cute),
   ];
 
+  void _showImagePreview(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        child: Container(
+          width: double.infinity,
+          height: 520.h,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: CachedNetworkImageProvider(imageUrl),
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = widget.postsModel.user;
     final uploads = widget.postsModel.uploads;
-
+    final content = widget.postsModel.content != null
+        ? _removeHtmlTags(widget.postsModel.content!)
+        : '';
     if (user == null || uploads == null || uploads.isEmpty) {
       return Container(); // Return an empty container or a placeholder if the data is invalid
     }
@@ -76,9 +104,16 @@ class _PostItemState extends State<PostItem> {
                 children: [
                   Row(
                     children: [
-                      CustomUserProfileImage(
-                        image: user.profileImg ?? '',
-                        isActive: user.isActive ?? false,
+                      InkWell(
+                        onTap: () {
+                          GoRouter.of(context).push(ProfilePage.route,
+                              extra: widget.postsModel);
+                        },
+                        borderRadius: BorderRadius.circular(400.r),
+                        child: CustomUserProfileImage(
+                          image: user.profileImg ?? '',
+                          isActive: user.isActive ?? false,
+                        ),
                       ),
                       SizedBox(width: 10.w),
                       Expanded(
@@ -97,7 +132,7 @@ class _PostItemState extends State<PostItem> {
                             ),
                             if (user.createdAt != null)
                               Text(DateFormat('MMMM d, yyyy')
-                                  .format(user.createdAt!))
+                                  .format(widget.postsModel.createdAt!))
                           ],
                         ),
                       ),
@@ -113,44 +148,58 @@ class _PostItemState extends State<PostItem> {
                   widget.postsModel.content != null
                       ? Column(
                           children: [
-                            CustomTextWidget(
-                                textSize: 15.sp,
-                                fontFamily: '',
-                                fontWeight: FontWeight.normal,
-                                color: Colors.black,
-                                text: widget.postsModel.content ?? ''),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: CustomTextWidget(
+                                  textSize: 15.sp,
+                                  fontFamily: '',
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black,
+                                  text: content),
+                            ),
                             SizedBox(height: 7.h),
                           ],
                         )
                       : const SizedBox.shrink(),
                   ClipRRect(
-                      borderRadius: BorderRadius.circular(6.r),
-                      child: uploads.length == 1
-                          ? CachedNetworkImage(
+                    borderRadius: BorderRadius.circular(6.r),
+                    child: uploads.length == 1
+                        ? GestureDetector(
+                            onTap: () {
+                              _showImagePreview(context, uploads.first.fileUrl);
+                            },
+                            child: CachedNetworkImage(
                               imageUrl: uploads.first.fileUrl,
                               width: double.infinity,
                               height: 200.h,
                               fit: BoxFit.cover,
-                            )
-                          : GridView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: uploads.length,
-                                crossAxisSpacing: 1,
-                                mainAxisSpacing: 1,
-                                childAspectRatio: 1,
-                              ),
-                              itemCount: uploads.length,
-                              itemBuilder: (context, index) {
-                                final upload = uploads[index];
-                                return CachedNetworkImage(
-                                    imageUrl: upload.fileUrl,
-                                    fit: BoxFit.cover);
-                                // Handle null URLs
-                              },
-                            )),
+                            ),
+                          )
+                        : GridView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: uploads.length,
+                              crossAxisSpacing: 1,
+                              mainAxisSpacing: 1,
+                              childAspectRatio: 1,
+                            ),
+                            itemCount: uploads.length,
+                            itemBuilder: (context, index) {
+                              final upload = uploads[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  _showImagePreview(context, upload.fileUrl);
+                                },
+                                child: CachedNetworkImage(
+                                  imageUrl: upload.fileUrl,
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+                            },
+                          ),
+                  ),
                   SizedBox(height: 4.h),
                   Divider(color: Colors.white),
                   SizedBox(height: 4.h),
@@ -224,13 +273,16 @@ class _PostItemState extends State<PostItem> {
                       ),
                       CustomPostComponents(
                         icon: FontAwesomeIcons.solidComment,
+                        width: 100.w,
                         text: 'Comment',
                         ontap: () {
-                          GoRouter.of(context).push(Rout.kComments);
+                          GoRouter.of(context).push(CommentsBody.routeName,
+                              extra: widget.postsModel);
                         },
                       ),
                       CustomPostComponents(
                         icon: FontAwesomeIcons.share,
+                        width: 100.w,
                         text: 'Share',
                         ontap: () {
                           shareBottomSheet(context);

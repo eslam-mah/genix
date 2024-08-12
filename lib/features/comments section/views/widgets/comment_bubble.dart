@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
-
 import 'package:genix/core/widgets/customuserprofileimage.dart';
-
+import 'package:genix/features/comments%20section/data/models/comments_model.dart';
 import 'package:lottie/lottie.dart';
+import 'package:html/parser.dart' show parse;
+import 'package:timeago/timeago.dart' as timeago;
 
 enum Reaction {
   cry,
@@ -18,8 +18,7 @@ enum Reaction {
   sad,
   surprise,
   wink,
-  like,
-  heart,
+
   none
 }
 
@@ -27,10 +26,12 @@ class CustomCommentBubble extends StatefulWidget {
   const CustomCommentBubble({
     super.key,
     required this.onTap,
-    required this.commentText,
+    // required this.commentText,
+    required this.postsModel,
   });
   final Function() onTap;
-  final String commentText;
+  // final String commentText;
+  final Comment postsModel;
   @override
   State<CustomCommentBubble> createState() => _CustomCommentBubbleState();
 }
@@ -40,12 +41,12 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
   bool reactionView = false;
   bool isReacted = false;
   int reactNum = 0;
+  String _removeHtmlTags(String htmlString) {
+    final document = parse(htmlString);
+    return document.body?.text ?? '';
+  }
 
   final List<dynamic> reactions = [
-    ReactionElement2(
-        Image.asset(AppGifs.kLikeReact, height: 30.h), Reaction.like),
-    ReactionElement2(
-        Image.asset(AppGifs.kHeartReact, height: 30.h), Reaction.heart),
     ReactionElement(Lottie.asset(AppLotties.kLaughReact), Reaction.laugh),
     ReactionElement(Lottie.asset(AppLotties.kSadReact), Reaction.sad),
     ReactionElement(Lottie.asset(AppLotties.kWowReact), Reaction.surprise),
@@ -57,139 +58,341 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
   ];
   @override
   Widget build(BuildContext context) {
+    final content = widget.postsModel.content != null
+        ? _removeHtmlTags(widget.postsModel.content!)
+        : '';
+    if (widget.postsModel.user == null || widget.postsModel.content == null) {
+      return Container();
+    }
+    final relativeTime = timeago.format(widget.postsModel.createdAt!);
+    final replies = widget.postsModel.commentId;
     return Stack(
-      children: [
-        Column(
-          children: [
-            Row(
-              children: [
-                const CustomUserProfileImage(image: '', isActive: true),
-                SizedBox(width: 15.w),
-                Flexible(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: AppColors.kAppBar2Color,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Name'),
-                              Text('1 day ago'),
-                            ],
+      children: replies != null
+          ? [
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(width: 60.w),
+                      CustomUserProfileImage(
+                          image: widget.postsModel.user?.profileImg ?? '',
+                          isActive: widget.postsModel.user?.isActive ?? false),
+                      SizedBox(width: 15.w),
+                      Flexible(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.kAppBar2Color,
                           ),
-                          Text(
-                            widget.commentText,
-                            style: TextStyle(fontSize: 14.sp),
-                            textAlign: TextAlign.start,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            widget.postsModel.user!.showname ??
+                                                '',
+                                            style: TextStyle(fontSize: 12.sp),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                          if (widget.postsModel.user!
+                                                  .isVerified ==
+                                              true)
+                                            Image.asset(
+                                              AppGifs.kVerified,
+                                              width: 20.w,
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                    Text(
+                                      relativeTime,
+                                      style: TextStyle(fontSize: 12.sp),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
+                                ),
+                                if (content.isEmpty)
+                                  Image.asset(
+                                    AppImages.kLogo,
+                                    width: 20.r,
+                                  ),
+                                Text(
+                                  content,
+                                  style: TextStyle(fontSize: 14.sp),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              children: [
-                SizedBox(width: 60.w),
-                InkWell(
-                    onTap: () {
-                      if (reactionView) {
-                        reactionView = false;
-                      } else {
-                        if (reaction == Reaction.none) {
-                          reaction = Reaction.like;
-                          reactNum++;
-                          isReacted = true;
-                        } else {
-                          reaction = Reaction.none;
-                          if (reactNum > 0) {
-                            reactNum--;
-                          }
-                          isReacted = false;
-                        }
-                      }
-                      setState(() {});
-                    },
-                    onLongPress: () {
-                      setState(() {
-                        reactionView = true;
-                      });
-                    },
-                    child: getReactionText(reaction)),
-                SizedBox(width: 30.w),
-                InkWell(onTap: widget.onTap, child: const Text('Reply'))
-              ],
-            ),
-          ],
-        ),
-        if (reactionView)
-          Positioned(
-            bottom: 20.h,
-            left: 50.w,
-            child: Container(
-                height: 60.h,
-                width: 300.w,
-                decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.8),
-                    borderRadius: BorderRadius.circular(50.r)),
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: reactions.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      duration: const Duration(milliseconds: 375),
-                      child: SlideAnimation(
-                        verticalOffset: 15 + index + 15,
-                        child: FadeInAnimation(
-                            child: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (reactionView &&
-                                  reaction != reactions[index].reaction) {
-                                if (reaction != Reaction.none) {
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(width: 120.w),
+                      InkWell(
+                          onTap: () {
+                            if (reactionView) {
+                              reactionView = false;
+                            } else {
+                              if (reaction == Reaction.none) {
+                                reaction = Reaction.love;
+                                reactNum++;
+                                isReacted = true;
+                              } else {
+                                reaction = Reaction.none;
+                                if (reactNum > 0) {
                                   reactNum--;
                                 }
-                                reaction = reactions[index].reaction;
-                                reactNum++;
-                              } else if (reaction ==
-                                  reactions[index].reaction) {
-                                reaction = Reaction.none;
-                                reactNum--;
+                                isReacted = false;
                               }
-                              reactionView = false;
-                              isReacted = reaction != Reaction.none;
+                            }
+                            setState(() {});
+                          },
+                          onLongPress: () {
+                            setState(() {
+                              reactionView = true;
                             });
                           },
-                          icon: reactions[index].image,
-                        )),
+                          child: getReactionText(reaction)),
+                      SizedBox(width: 30.w),
+                      InkWell(onTap: widget.onTap, child: const Text('Reply'))
+                    ],
+                  ),
+                ],
+              ),
+              if (reactionView)
+                Positioned(
+                  bottom: 20.h,
+                  left: 50.w,
+                  child: Container(
+                      height: 60.h,
+                      width: 300.w,
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(50.r)),
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: reactions.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: const Duration(milliseconds: 375),
+                            child: SlideAnimation(
+                              verticalOffset: 15 + index + 15,
+                              child: FadeInAnimation(
+                                  child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (reactionView &&
+                                        reaction != reactions[index].reaction) {
+                                      if (reaction != Reaction.none) {
+                                        reactNum--;
+                                      }
+                                      reaction = reactions[index].reaction;
+                                      reactNum++;
+                                    } else if (reaction ==
+                                        reactions[index].reaction) {
+                                      reaction = Reaction.none;
+                                      reactNum--;
+                                    }
+                                    reactionView = false;
+                                    isReacted = reaction != Reaction.none;
+                                  });
+                                },
+                                icon: reactions[index].image,
+                              )),
+                            ),
+                          );
+                        },
+                      )),
+                ),
+              if (isReacted)
+                Positioned(
+                    bottom: 25,
+                    right: 20,
+                    child: Container(
+                      width: 50.w,
+                      height: 20.h,
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 239, 232, 232),
+                          borderRadius: BorderRadius.circular(10.r)),
+                      child: getReactionIcon(reaction),
+                    ))
+            ]
+          : [
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      CustomUserProfileImage(
+                          image: widget.postsModel.user?.profileImg ?? '',
+                          isActive: widget.postsModel.user?.isActive ?? false),
+                      SizedBox(width: 15.w),
+                      Flexible(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.kAppBar2Color,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            widget.postsModel.user!.showname ??
+                                                '',
+                                            style: TextStyle(fontSize: 12.sp),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                          if (widget.postsModel.user!
+                                                  .isVerified ==
+                                              true)
+                                            Image.asset(
+                                              AppGifs.kVerified,
+                                              width: 20.w,
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                    Text(
+                                      relativeTime,
+                                      style: TextStyle(fontSize: 12.sp),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
+                                ),
+                                if (content.isEmpty)
+                                  Image.asset(
+                                    AppImages.kLogo,
+                                    width: 20.r,
+                                  ),
+                                Text(
+                                  content,
+                                  style: TextStyle(fontSize: 14.sp),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                    );
-                  },
-                )),
-          ),
-        if (isReacted)
-          Positioned(
-              bottom: 25,
-              right: 20,
-              child: Container(
-                width: 50.w,
-                height: 20.h,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 239, 232, 232),
-                    borderRadius: BorderRadius.circular(10.r)),
-                child: getReactionIcon(reaction),
-              ))
-      ],
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(width: 60.w),
+                      InkWell(
+                          onTap: () {
+                            if (reactionView) {
+                              reactionView = false;
+                            } else {
+                              if (reaction == Reaction.none) {
+                                reaction = Reaction.love;
+                                reactNum++;
+                                isReacted = true;
+                              } else {
+                                reaction = Reaction.none;
+                                if (reactNum > 0) {
+                                  reactNum--;
+                                }
+                                isReacted = false;
+                              }
+                            }
+                            setState(() {});
+                          },
+                          onLongPress: () {
+                            setState(() {
+                              reactionView = true;
+                            });
+                          },
+                          child: getReactionText(reaction)),
+                      SizedBox(width: 30.w),
+                      InkWell(onTap: widget.onTap, child: const Text('Reply'))
+                    ],
+                  ),
+                ],
+              ),
+              if (reactionView)
+                Positioned(
+                  bottom: 20.h,
+                  left: 50.w,
+                  child: Container(
+                      height: 60.h,
+                      width: 300.w,
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(50.r)),
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: reactions.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: const Duration(milliseconds: 375),
+                            child: SlideAnimation(
+                              verticalOffset: 15 + index + 15,
+                              child: FadeInAnimation(
+                                  child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (reactionView &&
+                                        reaction != reactions[index].reaction) {
+                                      if (reaction != Reaction.none) {
+                                        reactNum--;
+                                      }
+                                      reaction = reactions[index].reaction;
+                                      reactNum++;
+                                    } else if (reaction ==
+                                        reactions[index].reaction) {
+                                      reaction = Reaction.none;
+                                      reactNum--;
+                                    }
+                                    reactionView = false;
+                                    isReacted = reaction != Reaction.none;
+                                  });
+                                },
+                                icon: reactions[index].image,
+                              )),
+                            ),
+                          );
+                        },
+                      )),
+                ),
+              if (isReacted)
+                Positioned(
+                    bottom: 25,
+                    right: 20,
+                    child: Container(
+                      width: 50.w,
+                      height: 20.h,
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 239, 232, 232),
+                          borderRadius: BorderRadius.circular(10.r)),
+                      child: getReactionIcon(reaction),
+                    ))
+            ],
     );
   }
 
@@ -230,22 +433,7 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [Lottie.asset(AppLotties.kWinkReact), Text('$reactNum')],
         );
-      case Reaction.like:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image.asset(AppGifs.kLikeReact, height: 15.h),
-            Text('$reactNum'),
-          ],
-        );
-      case Reaction.heart:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image.asset(AppGifs.kHeartReact, height: 15.h),
-            Text('$reactNum')
-          ],
-        );
+
       case Reaction.love:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -293,16 +481,6 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
           'Wink',
           style: TextStyle(color: Colors.blue),
         );
-      case Reaction.like:
-        return const Text(
-          'Like',
-          style: TextStyle(color: Colors.blue),
-        );
-      case Reaction.heart:
-        return const Text(
-          'Heart',
-          style: TextStyle(color: Colors.blue),
-        );
 
       case Reaction.love:
         return const Text(
@@ -322,10 +500,4 @@ class ReactionElement {
   final Reaction reaction;
   final LottieBuilder image;
   ReactionElement(this.image, this.reaction);
-}
-
-class ReactionElement2 {
-  final Reaction reaction;
-  final Image image;
-  ReactionElement2(this.image, this.reaction);
 }

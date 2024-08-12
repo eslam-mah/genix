@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/widgets/profilescard.dart';
+import 'package:genix/features/profile%20screen/data/profile_model/profile_model.dart';
 
 class FollowingsListView extends StatelessWidget {
   const FollowingsListView({
     super.key,
     required this.height,
+    required this.profileModel,
   });
   final double height;
+  final ProfileModel profileModel;
   @override
   Widget build(BuildContext context) {
+    final profile = profileModel.data?.followingCollection ?? [];
+    if (profile.isEmpty) {
+      return Container();
+    }
     return SizedBox(
-        height: height,
+        height: profile.length == 1 ? 60.h : height,
         child: ListView.builder(
-            itemCount: 2,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: profile.length > 2 ? 2 : profile.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 6.h),
-                child: const ProfilesCard(),
+                child: ProfilesCard(
+                  imageUrl: profile[index].user?.profileImg ?? '',
+                  userName: profile[index].user?.showname ?? '',
+                  userBio: profile[index].user?.bio ?? '',
+                  isActive: profile[index].user?.isActive ?? false,
+                ),
               );
             }));
   }

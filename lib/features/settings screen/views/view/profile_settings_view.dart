@@ -9,7 +9,7 @@ import 'package:genix/core/widgets/bigtextfield.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 import 'package:genix/core/widgets/customtextfield2.dart';
-import 'package:genix/features/my%20profile%20screen/widgets/edit_profile_pic.dart';
+import 'package:genix/features/profile%20screen/views/widgets/edit_profile_pic.dart';
 
 class ProfileSettingsBody extends StatefulWidget {
   const ProfileSettingsBody({

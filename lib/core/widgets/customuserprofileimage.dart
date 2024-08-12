@@ -4,13 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/images.dart';
 
 class CustomUserProfileImage extends StatelessWidget {
-  const CustomUserProfileImage({
-    super.key,
-    required this.image,
-    required this.isActive,
-  });
+  const CustomUserProfileImage(
+      {super.key, required this.image, required this.isActive, r});
   final String image;
   final bool isActive;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -24,7 +22,7 @@ class CustomUserProfileImage extends StatelessWidget {
               fit: BoxFit.cover,
               errorWidget: (context, error, stackTrace) {
                 return Container(
-                  color: Colors.grey,
+                  color: Colors.white,
                   alignment: Alignment.center,
                   child: Image.asset(
                     AppImages.kLogo,

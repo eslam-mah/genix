@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  appinio_video_player: ^1.3.0
   cached_network_image: ^3.3.1
   country_picker: ^2.0.25
   cupertino_icons: ^1.0.6
@@ -37,17 +38,22 @@ dependencies:
     sdk: flutter
   flutter_animate: ^4.5.0
   flutter_bloc: ^8.1.5
+  flutter_polls: ^0.1.6
   flutter_screenutil: ^5.9.0
   flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.0.10+1
   font_awesome_flutter: ^10.7.0
   go_router: ^13.2.2
+  html: ^0.15.4
   infinite_scroll_pagination: ^4.0.0
   intl: ^0.19.0
   lottie: ^3.1.0
   mime: ^1.0.5
   modal_progress_hud_nsn: ^0.5.1
   shared_preferences: ^2.2.3
+  shimmer: ^3.0.0
+  timeago: ^3.7.0
+  url_launcher: ^6.3.0
   video_player: ^2.6.0
 
 dev_dependencies:

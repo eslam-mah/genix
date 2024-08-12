@@ -9,7 +9,6 @@ import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customiconbutton.dart';
 import 'package:genix/features/home%20screen/views/view/homebody.dart';
 import 'package:genix/features/login%20screen/view_model/log_in_cubit/log_in_cubit.dart';
-import 'package:genix/features/users/data/models/user_model.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';

@@ -12,7 +12,7 @@ import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
-import 'package:genix/features/groups%20page/widgets/groups_gridview.dart';
+import 'package:genix/features/groups%20page/widgets/groups_list_view.dart';
 
 class GroupsScreenBody extends StatefulWidget {
   const GroupsScreenBody({super.key});

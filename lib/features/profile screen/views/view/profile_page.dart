@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
-
 import 'package:genix/core/widgets/blockeduserslistview.dart';
 import 'package:genix/core/widgets/customappbar.dart';
 import 'package:genix/core/widgets/custombottomappbar.dart';
@@ -10,27 +10,27 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 import 'package:genix/core/widgets/followingslistview.dart';
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
-
 import 'package:genix/core/widgets/restricteduserslistview.dart';
-import 'package:genix/core/widgets/savedphotosandvideosview.dart';
-import 'package:genix/core/widgets/shortsgridview.dart';
+import 'package:genix/core/widgets/saved_shorts.dart';
+import 'package:genix/core/widgets/shorts_list_view.dart';
 import 'package:genix/features/followers%20list%20page/views/widgets/followers_list_view.dart';
-import 'package:genix/features/groups%20page/widgets/groups_gridview.dart';
-import 'package:genix/features/my%20profile%20screen/widgets/custom_icon_listview.dart';
-import 'package:genix/features/my%20profile%20screen/widgets/custom_profile_header.dart';
+import 'package:genix/features/groups%20page/widgets/groups_list_view.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
+import 'package:genix/features/profile%20screen/view%20model/get%20profile/get_profile_cubit.dart';
+import 'package:genix/features/profile%20screen/views/widgets/custom_icon_listview.dart';
+import 'package:genix/features/profile%20screen/views/widgets/custom_profile_header.dart';
+import 'package:genix/features/photos%20page/widgets/photos_List_view.dart';
+import 'package:genix/features/profile%20screen/views/widgets/recent_posts_list.dart';
 
-import 'package:genix/features/photos%20page/widgets/photos_grid_view.dart';
-import 'package:genix/features/videos%20page/widgets/videos_grid_view.dart';
-
-class ProfilePageArgs {
-  const ProfilePageArgs();
-}
+import 'package:genix/features/videos%20page/widgets/videos_list_view.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key, required this.args});
+  const ProfilePage({
+    super.key,
+    required this.postsModel,
+  });
+  final PostsModel postsModel;
   static const String route = '/profile';
-  final ProfilePageArgs args;
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
@@ -48,6 +48,14 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    context
+        .read<GetProfileCubit>()
+        .getProfile(profileName: widget.postsModel.user?.username ?? '');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: isSelected ? AppColors.kAppBar2Color : Colors.white,
@@ -61,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
               isNightMode: isNightModeEnabled,
             ),
             Positioned(
-                bottom: 20,
+                bottom: 20.h,
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
@@ -93,14 +101,34 @@ class _ProfilePageState extends State<ProfilePage> {
           onNightModeChanged: handleNightModeChanged,
           isNightMode: isNightModeEnabled,
         ),
-        body: isSelected
-            ? const GlowingButtonBody()
-            : CustomScrollView(
+        body: BlocBuilder<GetProfileCubit, GetProfileState>(
+          builder: (context, state) {
+            if (state is GetProfileLoading) {
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: AppColors.kPrimaryColor,
+              ));
+            } else if (state is GetProfileSuccess) {
+              final profileModel = state.profiles;
+              return CustomScrollView(
                 slivers: [
                   SliverToBoxAdapter(
                     child: Column(
                       children: [
-                        const CustomProfileHeader(),
+                        CustomProfileHeader(
+                          imageUrl: state.profiles.data?.user?.profileImg ?? '',
+                          profileName:
+                              state.profiles.data?.user?.showname ?? '',
+                          followersCount:
+                              state.profiles.data?.followersCount ?? 0,
+                          friendsCount:
+                              state.profiles.data?.followingCount ?? 0,
+                          likesCount: state.profiles.data?.reactionsCount ?? 0,
+                          savedCount: state.profiles.data?.postsCount ?? 0,
+                          bioText: state.profiles.data?.user?.bio ?? '',
+                          coverImageUrl:
+                              state.profiles.data?.user?.coverImg ?? '',
+                        ),
                         SizedBox(
                           height: 8.h,
                         ),
@@ -129,9 +157,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                               PhotosGridView(
-                                height: 200.h,
+                                height: 110.h,
                                 crossAxisCount: 2,
                                 direction: Axis.horizontal,
+                                profileModel: profileModel,
                               )
                             ],
                           ),
@@ -154,6 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 height: 200.h,
                                 crossAxisCount: 2,
                                 direction: Axis.horizontal,
+                                profileModel: profileModel,
                               )
                             ],
                           ),
@@ -172,10 +202,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ))
                                 ],
                               ),
-                              ShortsGridView(
-                                height: 200.h,
-                                crossAxisCount: 2,
-                              )
+                              ShortsListView(
+                                  height: 200.h, profileModel: profileModel)
                             ],
                           ),
                           Column(
@@ -183,8 +211,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               Row(
                                 children: [
                                   const Expanded(
-                                      child:
-                                          CustomHeaderWidget2(text: 'Saved')),
+                                      child: CustomHeaderWidget2(
+                                          text: 'Saved shorts')),
                                   GestureDetector(
                                       onTap: () {},
                                       child: const Text(
@@ -193,10 +221,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ))
                                 ],
                               ),
-                              SavedPhotosAndVideosListView(
+                              SavedShortsListView(
                                 height: 200.h,
-                                crossAxisCount: 2,
+                                profileModel: profileModel,
                               )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Expanded(
+                                      child: CustomHeaderWidget2(
+                                          text: 'Recent posts')),
+                                  GestureDetector(
+                                      onTap: () {},
+                                      child: const Text(
+                                        'See all',
+                                        style: TextStyle(color: Colors.green),
+                                      ))
+                                ],
+                              ),
+                              RecentPostsList(profileModel: profileModel)
                             ],
                           ),
                           Column(
@@ -215,8 +261,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                               FollowersListView(
-                                height: 150.h,
-                              )
+                                  height: 170.h, profileModel: profileModel)
                             ],
                           ),
                           Column(
@@ -235,8 +280,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                               FollowingsListView(
-                                height: 150.h,
-                              )
+                                  height: 150.h, profileModel: profileModel)
                             ],
                           ),
                           Column(
@@ -255,8 +299,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                               BlockedListView(
-                                height: 150.h,
-                              )
+                                  height: 150.h, profileModel: profileModel)
                             ],
                           ),
                           Column(
@@ -275,10 +318,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                               GroupsGridView(
-                                height: 130.h,
-                                crossAxisCount: 2,
-                                direction: Axis.vertical,
-                              )
+                                  height: 130.h,
+                                  crossAxisCount: 2,
+                                  direction: Axis.vertical,
+                                  profileModel: profileModel)
                             ],
                           ),
                           Column(
@@ -297,8 +340,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                               RestrictedUsersListView(
-                                height: 150.h,
-                              )
+                                  height: 150.h, profileModel: profileModel)
                             ],
                           ),
                         ],
@@ -306,6 +348,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   )
                 ],
-              ));
+              );
+            } else if (state is GetProfileError) {
+              return const Center(child: Text('Error loading profile'));
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ));
   }
 }
