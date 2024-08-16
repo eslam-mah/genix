@@ -10,11 +10,10 @@ part 'update_ticket_state.dart';
 class UpdateTicketCubit extends Cubit<UpdateTicketState> {
   UpdateTicketCubit() : super(UpdateTicketInitial());
   final TicketsRepository updateTicketRepo = TicketsRepository();
-  Future<void> updateTicket(
-      {required TicketForm data, required TicketsModel id}) async {
+  Future<void> updateTicket({required TicketForm data, required int id}) async {
     emit(UpdateTicketLoading());
-    final result = await updateTicketRepo.updateTicket(
-        id: id.collection.first.id, data: data.toJson());
+    final result =
+        await updateTicketRepo.updateTicket(id: id, data: data.toJson());
     result.fold((l) => emit(UpdateTicketError()), (r) {
       final ticket = TicketsModel.fromJson(data.toJson());
       emit(UpdateTicketSuccess(ticket: ticket));

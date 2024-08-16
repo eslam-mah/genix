@@ -50,6 +50,7 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 13.w),
                   child: CustomTextWidget(
+                      maxLines: 1000,
                       textSize: 12.sp,
                       fontFamily: '',
                       fontWeight: FontWeight.w500,

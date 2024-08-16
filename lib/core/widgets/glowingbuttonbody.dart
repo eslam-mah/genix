@@ -95,8 +95,7 @@ class GlowingButtonBody extends StatelessWidget {
                 image: AppImages.kSettings,
                 text: 'Settings',
                 onTap: () {
-                  GoRouter.of(context)
-                      .push(SettingsPage.route, extra: SettingsPageArgs());
+                  GoRouter.of(context).push(SettingsPage.route);
                 },
                 duration: 800,
               ),
@@ -112,8 +111,9 @@ class GlowingButtonBody extends StatelessWidget {
                 image: AppImages.kSupportTickets,
                 text: 'Support tickets',
                 onTap: () {
-                  GoRouter.of(context).push(SupportTicketsPage.route,
-                      extra: SupportTicketsPageArgs());
+                  GoRouter.of(context).push(
+                    SupportTicketsPage.route,
+                  );
                 },
                 duration: 1000,
               ),

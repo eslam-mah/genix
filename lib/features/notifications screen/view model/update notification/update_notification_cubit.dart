@@ -10,12 +10,12 @@ class UpdateNotificationCubit extends Cubit<UpdateNotificationState> {
   final NotificationsRepository updateNotificationRepo =
       NotificationsRepository();
   Future<void> updateNotification(
-      {required NotificationModel data, required NotificationModel id}) async {
+      {required NotificationsModel data, required String id}) async {
     emit(UpdateNotificationLoading());
     final result = await updateNotificationRepo.updateNotification(
-        data: data.toJson(), id: id.collection.first.id);
+        data: data.toJson(), id: id);
     result.fold((r) => emit(UpdateNotificationError()), (r) {
-      final notification = NotificationModel.fromJson(data.toJson());
+      final notification = NotificationsModel.fromJson(data.toJson());
       emit(UpdateNotificationSuccess(notification: notification));
     });
   }

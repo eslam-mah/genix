@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
 import 'package:genix/features/support%20tickets%20screen/view%20model/delete%20ticket%20comment/delete_ticket_comment_cubit.dart';
 import 'package:genix/features/support%20tickets%20screen/view%20model/delete%20ticket/delete_ticket_cubit.dart';
 import 'package:genix/features/support%20tickets%20screen/view%20model/get%20all%20tickets/get_all_tickets_cubit.dart';
@@ -44,8 +45,7 @@ abstract class SupportTicketsRouter {
                 value: deleteTicketCubit,
               ),
             ],
-            child:
-                SupportTicketsPage(args: state.extra as SupportTicketsPageArgs),
+            child: SupportTicketsPage(),
           );
         }),
     GoRoute(
@@ -78,7 +78,7 @@ abstract class SupportTicketsRouter {
                 value: deleteTicketCommentCubit,
               ),
             ],
-            child: TicketItemPage(args: state.extra as TicketsItemPageArgs),
+            child: TicketItemPage(ticket: state.extra as TicketsModel),
           );
         })
   ];

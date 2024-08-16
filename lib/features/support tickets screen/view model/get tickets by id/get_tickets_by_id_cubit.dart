@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:genix/features/support%20tickets%20screen/data/models/tickets_list.dart';
+import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
 import 'package:genix/features/support%20tickets%20screen/data/repos/tickets_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -13,7 +14,7 @@ class GetTicketsByIdCubit extends Cubit<GetTicketsByIdState> {
     emit(GetTicketsByIdLoading());
     final result = await getTicketByIdRepo.getTicketByIdRepo(id: id);
     result.fold((l) => emit(GetTicketsByIdError()), (r) {
-      final tickets = TicketsList.fromJson(r as Map<String, dynamic>);
+      final tickets = TicketsModel.fromJson(r as Map<String, dynamic>);
       GetTicketsByIdSuccess(tickets: tickets);
     });
   }

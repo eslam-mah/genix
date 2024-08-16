@@ -65,7 +65,7 @@ abstract class SettingRouter {
                 value: deleteAccountCubit,
               ),
             ],
-            child: SettingsPage(args: state.extra as SettingsPageArgs),
+            child: SettingsPage(),
           );
         }),
   ];

@@ -12,7 +12,7 @@ final class UpdateNotificationInitial extends UpdateNotificationState {}
 final class UpdateNotificationLoading extends UpdateNotificationState {}
 
 final class UpdateNotificationSuccess extends UpdateNotificationState {
-  final NotificationModel notification;
+  final NotificationsModel notification;
   const UpdateNotificationSuccess({required this.notification});
 }
 

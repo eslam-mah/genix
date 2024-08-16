@@ -1,70 +1,65 @@
 import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
 
-class TicketsList {
-  String status;
-  Data data;
+class SupportTicketsList {
+  bool success;
+  TicketData data;
+  String? message;
 
-  TicketsList({required this.status, required this.data});
+  SupportTicketsList({
+    required this.success,
+    required this.data,
+    this.message,
+  });
 
-  factory TicketsList.fromJson(Map<String, dynamic> json) {
-    return TicketsList(
-      status: json['status'],
-      data: Data.fromJson(json['data']),
+  factory SupportTicketsList.fromJson(Map<String, dynamic> json) {
+    return SupportTicketsList(
+      success: json['success'],
+      data: TicketData.fromJson(json['data']),
+      message: json['message'],
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = this.status;
+    data['success'] = this.success;
     data['data'] = this.data.toJson();
+    data['message'] = this.message;
     return data;
   }
 }
 
-class Data {
-  List<TicketsModel> tickets;
+class TicketData {
+  List<TicketsModel> collection;
 
-  Data({required this.tickets});
+  int totalCount;
+  int openCount;
+  int solvedCount;
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    var ticketsJson = json['collection'] as List;
-    List<TicketsModel> ticketsList =
-        ticketsJson.map((i) => TicketsModel.fromJson(i)).toList();
+  TicketData({
+    required this.collection,
+    required this.totalCount,
+    required this.openCount,
+    required this.solvedCount,
+  });
 
-    return Data(
-      tickets: ticketsList,
+  factory TicketData.fromJson(Map<String, dynamic> json) {
+    return TicketData(
+      collection: (json['collection'] as List<dynamic>)
+          .map((item) => TicketsModel.fromJson(item as Map<String, dynamic>))
+          .toList(),
+      totalCount: json['totalCount'],
+      openCount: json['openCount'],
+      solvedCount: json['solvedCount'],
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['collection'] =
-        this.tickets.map((TicketsModel) => TicketsModel.toJson()).toList();
+    data['collection'] = this.collection.map((item) => item.toJson()).toList();
+
+    data['totalCount'] = this.totalCount;
+    data['openCount'] = this.openCount;
+    data['solvedCount'] = this.solvedCount;
     return data;
-  }
-
-  void addUser({required TicketsModel ticket}) {
-    this.tickets.add(ticket);
-  }
-
-  void updateUser({required TicketsModel newTicket}) {
-    final updatedUserIndex = this.tickets.indexWhere((ticket) {
-      return ticket.collection
-          .any((collection) => collection.id == newTicket.collection.first.id);
-    });
-
-    if (updatedUserIndex != -1) {
-      this.tickets[updatedUserIndex] = newTicket;
-    }
-  }
-
-  void deleteUser(int ticketId) {
-    final removedTicketIndex = this.tickets.indexWhere((ticket) {
-      return ticket.collection.any((collection) => collection.id == ticketId);
-    });
-
-    if (removedTicketIndex != -1) {
-      this.tickets.removeAt(removedTicketIndex);
-    }
   }
 }

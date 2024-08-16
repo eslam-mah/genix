@@ -19,13 +19,8 @@ import 'package:genix/features/settings%20screen/views/view/general_settings_vie
 import 'package:genix/features/settings%20screen/views/view/profile_settings_view.dart';
 import 'package:genix/features/settings%20screen/views/view/security_setting_view.dart';
 
-class SettingsPageArgs {
-  const SettingsPageArgs();
-}
-
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key, required this.args});
-  final SettingsPageArgs args;
+  const SettingsPage({super.key});
   static const route = '/settings';
   @override
   State<SettingsPage> createState() => _SettingsPageState();

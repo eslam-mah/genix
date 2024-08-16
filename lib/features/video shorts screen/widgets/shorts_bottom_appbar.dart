@@ -36,8 +36,9 @@ class CustomShortsBottomAppBar extends StatelessWidget {
             color: AppColors.kPrimaryColor2,
             icon: FontAwesomeIcons.solidBell,
             onTap: () {
-              GoRouter.of(context).push(NotificationsPage.route,
-                  extra: NotificationsPageArgs());
+              GoRouter.of(context).push(
+                NotificationsPage.route,
+              );
             },
             size: 18.sp,
           ),

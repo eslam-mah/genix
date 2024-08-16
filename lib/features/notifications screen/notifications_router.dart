@@ -21,8 +21,7 @@ abstract class NotificationsRouter {
                 value: getNotificationsCubit,
               ),
             ],
-            child:
-                NotificationsPage(args: state.extra as NotificationsPageArgs),
+            child: NotificationsPage(),
           );
         }),
   ];

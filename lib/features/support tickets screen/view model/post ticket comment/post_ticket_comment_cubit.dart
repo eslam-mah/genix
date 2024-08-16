@@ -11,10 +11,10 @@ class PostTicketCommentCubit extends Cubit<PostTicketCommentState> {
   PostTicketCommentCubit() : super(PostTicketCommentInitial());
   final TicketsRepository postTicketCommentRepo = TicketsRepository();
   Future<void> postTicketComment(
-      {required TicketCommentForm data, required TicketsModel id}) async {
+      {required TicketCommentForm data, required int id}) async {
     emit(PostTicketCommentLoading());
     final result = await postTicketCommentRepo.postTicketComment(
-        id: id.collection.first.id, data: data.toJson());
+        id: id, data: data.toJson());
     result.fold((l) => emit(PostTicketCommentError()), (r) {
       final ticketComment = TicketsModel.fromJson(data.toJson());
       emit(PostTicketCommentSuccess(ticketComment: ticketComment));

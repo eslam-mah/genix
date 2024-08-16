@@ -58,7 +58,7 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
   Future<void> _fetchPage(List<ShortsModel> shortsList) async {
     try {
       final newItems = shortsList;
-      final isLastPage = newItems.length < 20;
+      final isLastPage = newItems.length < 1000;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
@@ -190,7 +190,7 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                               children: [
                                 Center(
                                   child: VideoPlayerWidget(
-                                      showFullScreen: false,
+                                      showFullScreenButton: false,
                                       videoUrl: item.fileUrl ?? '',
                                       showMute: true,
                                       showPlay: false,

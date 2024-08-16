@@ -1,238 +1,147 @@
 class TicketsModel {
-  List<Collection> collection;
-  Pagination? pagination;
-  int? totalCount;
-  int? openCount;
-  int? solvedCount;
-
-  TicketsModel(
-      {required this.collection,
-      this.pagination,
-      this.totalCount,
-      this.openCount,
-      this.solvedCount});
-
-  TicketsModel.fromJson(Map<String, dynamic> json)
-      : collection = (json['collection'] as List)
-            .map((v) => Collection.fromJson(v))
-            .toList(),
-        pagination = json['pagination'] != null
-            ? Pagination.fromJson(json['pagination'])
-            : null,
-        totalCount = json['totalCount'],
-        openCount = json['openCount'],
-        solvedCount = json['solvedCount'];
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> TicketsModel = new Map<String, dynamic>();
-
-    TicketsModel['collection'] =
-        this.collection.map((v) => v.toJson()).toList();
-
-    if (this.pagination != null) {
-      TicketsModel['pagination'] = this.pagination!.toJson();
-    }
-    TicketsModel['totalCount'] = this.totalCount;
-    TicketsModel['openCount'] = this.openCount;
-    TicketsModel['solvedCount'] = this.solvedCount;
-    return TicketsModel;
-  }
-}
-
-class Collection {
   int id;
-  User? user;
-  LastUser? lastUser;
-  String? title;
-  String? content;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
+  User user;
+  User lastUser;
+  String title;
+  String content;
+  String status;
+  DateTime createdAt;
+  DateTime updatedAt;
 
-  Collection(
-      {required this.id,
-      this.user,
-      this.lastUser,
-      this.title,
-      this.content,
-      this.status,
-      this.createdAt,
-      this.updatedAt});
+  TicketsModel({
+    required this.id,
+    required this.user,
+    required this.lastUser,
+    required this.title,
+    required this.content,
+    required this.status,
+    required this.createdAt,
+    required this.updatedAt,
+  });
 
-  Collection.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        user = json['user'] != null ? new User.fromJson(json['user']) : null,
-        lastUser = json['last_user'] != null
-            ? new LastUser.fromJson(json['last_user'])
-            : null,
-        title = json['title'],
-        content = json['content'],
-        status = json['status'],
-        createdAt = json['created_at'],
-        updatedAt = json['updated_at'];
+  factory TicketsModel.fromJson(Map<String, dynamic> json) {
+    return TicketsModel(
+      id: json['id'],
+      user: User.fromJson(json['user']),
+      lastUser: User.fromJson(json['last_user']),
+      title: json['title'],
+      content: json['content'],
+      status: json['status'],
+      createdAt: DateTime.parse(json['created_at']),
+      updatedAt: DateTime.parse(json['updated_at']),
+    );
+  }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> TicketsModel = new Map<String, dynamic>();
-    TicketsModel['id'] = this.id;
-    if (this.user != null) {
-      TicketsModel['user'] = this.user!.toJson();
-    }
-    if (this.lastUser != null) {
-      TicketsModel['last_user'] = this.lastUser!.toJson();
-    }
-    TicketsModel['title'] = this.title;
-    TicketsModel['content'] = this.content;
-    TicketsModel['status'] = this.status;
-    TicketsModel['created_at'] = this.createdAt;
-    TicketsModel['updated_at'] = this.updatedAt;
-    return TicketsModel;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = this.id;
+    data['user'] = this.user.toJson();
+    data['last_user'] = this.lastUser.toJson();
+    data['title'] = this.title;
+    data['content'] = this.content;
+    data['status'] = this.status;
+    data['created_at'] = this.createdAt.toIso8601String();
+    data['updated_at'] = this.updatedAt.toIso8601String();
+    return data;
   }
 }
 
 class User {
-  int? id;
-  String? username;
-  String? showname;
-  String? profileImg;
+  int id;
+  String username;
+  String showname;
+  String profileImg;
   String? coverImg;
-  List<String>? roles;
-  bool? isVerified;
-  String? createdAt;
-  bool? isActive;
-  int? status;
-  String? activeAt;
+  List<String> roles;
+  bool isVerified;
+  DateTime createdAt;
+  bool isActive;
+  int status;
+  DateTime activeAt;
 
-  User(
-      {this.id,
-      this.username,
-      this.showname,
-      this.profileImg,
-      this.coverImg,
-      this.roles,
-      this.isVerified,
-      this.createdAt,
-      this.isActive,
-      this.status,
-      this.activeAt});
+  User({
+    required this.id,
+    required this.username,
+    required this.showname,
+    required this.profileImg,
+    this.coverImg,
+    required this.roles,
+    required this.isVerified,
+    required this.createdAt,
+    required this.isActive,
+    required this.status,
+    required this.activeAt,
+  });
 
-  User.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        username = json['username'],
-        showname = json['showname'],
-        profileImg = json['profile_img'],
-        coverImg = json['cover_img'],
-        roles = json['roles'].cast<String>(),
-        isVerified = json['is_verified'],
-        createdAt = json['created_at'],
-        isActive = json['is_active'],
-        status = json['status'],
-        activeAt = json['active_at'];
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> TicketsModel = new Map<String, dynamic>();
-    TicketsModel['id'] = this.id;
-    TicketsModel['username'] = this.username;
-    TicketsModel['showname'] = this.showname;
-    TicketsModel['profile_img'] = this.profileImg;
-    TicketsModel['cover_img'] = this.coverImg;
-    TicketsModel['roles'] = this.roles;
-    TicketsModel['is_verified'] = this.isVerified;
-    TicketsModel['created_at'] = this.createdAt;
-    TicketsModel['is_active'] = this.isActive;
-    TicketsModel['status'] = this.status;
-    TicketsModel['active_at'] = this.activeAt;
-    return TicketsModel;
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      username: json['username'],
+      showname: json['showname'],
+      profileImg: json['profile_img'],
+      coverImg: json['cover_img'],
+      roles: List<String>.from(json['roles']),
+      isVerified: json['is_verified'],
+      createdAt: DateTime.parse(json['created_at']),
+      isActive: json['is_active'],
+      status: json['status'],
+      activeAt: DateTime.parse(json['active_at']),
+    );
   }
-}
-
-class LastUser {
-  int? id;
-  String? username;
-  String? showname;
-  String? profileImg;
-  String? coverImg;
-  List<String>? roles;
-  bool? isVerified;
-  String? createdAt;
-  bool? isActive;
-  int? status;
-  String? activeAt;
-
-  LastUser(
-      {this.id,
-      this.username,
-      this.showname,
-      this.profileImg,
-      this.coverImg,
-      this.roles,
-      this.isVerified,
-      this.createdAt,
-      this.isActive,
-      this.status,
-      this.activeAt});
-
-  LastUser.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        username = json['username'],
-        showname = json['showname'],
-        profileImg = json['profile_img'],
-        coverImg = json['cover_img'],
-        roles = json['roles'].cast<String>(),
-        isVerified = json['is_verified'],
-        createdAt = json['created_at'],
-        isActive = json['is_active'],
-        status = json['status'],
-        activeAt = json['active_at'];
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> TicketsModel = new Map<String, dynamic>();
-    TicketsModel['id'] = this.id;
-    TicketsModel['username'] = this.username;
-    TicketsModel['showname'] = this.showname;
-    TicketsModel['profile_img'] = this.profileImg;
-    TicketsModel['cover_img'] = this.coverImg;
-    TicketsModel['roles'] = this.roles;
-    TicketsModel['is_verified'] = this.isVerified;
-    TicketsModel['created_at'] = this.createdAt;
-    TicketsModel['is_active'] = this.isActive;
-    TicketsModel['status'] = this.status;
-    TicketsModel['active_at'] = this.activeAt;
-    return TicketsModel;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = this.id;
+    data['username'] = this.username;
+    data['showname'] = this.showname;
+    data['profile_img'] = this.profileImg;
+    data['cover_img'] = this.coverImg;
+    data['roles'] = this.roles;
+    data['is_verified'] = this.isVerified;
+    data['created_at'] = this.createdAt.toIso8601String();
+    data['is_active'] = this.isActive;
+    data['status'] = this.status;
+    data['active_at'] = this.activeAt.toIso8601String();
+    return data;
   }
 }
 
 class Pagination {
-  int? currentPage;
-  int? from;
-  int? lastPage;
-  int? perPage;
-  int? to;
-  int? total;
+  int currentPage;
+  int from;
+  int lastPage;
+  int perPage;
+  int to;
+  int total;
 
-  Pagination(
-      {this.currentPage,
-      this.from,
-      this.lastPage,
-      this.perPage,
-      this.to,
-      this.total});
+  Pagination({
+    required this.currentPage,
+    required this.from,
+    required this.lastPage,
+    required this.perPage,
+    required this.to,
+    required this.total,
+  });
 
-  Pagination.fromJson(Map<String, dynamic> json)
-      : currentPage = json['current_page'],
-        from = json['from'],
-        lastPage = json['last_page'],
-        perPage = json['per_page'],
-        to = json['to'],
-        total = json['total'];
+  factory Pagination.fromJson(Map<String, dynamic> json) {
+    return Pagination(
+      currentPage: json['current_page'],
+      from: json['from'],
+      lastPage: json['last_page'],
+      perPage: json['per_page'],
+      to: json['to'],
+      total: json['total'],
+    );
+  }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> TicketsModel = new Map<String, dynamic>();
-    TicketsModel['current_page'] = this.currentPage;
-    TicketsModel['from'] = this.from;
-    TicketsModel['last_page'] = this.lastPage;
-    TicketsModel['per_page'] = this.perPage;
-    TicketsModel['to'] = this.to;
-    TicketsModel['total'] = this.total;
-    return TicketsModel;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = this.currentPage;
+    data['from'] = this.from;
+    data['last_page'] = this.lastPage;
+    data['per_page'] = this.perPage;
+    data['to'] = this.to;
+    data['total'] = this.total;
+    return data;
   }
 }

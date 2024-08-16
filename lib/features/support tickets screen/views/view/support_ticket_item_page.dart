@@ -6,20 +6,21 @@ import 'package:genix/core/utils/colors.dart';
 
 import 'package:genix/core/widgets/customappbar.dart';
 import 'package:genix/core/widgets/custombottomappbar.dart';
+import 'package:genix/core/widgets/custombutton.dart';
+import 'package:genix/core/widgets/customtextwidget.dart';
+import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
-
-class TicketsItemPageArgs {
-  const TicketsItemPageArgs();
-}
+import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
+import 'package:intl/intl.dart';
 
 class TicketItemPage extends StatefulWidget {
-  const TicketItemPage({super.key, required this.args});
+  const TicketItemPage({super.key, required this.ticket});
   static const route = '/ticketItemPage';
-  final TicketsItemPageArgs args;
+  final TicketsModel ticket;
   @override
   State<TicketItemPage> createState() => _TicketItemPageState();
 }
@@ -92,10 +93,209 @@ class _TicketItemPageState extends State<TicketItemPage> {
                   child: CustomHeaderWidget(text: 'Support tickets'),
                 ),
                 SliverToBoxAdapter(
-                  child: Container(),
+                  child: Padding(
+                    padding: EdgeInsets.all(10.w),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 140.h,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey.shade400)),
+                          child: Padding(
+                            padding: EdgeInsets.all(13.w),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CustomTextWidget(
+                                        textSize: 18.sp,
+                                        fontFamily: '',
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black,
+                                        text: 'Ticket summary'),
+                                    CustomTextWidget(
+                                        textSize: 18.sp,
+                                        fontFamily: '',
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black,
+                                        text: 'Available actions')
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        _TextRow(
+                                          titleText: 'Title',
+                                          theText: widget.ticket.title,
+                                          isGreen: false,
+                                        ),
+                                        _TextRow(
+                                          titleText: 'Created at',
+                                          theText: DateFormat('MMMM d, yyyy')
+                                              .format(widget.ticket.createdAt),
+                                          isGreen: false,
+                                        ),
+                                        _TextRow(
+                                          titleText: 'Last Reply by',
+                                          theText:
+                                              widget.ticket.lastUser.showname,
+                                          isGreen: true,
+                                        ),
+                                        _TextRow(
+                                          titleText: 'Replies in total',
+                                          theText: '0',
+                                          isGreen: false,
+                                        ),
+                                        _TextRow(
+                                          titleText: 'Status',
+                                          theText: widget.ticket.status,
+                                          isGreen: true,
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomButton(
+                                            color: AppColors.kPrimaryColor,
+                                            buttonText: 'Close Ticket',
+                                            width: 100.w,
+                                            height: 27.h,
+                                            borderRadius: 10.r,
+                                            onTap: () {}),
+                                        SizedBox(
+                                          height: 6.h,
+                                        ),
+                                        CustomButton(
+                                            color: AppColors.kPrimaryColor,
+                                            buttonText: 'Edit Ticket',
+                                            width: 100.w,
+                                            height: 27.h,
+                                            borderRadius: 10.r,
+                                            onTap: () {})
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        CustomButton(
+                            icon: Icon(
+                              FontAwesomeIcons.pencil,
+                              color: Colors.white,
+                              size: 20.r,
+                            ),
+                            color: AppColors.kPrimaryColor,
+                            buttonText: 'Post a reply',
+                            height: 40.h,
+                            borderRadius: 15.r,
+                            onTap: () {}),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey.shade400)),
+                          child: Padding(
+                            padding: EdgeInsets.all(5.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    CustomUserProfileImage(
+                                        image: widget.ticket.user.profileImg,
+                                        isActive: widget.ticket.user.isActive),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CustomTextWidget(
+                                            textSize: 13.sp,
+                                            fontFamily: '',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.green,
+                                            text: widget.ticket.user.showname),
+                                        CustomTextWidget(
+                                            textSize: 13.sp,
+                                            fontFamily: '',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.black,
+                                            text:
+                                                'wrote on ${DateFormat('MMMM d, yyyy').format(widget.ticket.createdAt)}'),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                CustomTextWidget(
+                                    maxLines: 1000,
+                                    textSize: 13.sp,
+                                    fontFamily: '',
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black,
+                                    text: widget.ticket.content)
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 )
               ],
             ),
+    );
+  }
+}
+
+class _TextRow extends StatelessWidget {
+  const _TextRow({
+    super.key,
+    required this.titleText,
+    required this.theText,
+    required this.isGreen,
+  });
+  final String titleText;
+  final String theText;
+  final bool isGreen;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        CustomTextWidget(
+            textSize: 13.sp,
+            fontFamily: '',
+            fontWeight: FontWeight.normal,
+            color: Colors.black,
+            text: titleText + ': '),
+        SizedBox(
+          width: 100.w,
+          child: CustomTextWidget(
+              textSize: 13.sp,
+              fontFamily: '',
+              fontWeight: FontWeight.normal,
+              color: isGreen ? Colors.green : Colors.grey.shade500,
+              text: theText),
+        )
+      ],
     );
   }
 }

@@ -8,13 +8,18 @@ part 'get_all_tickets_state.dart';
 
 class GetAllTicketsCubit extends Cubit<GetAllTicketsState> {
   GetAllTicketsCubit() : super(GetAllTicketsInitial());
+
   final TicketsRepository getAllTicketsRepo = TicketsRepository();
+
   Future<void> getAllTickets() async {
     emit(GetAllTicketsLoading());
     final result = await getAllTicketsRepo.getAllTicketsRepo();
-    result.fold((l) => emit(GetAllTicketsError()), (r) {
-      final tickets = TicketsList.fromJson(r as Map<String, dynamic>);
-      GetAllTicketsSuccess(tickets: tickets);
-    });
+    result.fold(
+      (l) => emit(GetAllTicketsError()), // Handle the error case
+      (r) {
+        final tickets = SupportTicketsList.fromJson(r as Map<String, dynamic>);
+        emit(GetAllTicketsSuccess(tickets: tickets)); // Emit success state
+      },
+    );
   }
 }

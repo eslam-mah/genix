@@ -4,12 +4,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/widgets/custom_small_user_profile_image.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
+import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
+import 'package:intl/intl.dart';
 
 class CustomTicketsItem extends StatelessWidget {
   const CustomTicketsItem({
     super.key,
+    required this.ticket,
   });
-
+  final TicketsModel ticket;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,8 +23,8 @@ class CustomTicketsItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CustomUserProfileImage(
-                image: '',
-                isActive: true,
+                image: ticket.user.profileImg,
+                isActive: ticket.user.isActive,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,12 +38,15 @@ class CustomTicketsItem extends StatelessWidget {
                       SizedBox(
                         width: 5.w,
                       ),
-                      CustomTextWidget(
-                          textSize: 12.sp,
-                          fontFamily: '',
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                          text: 'Test')
+                      SizedBox(
+                        width: 170.w,
+                        child: CustomTextWidget(
+                            textSize: 12.sp,
+                            fontFamily: '',
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            text: ticket.title),
+                      )
                     ],
                   ),
                   CustomTextWidget(
@@ -48,7 +54,8 @@ class CustomTicketsItem extends StatelessWidget {
                       fontFamily: '',
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
-                      text: 'Created on october 11')
+                      text:
+                          'Created on ${DateFormat('MMMM d, yyyy').format(ticket.createdAt)}')
                 ],
               ),
               Column(
@@ -62,16 +69,22 @@ class CustomTicketsItem extends StatelessWidget {
                       text: 'Last reply by'),
                   Row(
                     children: [
-                      CustomSmallUserProfileImage(),
+                      CustomSmallUserProfileImage(
+                        image: ticket.lastUser.profileImg,
+                        isActive: ticket.lastUser.isActive,
+                      ),
                       SizedBox(
                         width: 5.w,
                       ),
-                      CustomTextWidget(
-                          textSize: 12.sp,
-                          fontFamily: '',
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                          text: 'data'),
+                      SizedBox(
+                        width: 40.w,
+                        child: CustomTextWidget(
+                            textSize: 12.sp,
+                            fontFamily: '',
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            text: ticket.lastUser.showname),
+                      ),
                     ],
                   )
                 ],

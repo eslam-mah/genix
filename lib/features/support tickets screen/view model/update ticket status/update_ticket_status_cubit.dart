@@ -12,13 +12,11 @@ class UpdateTicketStatusCubit extends Cubit<UpdateTicketStatusState> {
   final TicketsRepository updateTicketStatusRepo = TicketsRepository();
   Future<void> updateTicket(
       {required TicketForm data,
-      required TicketsModel ticketId,
+      required int ticketId,
       required String status}) async {
     emit(UpdateTicketStatusLoading());
     final result = await updateTicketStatusRepo.updateTicketStatus(
-        ticketId: ticketId.collection.first.id,
-        data: data.toJson(),
-        status: status);
+        ticketId: ticketId, data: data.toJson(), status: status);
     result.fold((l) => emit(UpdateTicketStatusError()), (r) {
       final ticket = TicketsModel.fromJson(data.toJson());
       emit(UpdateTicketStatusSuccess(ticket: ticket));

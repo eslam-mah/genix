@@ -1,71 +1,46 @@
 import 'package:genix/features/notifications%20screen/data/models/notifications_model.dart';
 
 class NotificationsList {
-  String status;
-  Data data;
+  bool success;
+  NotificationData data;
+  String? message;
 
-  NotificationsList({required this.status, required this.data});
+  NotificationsList({required this.success, required this.data, this.message});
 
   factory NotificationsList.fromJson(Map<String, dynamic> json) {
     return NotificationsList(
-      status: json['status'],
-      data: Data.fromJson(json['data']),
+      success: json['success'],
+      data: NotificationData.fromJson(json['data']),
+      message: json['message'],
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = this.status;
+    data['success'] = this.success;
     data['data'] = this.data.toJson();
+    data['message'] = this.message;
     return data;
   }
 }
 
-class Data {
-  List<NotificationModel> notifications;
-  Pagination pagination;
+class NotificationData {
+  List<NotificationsModel> collection;
 
-  Data({required this.notifications, required this.pagination});
+  NotificationData({required this.collection});
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    var notificationsJson = json['collection'] as List;
-    List<NotificationModel> notificationsList =
-        notificationsJson.map((i) => NotificationModel.fromJson(i)).toList();
-
-    return Data(
-      notifications: notificationsList,
-      pagination: Pagination.fromJson(json['pagination']),
+  factory NotificationData.fromJson(Map<String, dynamic> json) {
+    return NotificationData(
+      collection: (json['collection'] as List)
+          .map((item) => NotificationsModel.fromJson(item))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['collection'] = this
-        .notifications
-        .map((notificationModel) => notificationModel.toJson())
-        .toList();
-    data['pagination'] = this.pagination.toJson();
+    data['collection'] = this.collection.map((item) => item.toJson()).toList();
+
     return data;
-  }
-
-  void addNotification({required NotificationModel notification}) {
-    this.notifications.add(notification);
-  }
-
-  void updateNotification({required NotificationModel newNotification}) {
-    final updatedNotificationIndex = this.notifications.indexWhere(
-        (n) => n.collection.first.id == newNotification.collection.first.id);
-    if (updatedNotificationIndex != -1) {
-      this.notifications[updatedNotificationIndex] = newNotification;
-    }
-  }
-
-  void deleteNotification(String notificationId) {
-    final removedNotificationIndex = this
-        .notifications
-        .indexWhere((n) => n.collection.first.id == notificationId);
-    if (removedNotificationIndex != -1) {
-      this.notifications.removeAt(removedNotificationIndex);
-    }
   }
 }
