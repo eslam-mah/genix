@@ -7,7 +7,7 @@ import 'reactions.dart';
 import 'user.dart';
 
 class PostsModel {
-  num id;
+  num? id;
   User? user;
   dynamic page;
   dynamic group;
@@ -19,7 +19,7 @@ class PostsModel {
   bool? toCloseFriends;
   bool? isProcessing;
   List<Upload>? uploads;
-  List<dynamic>? reactions;
+  Reactions? reactions;
   List<Comment>? comments;
   num? commentsCount;
   num? sharesCount;
@@ -29,7 +29,7 @@ class PostsModel {
   DateTime? updatedAt;
 
   PostsModel({
-    required this.id,
+    this.id,
     this.user,
     this.page,
     this.group,
@@ -70,12 +70,10 @@ class PostsModel {
                 .map((v) => Upload.fromJson(v as Map<String, dynamic>))
                 .toList()
             : null,
-        // reactions = json['reactions'] != null
-        //     ? (json['reactions'] as List<dynamic>)
-        //         .map((v) => Reactions.fromJson(v as Map<String, dynamic>))
-        //         .toList()
-        //     : null,
-
+        reactions = json['reactions'] != null &&
+                json['reactions'] is Map<String, dynamic>
+            ? Reactions.fromJson(json['reactions'] as Map<String, dynamic>)
+            : null,
         comments = json['comments'] != null && json['comments'] is List<dynamic>
             ? (json['comments'] as List<dynamic>)
                 .map((v) => Comment.fromJson(v as Map<String, dynamic>))

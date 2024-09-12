@@ -6,17 +6,17 @@ class CustomPostComponents extends StatelessWidget {
     super.key,
     required this.icon,
     required this.text,
-    required this.ontap,
+    required this.onTap,
     required this.width,
   });
   final IconData icon;
   final String text;
-  final Function() ontap;
+  final Function() onTap;
   final double width;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: ontap,
+        onTap: onTap,
         child: Container(
           height: 30.h,
           width: width,

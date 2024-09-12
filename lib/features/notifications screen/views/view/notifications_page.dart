@@ -150,6 +150,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           children: [
             CustomBottomAppBar(
               isNightMode: isNightModeEnabled,
+              notificationsEnabled: false,
             ),
             Positioned(
                 bottom: 20,

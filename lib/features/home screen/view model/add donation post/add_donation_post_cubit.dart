@@ -10,11 +10,11 @@ class AddDonationPostCubit extends Cubit<AddDonationPostState> {
   final PostsRepository addDonationRepo = PostsRepository();
   Future<void> addDonationPost(
       {required Map<String, dynamic> data,
-      required Data postId,
+      required int postId,
       required String giftId}) async {
     emit(AddDonationPostLoading());
     final result = await addDonationRepo.addDonationOnPost(
-        data: data, postId: postId.collection!.first.id, giftId: giftId);
+        data: data, postId: postId, giftId: giftId);
     result.fold((l) {
       emit(AddDonationPostError());
     }, (r) {

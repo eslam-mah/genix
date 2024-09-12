@@ -5,11 +5,11 @@ class CustomAppBarIcon extends StatelessWidget {
       {super.key,
       required this.icon,
       required this.color,
-      required this.onTap,
+      this.onTap,
       required this.size});
   final IconData icon;
   final Color color;
-  final Function() onTap;
+  final Function()? onTap;
   final double size;
   @override
   Widget build(BuildContext context) {

@@ -133,7 +133,7 @@ class UserModel {
         showname = json['showname'],
         profileImg = json['profile_img'],
         coverImg = json['cover_img'],
-        roles = json['roles'].cast<String>(),
+        roles = json['roles'],
         isVerified = json['is_verified'],
         createdAt = json['created_at'],
         isActive = json['is_active'],

@@ -13,8 +13,16 @@ class CustomBottomAppBar extends StatelessWidget {
   const CustomBottomAppBar({
     super.key,
     required this.isNightMode,
+    this.homeEnabled = true,
+    this.notificationsEnabled = true,
+    this.messagesEnabled = true,
+    this.profileEnabled = true,
   });
   final bool isNightMode;
+  final bool? homeEnabled;
+  final bool? notificationsEnabled;
+  final bool? messagesEnabled;
+  final bool? profileEnabled;
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -27,19 +35,25 @@ class CustomBottomAppBar extends StatelessWidget {
           CustomAppBarIcon(
             color: AppColors.kPrimaryColor2,
             icon: FontAwesomeIcons.house,
-            onTap: () {
-              GoRouter.of(context).push(HomePage.routeName);
-            },
+            onTap: homeEnabled ?? true
+                ? () {
+                    GoRouter.of(context).push(
+                      HomePage.routeName,
+                    );
+                  }
+                : null,
             size: 18.sp,
           ),
           CustomAppBarIcon(
             color: AppColors.kPrimaryColor2,
             icon: FontAwesomeIcons.solidBell,
-            onTap: () {
-              GoRouter.of(context).push(
-                NotificationsPage.route,
-              );
-            },
+            onTap: notificationsEnabled ?? true
+                ? () {
+                    GoRouter.of(context).push(
+                      NotificationsPage.route,
+                    );
+                  }
+                : null,
             size: 18.sp,
           ),
           SizedBox(
@@ -48,17 +62,19 @@ class CustomBottomAppBar extends StatelessWidget {
           CustomAppBarIcon(
             color: AppColors.kPrimaryColor2,
             icon: FontAwesomeIcons.inbox,
-            onTap: () {},
+            onTap: messagesEnabled ?? true ? () {} : null,
             size: 18.sp,
           ),
           CustomAppBarIcon(
             color: AppColors.kPrimaryColor2,
             icon: FontAwesomeIcons.solidUser,
-            onTap: () {
-              GoRouter.of(context).push(
-                MyProfilePage.route,
-              );
-            },
+            onTap: profileEnabled ?? true
+                ? () {
+                    GoRouter.of(context).push(
+                      MyProfilePage.route,
+                    );
+                  }
+                : null,
             size: 18.sp,
           ),
         ],

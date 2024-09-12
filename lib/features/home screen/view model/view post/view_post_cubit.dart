@@ -9,10 +9,10 @@ part 'view_post_state.dart';
 class ViewPostCubit extends Cubit<ViewPostState> {
   ViewPostCubit() : super(ViewPostInitial());
   final PostsRepository viewPostRepo = PostsRepository();
-  Future<void> viewPost({required PostForm data, required Data postId}) async {
+  Future<void> viewPost({required PostForm data, required int postId}) async {
     emit(ViewPostLoading());
-    final result = await viewPostRepo.viewPost(
-        data: data.toJson(), postId: postId.collection!.first.id);
+    final result =
+        await viewPostRepo.viewPost(data: data.toJson(), postId: postId);
     result.fold((l) => emit(ViewPostError()), (r) {
       final viewPost = PostForm.fromJson(data.toJson());
       ViewPostSuccess(viewPost: viewPost);

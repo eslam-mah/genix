@@ -8,9 +8,11 @@ class BigTextField extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.color,
+    required this.controller,
   });
   final String hintText;
   final Color color;
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,6 +25,7 @@ class BigTextField extends StatelessWidget {
         alignment: Alignment.topRight,
         children: [
           TextField(
+            controller: controller,
             expands: true,
             maxLines: null,
             decoration: InputDecoration(

@@ -43,7 +43,7 @@ class Data {
   String? bio;
   String? country;
   String? city;
-  String? age;
+  int? age;
   String? socialFacebook;
   String? socialTiktok;
   String? socialInstagram;

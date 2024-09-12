@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20donation%20post/add_donation_post_cubit.dart';
-import 'package:genix/features/home%20screen/view%20model/add%20poll%20post/add_poll_post_cubit.dart';
+import 'package:genix/features/home%20screen/view%20model/add%20poll/add_poll_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20post/add_post_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/delete%20post/delete_post_cubit.dart';
@@ -18,12 +19,13 @@ import 'package:genix/features/home%20screen/view%20model/share%20post/share_pos
 import 'package:genix/features/home%20screen/view%20model/update%20post%20by%20id/update_post_by_id_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/view%20post/view_post_cubit.dart';
 import 'package:genix/features/home%20screen/views/view/homebody.dart';
+import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/users/view%20model/delete%20user/delete_user_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class HomeRouter {
   static final addDonationCubit = AddDonationPostCubit();
-  static final addPollPostCubit = AddPollPostCubit();
+  static final addPollPostCubit = AddPollCubit();
   static final addPostCubit = AddPostCubit();
   static final addReactCubit = AddReactCubit();
   static final deletePostCubit = DeletePostCubit();
@@ -41,7 +43,8 @@ abstract class HomeRouter {
   static final sharePostCubit = SharePostCubit();
   static final updatePostByIdCubit = UpdatePostByIdCubit();
   static final viewPostCubit = ViewPostCubit();
-
+  static final getAccountDetails = GetMyAccountDetailsCubit();
+  static final addCommentCubit = AddCommentCubit();
   static final List<GoRoute> goRoutes = [
     GoRoute(
         path: HomePage.routeName,
@@ -104,6 +107,12 @@ abstract class HomeRouter {
               ),
               BlocProvider.value(
                 value: viewPostCubit,
+              ),
+              BlocProvider.value(
+                value: getAccountDetails,
+              ),
+              BlocProvider.value(
+                value: addCommentCubit,
               ),
             ],
             child: HomePage(),

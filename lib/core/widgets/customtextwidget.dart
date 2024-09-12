@@ -9,6 +9,7 @@ class CustomTextWidget extends StatelessWidget {
     required this.color,
     required this.text,
     this.maxLines,
+    this.width,
   });
   final String text;
   final double textSize;
@@ -16,17 +17,21 @@ class CustomTextWidget extends StatelessWidget {
   final FontWeight fontWeight;
   final Color color;
   final int? maxLines;
+  final double? width;
   @override
   Widget build(BuildContext context) {
-    return Text(
-      maxLines: maxLines,
-      text,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-          fontSize: textSize,
-          fontWeight: fontWeight,
-          color: color,
-          fontFamily: fontFamily),
+    return SizedBox(
+      width: width,
+      child: Text(
+        maxLines: maxLines,
+        text,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+            fontSize: textSize,
+            fontWeight: fontWeight,
+            color: color,
+            fontFamily: fontFamily),
+      ),
     );
   }
 }

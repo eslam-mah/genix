@@ -26,11 +26,12 @@ class SavedShortsListView extends StatelessWidget {
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: VideoPlayerWidget(
+                iconSize: 13.sp,
                 videoUrl: shortVideos[index].fileUrl ?? '',
-                showMute: false,
-                showPlay: false,
+                showPlay: true,
                 shimmerWidth: 100.w,
                 shimmerHeight: 100.h,
+                isMuted: true,
               ),
             );
           }),

@@ -9,10 +9,10 @@ part 'save_post_state.dart';
 class SavePostCubit extends Cubit<SavePostState> {
   SavePostCubit() : super(SavePostInitial());
   final PostsRepository savePostRepo = PostsRepository();
-  Future<void> savePost({required PostForm data, required Data postId}) async {
+  Future<void> savePost({required PostForm data, required int postId}) async {
     emit(SavePostLoading());
-    final result = await savePostRepo.savePost(
-        data: data.toJson(), postId: postId.collection!.first.id);
+    final result =
+        await savePostRepo.savePost(data: data.toJson(), postId: postId);
     result.fold((l) => emit(SavePostError()), (r) {
       final post = PostForm.fromJson(data.toJson());
       SavePostSuccess(post: post);

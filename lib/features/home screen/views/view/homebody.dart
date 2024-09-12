@@ -5,19 +5,21 @@ import 'package:genix/core/default_status_indicators/first_page_error_indicator.
 import 'package:genix/core/default_status_indicators/first_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/new_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/no_items_found_indicator.dart';
+import 'package:genix/features/comments%20section/data/models/comments_model.dart';
+import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/data.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/summary.dart';
 import 'package:genix/features/home%20screen/data/models/stories_list_model.dart';
+import 'package:genix/features/home%20screen/view%20model/add%20poll/add_poll_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20post/add_post_cubit.dart';
+import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts/get_newsfeed_posts_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20stories/get_stories_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/update%20post%20by%20id/update_post_by_id_cubit.dart';
-import 'package:genix/features/home%20screen/views/widgets/content_post_item.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_story_widget.dart';
-import 'package:genix/features/home%20screen/views/widgets/event_item.dart';
-import 'package:genix/features/home%20screen/views/widgets/link_post_item.dart';
-import 'package:genix/features/home%20screen/views/widgets/poll_post_item.dart';
-import 'package:genix/features/home%20screen/views/widgets/video_post_item.dart';
+import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
+
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -34,10 +36,8 @@ import 'package:genix/core/widgets/glowingbuttonbody.dart';
 
 import 'package:genix/features/home%20screen/views/widgets/custom_home_appbar.dart';
 
-import 'package:genix/features/home%20screen/views/widgets/post_item.dart';
-import 'package:genix/features/home%20screen/views/widgets/story_list.dart';
-
-enum PostType { image, video, poll, link, event, short, content }
+import 'package:genix/features/home%20screen/views/widgets/post%20types/post_item.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = '/home_body_page';
@@ -68,6 +68,7 @@ class _HomePageState extends State<HomePage> {
     isNightModeEnabled = CacheData.getData(key: PrefKeys.kDarkMode) ?? false;
     getPostsCubit = BlocProvider.of<GetNewsFeedPostsCubit>(context);
     getStoriesCubit = BlocProvider.of<GetStoriesCubit>(context);
+    context.read<GetMyAccountDetailsCubit>().getMyAccountDetails();
     _pagingController.addPageRequestListener((page) {
       print('**********PAGEKEY************ $page');
       getPostsCubit.getNewsFeedPosts();
@@ -118,6 +119,41 @@ class _HomePageState extends State<HomePage> {
             }
           },
         ),
+        BlocListener<AddPollCubit, AddPollState>(
+          listener: (context, addState) {
+            if (addState is AddPollSuccess) {
+              List<PostsModel> items = _pagingController.itemList ?? [];
+              items.insert(0, addState.post);
+              _pagingController.itemList = items;
+              print('adding success');
+              setState(() {});
+            }
+          },
+        ),
+        BlocListener<AddReactCubit, AddReactState>(
+          listener: (context, addState) {
+            if (addState is AddReactSuccess) {
+              List<String> items = [];
+              items.insert(0, addState.reactionType);
+
+              print('adding success');
+              setState(() {});
+            }
+          },
+        ),
+        BlocListener<AddCommentCubit, AddCommentState>(
+          listener: (context, addState) {
+            if (addState is AddCommentSuccess) {
+              // Assuming you need to add the comment to an existing list of comments
+              List<Comment> items =
+                  _pagingController.itemList?.first.comments ?? [];
+              items.insert(0,
+                  addState.addComment); // Insert at the beginning of the list
+              setState(() {});
+              print('Comment added successfully');
+            }
+          },
+        ),
         BlocListener<UpdatePostByIdCubit, UpdatePostByIdState>(
           listener: (context, updateState) {
             if (updateState is UpdatePostByIdSuccess) {
@@ -143,6 +179,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             CustomBottomAppBar(
               isNightMode: isNightModeEnabled,
+              homeEnabled: false,
             ),
             Positioned(
                 bottom: 20,
@@ -171,7 +208,25 @@ class _HomePageState extends State<HomePage> {
           ],
           backgroundColor: AppColors.kAppBar2Color,
           elevation: 0,
-          title: const CustomHomeAppBar(),
+          title: BlocBuilder<GetNewsFeedPostsCubit, GetNewsFeedPostsState>(
+            builder: (context, state) {
+              if (state is GetNewsFeedPostsSuccess) {
+                return CustomHomeAppBar(
+                  postsModel: state.posts.data.postsModel.first,
+                );
+              } else {
+                return Shimmer.fromColors(
+                  baseColor: Colors.grey[100]!,
+                  highlightColor: Colors.grey[50]!,
+                  child: Container(
+                    width: double.infinity,
+                    height: 30.h,
+                    color: Colors.white,
+                  ),
+                );
+              }
+            },
+          ),
         ),
         endDrawer: CustomDrawerWidget(
           onNightModeChanged: handleNightModeChanged,
@@ -198,7 +253,7 @@ class _HomePageState extends State<HomePage> {
                               state.stories.data.stories.isNotEmpty;
                           return Column(
                             children: [
-                              CustomHeaderWidget(
+                              const CustomHeaderWidget(
                                 text: 'Newsfeed',
                               ),
                               SizedBox(
@@ -256,10 +311,36 @@ class _HomePageState extends State<HomePage> {
                             NoItemsFoundIndicator(),
                         itemBuilder: (context, item, index) {
                           print('++++++++++ $index');
-                          final postTypes = _determinePostTypes(item);
+
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: _getPostTypeWidgets(postTypes, item),
+                            children: [
+                              BlocBuilder<GetMyAccountDetailsCubit,
+                                  GetMyAccountDetailsState>(
+                                builder: (context, state) {
+                                  if (state is GetMyAccountDetailsSuccess) {
+                                    return PostItem(
+                                      isNightModeEnabled: isNightModeEnabled,
+                                      postsModel: item,
+                                      id: state.account.data?.id ?? 0,
+                                      refresh: () {
+                                        _pagingController.refresh();
+                                      },
+                                    );
+                                  } else {
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 300.h,
+                                        color: Colors.white,
+                                      ),
+                                    );
+                                  }
+                                },
+                              )
+                            ],
                           );
                         },
                       ),
@@ -269,84 +350,6 @@ class _HomePageState extends State<HomePage> {
               ),
       ),
     );
-  }
-
-  List<PostType> _determinePostTypes(PostsModel postModel) {
-    final List<PostType> postTypes = [];
-    if (postModel.uploads != null) {
-      if (postModel.uploads!.any((upload) =>
-          upload.type == "image/png" ||
-          upload.type == "image/jpeg" ||
-          upload.type == "image/webp")) {
-        postTypes.add(PostType.image);
-      }
-      if (postModel.uploads!.any((upload) => upload.type == 'video')) {
-        postTypes.add(PostType.video);
-      }
-    }
-    if (postModel.misc != null && postModel.misc!.poll != null) {
-      if (postModel.misc!.poll != null) {
-        postTypes.add(PostType.poll);
-      }
-    }
-    if (postModel.ogInfo != null) {
-      postTypes.add(PostType.link);
-    }
-    if (postModel.isEvent == true) {
-      postTypes.add(PostType.event);
-    }
-    if (postModel.isVideoShort == true) {
-      postTypes.add(PostType.short);
-    }
-    if (postModel.uploads == null &&
-        postModel.ogInfo == null &&
-        postModel.misc == null) {
-      postTypes.add(PostType.content);
-    }
-    return postTypes;
-  }
-
-  List<Widget> _getPostTypeWidgets(
-      List<PostType> postTypes, PostsModel postModel) {
-    return postTypes
-        .map((postType) => _getPostType(postType, postModel))
-        .toList();
-  }
-
-  Widget _getPostType(PostType postType, PostsModel postModel) {
-    switch (postType) {
-      case PostType.image:
-        print(
-            "_____________________${postModel.misc}___________________________");
-        return PostItem(
-          isNightModeEnabled: isNightModeEnabled,
-          postsModel: postModel,
-        );
-      case PostType.video:
-        return VideoPostItem(
-            isNightModeEnabled: isNightModeEnabled,
-            postsModel: postModel); // Implement video widget
-      case PostType.poll:
-        return PollPostItem(
-            isNightModeEnabled: isNightModeEnabled,
-            postsModel: postModel); // Implement poll widget
-      case PostType.event:
-        return EventItem(
-          isNightModeEnabled: isNightModeEnabled,
-          postsModel: postModel,
-        ); // Implement event widget
-      case PostType.link:
-        return LinkPostItem(
-            isNightModeEnabled: isNightModeEnabled, postsModel: postModel);
-      case PostType.short:
-        return Text('short'); // Implement short video widget
-      case PostType.content:
-        return ContentPostItem(
-            isNightModeEnabled: isNightModeEnabled,
-            postsModel: postModel); // Implement content widget
-      default:
-        return const SizedBox.shrink();
-    }
   }
 
   Future<void> _fetchPage(List<PostsModel> postsList) async {

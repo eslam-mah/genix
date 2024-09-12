@@ -2,25 +2,24 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/post_form.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/data.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/data/repos/posts_repository.dart';
 
-part 'add_poll_post_state.dart';
+part 'add_poll_state.dart';
 
-class AddPollPostCubit extends Cubit<AddPollPostState> {
-  AddPollPostCubit() : super(AddPollPostInitial());
+class AddPollCubit extends Cubit<AddPollState> {
+  AddPollCubit() : super(AddPollInitial());
   final PostsRepository addPollPostRepo = PostsRepository();
   Future<void> addPollPost(
-      {required PostForm data,
-      required Data postId,
+      {required PostsModel data,
+      required int postId,
       required int option}) async {
-    emit(AddPollPostLoading());
+    emit(AddPollLoading());
     final result = await addPollPostRepo.addPollPost(
-        data: data.toJson(),
-        postId: postId.collection!.first.id,
-        option: option);
-    result.fold((l) => emit(AddPollPostError()), (r) {
-      final post = PostForm.fromJson(data.toJson());
-      emit(AddPollPostSuccess(post: post));
+        data: data.toJson(), postId: postId, option: option);
+    result.fold((l) => emit(AddPollError()), (r) {
+      final post = PostsModel.fromJson(data.toJson());
+      emit(AddPollSuccess(post: post));
     });
   }
 }

@@ -27,10 +27,11 @@ class ShortsListView extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: VideoPlayerWidget(
                 videoUrl: shortVideos[index].fileUrl ?? '',
-                showMute: false,
-                showPlay: false,
+                showPlay: true,
+                iconSize: 13.sp,
                 shimmerWidth: 100.w,
                 shimmerHeight: 100.h,
+                isMuted: true,
               ),
             );
           }),

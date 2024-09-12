@@ -124,7 +124,7 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                       ),
                       IconButton(
                         onPressed: () {
-                          showPostTabBar(context, widget.isNightModeEnabled);
+                          // showPostTabBar(context, widget.isNightModeEnabled);
                         },
                         icon: const Icon(FontAwesomeIcons.ellipsis),
                       ),
@@ -280,7 +280,7 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                         icon: FontAwesomeIcons.solidComment,
                         width: 90.w,
                         text: 'Comment',
-                        ontap: () {
+                        onTap: () {
                           GoRouter.of(context).push(CommentsBody.routeName,
                               extra: widget.profileModel);
                         },
@@ -289,7 +289,7 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                         icon: FontAwesomeIcons.share,
                         width: 90.w,
                         text: 'Share',
-                        ontap: () {
+                        onTap: () {
                           shareBottomSheet(context);
                         },
                       ),

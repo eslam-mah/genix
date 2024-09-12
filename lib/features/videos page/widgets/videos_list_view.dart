@@ -37,10 +37,10 @@ class VideosGridView extends StatelessWidget {
           itemBuilder: (context, index) {
             return VideoPlayerWidget(
               videoUrl: videos[index],
-              showMute: true,
               showPlay: true,
               shimmerWidth: 100.w,
               shimmerHeight: 60.h,
+              isMuted: true,
             );
           }),
     );

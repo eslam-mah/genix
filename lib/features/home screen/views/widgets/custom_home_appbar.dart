@@ -6,13 +6,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/addpostbottomsheet.dart';
 import 'package:genix/core/widgets/customappbaricon.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/views/view/homebody.dart';
 
 import 'package:go_router/go_router.dart';
 
 class CustomHomeAppBar extends StatelessWidget {
+  final PostsModel postsModel;
   const CustomHomeAppBar({
     super.key,
+    required this.postsModel,
   });
 
   @override
@@ -45,7 +48,7 @@ class CustomHomeAppBar extends StatelessWidget {
           icon: Icons.post_add_outlined,
           color: Colors.black,
           onTap: () async {
-            await addPostModalBottomSheet(context);
+            await addPostModalBottomSheet(context, postsModel);
           },
           size: 25.sp,
         )

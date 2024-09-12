@@ -11,10 +11,10 @@ class UpdatePostByIdCubit extends Cubit<UpdatePostByIdState> {
   UpdatePostByIdCubit() : super(UpdatePostByIdInitial());
   final PostsRepository updatePostRepo = PostsRepository();
   Future<void> updatePost(
-      {required UpdatePostForm data, required Data postId}) async {
+      {required UpdatePostForm data, required int postId}) async {
     emit(UpdatePostByIdLoading());
     final result = await updatePostRepo.updatePostById(
-        data: data.toJson(), postId: postId.collection!.first.id);
+        data: data.toJson(), postId: postId);
     result.fold((l) => emit(UpdatePostByIdError()), (r) {
       final updatePost = PostsModel.fromJson(data.toJson());
       UpdatePostByIdSuccess(updatePost: updatePost);

@@ -40,17 +40,11 @@ class CustomAppBar extends StatelessWidget {
             width: 37.w,
           ),
         ),
-        // CustomAppBarIcon(
-        //   icon: FontAwesomeIcons.barsStaggered,
-        //   color: Colors.black,
-        //   onTap: () {},
-        //   size: 18.sp,
-        // ),
         CustomAppBarIcon(
           icon: Icons.post_add_outlined,
           color: Colors.black,
           onTap: () async {
-            await addPostModalBottomSheet(context);
+            // await addPostModalBottomSheet(context);
           },
           size: 25.sp,
         )

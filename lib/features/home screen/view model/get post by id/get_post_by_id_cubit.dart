@@ -10,9 +10,9 @@ part 'get_post_by_id_state.dart';
 class GetPostByIdCubit extends Cubit<GetPostByIdState> {
   GetPostByIdCubit() : super(GetPostByIdInitial());
   final PostsRepository getPostsByIdRepo = PostsRepository();
-  Future<void> getPostById({required PostsModel postId}) async {
+  Future<void> getPostById({required int postId}) async {
     emit(GetPostByIdLoading());
-    final result = await getPostsByIdRepo.getPostById(postId: postId.id);
+    final result = await getPostsByIdRepo.getPostById(postId: postId);
     result.fold((l) => emit(GetPostByIdError()), (r) {
       final posts = PostsList.fromJson(r as Map<String, dynamic>);
       emit(GetPostByIdSuccess(posts: posts));

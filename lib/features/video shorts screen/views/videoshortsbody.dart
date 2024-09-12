@@ -45,6 +45,7 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
   int saves = 0;
   bool isSaved = false;
   late GetShortsCubit getShortsCubit;
+  bool isMute = false;
 
   @override
   void initState() {
@@ -190,12 +191,13 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                               children: [
                                 Center(
                                   child: VideoPlayerWidget(
-                                      showFullScreenButton: false,
-                                      videoUrl: item.fileUrl ?? '',
-                                      showMute: true,
-                                      showPlay: false,
-                                      shimmerWidth: double.infinity,
-                                      shimmerHeight: 600.h),
+                                    showFullScreenButton: false,
+                                    videoUrl: item.fileUrl ?? '',
+                                    showPlay: true,
+                                    shimmerWidth: double.infinity,
+                                    shimmerHeight: 600.h,
+                                    isMuted: isMute,
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 5.h,
@@ -216,9 +218,14 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                                       icon: const Icon(
                                           FontAwesomeIcons.chevronLeft)),
                                   IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                          FontAwesomeIcons.volumeXmark)),
+                                      onPressed: () {
+                                        setState(() {
+                                          isMute = !isMute;
+                                        });
+                                      },
+                                      icon: Icon(isMute
+                                          ? FontAwesomeIcons.volumeXmark
+                                          : FontAwesomeIcons.volumeHigh)),
                                   SizedBox(
                                     width: 116.w,
                                   ),
@@ -284,7 +291,7 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                                   ),
                                   CustomShortsButton(
                                     icon: FontAwesomeIcons.solidBookmark,
-                                    text: saves.toString(),
+                                    text: item.saves?.count.toString() ?? '0',
                                     color:
                                         isSaved ? Colors.yellow : Colors.white,
                                     onTap: () {

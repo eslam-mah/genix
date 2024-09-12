@@ -135,7 +135,7 @@ class _PostItemProfileState extends State<PostItemProfile> {
                       ),
                       IconButton(
                         onPressed: () {
-                          showPostTabBar(context, widget.isNightModeEnabled);
+                          // showPostTabBar(context, widget.isNightModeEnabled);
                         },
                         icon: const Icon(FontAwesomeIcons.ellipsis),
                       ),
@@ -272,7 +272,7 @@ class _PostItemProfileState extends State<PostItemProfile> {
                         icon: FontAwesomeIcons.solidComment,
                         width: 90.w,
                         text: 'Comment',
-                        ontap: () {
+                        onTap: () {
                           GoRouter.of(context).push(CommentsBody.routeName,
                               extra: widget.profileModel);
                         },
@@ -281,7 +281,7 @@ class _PostItemProfileState extends State<PostItemProfile> {
                         icon: FontAwesomeIcons.share,
                         width: 90.w,
                         text: 'Share',
-                        ontap: () {
+                        onTap: () {
                           shareBottomSheet(context);
                         },
                       ),

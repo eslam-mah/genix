@@ -8,18 +8,20 @@ class VideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
   final double shimmerWidth;
   final double shimmerHeight;
-  final bool showMute;
   final bool showPlay;
+  final double? iconSize;
   final bool? showFullScreenButton;
+  final bool isMuted; // Add this to control mute state
 
   const VideoPlayerWidget({
     super.key,
     required this.videoUrl,
-    required this.showMute,
     required this.showPlay,
     required this.shimmerWidth,
     required this.shimmerHeight,
     this.showFullScreenButton,
+    required this.isMuted,
+    this.iconSize, // Initialize isMuted
   });
 
   @override
@@ -57,13 +59,25 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       // Automatically play the video after initialization
       flickManager?.flickControlManager?.play();
 
-      if (widget.showMute) {
+      // Set mute based on the initial state
+      if (widget.isMuted) {
         flickManager?.flickControlManager?.mute();
       }
     } catch (e) {
-      setState(() {
-        hasError = true;
-      });
+      print('________________________${e}__________________');
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant VideoPlayerWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Mute/Unmute video when the isMuted prop changes
+    if (widget.isMuted != oldWidget.isMuted) {
+      if (widget.isMuted) {
+        flickManager?.flickControlManager?.mute();
+      } else {
+        flickManager?.flickControlManager?.unmute();
+      }
     }
   }
 
@@ -83,10 +97,10 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         ? FlickVideoPlayer(
             flickManager: flickManager!,
             flickVideoWithControls: FlickVideoWithControls(
-              videoFit: BoxFit.cover,
+              videoFit: BoxFit.contain,
               controls: widget.showPlay
                   ? FlickPortraitControls(
-                      iconSize: 30.sp,
+                      iconSize: widget.iconSize ?? 20.sp,
                       progressBarSettings: FlickProgressBarSettings(
                         height: 5.h,
                       ),
@@ -95,8 +109,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             ),
           )
         : Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
+            baseColor: Colors.grey[100]!,
+            highlightColor: Colors.grey[50]!,
             child: Container(
               width: widget.shimmerWidth,
               height: widget.shimmerHeight,

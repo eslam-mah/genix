@@ -23,21 +23,21 @@ enum Reaction {
   none
 }
 
-class CustomCommentBubble extends StatefulWidget {
-  const CustomCommentBubble({
+class TempCommentBubble extends StatefulWidget {
+  const TempCommentBubble({
     super.key,
     required this.onTap,
-    // required this.commentText,
+    required this.commentText,
     required this.postsModel,
   });
   final Function() onTap;
-  // final String commentText;
+  final String commentText;
   final Comment postsModel;
   @override
-  State<CustomCommentBubble> createState() => _CustomCommentBubbleState();
+  State<TempCommentBubble> createState() => _TempCommentBubbleState();
 }
 
-class _CustomCommentBubbleState extends State<CustomCommentBubble> {
+class _TempCommentBubbleState extends State<TempCommentBubble> {
   Reaction reaction = Reaction.none;
   bool reactionView = false;
   bool isReacted = false;
@@ -124,13 +124,13 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                                     ),
                                   ],
                                 ),
-                                if (content.isEmpty)
+                                if (widget.commentText.isEmpty)
                                   Image.asset(
                                     AppImages.kLogo,
                                     width: 20.r,
                                   ),
                                 Text(
-                                  content,
+                                  widget.commentText,
                                   style: TextStyle(fontSize: 14.sp),
                                   textAlign: TextAlign.start,
                                 ),

@@ -65,6 +65,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
         clipBehavior: Clip.none,
         children: [
           CustomBottomAppBar(
+            profileEnabled: false,
             isNightMode: isNightModeEnabled,
           ),
           Positioned(

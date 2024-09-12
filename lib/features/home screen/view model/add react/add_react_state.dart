@@ -1,19 +1,23 @@
 part of 'add_react_cubit.dart';
 
-sealed class AddReactState extends Equatable {
+abstract class AddReactState extends Equatable {
   const AddReactState();
 
   @override
   List<Object> get props => [];
 }
 
-final class AddReactInitial extends AddReactState {}
+class AddReactInitial extends AddReactState {}
 
-final class AddReactLoading extends AddReactState {}
+class AddReactLoading extends AddReactState {}
 
-final class AddReactSuccess extends AddReactState {
-  final Summary reactions;
-  const AddReactSuccess({required this.reactions});
+class AddReactSuccess extends AddReactState {
+  final String reactionType;
+
+  const AddReactSuccess({required this.reactionType});
+
+  @override
+  List<Object> get props => [reactionType];
 }
 
-final class AddReactError extends AddReactState {}
+class AddReactError extends AddReactState {}

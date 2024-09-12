@@ -177,8 +177,11 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
           SizedBox(
             width: 8.w,
           ),
-          const BigTextField(
-              hintText: 'Tell us more about you', color: Colors.transparent),
+          BigTextField(
+            hintText: 'Tell us more about you',
+            color: Colors.transparent,
+            controller: TextEditingController(),
+          ),
           SizedBox(
             height: 10.h,
           ),

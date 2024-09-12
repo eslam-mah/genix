@@ -1,15 +1,15 @@
 import 'package:genix/features/home%20screen/data/models/posts_model/user.dart';
 
-class Reactions {
+class Reaction {
   Map<String, int>? summary;
   dynamic byMe;
 
-  Reactions({
+  Reaction({
     this.summary,
     this.byMe,
   });
 
-  Reactions.fromJson(Map<String, dynamic> json)
+  Reaction.fromJson(Map<String, dynamic> json)
       : summary = (json['summary'] as Map<String, dynamic>?)
             ?.map((k, e) => MapEntry(k, e as int)),
         byMe = json['by_me'];
@@ -28,7 +28,7 @@ class Comment {
   int? postId;
   int? commentId;
   String? content;
-  Reactions? reactions;
+  Reaction? reactions;
   DateTime? createdAt;
 
   Comment({

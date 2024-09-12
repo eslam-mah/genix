@@ -13,7 +13,9 @@ class CommentsRepository {
   }
 
   Future<Either<FailureModel, Map>> addCommentReact(
-      {required Map<String, dynamic> data, required int id}) async {
+      {required Map<String, dynamic> data,
+      required int id,
+      required int postId}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.postData(
           linkUrl: ApiEndPoints.reactOnComment + '/$id',
