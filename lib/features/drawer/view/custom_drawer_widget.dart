@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/pref_keys.dart';
+import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customlisttile.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
@@ -16,14 +16,17 @@ class CustomDrawerWidget extends StatefulWidget {
     required this.onNightModeChanged,
     required this.isNightMode,
   });
+
   final Function(bool) onNightModeChanged;
   final bool isNightMode;
+
   @override
   State<CustomDrawerWidget> createState() => _CustomDrawerWidgetState();
 }
 
 class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   bool isNightMode = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -107,6 +110,11 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                     icon: FontAwesomeIcons.key,
                     text: 'Lock screen',
                     onTap: () {},
+                  ),
+                  CustomListTile(
+                    icon: FontAwesomeIcons.solidMessage,
+                    text: 'Chats',
+                    onTap: () => context.push(Rout.kChatsListing),
                   ),
                   CustomListTile(
                     icon: FontAwesomeIcons.rightFromBracket,
