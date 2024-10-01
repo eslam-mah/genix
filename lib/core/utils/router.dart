@@ -1,3 +1,4 @@
+import 'package:genix/features/chat%20screen/views/chat_listing_screen.dart';
 import 'package:genix/features/comments%20section/coments_router.dart';
 import 'package:genix/features/comments%20section/replies.dart';
 import 'package:genix/features/followers%20list%20page/followers_router.dart';
@@ -8,7 +9,6 @@ import 'package:genix/features/lock%20screen/lock_router.dart';
 import 'package:genix/features/login%20screen/login_router.dart';
 import 'package:genix/features/notifications%20screen/notifications_router.dart';
 import 'package:genix/features/pages%20list%20page/pagesscreen.dart';
-
 import 'package:genix/features/photos%20page/photosscreen.dart';
 import 'package:genix/features/profile%20screen/My_profile_router.dart';
 import 'package:genix/features/profile%20screen/profile_router.dart';
@@ -30,6 +30,7 @@ abstract class Rout {
   static const kVideosScreen = '/videos';
   static const kGroupsScreen = '/groups';
   static const kPagesScreen = '/pages';
+  static const kChatsListing = '/chat-listing';
 
   static final router = GoRouter(routes: [
     GoRoute(
@@ -59,6 +60,10 @@ abstract class Rout {
     GoRoute(
       path: kPagesScreen,
       builder: (context, state) => const PagesScreen(),
+    ),
+    GoRoute(
+      path: kChatsListing,
+      builder: (context, state) => const ChatListingScreen(),
     ),
     ...VideoShortsRouter.goRoutes,
     ...CommentsRouter.goRoutes,

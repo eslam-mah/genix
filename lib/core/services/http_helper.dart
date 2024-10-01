@@ -1,18 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:genix/core/services/checkinternet.dart';
 import 'package:genix/core/services/failure_model.dart';
 import 'package:genix/core/services/http_reponse_status.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HttpHelper {
   // Function to save token
   static Future<void> _saveToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    debugPrint('HttpHelper._saveToken: $token');
     await prefs.setString('auth_token', token);
   }
 
