@@ -12,7 +12,6 @@ Future<dynamic> shareBottomSheet(BuildContext context) {
   return showModalBottomSheet(
       isScrollControlled: true,
       showDragHandle: true,
-      backgroundColor: AppColors.kPostColor,
       enableDrag: true,
       context: context,
       builder: (context) {
@@ -214,7 +213,6 @@ Future<dynamic> shareBottomSheet(BuildContext context) {
                             Text(
                               'SELECT AN USER',
                               style: TextStyle(
-                                color: Colors.black.withOpacity(0.5),
                                 fontSize: 10.sp,
                               ),
                             ),
@@ -274,7 +272,6 @@ Future<dynamic> shareBottomSheet(BuildContext context) {
                             Text(
                               'SELECT A GROUP',
                               style: TextStyle(
-                                color: Colors.black.withOpacity(0.5),
                                 fontSize: 10.sp,
                               ),
                             ),
@@ -334,7 +331,6 @@ Future<dynamic> shareBottomSheet(BuildContext context) {
                             Text(
                               'SELECT A PAGE',
                               style: TextStyle(
-                                color: Colors.black.withOpacity(0.5),
                                 fontSize: 10.sp,
                               ),
                             ),

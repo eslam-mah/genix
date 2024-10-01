@@ -6,7 +6,7 @@ class PostForm {
   List<String>? files;
   String? checkinLocation;
   String? pollQuestion;
-  String? pollOptions;
+  List<String>? pollOptions;
   String? eventTimestamp;
   String? microphoneId;
   String? cameraId;
@@ -47,7 +47,7 @@ class PostForm {
         files = json['files'] as List<String>,
         checkinLocation = json['checkin_location'] as String?,
         pollQuestion = json['poll_question'] as String?,
-        pollOptions = json['poll_options'] as String?,
+        pollOptions = json['poll_options'] as List<String>?,
         eventTimestamp = json['event_timestamp'] as String?,
         microphoneId = json['microphone_id'] as String?,
         cameraId = json['camera_id'] as String?,

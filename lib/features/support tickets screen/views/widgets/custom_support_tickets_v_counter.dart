@@ -13,12 +13,15 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
     required this.title,
     required this.buttonText,
     required this.buttonIcon,
+    required this.isNightMode,
   });
   final IconData icon;
   final String title;
   final String text;
   final String buttonText;
   final IconData buttonIcon;
+  final bool isNightMode;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,18 +47,19 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
                   textSize: 20.sp,
                   fontFamily: '',
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
                   text: title,
+                  isNightMode: isNightMode,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 13.w),
                   child: CustomTextWidget(
-                      maxLines: 1000,
-                      textSize: 12.sp,
-                      fontFamily: '',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      text: text),
+                    maxLines: 1000,
+                    textSize: 12.sp,
+                    fontFamily: '',
+                    fontWeight: FontWeight.w500,
+                    text: text,
+                    isNightMode: isNightMode,
+                  ),
                 ),
                 CustomIconButton(
                     icon: buttonIcon,

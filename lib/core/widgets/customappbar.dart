@@ -19,7 +19,6 @@ class CustomAppBar extends StatelessWidget {
       children: [
         CustomAppBarIcon(
           icon: FontAwesomeIcons.chevronLeft,
-          color: Colors.black,
           onTap: () {
             GoRouter.of(context).pop();
           },
@@ -27,7 +26,6 @@ class CustomAppBar extends StatelessWidget {
         ),
         CustomAppBarIcon(
           icon: FontAwesomeIcons.magnifyingGlass,
-          color: Colors.black,
           onTap: () {},
           size: 18.sp,
         ),
@@ -42,7 +40,6 @@ class CustomAppBar extends StatelessWidget {
         ),
         CustomAppBarIcon(
           icon: Icons.post_add_outlined,
-          color: Colors.black,
           onTap: () async {
             // await addPostModalBottomSheet(context);
           },

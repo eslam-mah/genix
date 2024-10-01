@@ -11,7 +11,6 @@ Future<dynamic> reportBottomSheet(
   return showModalBottomSheet(
       isScrollControlled: true,
       showDragHandle: true,
-      backgroundColor: AppColors.kPostColor,
       enableDrag: true,
       context: context,
       builder: (context) {
@@ -29,7 +28,7 @@ Future<dynamic> reportBottomSheet(
                   children: [
                     Text(
                       'SUBMIT A NEW REPORT',
-                      style: TextStyle(color: Colors.black.withOpacity(0.5)),
+                      style: TextStyle(fontSize: 11.sp),
                     ),
                     const Text(
                       'Report post',
@@ -39,11 +38,10 @@ Future<dynamic> reportBottomSheet(
                     SizedBox(
                       height: 20.h,
                     ),
-                    Text('Content',
-                        style: TextStyle(color: Colors.black.withOpacity(0.5))),
+                    Text('Content', style: TextStyle(fontSize: 11.sp)),
                     Text(
                         'Feed this report with a comprehensive content. please include as many details as you can, in all the possible forms to get a proper resolution.',
-                        style: TextStyle(color: Colors.black.withOpacity(0.5))),
+                        style: TextStyle(fontSize: 11.sp)),
                     SizedBox(
                       height: 10.h,
                     ),

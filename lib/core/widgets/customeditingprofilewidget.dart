@@ -15,6 +15,7 @@ class CustomUserProfileEditingImage extends StatelessWidget {
     required this.icon,
     required this.onTapIcon,
     required this.imageUrl,
+    required this.isProfileEditorShown,
   });
   final String imageUrl;
   final double size;
@@ -25,6 +26,7 @@ class CustomUserProfileEditingImage extends StatelessWidget {
   final double positionRight;
   final IconData icon;
   final Function() onTapIcon;
+  final bool isProfileEditorShown;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -33,17 +35,8 @@ class CustomUserProfileEditingImage extends StatelessWidget {
           child: Container(
             width: 80.r,
             height: 80.r,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              // borderRadius: BorderRadius.circular(1000.r),
-              // boxShadow: const [
-              //   BoxShadow(
-              //     color: Colors.black,
-              //     spreadRadius: 3,
-              //     blurRadius: 7,
-              //     offset: Offset(0, 3),
-              //   ),
-              // ]
             ),
             child: CircleAvatar(
               radius: size,
@@ -62,30 +55,25 @@ class CustomUserProfileEditingImage extends StatelessWidget {
             ),
           ),
         ),
-        // Positioned(
-        //     bottom: positionBottom,
-        //     right: positionRight,
-        //     child: CircleAvatar(
-        //       backgroundColor: Colors.white,
-        //       radius: whiteSize,
-        //     )),
-        Positioned(
-            bottom: positionBottom,
-            right: positionRight,
-            child: CircleAvatar(
-              backgroundColor: Colors.grey,
-              radius: smallSize,
-              child: Center(
-                child: GestureDetector(
-                  onTap: onTapIcon,
-                  child: Icon(
-                    icon,
-                    color: Colors.white,
-                    size: 12.sp,
+        isProfileEditorShown
+            ? Positioned(
+                bottom: positionBottom,
+                right: positionRight,
+                child: CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  radius: smallSize,
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: onTapIcon,
+                      child: Icon(
+                        icon,
+                        color: Colors.white,
+                        size: 12.sp,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ))
+                ))
+            : const SizedBox()
       ],
     );
   }

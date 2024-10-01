@@ -8,11 +8,13 @@ class CustomPostComponents extends StatelessWidget {
     required this.text,
     required this.onTap,
     required this.width,
+    required this.isNightMode,
   });
   final IconData icon;
   final String text;
   final Function() onTap;
   final double width;
+  final bool isNightMode;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -21,7 +23,8 @@ class CustomPostComponents extends StatelessWidget {
           height: 30.h,
           width: width,
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(8.r)),
+              color: isNightMode ? Colors.black : Colors.white,
+              borderRadius: BorderRadius.circular(8.r)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

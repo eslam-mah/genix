@@ -106,8 +106,7 @@ class _CustomPromoteWidget2State extends State<CustomPromoteWidget2> {
                 width: 100.w,
                 child: Text(
                   '$views Views',
-                  style: TextStyle(
-                      color: Colors.black.withOpacity(0.5), fontSize: 12.sp),
+                  style: TextStyle(fontSize: 12.sp),
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                 ),

@@ -188,6 +188,47 @@ class HttpHelper {
     return await http.Response.fromStream(response);
   }
 
+  static Future<http.Response> postMultipartData({
+    required String linkUrl,
+    required Map<String, dynamic> data,
+    required List<File> files, // List of files
+    required String name, // The name of the file field in the form
+    String? token,
+  }) async {
+    token ??= await _getToken(); // Get token if not provided
+
+    var request = http.MultipartRequest('POST', Uri.parse(linkUrl));
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept'] = 'application/json';
+
+    // Add other data fields to the multipart request
+    data.forEach((key, value) {
+      request.fields[key] = value.toString();
+    });
+
+    // Attach files to the request
+    for (int i = 0; i < files.length; i++) {
+      File file = files[i];
+
+      if (!await file.exists()) {
+        throw Exception("File not found at path: ${file.path}");
+      }
+
+      var mimeType = lookupMimeType(file.path) ?? 'application/octet-stream';
+      var mimeTypeData = mimeType.split('/');
+
+      // Attach the file with the correct field name (e.g., `files.0`, `files.1`)
+      request.files.add(await http.MultipartFile.fromPath(
+        'files.$i', // Use 'files.0', 'files.1' etc.
+        file.path,
+        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+      ));
+    }
+
+    final response = await request.send();
+    return await http.Response.fromStream(response);
+  }
+
   static Future<http.Response> postFile({
     required String linkUrl,
     required File file,
@@ -215,6 +256,39 @@ class HttpHelper {
     return await http.Response.fromStream(response);
   }
 
+  static Future<Either<FailureModel, Map>> handleRequestWithApiKey(
+    Future<http.Response> Function(String apiKey) requestFunction,
+    String apiKey,
+  ) async {
+    try {
+      http.Response response = await requestFunction(apiKey);
+
+      // Log the status code and response body for debugging
+      print('Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 202) {
+        return Right(jsonDecode(response.body));
+      } else if (response.statusCode == 401 || response.statusCode == 400) {
+        String message = jsonDecode(response.body)['message'];
+        return Left(FailureModel(
+          responseStatus: HttpResponseStatus.invalidData,
+          message: message,
+        ));
+      } else {
+        String message = jsonDecode(response.body)['message'];
+        return Left(FailureModel(
+          responseStatus: HttpResponseStatus.failure,
+          message: message,
+        ));
+      }
+    } catch (e) {
+      print('Exception occurred: $e');
+      return Left(FailureModel(
+          responseStatus: HttpResponseStatus.failure, message: e.toString()));
+    }
+  }
+
   static Future<Either<FailureModel, Map>> handleRequest(
     Future<http.Response> Function(String token) requestFunction,
   ) async {
@@ -223,7 +297,11 @@ class HttpHelper {
         String token = await _getToken() ?? "";
         http.Response response = await requestFunction(token);
 
-        if (response.statusCode == 200 || response.statusCode == 202) {
+        // Log the status code and response body for debugging
+        print('Status Code: ${response.statusCode}');
+        print('Response Body: ${response.body}');
+
+        if (response.statusCode == 202) {
           return Right(jsonDecode(response.body));
         } else if (response.statusCode == 401 || response.statusCode == 400) {
           String message = jsonDecode(response.body)['message'];
@@ -240,11 +318,12 @@ class HttpHelper {
         }
       } else {
         return Left(
-          FailureModel(responseStatus: HttpResponseStatus.noInternet),
-        );
+            FailureModel(responseStatus: HttpResponseStatus.noInternet));
       }
     } catch (e) {
-      return Left(FailureModel(responseStatus: HttpResponseStatus.failure));
+      print('Exception occurred: $e');
+      return Left(FailureModel(
+          responseStatus: HttpResponseStatus.failure, message: e.toString()));
     }
   }
 }

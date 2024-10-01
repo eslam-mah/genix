@@ -4,11 +4,11 @@ class CustomAppBarIcon extends StatelessWidget {
   const CustomAppBarIcon(
       {super.key,
       required this.icon,
-      required this.color,
+      this.color,
       this.onTap,
       required this.size});
   final IconData icon;
-  final Color color;
+  final Color? color;
   final Function()? onTap;
   final double size;
   @override
@@ -17,8 +17,8 @@ class CustomAppBarIcon extends StatelessWidget {
         onTap: onTap,
         child: Icon(
           icon,
-          color: color,
           size: size,
+          color: color,
         ));
   }
 }

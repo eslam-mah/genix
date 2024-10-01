@@ -8,9 +8,11 @@ class CustomSupportTicketsHCounter extends StatelessWidget {
     super.key,
     required this.number,
     required this.text,
+    required this.isNightMode,
   });
   final num number;
   final String text;
+  final bool isNightMode;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,15 +42,16 @@ class CustomSupportTicketsHCounter extends StatelessWidget {
                 textSize: 40.sp,
                 fontFamily: '',
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
                 text: number.toString(),
+                isNightMode: isNightMode,
               ),
               CustomTextWidget(
-                  textSize: 10.sp,
-                  fontFamily: '',
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                  text: text)
+                textSize: 10.sp,
+                fontFamily: '',
+                fontWeight: FontWeight.w500,
+                text: text,
+                isNightMode: isNightMode,
+              )
             ],
           ),
         ],

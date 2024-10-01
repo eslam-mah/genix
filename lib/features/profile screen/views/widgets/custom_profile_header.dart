@@ -19,6 +19,7 @@ class CustomProfileHeader extends StatelessWidget {
     required this.savedCount,
     required this.bioText,
     required this.coverImageUrl,
+    required this.isProfileEditorShown,
   });
   final String imageUrl;
   final String profileName;
@@ -28,21 +29,19 @@ class CustomProfileHeader extends StatelessWidget {
   final num friendsCount;
   final num likesCount;
   final num savedCount;
+  final bool isProfileEditorShown;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        SizedBox(
           width: double.infinity,
           height: 400.h,
-          color: Colors.white,
           child: CachedNetworkImage(
             errorWidget: (context, error, stackTrace) {
               return Container(
-                  color: Colors.white,
-                  alignment: Alignment.center,
-                  child: const SizedBox());
+                  alignment: Alignment.center, child: const SizedBox());
             },
             imageUrl: coverImageUrl,
           ),
@@ -68,24 +67,64 @@ class CustomProfileHeader extends StatelessWidget {
                     editProfilePicBottomSheet(context);
                   },
                   imageUrl: imageUrl,
+                  isProfileEditorShown: isProfileEditorShown,
                 ),
                 Text(
                   profileName,
                   style: TextStyle(
-                    color: Colors.black,
                     fontSize: 22.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                CircleAvatar(
-                  backgroundColor: const Color.fromARGB(255, 108, 184, 246),
-                  radius: 15.r,
-                  child: Icon(
-                    FontAwesomeIcons.pen,
-                    size: 15.r,
-                    color: Colors.white,
-                  ),
-                ),
+                isProfileEditorShown
+                    ? IconButton(
+                        onPressed: () {
+                          // todo: edit bio
+                        },
+                        icon: CircleAvatar(
+                          backgroundColor:
+                              const Color.fromARGB(255, 108, 184, 246),
+                          radius: 15.r,
+                          child: Icon(
+                            FontAwesomeIcons.pen,
+                            size: 15.r,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              // todo: remove friend
+                            },
+                            icon: CircleAvatar(
+                              backgroundColor: Colors.red,
+                              radius: 15.r,
+                              child: Icon(
+                                FontAwesomeIcons.userMinus,
+                                size: 15.r,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              // todo: menu dialog
+                            },
+                            icon: CircleAvatar(
+                              backgroundColor: Colors.grey,
+                              radius: 15.r,
+                              child: Icon(
+                                FontAwesomeIcons.ellipsis,
+                                size: 15.r,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                 Container(
                   decoration: BoxDecoration(
                       color: Colors.grey,
@@ -98,20 +137,22 @@ class CustomProfileHeader extends StatelessWidget {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    editBackgroundPicBottomSheet(context);
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    radius: 10.r,
-                    child: Icon(
-                      FontAwesomeIcons.pen,
-                      size: 10.r,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
+                isProfileEditorShown
+                    ? GestureDetector(
+                        onTap: () {
+                          editBackgroundPicBottomSheet(context);
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Colors.grey,
+                          radius: 10.r,
+                          child: Icon(
+                            FontAwesomeIcons.pen,
+                            size: 10.r,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    : const SizedBox()
               ],
             ),
           ),

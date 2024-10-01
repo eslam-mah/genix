@@ -11,8 +11,11 @@ class CustomTicketsItem extends StatelessWidget {
   const CustomTicketsItem({
     super.key,
     required this.ticket,
+    required this.isNightMode,
   });
   final TicketsModel ticket;
+  final bool isNightMode;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,32 +44,35 @@ class CustomTicketsItem extends StatelessWidget {
                       SizedBox(
                         width: 170.w,
                         child: CustomTextWidget(
-                            textSize: 12.sp,
-                            fontFamily: '',
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                            text: ticket.title),
+                          textSize: 12.sp,
+                          fontFamily: '',
+                          fontWeight: FontWeight.w400,
+                          text: ticket.title,
+                          isNightMode: isNightMode,
+                        ),
                       )
                     ],
                   ),
                   CustomTextWidget(
-                      textSize: 12.sp,
-                      fontFamily: '',
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                      text:
-                          'Created on ${DateFormat('MMMM d, yyyy').format(ticket.createdAt)}')
+                    textSize: 12.sp,
+                    fontFamily: '',
+                    fontWeight: FontWeight.w400,
+                    text:
+                        'Created on ${DateFormat('MMMM d, yyyy').format(ticket.createdAt)}',
+                    isNightMode: isNightMode,
+                  )
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomTextWidget(
-                      textSize: 12.sp,
-                      fontFamily: '',
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                      text: 'Last reply by'),
+                    textSize: 12.sp,
+                    fontFamily: '',
+                    fontWeight: FontWeight.w400,
+                    text: 'Last reply by',
+                    isNightMode: isNightMode,
+                  ),
                   Row(
                     children: [
                       CustomSmallUserProfileImage(
@@ -79,11 +85,12 @@ class CustomTicketsItem extends StatelessWidget {
                       SizedBox(
                         width: 40.w,
                         child: CustomTextWidget(
-                            textSize: 12.sp,
-                            fontFamily: '',
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                            text: ticket.lastUser.showname),
+                          textSize: 12.sp,
+                          fontFamily: '',
+                          fontWeight: FontWeight.w400,
+                          text: ticket.lastUser.showname,
+                          isNightMode: isNightMode,
+                        ),
                       ),
                     ],
                   )

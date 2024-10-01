@@ -36,7 +36,6 @@ class _GroupsScreenBodyState extends State<GroupsScreenBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: isSelected ? AppColors.kAppBar2Color : Colors.white,
         key: _scaffoldKey,
         bottomNavigationBar: SafeArea(
             child: Stack(
@@ -71,12 +70,10 @@ class _GroupsScreenBodyState extends State<GroupsScreenBody> {
               },
             ),
           ],
-          backgroundColor: AppColors.kAppBar2Color,
           elevation: 0,
           title: const CustomAppBar(),
         ),
         endDrawer: CustomDrawerWidget(
-          onNightModeChanged: handleNightModeChanged,
           isNightMode: isNightModeEnabled,
         ),
         body: isSelected
@@ -100,6 +97,7 @@ class _GroupsScreenBodyState extends State<GroupsScreenBody> {
                         height: 600.h,
                         crossAxisCount: 2,
                         direction: Axis.vertical,
+                        isNightMode: isNightModeEnabled,
                       ),
                     ),
                   )

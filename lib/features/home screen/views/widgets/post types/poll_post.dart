@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
+import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 
 class PollPost extends StatefulWidget {
   final PostsModel postsModel;
-  const PollPost({super.key, required this.postsModel});
+  final bool isNightMode;
+  const PollPost(
+      {super.key, required this.postsModel, required this.isNightMode});
 
   @override
   State<PollPost> createState() => _PollPostState();
@@ -59,7 +62,7 @@ class _PollPostState extends State<PollPost> {
                     child: Text(
                       option.title ?? '',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 20.sp,
                       ),
                     ),
                   ),
@@ -83,11 +86,14 @@ class _PollPostState extends State<PollPost> {
                           ),
                         ),
                         Center(
-                          child: Text(
-                            '${option.votesFromUsers?.length ?? 0} votes',
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 14.sp),
-                          ),
+                          child: CustomTextWidget(
+                              textSize: 14.sp,
+                              fontFamily: 'fontFamily',
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                              text:
+                                  '${option.votesFromUsers?.length ?? 0} votes',
+                              isNightMode: widget.isNightMode),
                         ),
                       ],
                     ),

@@ -144,8 +144,8 @@ class _CommentsBodyState extends State<CommentsBody> {
                                 textSize: 17.sp,
                                 fontFamily: '',
                                 fontWeight: FontWeight.normal,
-                                color: Colors.black.withOpacity(0.4),
-                                text: 'No comments yet',
+                                // color: Colors.black.withOpacity(0.4),
+                                text: 'No comments yet', isNightMode: false,
                               ),
                             )
                           : ListView.builder(
@@ -174,11 +174,13 @@ class _CommentsBodyState extends State<CommentsBody> {
                                                 child: CustomCommentBubble(
                                                   onTap: () {},
                                                   postsModel: comment,
+                                                  isNightMode: false,
                                                 ),
                                               )
                                             : CustomCommentBubble(
                                                 onTap: () {},
                                                 postsModel: comment,
+                                                isNightMode: false,
                                               ),
                                         Padding(
                                           padding: EdgeInsets.only(left: 20.w),
@@ -189,9 +191,10 @@ class _CommentsBodyState extends State<CommentsBody> {
                                                 padding: EdgeInsets.symmetric(
                                                     vertical: 10.h),
                                                 child: CustomCommentBubble(
-                                                    onTap: () {},
-                                                    postsModel:
-                                                        commentReplies[i]),
+                                                  onTap: () {},
+                                                  postsModel: commentReplies[i],
+                                                  isNightMode: false,
+                                                ),
                                               );
                                             }),
                                           ),

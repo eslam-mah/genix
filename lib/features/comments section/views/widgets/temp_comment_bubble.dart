@@ -29,10 +29,12 @@ class TempCommentBubble extends StatefulWidget {
     required this.onTap,
     required this.commentText,
     required this.postsModel,
+    required this.isNightMode,
   });
   final Function() onTap;
   final String commentText;
   final Comment postsModel;
+  final bool isNightMode;
   @override
   State<TempCommentBubble> createState() => _TempCommentBubbleState();
 }
@@ -48,14 +50,14 @@ class _TempCommentBubbleState extends State<TempCommentBubble> {
   }
 
   final List<dynamic> reactions = [
-    ReactionElement(Lottie.asset(AppLotties.kLaughReact), Reaction.laugh),
-    ReactionElement(Lottie.asset(AppLotties.kSadReact), Reaction.sad),
-    ReactionElement(Lottie.asset(AppLotties.kWowReact), Reaction.surprise),
-    ReactionElement(Lottie.asset(AppLotties.kCry), Reaction.cry),
-    ReactionElement(Lottie.asset(AppLotties.kLove), Reaction.love),
-    ReactionElement(Lottie.asset(AppLotties.kAngryReact), Reaction.angry),
-    ReactionElement(Lottie.asset(AppLotties.kWinkReact), Reaction.wink),
-    ReactionElement(Lottie.asset(AppLotties.kCute), Reaction.cute),
+    ReactionElement(Lottie.asset(AppLottie.kLaughReact), Reaction.laugh),
+    ReactionElement(Lottie.asset(AppLottie.kSadReact), Reaction.sad),
+    ReactionElement(Lottie.asset(AppLottie.kWowReact), Reaction.surprise),
+    ReactionElement(Lottie.asset(AppLottie.kCry), Reaction.cry),
+    ReactionElement(Lottie.asset(AppLottie.kLove), Reaction.love),
+    ReactionElement(Lottie.asset(AppLottie.kAngryReact), Reaction.angry),
+    ReactionElement(Lottie.asset(AppLottie.kWinkReact), Reaction.wink),
+    ReactionElement(Lottie.asset(AppLottie.kCute), Reaction.cute),
   ];
   @override
   Widget build(BuildContext context) {
@@ -98,15 +100,16 @@ class _TempCommentBubbleState extends State<TempCommentBubble> {
                                       child: Row(
                                         children: [
                                           CustomTextWidget(
-                                              width: 70.w,
-                                              maxLines: 3,
-                                              textSize: 12.sp,
-                                              fontFamily: '',
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                              text: widget.postsModel.user
-                                                      ?.showname ??
-                                                  ''),
+                                            width: 70.w,
+                                            maxLines: 3,
+                                            textSize: 12.sp,
+                                            fontFamily: '',
+                                            fontWeight: FontWeight.bold,
+                                            text: widget.postsModel.user
+                                                    ?.showname ??
+                                                '',
+                                            isNightMode: widget.isNightMode,
+                                          ),
                                           if (widget.postsModel.user!
                                                   .isVerified ==
                                               true)
@@ -264,14 +267,15 @@ class _TempCommentBubbleState extends State<TempCommentBubble> {
                                       child: Row(
                                         children: [
                                           CustomTextWidget(
-                                              maxLines: 3,
-                                              textSize: 12.sp,
-                                              fontFamily: '',
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                              text: widget.postsModel.user
-                                                      ?.showname ??
-                                                  ''),
+                                            maxLines: 3,
+                                            textSize: 12.sp,
+                                            fontFamily: '',
+                                            fontWeight: FontWeight.bold,
+                                            text: widget.postsModel.user
+                                                    ?.showname ??
+                                                '',
+                                            isNightMode: widget.isNightMode,
+                                          ),
                                           if (widget.postsModel.user!
                                                   .isVerified ==
                                               true)
@@ -410,43 +414,43 @@ class _TempCommentBubbleState extends State<TempCommentBubble> {
       case Reaction.cry:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kCry), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kCry), Text('$reactNum')],
         );
       case Reaction.cute:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kCute), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kCute), Text('$reactNum')],
         );
       case Reaction.angry:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kAngryReact), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kAngryReact), Text('$reactNum')],
         );
       case Reaction.laugh:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kLaughReact), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kLaughReact), Text('$reactNum')],
         );
       case Reaction.sad:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kSadReact), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kSadReact), Text('$reactNum')],
         );
       case Reaction.surprise:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kWowReact), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kWowReact), Text('$reactNum')],
         );
       case Reaction.wink:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kWinkReact), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kWinkReact), Text('$reactNum')],
         );
 
       case Reaction.love:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kLove), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kLove), Text('$reactNum')],
         );
       default:
         return const SizedBox.shrink();

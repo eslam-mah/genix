@@ -10,11 +10,13 @@ class GroupsGridView extends StatelessWidget {
     required this.crossAxisCount,
     required this.direction,
     this.profileModel,
+    required this.isNightMode,
   });
   final double height;
   final int crossAxisCount;
   final Axis direction;
   final ProfileModel? profileModel;
+  final bool isNightMode;
   @override
   Widget build(BuildContext context) {
     final group = profileModel?.data?.groupsCollection ?? [];
@@ -40,6 +42,7 @@ class GroupsGridView extends StatelessWidget {
                   photoUrl: group[index].profileImg ?? '',
                   gpName: group[index].name ?? '',
                   membersNumber: group[index].membersCount ?? 0,
+                  isNightMode: isNightMode,
                 ),
               );
             }));

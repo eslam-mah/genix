@@ -24,7 +24,6 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //  backgroundColor: widget.isNightModeEnabled ? Colors.black : Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(

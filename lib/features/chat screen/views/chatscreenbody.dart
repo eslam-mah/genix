@@ -33,7 +33,6 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isSelected ? AppColors.kAppBar2Color : Colors.white,
       key: _scaffoldKey,
       bottomNavigationBar: SafeArea(
           child: Stack(
@@ -73,7 +72,6 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
         title: const CustomAppBar(),
       ),
       endDrawer: CustomDrawerWidget(
-        onNightModeChanged: handleNightModeChanged,
         isNightMode: isNightModeEnabled,
       ),
       body: isSelected

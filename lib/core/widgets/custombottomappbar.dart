@@ -28,7 +28,6 @@ class CustomBottomAppBar extends StatelessWidget {
     return BottomAppBar(
       height: 55.h,
       elevation: 0,
-      color: AppColors.kAppBarColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
