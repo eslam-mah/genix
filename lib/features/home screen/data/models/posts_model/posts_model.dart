@@ -52,20 +52,31 @@ class PostsModel {
   });
 
   PostsModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as num,
+      : id = json['id'] != null && json['id'] is num ? json['id'] as num : null,
         user = json['user'] != null
             ? User.fromJson(json['user'] as Map<String, dynamic>)
             : null,
         page = json['page'],
         group = json['group'],
-        content = json['content'] as String?,
-        inNewsfeed = json['in_newsfeed'] as bool?,
-        inStory = json['in_story'] as bool?,
-        isVideoShort = json['is_video_short'] as bool?,
-        isEvent = json['is_event'] as bool?,
+        content = json['content'] != null && json['content'] is String
+            ? json['content'] as String?
+            : null,
+        inNewsfeed = json['in_newsfeed'] != null && json['in_newsfeed'] is bool
+            ? json['in_newsfeed'] as bool?
+            : null,
+        inStory = json['in_story'] != null && json['in_story'] is bool
+            ? json['in_story'] as bool?
+            : null,
+        isVideoShort =
+            json['is_video_short'] != null && json['is_video_short'] is bool
+                ? json['is_video_short'] as bool?
+                : null,
+        isEvent = json['is_event'] != null && json['is_event'] is bool
+            ? json['is_event'] as bool?
+            : null,
         toCloseFriends = json['to_close_friends'] as bool?,
         isProcessing = json['is_processing'] as bool?,
-        uploads = json['uploads'] != null
+        uploads = json['uploads'] != null && json['uploads'] is List<dynamic>
             ? (json['uploads'] as List<dynamic>)
                 .map((v) => Upload.fromJson(v as Map<String, dynamic>))
                 .toList()

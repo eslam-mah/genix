@@ -155,12 +155,10 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
               },
             ),
           ],
-          backgroundColor: AppColors.kAppBar2Color,
           elevation: 0,
           title: const CustomAppBar(),
         ),
         endDrawer: CustomDrawerWidget(
-          onNightModeChanged: handleNightModeChanged,
           isNightMode: isNightModeEnabled,
         ),
         body: isSelected
@@ -188,20 +186,26 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                             child: Row(
                               children: [
                                 CustomSupportTicketsHCounter(
-                                    number: state.tickets.data.totalCount,
-                                    text: 'TOTAL TICKETS'),
+                                  number: state.tickets.data.totalCount,
+                                  text: 'TOTAL TICKETS',
+                                  isNightMode: isNightModeEnabled,
+                                ),
                                 SizedBox(
                                   width: 20.w,
                                 ),
                                 CustomSupportTicketsHCounter(
-                                    number: state.tickets.data.openCount,
-                                    text: 'OPEN ISSUES'),
+                                  number: state.tickets.data.openCount,
+                                  text: 'OPEN ISSUES',
+                                  isNightMode: isNightModeEnabled,
+                                ),
                                 SizedBox(
                                   width: 20.w,
                                 ),
                                 CustomSupportTicketsHCounter(
-                                    number: state.tickets.data.solvedCount,
-                                    text: 'SOLVED TICKETS'),
+                                  number: state.tickets.data.solvedCount,
+                                  text: 'SOLVED TICKETS',
+                                  isNightMode: isNightModeEnabled,
+                                ),
                               ],
                             ),
                           ),
@@ -219,6 +223,7 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                                   title: 'Email',
                                   buttonText: 'Send mail',
                                   buttonIcon: FontAwesomeIcons.link,
+                                  isNightMode: isNightModeEnabled,
                                 ),
                                 CustomSupportTicketsVCounter(
                                   text:
@@ -227,6 +232,7 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                                   title: 'Support',
                                   buttonText: 'Open ticket',
                                   buttonIcon: FontAwesomeIcons.plus,
+                                  isNightMode: isNightModeEnabled,
                                 ),
                               ],
                             ),
@@ -268,8 +274,9 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                                           extra: item);
                                     },
                                     child: CustomTicketsItem(
-                                        ticket:
-                                            item), // Passing the ticket item
+                                      ticket: item,
+                                      isNightMode: isNightModeEnabled,
+                                    ), // Passing the ticket item
                                   );
                                 },
                               ),
@@ -289,8 +296,8 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                         textSize: 18.sp,
                         fontFamily: '',
                         fontWeight: FontWeight.normal,
-                        color: Colors.black,
                         text: 'Error loading Tickets',
+                        isNightMode: isNightModeEnabled,
                       ),
                     );
                   }

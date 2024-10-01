@@ -8,10 +8,12 @@ class EventWidget extends StatelessWidget {
     required this.icon,
     required this.text,
     required this.eventText,
+    required this.isNightMode,
   });
   final IconData icon;
   final String text;
   final String eventText;
+  final bool isNightMode;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -39,15 +41,15 @@ class EventWidget extends StatelessWidget {
                 children: [
                   CustomTextWidget(
                       textSize: 13.sp,
+                      isNightMode: isNightMode,
                       fontFamily: '',
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
                       text: text),
                   CustomTextWidget(
                       textSize: 16.sp,
+                      isNightMode: isNightMode,
                       fontFamily: '',
                       fontWeight: FontWeight.normal,
-                      color: Colors.black,
                       text: eventText),
                 ],
               ),

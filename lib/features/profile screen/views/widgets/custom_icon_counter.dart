@@ -19,13 +19,14 @@ class CustomCounterIcon extends StatelessWidget {
             Icon(
               icon,
               color: Colors.white,
+              size: 20.r,
             ),
             SizedBox(
               width: 10.w,
             ),
             Text(
               '$number',
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(fontSize: 15.sp, color: Colors.white),
             )
           ],
         ),

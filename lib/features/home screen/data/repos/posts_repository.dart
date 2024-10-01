@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:genix/core/services/failure_model.dart';
 import 'package:genix/core/services/http_helper.dart';
@@ -9,6 +11,22 @@ class PostsRepository {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.postData(
           linkUrl: ApiEndPoints.addPost, data: data, token: token);
+    });
+  }
+
+  Future<Either<FailureModel, Map>> addFilePost({
+    required Map<String, dynamic> data,
+    required List<File> files, // Support multiple files
+    required String name, // Name for the file field
+  }) async {
+    return await HttpHelper.handleRequest((token) async {
+      return await HttpHelper.postMultipartData(
+        linkUrl: ApiEndPoints.addPost,
+        data: data,
+        files: files,
+        name: name,
+        token: token,
+      );
     });
   }
 

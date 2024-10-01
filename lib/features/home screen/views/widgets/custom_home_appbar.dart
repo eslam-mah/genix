@@ -7,15 +7,16 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/addpostbottomsheet.dart';
 import 'package:genix/core/widgets/customappbaricon.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
-import 'package:genix/features/home%20screen/views/view/homebody.dart';
-
-import 'package:go_router/go_router.dart';
 
 class CustomHomeAppBar extends StatelessWidget {
   final PostsModel postsModel;
+  final Function() refresh;
+  final bool isNightMode;
   const CustomHomeAppBar({
     super.key,
     required this.postsModel,
+    required this.refresh,
+    required this.isNightMode,
   });
 
   @override
@@ -25,30 +26,23 @@ class CustomHomeAppBar extends StatelessWidget {
       children: [
         CustomAppBarIcon(
           icon: FontAwesomeIcons.chevronLeft,
-          color: Colors.black,
           onTap: () {},
           size: 18.sp,
         ),
         CustomAppBarIcon(
           icon: FontAwesomeIcons.magnifyingGlass,
-          color: Colors.black,
           onTap: () {},
           size: 18.sp,
         ),
-        GestureDetector(
-          onTap: () {
-            GoRouter.of(context).pushReplacement(HomePage.routeName);
-          },
-          child: Image.asset(
-            AppImages.kLogo,
-            width: 37.w,
-          ),
+        Image.asset(
+          AppImages.kLogo,
+          width: 37.w,
         ),
         CustomAppBarIcon(
           icon: Icons.post_add_outlined,
-          color: Colors.black,
           onTap: () async {
-            await addPostModalBottomSheet(context, postsModel);
+            await addPostModalBottomSheet(
+                context, postsModel, refresh, isNightMode);
           },
           size: 25.sp,
         )

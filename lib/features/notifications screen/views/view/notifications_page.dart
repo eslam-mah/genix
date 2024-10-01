@@ -8,13 +8,16 @@ import 'package:genix/core/default_status_indicators/first_page_error_indicator.
 import 'package:genix/core/default_status_indicators/first_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/new_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/no_items_found_indicator.dart';
+import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
+import 'package:genix/core/utils/pref_keys.dart';
 import 'package:genix/core/widgets/customappbar.dart';
 
 import 'package:genix/core/widgets/custombottomappbar.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
+import 'package:genix/features/drawer/view%20model/theme_cubit.dart';
 import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 
 import 'package:genix/core/widgets/customglowingbutton.dart';
@@ -47,6 +50,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   void initState() {
     super.initState();
+    isNightModeEnabled = CacheData.getData(key: PrefKeys.kDarkMode) ?? false;
     getNotificationsCubit = BlocProvider.of<GetAllNotificationsCubit>(context);
     _pagingController.addPageRequestListener((page) {
       print('**********PAGEKEY************ $page');
@@ -58,6 +62,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     setState(() {
       isNightModeEnabled = isNightMode;
     });
+    CacheData.setData(key: PrefKeys.kDarkMode, value: isNightMode);
   }
 
   Future<void> _fetchPage(List<NotificationsModel> notifications) async {
@@ -104,6 +109,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               print('++++++++++ $index');
               return _NotificationItem(
                 notification: item,
+                isNightMode: isNightModeEnabled,
               );
             }),
       ),
@@ -124,6 +130,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
             }
           },
         ),
+        BlocListener<ThemeCubit, ThemeState>(
+          listener: (context, state) {
+            final isNightMode = state == ThemeState.dark;
+            handleNightModeChanged(isNightMode);
+          },
+        ),
         // BlocListener<UpdateNotificationCubit, UpdateNotificationState>(
         //   listener: (context, updateState) {
         //     if (updateState is UpdateNotificationSuccess) {
@@ -141,7 +153,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
         // )
       ],
       child: Scaffold(
-        backgroundColor: isSelected ? AppColors.kAppBar2Color : Colors.white,
+        backgroundColor:
+            isNightModeEnabled ? DarkModeColors.kBackGroundDark : Colors.white,
         key: _scaffoldKey,
         bottomNavigationBar: SafeArea(
             child: Stack(
@@ -177,12 +190,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
               },
             ),
           ],
-          backgroundColor: AppColors.kAppBar2Color,
           elevation: 0,
           title: const CustomAppBar(),
         ),
         endDrawer: CustomDrawerWidget(
-          onNightModeChanged: handleNightModeChanged,
           isNightMode: isNightModeEnabled,
         ),
         body: isSelected
@@ -207,8 +218,10 @@ class _NotificationItem extends StatelessWidget {
   const _NotificationItem({
     super.key,
     required this.notification,
+    required this.isNightMode,
   });
   final NotificationsModel notification;
+  final bool isNightMode;
   @override
   Widget build(BuildContext context) {
     String formatNotificationDate(String createdAt) {
@@ -235,18 +248,21 @@ class _NotificationItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomTextWidget(
-                    maxLines: 5,
-                    textSize: 15.sp,
-                    fontFamily: '',
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black,
-                    text: notification.data.content),
+                  maxLines: 5,
+                  textSize: 15.sp,
+                  fontFamily: '',
+                  fontWeight: FontWeight.normal,
+                  text: notification.data.content,
+                  isNightMode: isNightMode,
+                ),
                 CustomTextWidget(
-                    textSize: 15.sp,
-                    fontFamily: '',
-                    fontWeight: FontWeight.normal,
-                    color: Colors.grey.shade400,
-                    text: formatNotificationDate(notification.createdAt))
+                  textSize: 15.sp,
+                  fontFamily: '',
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey.shade400,
+                  text: formatNotificationDate(notification.createdAt),
+                  isNightMode: isNightMode,
+                )
               ],
             ),
           )

@@ -36,7 +36,6 @@ class _VideosScreenBodyState extends State<VideosScreenBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: isSelected ? AppColors.kAppBar2Color : Colors.white,
         key: _scaffoldKey,
         bottomNavigationBar: SafeArea(
             child: Stack(
@@ -71,12 +70,10 @@ class _VideosScreenBodyState extends State<VideosScreenBody> {
               },
             ),
           ],
-          backgroundColor: AppColors.kAppBar2Color,
           elevation: 0,
           title: const CustomAppBar(),
         ),
         endDrawer: CustomDrawerWidget(
-          onNightModeChanged: handleNightModeChanged,
           isNightMode: isNightModeEnabled,
         ),
         body: isSelected

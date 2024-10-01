@@ -9,3 +9,10 @@ class AppColors {
   static const kPostColor = Color(0xffDDDDDF);
   static const kPromoteColor = Color(0xffDAEAE1);
 }
+
+class DarkModeColors {
+  static const kBackGroundDark = Color(0xff10171E);
+  static const kItemColorDark = Color(0xff1A2127);
+  static const kItemColorDark2 = Color(0xff1A2127);
+  static const kItemColorDark3 = Color(0xff15202B);
+}

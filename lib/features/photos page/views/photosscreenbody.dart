@@ -37,7 +37,6 @@ class _PhotosScreenBodyState extends State<PhotosScreenBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: isSelected ? AppColors.kAppBar2Color : Colors.white,
         key: _scaffoldKey,
         bottomNavigationBar: SafeArea(
             child: Stack(
@@ -72,12 +71,10 @@ class _PhotosScreenBodyState extends State<PhotosScreenBody> {
               },
             ),
           ],
-          backgroundColor: AppColors.kAppBar2Color,
           elevation: 0,
           title: const CustomAppBar(),
         ),
         endDrawer: CustomDrawerWidget(
-          onNightModeChanged: handleNightModeChanged,
           isNightMode: isNightModeEnabled,
         ),
         body: isSelected

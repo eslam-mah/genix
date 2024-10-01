@@ -179,8 +179,8 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
           ),
           BigTextField(
             hintText: 'Tell us more about you',
-            color: Colors.transparent,
             controller: TextEditingController(),
+            isNightMode: widget.isNightModeEnabled,
           ),
           SizedBox(
             height: 10.h,

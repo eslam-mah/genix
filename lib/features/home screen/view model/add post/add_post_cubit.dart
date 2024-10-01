@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:genix/core/services/failure_model.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/post_form.dart';
 import 'package:genix/features/home%20screen/data/repos/posts_repository.dart';
@@ -10,10 +13,27 @@ class AddPostCubit extends Cubit<AddPostState> {
   AddPostCubit() : super(AddPostInitial());
   final PostsRepository addPostRepo = PostsRepository();
 
-  Future<void> addPost({required PostForm data}) async {
+  // Unified function to handle both text and file posts
+  Future<void> addPost({
+    required PostForm data,
+    List<File>? files, // Optional list of files
+  }) async {
     emit(AddPostLoading());
     try {
-      final result = await addPostRepo.addPost(data: data.toJson());
+      Either<FailureModel, Map>? result;
+
+      if (files != null && files.isNotEmpty) {
+        // If files exist, use the addFilePost method
+        result = await addPostRepo.addFilePost(
+          data: data.toJson(),
+          files: files,
+          name: 'files', // Adjust the field name according to your API
+        );
+      } else {
+        // If no files, simply add a post with data
+        result = await addPostRepo.addPost(data: data.toJson());
+      }
+
       result.fold(
         (l) {
           // Log the error message
@@ -23,7 +43,7 @@ class AddPostCubit extends Cubit<AddPostState> {
         (r) {
           final post = PostsModel.fromJson(data.toJson());
           emit(AddPostSuccess(post: post));
-          print('posting successsssssssssssssssssssssssssssss');
+          print('Posting success!');
         },
       );
     } catch (e) {

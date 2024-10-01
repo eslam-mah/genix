@@ -122,7 +122,6 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
         backgroundColor: Colors.black,
         key: _scaffoldKey,
         endDrawer: CustomDrawerWidget(
-          onNightModeChanged: handleNightModeChanged,
           isNightMode: isNightModeEnabled,
         ),
         bottomNavigationBar: SafeArea(
@@ -336,20 +335,24 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           CustomTextWidget(
-                                              maxLines: 4,
-                                              text: item.user?.showname ?? '',
-                                              textSize: 12.sp,
-                                              fontFamily: '',
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.white),
+                                            maxLines: 4,
+                                            text: item.user?.showname ?? '',
+                                            textSize: 12.sp,
+                                            fontFamily: '',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.white,
+                                            isNightMode: isNightModeEnabled,
+                                          ),
                                           CustomTextWidget(
-                                              maxLines: 4,
-                                              text: _formatCreatedAt(
-                                                  item.createdAt ?? ''),
-                                              textSize: 12.sp,
-                                              fontFamily: '',
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.white)
+                                            maxLines: 4,
+                                            text: _formatCreatedAt(
+                                                item.createdAt ?? ''),
+                                            textSize: 12.sp,
+                                            fontFamily: '',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.white,
+                                            isNightMode: isNightModeEnabled,
+                                          )
                                         ],
                                       ),
                                     ],
@@ -365,12 +368,14 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                                       SizedBox(
                                         width: 280.w,
                                         child: CustomTextWidget(
-                                            maxLines: 4,
-                                            text: content,
-                                            textSize: 12.sp,
-                                            fontFamily: '',
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.white),
+                                          maxLines: 4,
+                                          text: content,
+                                          textSize: 12.sp,
+                                          fontFamily: '',
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.white,
+                                          isNightMode: isNightModeEnabled,
+                                        ),
                                       )
                                     ],
                                   )

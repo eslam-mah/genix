@@ -6,7 +6,9 @@ import 'package:genix/features/home%20screen/views/widgets/event_widget.dart';
 
 class EventPost extends StatelessWidget {
   final PostsModel postsModel;
-  const EventPost({super.key, required this.postsModel});
+  final bool isNightMode;
+  const EventPost(
+      {super.key, required this.postsModel, required this.isNightMode});
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +21,13 @@ class EventPost extends StatelessWidget {
             icon: FontAwesomeIcons.calendar,
             text: 'Location',
             eventText: postsModel.misc?.checkin ?? '',
+            isNightMode: isNightMode,
           ),
           EventWidget(
             icon: FontAwesomeIcons.clock,
             text: 'Timestamp',
             eventText: postsModel.misc?.timestamp ?? '',
+            isNightMode: isNightMode,
           ),
         ],
       ),

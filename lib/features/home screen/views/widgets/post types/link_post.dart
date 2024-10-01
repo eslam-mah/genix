@@ -7,7 +7,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class LinkPost extends StatelessWidget {
   final PostsModel postsModel;
-  const LinkPost({super.key, required this.postsModel});
+  final bool isNightMode;
+  const LinkPost(
+      {super.key, required this.postsModel, required this.isNightMode});
 
   @override
   Widget build(BuildContext context) {
@@ -43,22 +45,23 @@ class LinkPost extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomTextWidget(
-                          textSize: 12.sp,
-                          fontFamily: '',
-                          fontWeight: FontWeight.normal,
-                          color: Colors.black,
-                          text: postsModel.ogInfo?.siteName ?? ''),
+                        textSize: 12.sp,
+                        fontFamily: '',
+                        fontWeight: FontWeight.normal,
+                        text: postsModel.ogInfo?.siteName ?? '',
+                        isNightMode: isNightMode,
+                      ),
                       CustomTextWidget(
                           textSize: 12.sp,
+                          isNightMode: isNightMode,
                           fontFamily: '',
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
                           text: postsModel.ogInfo?.title ?? ''),
                       CustomTextWidget(
                           textSize: 12.sp,
+                          isNightMode: isNightMode,
                           fontFamily: '',
                           fontWeight: FontWeight.normal,
-                          color: Colors.black,
                           text: postsModel.ogInfo?.url ?? '')
                     ],
                   ),

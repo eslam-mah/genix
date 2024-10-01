@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -11,7 +9,6 @@ import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/comments%20section/data/models/comments_model.dart';
 import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
-import 'package:genix/features/comments%20section/views/view/commentsbody.dart';
 import 'package:genix/features/comments%20section/views/widgets/comment_bubble.dart';
 import 'package:genix/features/comments%20section/views/widgets/temp_comment_bubble.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
@@ -72,6 +69,12 @@ class _PostItemState extends State<PostItem> {
   TextEditingController commentTextEditingController = TextEditingController();
   late AddReactCubit addReactCubit;
   late AddCommentCubit addCommentCubit;
+  @override
+  void initState() {
+    super.initState();
+    addReactCubit = BlocProvider.of<AddReactCubit>(context);
+    addCommentCubit = BlocProvider.of<AddCommentCubit>(context);
+  }
 
   List<PostType> _determinePostTypes(PostsModel postModel) {
     final List<PostType> postTypes = [];
@@ -99,20 +102,10 @@ class _PostItemState extends State<PostItem> {
     }
     if (postModel.isVideoShort == true) {
       postTypes.add(PostType.short);
-    }
-    if (postModel.uploads == null &&
-        postModel.ogInfo == null &&
-        postModel.misc == null) {
+    } else {
       postTypes.add(PostType.content);
     }
     return postTypes;
-  }
-
-  List<Widget> _getPostTypeWidgets(
-      List<PostType> postTypes, PostsModel postModel) {
-    return postTypes
-        .map((postType) => _getPostType(postType, postModel))
-        .toList();
   }
 
   Widget _getPostType(PostType postType, PostsModel postModel) {
@@ -122,13 +115,22 @@ class _PostItemState extends State<PostItem> {
       case PostType.video:
         return VideoPost(postsModel: widget.postsModel);
       case PostType.poll:
-        return PollPost(postsModel: widget.postsModel);
+        return PollPost(
+          postsModel: widget.postsModel,
+          isNightMode: widget.isNightModeEnabled,
+        );
       case PostType.event:
-        return EventPost(postsModel: widget.postsModel);
+        return EventPost(
+          postsModel: widget.postsModel,
+          isNightMode: widget.isNightModeEnabled,
+        );
       case PostType.link:
-        return LinkPost(postsModel: widget.postsModel);
+        return LinkPost(
+          postsModel: widget.postsModel,
+          isNightMode: widget.isNightModeEnabled,
+        );
       case PostType.short:
-        return Text('short');
+        return const Text('short');
       case PostType.content:
         return const SizedBox.shrink();
       default:
@@ -142,35 +144,30 @@ class _PostItemState extends State<PostItem> {
   }
 
   final List<dynamic> reactions = [
-    _ReactionElement(Lottie.asset(AppLotties.kLaughReact), Reaction.laugh),
-    _ReactionElement(Lottie.asset(AppLotties.kSadReact), Reaction.sad),
-    _ReactionElement(Lottie.asset(AppLotties.kWowReact), Reaction.surprise),
-    _ReactionElement(Lottie.asset(AppLotties.kCry), Reaction.cry),
-    _ReactionElement(Lottie.asset(AppLotties.kLove), Reaction.love),
-    _ReactionElement(Lottie.asset(AppLotties.kAngryReact), Reaction.angry),
-    _ReactionElement(Lottie.asset(AppLotties.kWinkReact), Reaction.wink),
-    _ReactionElement(Lottie.asset(AppLotties.kCute), Reaction.cute),
+    _ReactionElement(Lottie.asset(AppLottie.kLaughReact), Reaction.laugh),
+    _ReactionElement(Lottie.asset(AppLottie.kSadReact), Reaction.sad),
+    _ReactionElement(Lottie.asset(AppLottie.kWowReact), Reaction.surprise),
+    _ReactionElement(Lottie.asset(AppLottie.kCry), Reaction.cry),
+    _ReactionElement(Lottie.asset(AppLottie.kLove), Reaction.love),
+    _ReactionElement(Lottie.asset(AppLottie.kAngryReact), Reaction.angry),
+    _ReactionElement(Lottie.asset(AppLottie.kWinkReact), Reaction.wink),
+    _ReactionElement(Lottie.asset(AppLottie.kCute), Reaction.cute),
   ];
 
   int _getTotalReactions() {
     final reactionsSummary = widget.postsModel.reactions?.summary;
     if (reactionsSummary != null) {
-      int totalReactions = (reactionsSummary.like ?? 0) +
-          (reactionsSummary.love ?? 0) +
+      int totalReactions = (reactionsSummary.love ?? 0) +
+          (reactionsSummary.cute ?? 0) +
           (reactionsSummary.sad ?? 0) +
           (reactionsSummary.haha ?? 0) +
           (reactionsSummary.angry ?? 0) +
+          (reactionsSummary.cry ?? 0) +
+          (reactionsSummary.wink ?? 0) +
           (reactionsSummary.wow ?? 0);
       return totalReactions;
     }
     return 0;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    addReactCubit = BlocProvider.of<AddReactCubit>(context);
-    addCommentCubit = BlocProvider.of<AddCommentCubit>(context);
   }
 
   void _handleReactionPress(Reaction selectedReaction) {
@@ -194,20 +191,25 @@ class _PostItemState extends State<PostItem> {
       case Reaction.sad:
         reactionType = 'sad';
         break;
+      case Reaction.cry:
+        reactionType = 'cry';
+        break;
+      case Reaction.wink:
+        reactionType = 'wink';
+        break;
       default:
         break;
     }
-
     // Update the total reactions count instantly in the UI
     setState(() {
       // Increase the total reactions count based on the selected reaction
       if (reactionType == 'cute' && widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.like =
-            (widget.postsModel.reactions?.summary?.like ?? 0) + 1;
-      } else if (reactionType == 'love' &&
-          widget.postsModel.reactions?.byMe == null) {
         widget.postsModel.reactions?.summary?.love =
             (widget.postsModel.reactions?.summary?.love ?? 0) + 1;
+      } else if (reactionType == 'love' &&
+          widget.postsModel.reactions?.byMe == null) {
+        widget.postsModel.reactions?.summary?.cute =
+            (widget.postsModel.reactions?.summary?.cute ?? 0) + 1;
       } else if (reactionType == 'wow' &&
           widget.postsModel.reactions?.byMe == null) {
         widget.postsModel.reactions?.summary?.wow =
@@ -224,6 +226,14 @@ class _PostItemState extends State<PostItem> {
           widget.postsModel.reactions?.byMe == null) {
         widget.postsModel.reactions?.summary?.sad =
             (widget.postsModel.reactions?.summary?.sad ?? 0) + 1;
+      } else if (reactionType == 'cry' &&
+          widget.postsModel.reactions?.byMe == null) {
+        widget.postsModel.reactions?.summary?.cry =
+            (widget.postsModel.reactions?.summary?.cry ?? 0) + 1;
+      } else if (reactionType == 'wink' &&
+          widget.postsModel.reactions?.byMe == null) {
+        widget.postsModel.reactions?.summary?.wink =
+            (widget.postsModel.reactions?.summary?.wink ?? 0) + 1;
       }
     });
 
@@ -247,23 +257,29 @@ class _PostItemState extends State<PostItem> {
   Widget _buildReactionsRow(Summary summary) {
     List<Widget> reactionWidgets = [];
 
-    if (summary.like != null && summary.like! > 0) {
-      reactionWidgets.add(_buildReactionIcon(AppLotties.kLove));
-    }
     if (summary.love != null && summary.love! > 0) {
-      reactionWidgets.add(_buildReactionIcon(AppLotties.kCute));
+      reactionWidgets.add(_buildReactionIcon(AppLottie.kLove));
+    }
+    if (summary.cute != null && summary.cute! > 0) {
+      reactionWidgets.add(_buildReactionIcon(AppLottie.kCute));
     }
     if (summary.wow != null && summary.wow! > 0) {
-      reactionWidgets.add(_buildReactionIcon(AppLotties.kWowReact));
+      reactionWidgets.add(_buildReactionIcon(AppLottie.kWowReact));
     }
     if (summary.haha != null && summary.haha! > 0) {
-      reactionWidgets.add(_buildReactionIcon(AppLotties.kLaughReact));
+      reactionWidgets.add(_buildReactionIcon(AppLottie.kLaughReact));
     }
     if (summary.angry != null && summary.angry! > 0) {
-      reactionWidgets.add(_buildReactionIcon(AppLotties.kAngryReact));
+      reactionWidgets.add(_buildReactionIcon(AppLottie.kAngryReact));
     }
     if (summary.sad != null && summary.sad! > 0) {
-      reactionWidgets.add(_buildReactionIcon(AppLotties.kSadReact));
+      reactionWidgets.add(_buildReactionIcon(AppLottie.kSadReact));
+    }
+    if (summary.cry != null && summary.cry! > 0) {
+      reactionWidgets.add(_buildReactionIcon(AppLottie.kCry));
+    }
+    if (summary.wink != null && summary.wink! > 0) {
+      reactionWidgets.add(_buildReactionIcon(AppLottie.kWinkReact));
     }
 
     // Limit to 3 reactions
@@ -287,6 +303,62 @@ class _PostItemState extends State<PostItem> {
         }),
       ),
     );
+  }
+
+  Widget _getReactionIcon(Reaction r) {
+    final reactionByMe = widget.postsModel.reactions?.byMe;
+
+    // Check the reaction type directly from `reactionByMe`
+    if (reactionByMe == "sad" || r == Reaction.sad) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [Lottie.asset(AppLottie.kSadReact), const Text('Sad')],
+      );
+    } else if (reactionByMe == "like" || r == Reaction.love) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [Lottie.asset(AppLottie.kLove), const Text('Love')],
+      );
+    } else if (reactionByMe == "angry" || r == Reaction.angry) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [Lottie.asset(AppLottie.kAngryReact), const Text('Angry')],
+      );
+    } else if (reactionByMe == "haha" || r == Reaction.laugh) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [Lottie.asset(AppLottie.kLaughReact), const Text('HAHA')],
+      );
+    } else if (reactionByMe == "cry" || r == Reaction.cry) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [Lottie.asset(AppLottie.kCry), const Text('Cry')],
+      );
+    } else if (reactionByMe == "wow" || r == Reaction.surprise) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [Lottie.asset(AppLottie.kWowReact), const Text('Wow')],
+      );
+    } else if (reactionByMe == "wink" || r == Reaction.wink) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [Lottie.asset(AppLottie.kWinkReact), const Text('Wink')],
+      );
+    } else if (reactionByMe == "love" || r == Reaction.cute) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [Lottie.asset(AppLottie.kCute), const Text('Cute')],
+      );
+    } else {
+      // Default fallback
+      return const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Icon(FontAwesomeIcons.solidHeart),
+          Text('Like'),
+        ],
+      );
+    }
   }
 
   Future<void> addComment() async {
@@ -411,7 +483,9 @@ class _PostItemState extends State<PostItem> {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6.r),
-              color: AppColors.kPostColor,
+              color: widget.isNightModeEnabled
+                  ? DarkModeColors.kItemColorDark
+                  : AppColors.kPostColor,
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 7.h),
@@ -436,7 +510,13 @@ class _PostItemState extends State<PostItem> {
                         children: [
                           Row(
                             children: [
-                              Text(user.showname ?? 'Unknown User'),
+                              CustomTextWidget(
+                                  textSize: 12.sp,
+                                  fontFamily: 'fontFamily',
+                                  color: AppColors.kPrimaryColor,
+                                  fontWeight: FontWeight.normal,
+                                  text: user.showname ?? 'Unknown User',
+                                  isNightMode: widget.isNightModeEnabled),
                               if (widget.postsModel.user!.isVerified == true)
                                 Image.asset(
                                   AppGifs.kVerified,
@@ -480,13 +560,15 @@ class _PostItemState extends State<PostItem> {
                                     }
                                   : null,
                               child: CustomTextWidget(
-                                  textSize: 15.sp,
-                                  fontFamily: '',
-                                  fontWeight: FontWeight.normal,
-                                  color: widget.postsModel.ogInfo != null
-                                      ? Colors.blue
-                                      : Colors.black,
-                                  text: content),
+                                textSize: 15.sp,
+                                fontFamily: '',
+                                fontWeight: FontWeight.normal,
+                                color: widget.postsModel.ogInfo != null
+                                    ? Colors.blue
+                                    : null,
+                                text: content,
+                                isNightMode: widget.isNightModeEnabled,
+                              ),
                             ),
                           ),
                           SizedBox(height: 7.h),
@@ -497,7 +579,10 @@ class _PostItemState extends State<PostItem> {
                     widget.postsModel),
                 SizedBox(height: 4.h),
                 if (widget.postsModel.isEvent == false) ...[
-                  const Divider(color: Colors.white),
+                  Divider(
+                      color: widget.isNightModeEnabled
+                          ? Colors.black
+                          : Colors.white),
                   SizedBox(height: 4.h),
                   Row(
                     children: [
@@ -508,12 +593,12 @@ class _PostItemState extends State<PostItem> {
                         width: 30.w,
                         child: CustomTextWidget(
                             textSize: 13.sp,
+                            isNightMode: widget.isNightModeEnabled,
                             fontFamily: '',
                             fontWeight: FontWeight.w500,
-                            color: Colors.black,
                             text: ' $totalReactions'),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Icon(FontAwesomeIcons.solidComment, size: 11.sp),
                       SizedBox(width: 9.w),
                       SizedBox(
@@ -557,7 +642,9 @@ class _PostItemState extends State<PostItem> {
                           height: 30.h,
                           width: 100.w,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: widget.isNightModeEnabled
+                                ? Colors.black
+                                : Colors.white,
                             borderRadius: BorderRadius.circular(8.r),
                           ),
                           child: _getReactionIcon(reaction),
@@ -573,10 +660,12 @@ class _PostItemState extends State<PostItem> {
                             isReply = false;
                           });
                         },
+                        isNightMode: widget.isNightModeEnabled,
                       ),
                       CustomPostComponents(
                         icon: FontAwesomeIcons.share,
                         width: 100.w,
+                        isNightMode: widget.isNightModeEnabled,
                         text: 'Share',
                         onTap: () {
                           shareBottomSheet(context);
@@ -611,6 +700,8 @@ class _PostItemState extends State<PostItem> {
                                               isComment = false;
                                             });
                                           },
+                                          isNightMode:
+                                              widget.isNightModeEnabled,
                                           postsModel: item,
                                         ),
                                 ))
@@ -618,9 +709,10 @@ class _PostItemState extends State<PostItem> {
                       ),
                       if (showThirdWidget)
                         Padding(
-                            padding: EdgeInsets.all(10.0),
+                            padding: EdgeInsets.all(10.r),
                             child: TempCommentBubble(
                                 onTap: () {},
+                                isNightMode: widget.isNightModeEnabled,
                                 commentText: comments.last.content ?? '',
                                 postsModel: Comment())),
                       if (_flattenCommentsAndReplies().length > 2) ...[
@@ -636,7 +728,7 @@ class _PostItemState extends State<PostItem> {
                                 textSize: 13.sp,
                                 fontFamily: '',
                                 fontWeight: FontWeight.normal,
-                                color: Colors.black,
+                                isNightMode: widget.isNightModeEnabled,
                                 text: viewMoreComments
                                     ? 'Hide comments'
                                     : 'View more comments'),
@@ -671,13 +763,19 @@ class _PostItemState extends State<PostItem> {
         ),
         if (reactionView)
           Positioned(
-            bottom: 60.h,
+            bottom: widget.postsModel.comments!.length < 2
+                ? widget.postsModel.comments!.isEmpty
+                    ? 70.h
+                    : 150.h
+                : 270.h,
             left: 30.w,
             child: Container(
               height: 60.h,
               width: 300.w,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.8),
+                color: widget.isNightModeEnabled
+                    ? Colors.black.withOpacity(0.8)
+                    : Colors.white.withOpacity(0.8),
                 borderRadius: BorderRadius.circular(50.r),
               ),
               child: ListView.builder(
@@ -713,62 +811,6 @@ class _PostItemState extends State<PostItem> {
           ),
       ],
     );
-  }
-
-  Widget _getReactionIcon(Reaction r) {
-    final reactionByMe = widget.postsModel.reactions?.byMe;
-
-    // Check the reaction type directly from `reactionByMe`
-    if (reactionByMe == "sad" || r == Reaction.cry) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kCry), const Text('Cry')],
-      );
-    } else if (reactionByMe == "like" || r == Reaction.cute) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kCute), const Text('Cute')],
-      );
-    } else if (reactionByMe == "angry" || r == Reaction.angry) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kAngryReact), const Text('Angry')],
-      );
-    } else if (reactionByMe == "haha" || r == Reaction.laugh) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kLaughReact), const Text('HAHA')],
-      );
-    } else if (reactionByMe == "sad" || r == Reaction.sad) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kSadReact), const Text('Sad')],
-      );
-    } else if (reactionByMe == "wow" || r == Reaction.surprise) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kWowReact), const Text('Wow')],
-      );
-    } else if (reactionByMe == "wink" || r == Reaction.wink) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kWinkReact), const Text('Wink')],
-      );
-    } else if (reactionByMe == "love" || r == Reaction.love) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kLove), const Text('Love')],
-      );
-    } else {
-      // Default fallback
-      return const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Icon(FontAwesomeIcons.solidHeart),
-          Text('Like'),
-        ],
-      );
-    }
   }
 }
 

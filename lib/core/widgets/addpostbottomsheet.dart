@@ -1,6 +1,8 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -11,9 +13,12 @@ import 'package:genix/core/widgets/customtextfield2.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/post_form.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20post/add_post_cubit.dart';
+import 'package:go_router/go_router.dart';
+import 'package:video_player/video_player.dart';
+import 'package:path/path.dart' as path;
 
-Future<dynamic> addPostModalBottomSheet(
-    BuildContext context, PostsModel postsModel) {
+Future<dynamic> addPostModalBottomSheet(BuildContext context,
+    PostsModel postsModel, Function() refresh, bool isNightMode) {
   bool isPoll = false;
   bool isCheckIn = false;
   bool isLive = false;
@@ -24,8 +29,15 @@ Future<dynamic> addPostModalBottomSheet(
   TextEditingController pollsController = TextEditingController();
   TextEditingController currentLocationController = TextEditingController();
   String contentText = contentController.text;
+  FilePickerResult? result;
+  List<File> selectedFiles = []; // To hold selected image and video files
+  List<String> filePaths = [];
+  List<VideoPlayerController?> videoControllers = [];
+
   return showModalBottomSheet(
-      backgroundColor: AppColors.kAppBar2Color,
+      backgroundColor: isNightMode
+          ? DarkModeColors.kItemColorDark2
+          : AppColors.kAppBar2Color,
       isScrollControlled: true,
       showDragHandle: true,
       enableDrag: true,
@@ -36,6 +48,7 @@ Future<dynamic> addPostModalBottomSheet(
           child: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
             AddPostCubit addPostCubit = BlocProvider.of<AddPostCubit>(context);
+
             void addTextField() {
               textFields.add(
                 Padding(
@@ -57,10 +70,81 @@ Future<dynamic> addPostModalBottomSheet(
               setState(() {});
             }
 
+            bool isVideo(String fileName) {
+              // Common video file extensions
+              final videoExtensions = [
+                'mp4',
+                'avi',
+                'mov',
+                'wmv',
+                'flv',
+                'mkv',
+                'webm'
+              ];
+              final fileExtension = fileName.split('.').last.toLowerCase();
+              return videoExtensions.contains(fileExtension);
+            }
+
+            bool isImage(String fileName) {
+              // Check file extension
+              final extensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
+              final fileExtension = fileName.split('.').last.toLowerCase();
+              return extensions.contains(fileExtension);
+            }
+
+            void pickFile() async {
+              try {
+                result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: [
+                    'jpg',
+                    'jpeg',
+                    'png',
+                    'gif',
+                    'webp',
+                    'mp4',
+                    'mov',
+                    'webm',
+                    'mov',
+                    'heic'
+                  ],
+                  allowMultiple: true,
+                );
+                if (result != null) {
+                  for (var file in result!.files) {
+                    selectedFiles.add(File(file.path!));
+                    filePaths.add(file.path!);
+
+                    if (isVideo(file.name)) {
+                      final controller =
+                          VideoPlayerController.file(File(file.path!))
+                            ..initialize().then((_) {
+                              setState(() {});
+                            });
+                      videoControllers.add(controller);
+                    } else {
+                      videoControllers.add(null); // For non-video files
+                    }
+                  }
+                  setState(() {});
+                }
+              } catch (e) {
+                print(e);
+              }
+            }
+
             void removeTextField() {
               if (textFields.isNotEmpty) {
                 textFields.removeLast();
                 setState(() {});
+              }
+            }
+
+            @override
+            void dispose() {
+              // Dispose all video controllers when the widget is destroyed
+              for (var controller in videoControllers) {
+                controller?.dispose();
               }
             }
 
@@ -71,6 +155,60 @@ Future<dynamic> addPostModalBottomSheet(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Create post', style: TextStyle(fontSize: 20.sp)),
+                    if (result != null && result!.files.isNotEmpty) ...[
+                      SizedBox(
+                        height: 15.h,
+                      ),
+                      SizedBox(
+                        height: result!.files.length > 3
+                            ? result!.files.length / 3 * 100.h
+                            : 100.h, // Adjust this based on your needs
+                        width: double.infinity,
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3, // Adjust the number of columns
+                            crossAxisSpacing: 10.w,
+                            mainAxisSpacing: 10.h,
+                          ),
+                          itemCount: result!.files.length,
+                          itemBuilder: (context, index) {
+                            final file = result!.files[index];
+                            // Check if the file is an image or a video and display accordingly
+                            if (isImage(file.name)) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: FileImage(File(file.path!)),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                              );
+                            } else if (isVideo(file.name)) {
+                              final controller = videoControllers[index];
+                              return controller != null &&
+                                      controller.value.isInitialized
+                                  ? AspectRatio(
+                                      aspectRatio: controller.value.aspectRatio,
+                                      child: VideoPlayer(controller),
+                                    )
+                                  : const SizedBox(
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppColors.kPrimaryColor,
+                                        ),
+                                      ),
+                                    );
+                            } else {
+                              return const SizedBox.shrink();
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                     SizedBox(
                       height: 15.h,
                     ),
@@ -78,8 +216,8 @@ Future<dynamic> addPostModalBottomSheet(
                       visible: isPost == 3 || isPost == 1,
                       child: BigTextField(
                         hintText: ' Write something...',
-                        color: AppColors.kTextFieldColor,
                         controller: contentController,
+                        isNightMode: isNightMode,
                       ),
                     ),
                     SizedBox(
@@ -90,7 +228,9 @@ Future<dynamic> addPostModalBottomSheet(
                       child: Row(
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              pickFile();
+                            },
                             icon: CircleAvatar(
                               backgroundColor: AppColors.kTextFieldColor,
                               radius: 20.r,
@@ -515,33 +655,40 @@ Future<dynamic> addPostModalBottomSheet(
                             width: double.infinity,
                             height: 37.h,
                             borderRadius: 8.r,
-                            onTap: () {
-                              addPostCubit.addPost(
-                                  data: PostForm(
-                                deviceType: 'mobile',
-                                content: contentText,
-                                // pageId: postsModel.page ?? '',
-                                // groupId: postsModel.group ?? '',
-                                postingIn: 'newsfeed',
-                                // files: postsModel.uploads
-                                //         ?.map((upload) => upload.fileUrl)
-                                //         .toList() ??
-                                //     [],
-                                // checkinLocation:
-                                //     postsModel.misc?.checkin ?? '',
-                                // pollOptions: postsModel.misc?.poll
-                                //         ?.options?.first.title ??
-                                //     '',
-                                // pollQuestion:
-                                //     postsModel.misc?.poll?.question ?? '',
-                                // eventTimestamp:
-                                //     DateTime.now().toIso8601String(),
-                                // toCloseFriends: isCloseFriend,
-                                // poll: postsModel.misc != null &&
-                                //     postsModel.misc!.poll != null,
-                                // checkin: postsModel.isEvent ?? false,
-                                // event: postsModel.isEvent ?? false
-                              ));
+                            onTap: () async {
+                              try {
+                                await addPostCubit.addPost(
+                                    data: PostForm(
+                                        isLive: false,
+                                        microphoneId: '',
+                                        cameraId: '',
+                                        cameraMirror: false,
+                                        deviceType: 'mobile',
+                                        content: 'Content Text testtttt',
+                                        pageId: '',
+                                        groupId: '',
+                                        postingIn: 'newsfeed',
+                                        files: filePaths,
+                                        checkinLocation: '2dssd',
+                                        pollOptions: [''],
+                                        pollQuestion: 'asdas',
+                                        eventTimestamp:
+                                            DateTime.now().toIso8601String(),
+                                        toCloseFriends: false,
+                                        poll: false,
+                                        checkin: false,
+                                        event: false));
+                                GoRouter.of(context).pop();
+                                print(
+                                    'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa${filePaths}___________________________dddddddd____________');
+                                setState(() {
+                                  refresh();
+                                  refresh();
+                                });
+                              } catch (e) {
+                                print(
+                                    '___________________________________${e}_______________________________________');
+                              }
                             })
                       ],
                     )

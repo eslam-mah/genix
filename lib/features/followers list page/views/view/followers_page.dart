@@ -41,7 +41,6 @@ class _FollowersPageState extends State<FollowersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: isSelected ? AppColors.kAppBar2Color : Colors.white,
         key: _scaffoldKey,
         bottomNavigationBar: SafeArea(
             child: Stack(
@@ -76,12 +75,10 @@ class _FollowersPageState extends State<FollowersPage> {
               },
             ),
           ],
-          backgroundColor: AppColors.kAppBar2Color,
           elevation: 0,
           title: const CustomAppBar(),
         ),
         endDrawer: CustomDrawerWidget(
-          onNightModeChanged: handleNightModeChanged,
           isNightMode: isNightModeEnabled,
         ),
         body: isSelected

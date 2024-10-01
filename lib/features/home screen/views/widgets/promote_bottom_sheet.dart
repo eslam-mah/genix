@@ -13,7 +13,6 @@ Future<dynamic> promoteBottomSheet(BuildContext context) {
   return showModalBottomSheet(
       isScrollControlled: true,
       showDragHandle: true,
-      backgroundColor: AppColors.kPostColor,
       enableDrag: true,
       context: context,
       builder: (context) {
@@ -39,7 +38,7 @@ Future<dynamic> promoteBottomSheet(BuildContext context) {
                       ),
                       Text(
                         'Increase your popularity',
-                        style: TextStyle(color: Colors.black.withOpacity(0.5)),
+                        style: TextStyle(fontSize: 10.sp),
                       )
                     ],
                   ),

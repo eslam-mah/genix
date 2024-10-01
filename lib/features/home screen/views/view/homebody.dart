@@ -7,6 +7,8 @@ import 'package:genix/core/default_status_indicators/new_page_progress_indicator
 import 'package:genix/core/default_status_indicators/no_items_found_indicator.dart';
 import 'package:genix/features/comments%20section/data/models/comments_model.dart';
 import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
+import 'package:genix/features/drawer/view%20model/theme_cubit.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/post_form.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/data.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/summary.dart';
@@ -70,11 +72,9 @@ class _HomePageState extends State<HomePage> {
     getStoriesCubit = BlocProvider.of<GetStoriesCubit>(context);
     context.read<GetMyAccountDetailsCubit>().getMyAccountDetails();
     _pagingController.addPageRequestListener((page) {
-      print('**********PAGEKEY************ $page');
       getPostsCubit.getNewsFeedPosts();
     });
     _storiesPagingController.addPageRequestListener((page) {
-      print('**********PAGEKEY************ $page');
       getStoriesCubit.getStories();
     });
   }
@@ -93,8 +93,6 @@ class _HomePageState extends State<HomePage> {
         BlocListener<GetNewsFeedPostsCubit, GetNewsFeedPostsState>(
           listener: (context, state) {
             if (state is GetNewsFeedPostsSuccess) {
-              print('LENGTH All:: ${state.posts.data.postsModel.length}');
-              print('RESPONSE:: ${state.posts.data.postsModel}');
               _fetchPage(state.posts.data.postsModel);
             }
           },
@@ -102,86 +100,29 @@ class _HomePageState extends State<HomePage> {
         BlocListener<GetStoriesCubit, GetStoriesState>(
           listener: (context, state) {
             if (state is GetStoriesSuccess) {
-              print('LENGTH All:: ${state.stories.data.stories.length}');
-              print('RESPONSE:: ${state.stories.data.stories}');
               _fetchStories(state.stories.data.stories);
             }
           },
         ),
-        BlocListener<AddPostCubit, AddPostState>(
-          listener: (context, addState) {
-            if (addState is AddPostSuccess) {
-              List<PostsModel> items = _pagingController.itemList ?? [];
-              items.insert(0, addState.post);
-              _pagingController.itemList = items;
-              print('adding success');
-              setState(() {});
-            }
+        BlocListener<ThemeCubit, ThemeState>(
+          listener: (context, state) {
+            final isNightMode = state == ThemeState.dark;
+            handleNightModeChanged(isNightMode);
           },
         ),
-        BlocListener<AddPollCubit, AddPollState>(
-          listener: (context, addState) {
-            if (addState is AddPollSuccess) {
-              List<PostsModel> items = _pagingController.itemList ?? [];
-              items.insert(0, addState.post);
-              _pagingController.itemList = items;
-              print('adding success');
-              setState(() {});
-            }
-          },
-        ),
-        BlocListener<AddReactCubit, AddReactState>(
-          listener: (context, addState) {
-            if (addState is AddReactSuccess) {
-              List<String> items = [];
-              items.insert(0, addState.reactionType);
-
-              print('adding success');
-              setState(() {});
-            }
-          },
-        ),
-        BlocListener<AddCommentCubit, AddCommentState>(
-          listener: (context, addState) {
-            if (addState is AddCommentSuccess) {
-              // Assuming you need to add the comment to an existing list of comments
-              List<Comment> items =
-                  _pagingController.itemList?.first.comments ?? [];
-              items.insert(0,
-                  addState.addComment); // Insert at the beginning of the list
-              setState(() {});
-              print('Comment added successfully');
-            }
-          },
-        ),
-        BlocListener<UpdatePostByIdCubit, UpdatePostByIdState>(
-          listener: (context, updateState) {
-            if (updateState is UpdatePostByIdSuccess) {
-              final int? index =
-                  _pagingController.itemList?.indexWhere((oldPost) {
-                return (oldPost.id == updateState.updatePost.id);
-              });
-              if (index != null && index >= 0) {
-                _pagingController.itemList?[index] = updateState.updatePost;
-                setState(() {});
-              }
-            }
-          },
-        )
       ],
       child: Scaffold(
-        backgroundColor: isNightModeEnabled ? Colors.black : Colors.white,
         key: _scaffoldKey,
         bottomNavigationBar: SafeArea(
-            child: Stack(
-          alignment: Alignment.center,
-          clipBehavior: Clip.none,
-          children: [
-            CustomBottomAppBar(
-              isNightMode: isNightModeEnabled,
-              homeEnabled: false,
-            ),
-            Positioned(
+          child: Stack(
+            alignment: Alignment.center,
+            clipBehavior: Clip.none,
+            children: [
+              CustomBottomAppBar(
+                isNightMode: isNightModeEnabled,
+                homeEnabled: false,
+              ),
+              Positioned(
                 bottom: 20,
                 child: GestureDetector(
                   onTap: () {
@@ -190,9 +131,11 @@ class _HomePageState extends State<HomePage> {
                     });
                   },
                   child: CustomGlowingButton(isSelected: isSelected),
-                ))
-          ],
-        )),
+                ),
+              ),
+            ],
+          ),
+        ),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           actions: [
@@ -200,28 +143,37 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(
                 FontAwesomeIcons.barsStaggered,
                 size: 18.sp,
-              ), // Custom icon
+              ),
               onPressed: () {
-                _scaffoldKey.currentState?.openEndDrawer(); // Open the drawer
+                _scaffoldKey.currentState?.openEndDrawer();
               },
             ),
           ],
-          backgroundColor: AppColors.kAppBar2Color,
           elevation: 0,
           title: BlocBuilder<GetNewsFeedPostsCubit, GetNewsFeedPostsState>(
             builder: (context, state) {
               if (state is GetNewsFeedPostsSuccess) {
                 return CustomHomeAppBar(
                   postsModel: state.posts.data.postsModel.first,
+                  refresh: () {
+                    _pagingController.refresh();
+                  },
+                  isNightMode: isNightModeEnabled,
                 );
               } else {
                 return Shimmer.fromColors(
-                  baseColor: Colors.grey[100]!,
-                  highlightColor: Colors.grey[50]!,
+                  baseColor: isNightModeEnabled
+                      ? DarkModeColors.kItemColorDark3
+                      : Colors.grey[100]!,
+                  highlightColor: isNightModeEnabled
+                      ? DarkModeColors.kItemColorDark3
+                      : Colors.grey[100]!,
                   child: Container(
                     width: double.infinity,
                     height: 30.h,
-                    color: Colors.white,
+                    color: isNightModeEnabled
+                        ? DarkModeColors.kItemColorDark3
+                        : Colors.grey[100]!,
                   ),
                 );
               }
@@ -229,7 +181,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         endDrawer: CustomDrawerWidget(
-          onNightModeChanged: handleNightModeChanged,
           isNightMode: isNightModeEnabled,
         ),
         body: isSelected
@@ -263,7 +214,6 @@ class _HomePageState extends State<HomePage> {
                                   alignment: Alignment.topLeft,
                                   child: PagedListView<int, StoriesListModel>(
                                     scrollDirection: Axis.horizontal,
-                                    padding: EdgeInsets.zero,
                                     pagingController: _storiesPagingController,
                                     builderDelegate: PagedChildBuilderDelegate<
                                         StoriesListModel>(
@@ -282,7 +232,6 @@ class _HomePageState extends State<HomePage> {
                                       noItemsFoundIndicatorBuilder: (_) =>
                                           SizedBox.shrink(),
                                       itemBuilder: (context, item, index) {
-                                        print('++++++++++ $index');
                                         return CustomStoryWidget(
                                             storyModel: item);
                                       },
@@ -310,8 +259,6 @@ class _HomePageState extends State<HomePage> {
                         noItemsFoundIndicatorBuilder: (_) =>
                             NoItemsFoundIndicator(),
                         itemBuilder: (context, item, index) {
-                          print('++++++++++ $index');
-
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -355,7 +302,6 @@ class _HomePageState extends State<HomePage> {
   Future<void> _fetchPage(List<PostsModel> postsList) async {
     try {
       final newItems = postsList;
-      print('fetch:: ${newItems.length}');
       final isLastPage = newItems.length < 20;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -364,7 +310,6 @@ class _HomePageState extends State<HomePage> {
         _pagingController.appendPage(newItems, _nextPageKey);
       }
     } catch (error) {
-      print('Pagination error: ${error.toString()}');
       _pagingController.error = error;
     }
   }
@@ -372,7 +317,6 @@ class _HomePageState extends State<HomePage> {
   Future<void> _fetchStories(List<StoriesListModel> storiesList) async {
     try {
       final newItems = storiesList;
-      print('fetch:: ${newItems.length}');
       final isLastPage = newItems.length < 20;
       if (isLastPage) {
         _storiesPagingController.appendLastPage(newItems);
@@ -381,7 +325,6 @@ class _HomePageState extends State<HomePage> {
         _storiesPagingController.appendPage(newItems, _nextPageKey);
       }
     } catch (error) {
-      print('Pagination error: ${error.toString()}');
       _storiesPagingController.error = error;
     }
   }
