@@ -8,7 +8,6 @@ Future<dynamic> editBackgroundPicBottomSheet(BuildContext context) {
   return showModalBottomSheet(
       isScrollControlled: true,
       showDragHandle: true,
-      backgroundColor: AppColors.kPostColor,
       enableDrag: true,
       context: context,
       builder: (context) {

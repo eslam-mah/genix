@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -48,14 +47,13 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                 SizedBox(
                   height: 20.h,
                 ),
-                const Text('BILLING AREA',
-                    style: TextStyle(color: Colors.grey)),
+                Text('BILLING AREA', style: TextStyle(fontSize: 13.sp)),
                 Text('Browse transactions and add more coins to your account',
-                    style: TextStyle(color: Colors.black.withOpacity(0.6))),
+                    style: TextStyle(fontSize: 10.sp)),
                 SizedBox(
                   height: 10.h,
                 ),
-                BalanceAndRevenueCard(),
+                const BalanceAndRevenueCard(),
                 SizedBox(
                   height: 10.h,
                 ),
@@ -234,7 +232,6 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                     Text(
                       'SHOW LATEST TRANSACTIONS',
                       style: TextStyle(
-                        color: Colors.black,
                         fontSize: 16.sp, // Adjust size as needed
                       ),
                     ),
@@ -260,8 +257,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                             fontWeight: FontWeight.bold, fontSize: 20.sp),
                       ),
                       Text(
-                          style:
-                              TextStyle(color: Colors.black.withOpacity(0.6)),
+                          style: TextStyle(fontSize: 12.sp),
                           'Track and view inbound or outbound transactions and get ready for your next achievements.'),
                       SizedBox(
                         height: 10.h,
@@ -388,7 +384,6 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                                       overflow: TextOverflow.ellipsis,
                                       selected,
                                       style: TextStyle(
-                                        color: Colors.black,
                                         fontSize:
                                             16.sp, // Adjust size as needed
                                       ),

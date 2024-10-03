@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/router.dart';
-import 'package:genix/features/drawer/view%20model/theme_cubit.dart';
+import 'package:genix/features/drawer/view%20model/log_out_cubit/log_out_cubit.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 
 Future<void> main() async {
@@ -26,8 +27,9 @@ class Genix extends StatelessWidget {
         return MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => FirstLoadCubit()),
+            BlocProvider(create: (context) => ThemeCubit()),
             BlocProvider(
-                create: (context) => ThemeCubit()), // Add ThemeCubit here
+                create: (context) => LogOutCubit()), // Add ThemeCubit here
           ],
           child: BlocBuilder<ThemeCubit, ThemeState>(
             builder: (context, themeState) {
@@ -62,3 +64,12 @@ class Genix extends StatelessWidget {
     );
   }
 }
+//  if (state is LogOutLoading) {
+//                     return const MaterialApp(
+//                       home: Scaffold(
+//                         body: const CircularProgressIndicator(
+//                           color: AppColors.kPrimaryColor,
+//                         ),
+//                       ),
+//                     );
+//                   }

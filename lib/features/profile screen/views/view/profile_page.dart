@@ -9,7 +9,7 @@ import 'package:genix/core/widgets/blockeduserslistview.dart';
 import 'package:genix/core/widgets/customappbar.dart';
 import 'package:genix/core/widgets/custombottomappbar.dart';
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
-import 'package:genix/features/drawer/view%20model/theme_cubit.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
@@ -248,89 +248,89 @@ class _ProfilePageState extends State<ProfilePage> {
                                       )
                                     ],
                                   ),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Expanded(
-                                              child: CustomHeaderWidget2(
-                                                  text: 'Recent posts')),
-                                          GestureDetector(
-                                              onTap: () {},
-                                              child: const Text(
-                                                'See all',
-                                                style: TextStyle(
-                                                    color: Colors.green),
-                                              ))
-                                        ],
-                                      ),
-                                      RecentPostsList(
-                                          profileModel: profileModel)
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Expanded(
-                                              child: CustomHeaderWidget2(
-                                                  text: 'Followers')),
-                                          GestureDetector(
-                                              onTap: () {},
-                                              child: const Text(
-                                                'See all',
-                                                style: TextStyle(
-                                                    color: Colors.green),
-                                              ))
-                                        ],
-                                      ),
-                                      FollowersListView(
-                                          height: 170.h,
-                                          profileModel: profileModel)
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Expanded(
-                                              child: CustomHeaderWidget2(
-                                                  text: 'Following')),
-                                          GestureDetector(
-                                              onTap: () {},
-                                              child: const Text(
-                                                'See all',
-                                                style: TextStyle(
-                                                    color: Colors.green),
-                                              ))
-                                        ],
-                                      ),
-                                      FollowingsListView(
-                                          height: 150.h,
-                                          profileModel: profileModel)
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Expanded(
-                                              child: CustomHeaderWidget2(
-                                                  text: 'Blocked')),
-                                          GestureDetector(
-                                              onTap: () {},
-                                              child: const Text(
-                                                'See all',
-                                                style: TextStyle(
-                                                    color: Colors.green),
-                                              ))
-                                        ],
-                                      ),
-                                      BlockedListView(
-                                          height: 150.h,
-                                          profileModel: profileModel)
-                                    ],
-                                  ),
+                                  // Column(
+                                  //   children: [
+                                  //     Row(
+                                  //       children: [
+                                  //         const Expanded(
+                                  //             child: CustomHeaderWidget2(
+                                  //                 text: 'Recent posts')),
+                                  //         GestureDetector(
+                                  //             onTap: () {},
+                                  //             child: const Text(
+                                  //               'See all',
+                                  //               style: TextStyle(
+                                  //                   color: Colors.green),
+                                  //             ))
+                                  //       ],
+                                  //     ),
+                                  //     RecentPostsList(
+                                  //         profileModel: profileModel)
+                                  //   ],
+                                  // ),
+                                  // Column(
+                                  //   children: [
+                                  //     Row(
+                                  //       children: [
+                                  //         const Expanded(
+                                  //             child: CustomHeaderWidget2(
+                                  //                 text: 'Followers')),
+                                  //         GestureDetector(
+                                  //             onTap: () {},
+                                  //             child: const Text(
+                                  //               'See all',
+                                  //               style: TextStyle(
+                                  //                   color: Colors.green),
+                                  //             ))
+                                  //       ],
+                                  //     ),
+                                  //     FollowersListView(
+                                  //         height: 170.h,
+                                  //         profileModel: profileModel)
+                                  //   ],
+                                  // ),
+                                  // Column(
+                                  //   children: [
+                                  //     Row(
+                                  //       children: [
+                                  //         const Expanded(
+                                  //             child: CustomHeaderWidget2(
+                                  //                 text: 'Following')),
+                                  //         GestureDetector(
+                                  //             onTap: () {},
+                                  //             child: const Text(
+                                  //               'See all',
+                                  //               style: TextStyle(
+                                  //                   color: Colors.green),
+                                  //             ))
+                                  //       ],
+                                  //     ),
+                                  //     FollowingsListView(
+                                  //         height: 150.h,
+                                  //         profileModel: profileModel)
+                                  //   ],
+                                  // ),
+                                  // Column(
+                                  //   children: [
+                                  //     Row(
+                                  //       children: [
+                                  //         const Expanded(
+                                  //             child: CustomHeaderWidget2(
+                                  //                 text: 'Blocked')),
+                                  //         GestureDetector(
+                                  //             onTap: () {},
+                                  //             child: const Text(
+                                  //               'See all',
+                                  //               style: TextStyle(
+                                  //                   color: Colors.green),
+                                  //             ))
+                                  //       ],
+                                  //     ),
+                                  //     BlockedListView(
+                                  //         height: 150.h,
+                                  //         profileModel: profileModel)
+                                  //   ],
+                                  // ),
                                   Column(
                                     children: [
                                       Row(
@@ -356,27 +356,27 @@ class _ProfilePageState extends State<ProfilePage> {
                                       )
                                     ],
                                   ),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Expanded(
-                                              child: CustomHeaderWidget2(
-                                                  text: 'Restricted')),
-                                          GestureDetector(
-                                              onTap: () {},
-                                              child: const Text(
-                                                'See all',
-                                                style: TextStyle(
-                                                    color: Colors.green),
-                                              ))
-                                        ],
-                                      ),
-                                      RestrictedUsersListView(
-                                          height: 150.h,
-                                          profileModel: profileModel)
-                                    ],
-                                  ),
+                                  // Column(
+                                  //   children: [
+                                  //     Row(
+                                  //       children: [
+                                  //         const Expanded(
+                                  //             child: CustomHeaderWidget2(
+                                  //                 text: 'Restricted')),
+                                  //         GestureDetector(
+                                  //             onTap: () {},
+                                  //             child: const Text(
+                                  //               'See all',
+                                  //               style: TextStyle(
+                                  //                   color: Colors.green),
+                                  //             ))
+                                  //       ],
+                                  //     ),
+                                  //     RestrictedUsersListView(
+                                  //         height: 150.h,
+                                  //         profileModel: profileModel)
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                             ),
@@ -386,7 +386,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     } else if (state is GetProfileError) {
                       return const Center(child: Text('Error loading profile'));
                     } else {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        color: AppColors.kPrimaryColor,
+                      ));
                     }
                   },
                 )),

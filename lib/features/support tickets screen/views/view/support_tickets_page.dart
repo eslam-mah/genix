@@ -6,10 +6,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
 import 'package:genix/core/default_status_indicators/first_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/new_page_progress_indicator.dart';
+import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
+import 'package:genix/core/utils/pref_keys.dart';
 import 'package:genix/core/widgets/customappbar.dart';
 import 'package:genix/core/widgets/custombottomappbar.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
@@ -47,6 +50,8 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
   @override
   void initState() {
     super.initState();
+    isNightModeEnabled = CacheData.getData(key: PrefKeys.kDarkMode) ?? false;
+
     context.read<GetAllTicketsCubit>().getAllTickets();
     getAllTicketsCubit = BlocProvider.of<GetAllTicketsCubit>(context);
     _pagingController.addPageRequestListener((page) {
@@ -76,6 +81,7 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
     setState(() {
       isNightModeEnabled = isNightMode;
     });
+    CacheData.setData(key: PrefKeys.kDarkMode, value: isNightMode);
   }
 
   @override
@@ -115,10 +121,15 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
               }
             }
           },
+        ),
+        BlocListener<ThemeCubit, ThemeState>(
+          listener: (context, state) {
+            final isNightMode = state == ThemeState.dark;
+            handleNightModeChanged(isNightMode);
+          },
         )
       ],
       child: Scaffold(
-        backgroundColor: isSelected ? AppColors.kAppBar2Color : Colors.white,
         key: _scaffoldKey,
         bottomNavigationBar: SafeArea(
           child: Stack(
@@ -166,8 +177,8 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
             : BlocBuilder<GetAllTicketsCubit, GetAllTicketsState>(
                 builder: (context, state) {
                   if (state is GetAllTicketsLoading) {
-                    return Center(
-                      child: const CircularProgressIndicator(
+                    return const Center(
+                      child: CircularProgressIndicator(
                         color: AppColors.kPrimaryColor,
                       ),
                     );
@@ -175,9 +186,8 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                     return CustomScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
                       slivers: [
-                        SliverToBoxAdapter(
-                          child:
-                              const CustomHeaderWidget(text: 'Support tickets'),
+                        const SliverToBoxAdapter(
+                          child: CustomHeaderWidget(text: 'Support tickets'),
                         ),
                         SliverToBoxAdapter(
                           child: Padding(

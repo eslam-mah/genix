@@ -31,13 +31,21 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
           SizedBox(
             height: 20.h,
           ),
-          const Text('ACCOUNT PASSWORD', style: TextStyle(color: Colors.grey)),
+          Text('ACCOUNT PASSWORD',
+              style: TextStyle(
+                fontSize: 14.sp,
+              )),
           Text('Change your password and alter other security options',
-              style: TextStyle(color: Colors.black.withOpacity(0.6))),
+              style: TextStyle(
+                fontSize: 12.sp,
+              )),
           SizedBox(
             height: 20.h,
           ),
-          const Text('CURRENT PASSWORD', style: TextStyle(color: Colors.grey)),
+          Text('CURRENT PASSWORD',
+              style: TextStyle(
+                fontSize: 14.sp,
+              )),
           SizedBox(
             height: 8.h,
           ),
@@ -50,7 +58,10 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
           SizedBox(
             height: 10.h,
           ),
-          const Text('MIN 8 CHARACTERS', style: TextStyle(color: Colors.grey)),
+          Text('MIN 8 CHARACTERS',
+              style: TextStyle(
+                fontSize: 14.sp,
+              )),
           SizedBox(
             height: 8.h,
           ),
@@ -63,8 +74,10 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
           SizedBox(
             height: 10.h,
           ),
-          const Text('REPEAT NEW PASSWORD',
-              style: TextStyle(color: Colors.grey)),
+          Text('REPEAT NEW PASSWORD',
+              style: TextStyle(
+                fontSize: 14.sp,
+              )),
           SizedBox(
             height: 8.h,
           ),
@@ -101,16 +114,22 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('TWO FACTOR AUTHENTICATION',
-                      style: TextStyle(color: Colors.grey)),
+                  Text('TWO FACTOR AUTHENTICATION',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                      )),
                   Row(
                     children: [
                       Text('Enable',
-                          style:
-                              TextStyle(color: Colors.black.withOpacity(0.6))),
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                          )),
                       Text(
                         ' Two factor authentication',
-                        style: TextStyle(color: AppColors.kPrimaryColor2),
+                        style: TextStyle(
+                          color: AppColors.kPrimaryColor2,
+                          fontSize: 12.sp,
+                        ),
                       )
                     ],
                   ),
@@ -138,15 +157,14 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('ACCOUNT CLOSURE',
-                      style: TextStyle(color: Colors.grey)),
-                  Row(
-                    children: [
-                      Text('Delete your account and data',
-                          style:
-                              TextStyle(color: Colors.black.withOpacity(0.6))),
-                    ],
-                  ),
+                  Text('ACCOUNT CLOSURE',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                      )),
+                  Text('Delete your account and data',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                      )),
                 ],
               ),
               SizedBox(

@@ -16,10 +16,13 @@ class TransactionHistoryCard extends StatelessWidget {
           children: [
             Text(
               'TXN ID',
-              style: TextStyle(
-                  color: Colors.black.withOpacity(0.4), fontSize: 12.sp),
+              style: TextStyle(fontSize: 12.sp),
             ),
-            Text(style: TextStyle(color: Colors.black.withOpacity(0.4)), '#38'),
+            Text(
+                style: TextStyle(
+                  fontSize: 11.sp,
+                ),
+                '#38'),
           ],
         ),
         const Icon(
@@ -31,11 +34,12 @@ class TransactionHistoryCard extends StatelessWidget {
           children: [
             Text(
               'Stripe(10 coins for 0.1 eur)',
-              style: TextStyle(
-                  color: Colors.black.withOpacity(1), fontSize: 12.sp),
+              style: TextStyle(fontSize: 12.sp),
             ),
             Text(
-                style: TextStyle(color: Colors.black.withOpacity(0.4)),
+                style: TextStyle(
+                  fontSize: 11.sp,
+                ),
                 'march 30'),
           ],
         ),
@@ -44,10 +48,11 @@ class TransactionHistoryCard extends StatelessWidget {
           children: [
             Text(
               'STATU',
-              style: TextStyle(
-                  color: Colors.black.withOpacity(0.4), fontSize: 12.sp),
+              style: TextStyle(fontSize: 12.sp),
             ),
-            Text(style: TextStyle(color: Colors.blue), 'initiat'),
+            Text(
+                style: TextStyle(fontSize: 12.sp, color: Colors.blue),
+                'initiat'),
           ],
         )
       ],

@@ -56,8 +56,8 @@ class User {
   bool isVerified;
   DateTime createdAt;
   bool isActive;
-  int status;
-  DateTime activeAt;
+  int? status;
+  String? activeAt;
 
   User({
     required this.id,
@@ -69,8 +69,8 @@ class User {
     required this.isVerified,
     required this.createdAt,
     required this.isActive,
-    required this.status,
-    required this.activeAt,
+    this.status,
+    this.activeAt,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -80,12 +80,12 @@ class User {
       showname: json['showname'],
       profileImg: json['profile_img'],
       coverImg: json['cover_img'],
-      roles: List<String>.from(json['roles']),
+      roles: json['roles'] != null ? List<String>.from(json['roles']) : [],
       isVerified: json['is_verified'],
       createdAt: DateTime.parse(json['created_at']),
       isActive: json['is_active'],
-      status: json['status'],
-      activeAt: DateTime.parse(json['active_at']),
+      status: json['status'] ?? 0,
+      activeAt: json['active_at'] ?? '',
     );
   }
 
@@ -101,7 +101,7 @@ class User {
     data['created_at'] = this.createdAt.toIso8601String();
     data['is_active'] = this.isActive;
     data['status'] = this.status;
-    data['active_at'] = this.activeAt.toIso8601String();
+    data['active_at'] = this.activeAt.toString();
     return data;
   }
 }

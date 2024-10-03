@@ -13,23 +13,36 @@ class FollowersListView extends StatelessWidget {
   final ProfileModel? profileModel;
   @override
   Widget build(BuildContext context) {
-    final profile = profileModel?.data?.followersCollection ?? [];
-    if (profile.isEmpty) {
-      return Container();
+    final followers = profileModel?.data?.followersCollection ?? [];
+    if (followers.isEmpty) {
+      return Container(
+        child: InkWell(
+          onTap: () {
+            print(
+                'ddddddddddddddddd${followers.length}____________________________ssss_sss____-');
+          },
+          child: Icon(
+            Icons.account_balance_outlined,
+            size: 150,
+          ),
+        ),
+      );
     }
     return SizedBox(
-        height: profile.length == 1 ? 100.h : height,
+        height: followers.length == 1 ? 100.h : height,
         child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: profile.length > 2 ? 2 : profile.length,
+            itemCount: followers.length > 2 ? 2 : followers.length,
             itemBuilder: (context, index) {
+              print(
+                  'ddddddddddddddddd${followers.length}____________________________ssss_sss____-');
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 6.h),
                 child: ProfilesCard(
-                  imageUrl: profile[index].user?.profileImg ?? '',
-                  userName: profile[index].user?.showname ?? '',
-                  userBio: profile[index].user?.bio ?? '',
-                  isActive: profile[index].user?.isActive ?? false,
+                  imageUrl: followers[index].user?.profileImg ?? '',
+                  userName: followers[index].user?.showname ?? '',
+                  userBio: followers[index].user?.bio ?? '',
+                  isActive: followers[index].user?.isActive ?? false,
                 ),
               );
             }));

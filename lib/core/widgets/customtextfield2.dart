@@ -37,10 +37,9 @@ class _CustomTextField2State extends State<CustomTextField2> {
               )),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(13.r),
-            borderSide: BorderSide(color: Colors.black.withOpacity(0.2)),
+            borderSide: const BorderSide(color: AppColors.kPrimaryColor),
           ),
           hintText: widget.hintText,
-          hintStyle: TextStyle(color: Colors.black.withOpacity(0.2)),
           border: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.green))),
     );

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
-    required this.color,
+    this.color,
     required this.buttonText,
     this.width,
     required this.height,
@@ -12,7 +12,7 @@ class CustomButton extends StatelessWidget {
     required this.onTap,
     this.icon,
   });
-  final Color color;
+  final Color? color;
   final String buttonText;
   final double? width;
   final double height;

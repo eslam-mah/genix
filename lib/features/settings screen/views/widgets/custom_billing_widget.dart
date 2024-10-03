@@ -29,8 +29,12 @@ class CustomBillingWidget extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(3.r),
           color: isSelected == numberSelected
-              ? AppColors.kPromoteColor
-              : AppColors.kTextFieldColor),
+              ? isNightModeEnabled
+                  ? AppColors.kPrimaryColor
+                  : AppColors.kPromoteColor
+              : isNightModeEnabled
+                  ? DarkModeColors.kItemColorDark3
+                  : AppColors.kTextFieldColor),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -48,8 +52,7 @@ class CustomBillingWidget extends StatelessWidget {
               ),
               Text(
                 '${(1 / 100 * coins)} EUR',
-                style: TextStyle(
-                    color: Colors.black.withOpacity(0.5), fontSize: 12.sp),
+                style: TextStyle(fontSize: 12.sp),
               )
             ],
           )

@@ -19,7 +19,9 @@ class CustomSupportTicketsHCounter extends StatelessWidget {
       width: 100.w,
       height: 90.h,
       decoration: BoxDecoration(
-          color: AppColors.kAppBar2Color,
+          color: isNightMode
+              ? DarkModeColors.kItemColorDark
+              : AppColors.kAppBar2Color,
           borderRadius: BorderRadius.circular(8.r)),
       child: Row(
         children: [

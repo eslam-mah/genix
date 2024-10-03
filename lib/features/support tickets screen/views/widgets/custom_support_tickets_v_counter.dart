@@ -28,7 +28,9 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
       width: 150.w,
       height: 250.h,
       decoration: BoxDecoration(
-          color: AppColors.kAppBar2Color,
+          color: isNightMode
+              ? DarkModeColors.kItemColorDark
+              : AppColors.kAppBar2Color,
           borderRadius: BorderRadius.circular(8.r)),
       child: Column(
         //    mainAxisAlignment: MainAxisAlignment.end,

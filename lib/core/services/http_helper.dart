@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:genix/core/services/checkinternet.dart';
 import 'package:genix/core/services/failure_model.dart';
 import 'package:genix/core/services/http_reponse_status.dart';
+import 'package:genix/core/utils/pref_keys.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
@@ -16,13 +17,13 @@ class HttpHelper {
   static Future<void> _saveToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     debugPrint('HttpHelper._saveToken: $token');
-    await prefs.setString('auth_token', token);
+    await prefs.setString(PrefKeys.kToken, token);
   }
 
   // Function to get token
   static Future<String?> _getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('auth_token');
+    return prefs.getString(PrefKeys.kToken);
   }
 
   // Function to handle login and store token

@@ -7,7 +7,7 @@ import 'package:genix/core/default_status_indicators/new_page_progress_indicator
 import 'package:genix/core/default_status_indicators/no_items_found_indicator.dart';
 import 'package:genix/features/comments%20section/data/models/comments_model.dart';
 import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
-import 'package:genix/features/drawer/view%20model/theme_cubit.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/post_form.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/data.dart';

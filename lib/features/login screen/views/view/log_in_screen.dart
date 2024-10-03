@@ -134,7 +134,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   children: [
                     SizedBox(width: 30.w),
                     Text('Remember me', style: TextStyle(fontSize: 14.sp)),
-                    Spacer(),
+                    const Spacer(),
                     Switch(
                       value: true,
                       onChanged: (value) {},

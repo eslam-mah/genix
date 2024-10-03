@@ -1,3 +1,4 @@
+import 'package:genix/features/splash%20screen/views/custom_loading_page.dart';
 import 'package:genix/features/chat%20screen/views/chat_listing_screen.dart';
 import 'package:genix/features/comments%20section/coments_router.dart';
 import 'package:genix/features/comments%20section/replies.dart';
@@ -31,6 +32,7 @@ abstract class Rout {
   static const kGroupsScreen = '/groups';
   static const kPagesScreen = '/pages';
   static const kChatsListing = '/chat-listing';
+  static const kLoadingPage = '/custom_loading_page';
 
   static final router = GoRouter(routes: [
     GoRoute(
@@ -64,6 +66,10 @@ abstract class Rout {
     GoRoute(
       path: kChatsListing,
       builder: (context, state) => const ChatListingScreen(),
+    ),
+    GoRoute(
+      path: kLoadingPage,
+      builder: (context, state) => const CustomLoadingPage(),
     ),
     ...VideoShortsRouter.goRoutes,
     ...CommentsRouter.goRoutes,

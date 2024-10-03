@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:genix/core/services/shared_preferences.dart';
+import 'package:genix/core/utils/pref_keys.dart';
+import 'package:genix/core/widgets/custombutton.dart';
+import 'package:genix/features/drawer/view%20model/log_out_cubit/log_out_cubit.dart';
+import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
+import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customlisttile.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
-import 'package:genix/features/drawer/view%20model/theme_cubit.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
 
 class CustomDrawerWidget extends StatelessWidget {
@@ -23,7 +29,7 @@ class CustomDrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SizedBox(
-        width: 240,
+        width: 240.w,
         child: Drawer(
           child: Column(
             children: [
@@ -96,7 +102,13 @@ class CustomDrawerWidget extends StatelessWidget {
               CustomListTile(
                 icon: FontAwesomeIcons.rightFromBracket,
                 text: 'Logout',
-                onTap: () {},
+                onTap: () async {
+                  await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const _LogOutDialog();
+                      });
+                },
               ),
               SizedBox(height: 20.h),
               Row(
@@ -117,6 +129,7 @@ class CustomDrawerWidget extends StatelessWidget {
                     onChanged: (value) {
                       context.read<ThemeCubit>().toggleTheme();
                     },
+                    activeColor: Colors.white,
                     activeTrackColor:
                         isNightMode ? AppColors.kPrimaryColor2 : Colors.white,
                   ),
@@ -125,6 +138,72 @@ class CustomDrawerWidget extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _LogOutDialog extends StatelessWidget {
+  const _LogOutDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: BlocBuilder<LogOutCubit, LogOutState>(
+        builder: (context, state) {
+          if (state is LogOutLoading) {
+            return SizedBox(
+              height: 100.h,
+              width: 300.w,
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.kPrimaryColor,
+                ),
+              ),
+            );
+          } else {
+            return SizedBox(
+              height: 100.h,
+              width: 300.w,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Are you sure you want to log out?',
+                    style: TextStyle(fontSize: 17.sp),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CustomButton(
+                          color: AppColors.kPrimaryColor,
+                          buttonText: 'Yes',
+                          height: 30.h,
+                          borderRadius: 30.r,
+                          width: 80.w,
+                          onTap: () async {
+                            await context.read<LogOutCubit>().logOut();
+
+                            // ignore: use_build_context_synchronously
+                            GoRouter.of(context).go(LoginScreen.route,
+                                extra: const LogInScreenArgs());
+                          }),
+                      CustomButton(
+                          color: Colors.red,
+                          buttonText: 'no',
+                          height: 30.h,
+                          borderRadius: 30.r,
+                          width: 80.w,
+                          onTap: () {
+                            GoRouter.of(context).pop();
+                          })
+                    ],
+                  )
+                ],
+              ),
+            );
+          }
+        },
       ),
     );
   }
