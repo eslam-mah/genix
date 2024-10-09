@@ -10,7 +10,6 @@ class CustomTextWidget extends StatelessWidget {
     required this.text,
     this.maxLines,
     this.width,
-    required this.isNightMode,
   });
   final String text;
   final double textSize;
@@ -19,7 +18,6 @@ class CustomTextWidget extends StatelessWidget {
   final Color? color;
   final int? maxLines;
   final double? width;
-  final bool isNightMode;
   @override
   Widget build(BuildContext context) {
     return SizedBox(

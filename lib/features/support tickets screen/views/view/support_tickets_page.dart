@@ -136,9 +136,7 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
-              CustomBottomAppBar(
-                isNightMode: isNightModeEnabled,
-              ),
+              const CustomBottomAppBar(),
               Positioned(
                 bottom: 20,
                 child: GestureDetector(
@@ -223,7 +221,7 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                         SliverToBoxAdapter(
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.w),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 CustomSupportTicketsVCounter(
@@ -233,7 +231,6 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                                   title: 'Email',
                                   buttonText: 'Send mail',
                                   buttonIcon: FontAwesomeIcons.link,
-                                  isNightMode: isNightModeEnabled,
                                 ),
                                 CustomSupportTicketsVCounter(
                                   text:
@@ -242,7 +239,6 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                                   title: 'Support',
                                   buttonText: 'Open ticket',
                                   buttonIcon: FontAwesomeIcons.plus,
-                                  isNightMode: isNightModeEnabled,
                                 ),
                               ],
                             ),
@@ -285,7 +281,6 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                                     },
                                     child: CustomTicketsItem(
                                       ticket: item,
-                                      isNightMode: isNightModeEnabled,
                                     ), // Passing the ticket item
                                   );
                                 },
@@ -307,7 +302,6 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                         fontFamily: '',
                         fontWeight: FontWeight.normal,
                         text: 'Error loading Tickets',
-                        isNightMode: isNightModeEnabled,
                       ),
                     );
                   }

@@ -401,7 +401,6 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                                   readOnly: false,
                                   hintText: 'Query to be excuted',
                                   controller: TextEditingController(),
-                                  isNightModeEnabled: widget.isNightModeEnabled,
                                   icon: const SizedBox.shrink()),
                             ),
                           ],

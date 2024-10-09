@@ -11,6 +11,7 @@ import 'package:genix/features/comments%20section/data/models/comments_model.dar
 import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
 import 'package:genix/features/comments%20section/views/widgets/comment_bubble.dart';
 import 'package:genix/features/comments%20section/views/widgets/temp_comment_bubble.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/summary.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_cubit.dart';
@@ -483,7 +484,7 @@ class _PostItemState extends State<PostItem> {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6.r),
-              color: widget.isNightModeEnabled
+              color: ThemeCubit().state == ThemeState.dark
                   ? DarkModeColors.kItemColorDark
                   : AppColors.kPostColor,
             ),
@@ -511,12 +512,12 @@ class _PostItemState extends State<PostItem> {
                           Row(
                             children: [
                               CustomTextWidget(
-                                  textSize: 12.sp,
-                                  fontFamily: 'fontFamily',
-                                  color: AppColors.kPrimaryColor,
-                                  fontWeight: FontWeight.normal,
-                                  text: user.showname ?? 'Unknown User',
-                                  isNightMode: widget.isNightModeEnabled),
+                                textSize: 12.sp,
+                                fontFamily: 'fontFamily',
+                                color: AppColors.kPrimaryColor,
+                                fontWeight: FontWeight.normal,
+                                text: user.showname ?? 'Unknown User',
+                              ),
                               if (widget.postsModel.user!.isVerified == true)
                                 Image.asset(
                                   AppGifs.kVerified,
@@ -532,8 +533,7 @@ class _PostItemState extends State<PostItem> {
                     ),
                     IconButton(
                       onPressed: () {
-                        showPostTabBar(context, widget.isNightModeEnabled,
-                            widget.id, widget.postsModel);
+                        showPostTabBar(context, widget.id, widget.postsModel);
                       },
                       icon: const Icon(FontAwesomeIcons.ellipsis),
                     ),
@@ -567,7 +567,6 @@ class _PostItemState extends State<PostItem> {
                                     ? Colors.blue
                                     : null,
                                 text: content,
-                                isNightMode: widget.isNightModeEnabled,
                               ),
                             ),
                           ),
@@ -593,7 +592,6 @@ class _PostItemState extends State<PostItem> {
                         width: 30.w,
                         child: CustomTextWidget(
                             textSize: 13.sp,
-                            isNightMode: widget.isNightModeEnabled,
                             fontFamily: '',
                             fontWeight: FontWeight.w500,
                             text: ' $totalReactions'),
@@ -700,8 +698,6 @@ class _PostItemState extends State<PostItem> {
                                               isComment = false;
                                             });
                                           },
-                                          isNightMode:
-                                              widget.isNightModeEnabled,
                                           postsModel: item,
                                         ),
                                 ))
@@ -712,7 +708,6 @@ class _PostItemState extends State<PostItem> {
                             padding: EdgeInsets.all(10.r),
                             child: TempCommentBubble(
                                 onTap: () {},
-                                isNightMode: widget.isNightModeEnabled,
                                 commentText: comments.last.content ?? '',
                                 postsModel: Comment())),
                       if (_flattenCommentsAndReplies().length > 2) ...[
@@ -728,7 +723,6 @@ class _PostItemState extends State<PostItem> {
                                 textSize: 13.sp,
                                 fontFamily: '',
                                 fontWeight: FontWeight.normal,
-                                isNightMode: widget.isNightModeEnabled,
                                 text: viewMoreComments
                                     ? 'Hide comments'
                                     : 'View more comments'),

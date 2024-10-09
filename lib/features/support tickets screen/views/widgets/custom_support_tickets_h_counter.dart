@@ -45,14 +45,12 @@ class CustomSupportTicketsHCounter extends StatelessWidget {
                 fontFamily: '',
                 fontWeight: FontWeight.bold,
                 text: number.toString(),
-                isNightMode: isNightMode,
               ),
               CustomTextWidget(
                 textSize: 10.sp,
                 fontFamily: '',
                 fontWeight: FontWeight.w500,
                 text: text,
-                isNightMode: isNightMode,
               )
             ],
           ),

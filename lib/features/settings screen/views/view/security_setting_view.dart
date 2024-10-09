@@ -53,7 +53,6 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
               readOnly: false,
               hintText: 'Current password',
               controller: TextEditingController(),
-              isNightModeEnabled: widget.isNightModeEnabled,
               icon: const SizedBox.shrink()),
           SizedBox(
             height: 10.h,
@@ -69,7 +68,6 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
               readOnly: false,
               hintText: 'New password',
               controller: TextEditingController(),
-              isNightModeEnabled: widget.isNightModeEnabled,
               icon: const SizedBox.shrink()),
           SizedBox(
             height: 10.h,
@@ -85,7 +83,6 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
               readOnly: false,
               hintText: 'Confirm password',
               controller: TextEditingController(),
-              isNightModeEnabled: widget.isNightModeEnabled,
               icon: const SizedBox.shrink()),
           SizedBox(
             height: 10.h,

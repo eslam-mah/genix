@@ -12,9 +12,10 @@ import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 
 import 'package:genix/core/widgets/glowingbuttonbody.dart';
-import 'package:genix/features/groups%20page/widgets/groups_list_view.dart';
+import 'package:genix/features/groups%20page/views/widgets/groups_list_view.dart';
 
 class GroupsScreenBody extends StatefulWidget {
+  static const String route = "groups_screen";
   const GroupsScreenBody({super.key});
 
   @override
@@ -42,9 +43,7 @@ class _GroupsScreenBodyState extends State<GroupsScreenBody> {
           alignment: Alignment.center,
           clipBehavior: Clip.none,
           children: [
-            CustomBottomAppBar(
-              isNightMode: isNightModeEnabled,
-            ),
+            const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
                 child: GestureDetector(

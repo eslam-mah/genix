@@ -39,9 +39,7 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
         alignment: Alignment.center,
         clipBehavior: Clip.none,
         children: [
-          CustomBottomAppBar(
-            isNightMode: isNightModeEnabled,
-          ),
+          const CustomBottomAppBar(),
           Positioned(
               bottom: 20,
               child: GestureDetector(

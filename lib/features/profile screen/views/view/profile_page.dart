@@ -18,7 +18,7 @@ import 'package:genix/core/widgets/restricteduserslistview.dart';
 import 'package:genix/core/widgets/saved_shorts.dart';
 import 'package:genix/core/widgets/shorts_list_view.dart';
 import 'package:genix/features/followers%20list%20page/views/widgets/followers_list_view.dart';
-import 'package:genix/features/groups%20page/widgets/groups_list_view.dart';
+import 'package:genix/features/groups%20page/views/widgets/groups_list_view.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/profile%20screen/view%20model/get%20profile/get_profile_cubit.dart';
 import 'package:genix/features/profile%20screen/views/widgets/custom_icon_listview.dart';
@@ -76,9 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
-              CustomBottomAppBar(
-                isNightMode: isNightModeEnabled,
-              ),
+              const CustomBottomAppBar(),
               Positioned(
                   bottom: 20.h,
                   child: GestureDetector(

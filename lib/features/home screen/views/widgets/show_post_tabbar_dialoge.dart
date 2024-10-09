@@ -5,8 +5,8 @@ import 'package:genix/features/home%20screen/data/models/posts_model/posts_model
 import 'package:genix/features/home%20screen/views/widgets/promote_bottom_sheet.dart';
 import 'package:genix/features/home%20screen/views/widgets/show_report_bottom_sheet.dart';
 
-Future<dynamic> showPostTabBar(BuildContext context, bool isNightModeEnabled,
-    int id, PostsModel postsModel) {
+Future<dynamic> showPostTabBar(
+    BuildContext context, int id, PostsModel postsModel) {
   return showDialog(
       context: context,
       builder: (context) {
@@ -21,7 +21,6 @@ Future<dynamic> showPostTabBar(BuildContext context, bool isNightModeEnabled,
                     title: CustomTextWidget(
                         textSize: 15.sp,
                         fontFamily: '',
-                        isNightMode: isNightModeEnabled,
                         fontWeight: FontWeight.normal,
                         text: 'View post'),
                   ),
@@ -35,19 +34,17 @@ Future<dynamic> showPostTabBar(BuildContext context, bool isNightModeEnabled,
                         textSize: 15.sp,
                         fontFamily: '',
                         fontWeight: FontWeight.normal,
-                        isNightMode: isNightModeEnabled,
                         text: 'Promote'),
                   ),
                 ),
                 InkWell(
                   onTap: () {
-                    reportBottomSheet(context, isNightModeEnabled);
+                    reportBottomSheet(context);
                   },
                   child: ListTile(
                     title: CustomTextWidget(
                         textSize: 15.sp,
                         fontFamily: '',
-                        isNightMode: isNightModeEnabled,
                         fontWeight: FontWeight.normal,
                         text: 'Report'),
                   ),
@@ -55,7 +52,7 @@ Future<dynamic> showPostTabBar(BuildContext context, bool isNightModeEnabled,
                 if (postsModel.user?.id == id) ...[
                   InkWell(
                     onTap: () {
-                      reportBottomSheet(context, isNightModeEnabled);
+                      reportBottomSheet(context);
                     },
                     child: ListTile(
                       title: CustomTextWidget(
@@ -63,19 +60,17 @@ Future<dynamic> showPostTabBar(BuildContext context, bool isNightModeEnabled,
                         fontFamily: '',
                         fontWeight: FontWeight.normal,
                         text: 'Edit',
-                        isNightMode: isNightModeEnabled,
                       ),
                     ),
                   ),
                   InkWell(
                     onTap: () {
-                      reportBottomSheet(context, isNightModeEnabled);
+                      reportBottomSheet(context);
                     },
                     child: ListTile(
                       title: CustomTextWidget(
                           textSize: 15.sp,
                           fontFamily: '',
-                          isNightMode: isNightModeEnabled,
                           fontWeight: FontWeight.normal,
                           text: 'Delete'),
                     ),

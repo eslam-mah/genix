@@ -10,6 +10,7 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/bigtextfield.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customtextfield2.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/post_form.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20post/add_post_cubit.dart';
@@ -17,8 +18,8 @@ import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
 import 'package:path/path.dart' as path;
 
-Future<dynamic> addPostModalBottomSheet(BuildContext context,
-    PostsModel postsModel, Function() refresh, bool isNightMode) {
+Future<dynamic> addPostModalBottomSheet(
+    BuildContext context, PostsModel postsModel, Function() refresh) {
   bool isPoll = false;
   bool isCheckIn = false;
   bool isLive = false;
@@ -35,7 +36,7 @@ Future<dynamic> addPostModalBottomSheet(BuildContext context,
   List<VideoPlayerController?> videoControllers = [];
 
   return showModalBottomSheet(
-      backgroundColor: isNightMode
+      backgroundColor: ThemeCubit().state == ThemeState.dark
           ? DarkModeColors.kItemColorDark2
           : AppColors.kAppBar2Color,
       isScrollControlled: true,
@@ -61,7 +62,6 @@ Future<dynamic> addPostModalBottomSheet(BuildContext context,
                       readOnly: false,
                       hintText: 'Type in the poll question',
                       controller: pollsController,
-                      isNightModeEnabled: false,
                       icon: const SizedBox.shrink(),
                     ),
                   ),
@@ -217,7 +217,6 @@ Future<dynamic> addPostModalBottomSheet(BuildContext context,
                       child: BigTextField(
                         hintText: ' Write something...',
                         controller: contentController,
-                        isNightMode: isNightMode,
                       ),
                     ),
                     SizedBox(
@@ -326,7 +325,6 @@ Future<dynamic> addPostModalBottomSheet(BuildContext context,
                                     readOnly: false,
                                     hintText: 'Type in the poll question',
                                     controller: currentLocationController,
-                                    isNightModeEnabled: false,
                                     icon: const SizedBox.shrink()),
                               ),
                               SizedBox(
@@ -343,7 +341,6 @@ Future<dynamic> addPostModalBottomSheet(BuildContext context,
                                     readOnly: false,
                                     hintText: 'Type in the poll question',
                                     controller: pollsController,
-                                    isNightModeEnabled: false,
                                     icon: const SizedBox.shrink()),
                               ),
                               Padding(
@@ -472,7 +469,6 @@ Future<dynamic> addPostModalBottomSheet(BuildContext context,
                                       readOnly: true,
                                       hintText: 'Custom location',
                                       controller: TextEditingController(),
-                                      isNightModeEnabled: false,
                                       icon: const SizedBox.shrink()),
                                 ),
                               ),

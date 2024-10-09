@@ -341,7 +341,6 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                                             fontFamily: '',
                                             fontWeight: FontWeight.normal,
                                             color: Colors.white,
-                                            isNightMode: isNightModeEnabled,
                                           ),
                                           CustomTextWidget(
                                             maxLines: 4,
@@ -351,7 +350,6 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                                             fontFamily: '',
                                             fontWeight: FontWeight.normal,
                                             color: Colors.white,
-                                            isNightMode: isNightModeEnabled,
                                           )
                                         ],
                                       ),
@@ -374,7 +372,6 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                                           fontFamily: '',
                                           fontWeight: FontWeight.normal,
                                           color: Colors.white,
-                                          isNightMode: isNightModeEnabled,
                                         ),
                                       )
                                     ],

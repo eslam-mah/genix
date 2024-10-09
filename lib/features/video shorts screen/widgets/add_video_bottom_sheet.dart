@@ -52,7 +52,6 @@ Future<dynamic> addVideoBottomSheet(BuildContext context) {
                         readOnly: false,
                         hintText: 'short description, #tags',
                         controller: TextEditingController(),
-                        isNightModeEnabled: false,
                         icon: const SizedBox.shrink()),
                   ),
                   SizedBox(

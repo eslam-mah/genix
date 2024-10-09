@@ -12,13 +12,11 @@ import 'package:go_router/go_router.dart';
 class CustomBottomAppBar extends StatelessWidget {
   const CustomBottomAppBar({
     super.key,
-    required this.isNightMode,
     this.homeEnabled = true,
     this.notificationsEnabled = true,
     this.messagesEnabled = true,
     this.profileEnabled = true,
   });
-  final bool isNightMode;
   final bool? homeEnabled;
   final bool? notificationsEnabled;
   final bool? messagesEnabled;

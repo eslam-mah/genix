@@ -153,16 +153,16 @@ class _NotificationsPageState extends State<NotificationsPage> {
         // )
       ],
       child: Scaffold(
-        backgroundColor:
-            isNightModeEnabled ? DarkModeColors.kBackGroundDark : Colors.white,
+        backgroundColor: ThemeCubit().state == ThemeState.dark
+            ? DarkModeColors.kBackGroundDark
+            : Colors.white,
         key: _scaffoldKey,
         bottomNavigationBar: SafeArea(
             child: Stack(
           alignment: Alignment.center,
           clipBehavior: Clip.none,
           children: [
-            CustomBottomAppBar(
-              isNightMode: isNightModeEnabled,
+            const CustomBottomAppBar(
               notificationsEnabled: false,
             ),
             Positioned(
@@ -253,7 +253,6 @@ class _NotificationItem extends StatelessWidget {
                   fontFamily: '',
                   fontWeight: FontWeight.normal,
                   text: notification.data.content,
-                  isNightMode: isNightMode,
                 ),
                 CustomTextWidget(
                   textSize: 15.sp,
@@ -261,7 +260,6 @@ class _NotificationItem extends StatelessWidget {
                   fontWeight: FontWeight.normal,
                   color: Colors.grey.shade400,
                   text: formatNotificationDate(notification.createdAt),
-                  isNightMode: isNightMode,
                 )
               ],
             ),

@@ -96,4 +96,42 @@ class ApiEndPoints {
   static const String searchShorts = "$baseUrl/posts/shorts/search";
   static const String addShort = "$baseUrl/posts/short";
   static const String updateShort = "$baseUrl/posts/short";
+  // groups
+  static const String getGroupsList = "$baseUrl/groups";
+  static const String getGroup = "$baseUrl/group";
+  static const String createGroup = "$baseUrl/group";
+  static const String updateGroupDetails = "$baseUrl/group";
+  static const String updateGroupProfile = "$baseUrl/group/profile";
+  static const String deleteGroup = "$baseUrl/group";
+  static const String postRateOnGroup = "$baseUrl/group/rate";
+  static const String getGroupPhotos = "$baseUrl/group/photos";
+  static const String joinGroupPost = "$baseUrl/group/join";
+  static const String removeJoin = "$baseUrl/group/join";
+  static const String postGroupInvitations = "$baseUrl/group/join/invitation";
+  static const String updateInvitation = "$baseUrl/group/join/invitation";
+  static const String getAllMembers = "$baseUrl/group/members";
+  static const String updateGroupMember = "$baseUrl/group/member";
+  static const String deleteGroupMember = "$baseUrl/group/member";
+  static const String deleteGroupMemberPost = "$baseUrl/group/member/posts";
+  static const String deleteGroupMemberComment =
+      "$baseUrl/group/member/posts/comments";
+  // pages
+  static const String getPagesList = "$baseUrl/pages";
+  static const String getPage = "$baseUrl/page";
+  static const String createPage = "$baseUrl/page";
+  static const String updatePageDetails = "$baseUrl/page";
+  static const String updatePageProfile = "$baseUrl/page/profile";
+  static const String deletePage = "$baseUrl/page";
+  static const String postRateOnPage = "$baseUrl/page/rate";
+  static const String getPagePhotos = "$baseUrl/page/photos";
+  static const String followPagePost = "$baseUrl/page/follow";
+  static const String removePageFollow = "$baseUrl/page/follow";
+  static const String postPageInvitations = "$baseUrl/page/follow/invitation";
+  static const String updatePageInvitation = "$baseUrl/page/follow/invitation";
+  static const String getAllPagesMembers = "$baseUrl/page/members";
+  static const String updatePageMember = "$baseUrl/page/member";
+  static const String deletePageMember = "$baseUrl/page/member";
+  static const String deletePageMemberPost = "$baseUrl/page/member/posts";
+  static const String deletePageMemberComment =
+      "$baseUrl/page/member/posts/comments";
 }

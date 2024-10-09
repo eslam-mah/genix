@@ -11,12 +11,10 @@ import 'package:genix/features/home%20screen/data/models/posts_model/posts_model
 class CustomHomeAppBar extends StatelessWidget {
   final PostsModel postsModel;
   final Function() refresh;
-  final bool isNightMode;
   const CustomHomeAppBar({
     super.key,
     required this.postsModel,
     required this.refresh,
-    required this.isNightMode,
   });
 
   @override
@@ -41,8 +39,7 @@ class CustomHomeAppBar extends StatelessWidget {
         CustomAppBarIcon(
           icon: Icons.post_add_outlined,
           onTap: () async {
-            await addPostModalBottomSheet(
-                context, postsModel, refresh, isNightMode);
+            await addPostModalBottomSheet(context, postsModel, refresh);
           },
           size: 25.sp,
         )

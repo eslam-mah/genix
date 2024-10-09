@@ -11,10 +11,8 @@ class CustomTicketsItem extends StatelessWidget {
   const CustomTicketsItem({
     super.key,
     required this.ticket,
-    required this.isNightMode,
   });
   final TicketsModel ticket;
-  final bool isNightMode;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +46,6 @@ class CustomTicketsItem extends StatelessWidget {
                           fontFamily: '',
                           fontWeight: FontWeight.w400,
                           text: ticket.title,
-                          isNightMode: isNightMode,
                         ),
                       )
                     ],
@@ -59,7 +56,6 @@ class CustomTicketsItem extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     text:
                         'Created on ${DateFormat('MMMM d, yyyy').format(ticket.createdAt)}',
-                    isNightMode: isNightMode,
                   )
                 ],
               ),
@@ -71,7 +67,6 @@ class CustomTicketsItem extends StatelessWidget {
                     fontFamily: '',
                     fontWeight: FontWeight.w400,
                     text: 'Last reply by',
-                    isNightMode: isNightMode,
                   ),
                   Row(
                     children: [
@@ -89,7 +84,6 @@ class CustomTicketsItem extends StatelessWidget {
                           fontFamily: '',
                           fontWeight: FontWeight.w400,
                           text: ticket.lastUser.showname,
-                          isNightMode: isNightMode,
                         ),
                       ),
                     ],

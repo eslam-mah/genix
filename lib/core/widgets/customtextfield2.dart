@@ -8,13 +8,11 @@ class CustomTextField2 extends StatefulWidget {
     required this.readOnly,
     required this.hintText,
     required this.controller,
-    required this.isNightModeEnabled,
     required this.icon,
   });
   final bool readOnly;
   final String hintText;
   final TextEditingController controller;
-  final bool isNightModeEnabled;
   final Widget icon;
   @override
   State<CustomTextField2> createState() => _CustomTextField2State();

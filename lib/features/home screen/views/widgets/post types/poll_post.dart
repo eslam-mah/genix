@@ -87,13 +87,12 @@ class _PollPostState extends State<PollPost> {
                         ),
                         Center(
                           child: CustomTextWidget(
-                              textSize: 14.sp,
-                              fontFamily: 'fontFamily',
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black,
-                              text:
-                                  '${option.votesFromUsers?.length ?? 0} votes',
-                              isNightMode: widget.isNightMode),
+                            textSize: 14.sp,
+                            fontFamily: 'fontFamily',
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black,
+                            text: '${option.votesFromUsers?.length ?? 0} votes',
+                          ),
                         ),
                       ],
                     ),

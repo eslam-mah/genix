@@ -5,20 +5,11 @@ import 'package:genix/core/default_status_indicators/first_page_error_indicator.
 import 'package:genix/core/default_status_indicators/first_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/new_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/no_items_found_indicator.dart';
-import 'package:genix/features/comments%20section/data/models/comments_model.dart';
-import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/post_form.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/data.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/summary.dart';
 import 'package:genix/features/home%20screen/data/models/stories_list_model.dart';
-import 'package:genix/features/home%20screen/view%20model/add%20poll/add_poll_cubit.dart';
-import 'package:genix/features/home%20screen/view%20model/add%20post/add_post_cubit.dart';
-import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts/get_newsfeed_posts_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20stories/get_stories_cubit.dart';
-import 'package:genix/features/home%20screen/view%20model/update%20post%20by%20id/update_post_by_id_cubit.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_story_widget.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 
@@ -118,8 +109,7 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
-              CustomBottomAppBar(
-                isNightMode: isNightModeEnabled,
+              const CustomBottomAppBar(
                 homeEnabled: false,
               ),
               Positioned(
@@ -158,7 +148,6 @@ class _HomePageState extends State<HomePage> {
                   refresh: () {
                     _pagingController.refresh();
                   },
-                  isNightMode: isNightModeEnabled,
                 );
               } else {
                 return Shimmer.fromColors(
@@ -224,13 +213,13 @@ class _HomePageState extends State<HomePage> {
                                             _storiesPagingController.refresh(),
                                       ),
                                       firstPageProgressIndicatorBuilder: (_) =>
-                                          FirstPageProgressIndicator(),
+                                          const FirstPageProgressIndicator(),
                                       newPageProgressIndicatorBuilder: (_) =>
                                           const Center(
                                               child:
                                                   NewPageProgressIndicator()),
                                       noItemsFoundIndicatorBuilder: (_) =>
-                                          SizedBox.shrink(),
+                                          const SizedBox.shrink(),
                                       itemBuilder: (context, item, index) {
                                         return CustomStoryWidget(
                                             storyModel: item);
@@ -253,11 +242,11 @@ class _HomePageState extends State<HomePage> {
                           onTryAgain: () => _pagingController.refresh(),
                         ),
                         firstPageProgressIndicatorBuilder: (_) =>
-                            FirstPageProgressIndicator(),
+                            const FirstPageProgressIndicator(),
                         newPageProgressIndicatorBuilder: (_) =>
                             const NewPageProgressIndicator(),
                         noItemsFoundIndicatorBuilder: (_) =>
-                            NoItemsFoundIndicator(),
+                            const NoItemsFoundIndicator(),
                         itemBuilder: (context, item, index) {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

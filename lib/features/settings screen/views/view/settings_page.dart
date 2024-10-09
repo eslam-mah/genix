@@ -65,9 +65,7 @@ class _SettingsPageState extends State<SettingsPage> {
           alignment: Alignment.center,
           clipBehavior: Clip.none,
           children: [
-            CustomBottomAppBar(
-              isNightMode: isNightModeEnabled,
-            ),
+            const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
                 child: GestureDetector(

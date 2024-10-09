@@ -171,9 +171,11 @@ class HttpHelper {
     required String name,
     String? token,
   }) async {
-    token ??= await _getToken(); // Get token if not provided
+    token ??= await _getToken(); // Ensure token is retrieved
+
     var request = http.MultipartRequest('PATCH', Uri.parse(linkUrl));
     request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept'] = 'application/json';
 
     if (!await file.exists()) {
       throw Exception("File not found at path: ${file.path}");
@@ -188,7 +190,14 @@ class HttpHelper {
       contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
     ));
 
+    // Log request details
+    print("Uploading file: ${file.path}");
+    print("MIME Type: $mimeType");
+
+    // Send the request
     final response = await request.send();
+
+    // Get the response
     return await http.Response.fromStream(response);
   }
 
@@ -331,3 +340,23 @@ class HttpHelper {
     }
   }
 }
+// static Future<http.Response> postPatchData({
+//   required String linkUrl,
+//   required Map data,
+//   String? token,
+// }) async {
+//   token ??= await _getToken(); // Get token if not provided
+//   var headers = {
+//     'Authorization': 'Bearer $token',
+//     'accept': 'application/json',
+//     'Content-Type': 'multipart/form-data',
+//   };
+
+//   var response = await http.patch(
+//     Uri.parse(linkUrl),
+//     body: json.encode(data),
+//     headers: headers,
+//   );
+
+//   return response;
+// }

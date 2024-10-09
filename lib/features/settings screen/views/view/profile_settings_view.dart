@@ -64,7 +64,9 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
               ),
               GestureDetector(
                 onTap: () {
-                  editProfilePicBottomSheet(context);
+                  editProfilePicBottomSheet(
+                      context, Function(String) onImageSelected) {}
+                  ;
                 },
                 child: Text('CHANGE',
                     style: TextStyle(
@@ -86,7 +88,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
               readOnly: false,
               hintText: 'Showing name',
               controller: TextEditingController(),
-              isNightModeEnabled: widget.isNightModeEnabled,
               icon: const SizedBox.shrink()),
           SizedBox(
             height: 10.h,
@@ -111,7 +112,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                     readOnly: false,
                     hintText: '',
                     controller: TextEditingController(),
-                    isNightModeEnabled: widget.isNightModeEnabled,
                     icon: const SizedBox.shrink()),
               )
             ],
@@ -130,7 +130,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
               readOnly: false,
               hintText: 'Your email address',
               controller: TextEditingController(),
-              isNightModeEnabled: widget.isNightModeEnabled,
               icon: const SizedBox.shrink()),
           SizedBox(
             height: 10.h,
@@ -200,7 +199,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
           BigTextField(
             hintText: 'Tell us more about you',
             controller: TextEditingController(),
-            isNightMode: widget.isNightModeEnabled,
           ),
           SizedBox(
             height: 10.h,
@@ -216,7 +214,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
               readOnly: false,
               hintText: 'Your city',
               controller: TextEditingController(),
-              isNightModeEnabled: widget.isNightModeEnabled,
               icon: const SizedBox.shrink()),
           SizedBox(
             height: 10.h,
@@ -284,7 +281,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
               readOnly: false,
               hintText: 'Enter your PayPal e-mail address',
               controller: TextEditingController(),
-              isNightModeEnabled: widget.isNightModeEnabled,
               icon: const SizedBox.shrink()),
           SizedBox(
             height: 10.h,
@@ -310,7 +306,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                       readOnly: false,
                       hintText: 'Facebook profile link',
                       controller: TextEditingController(),
-                      isNightModeEnabled: widget.isNightModeEnabled,
                       icon: const SizedBox.shrink()))
             ],
           ),
@@ -331,7 +326,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                       readOnly: false,
                       hintText: 'Tiktok profile link',
                       controller: TextEditingController(),
-                      isNightModeEnabled: widget.isNightModeEnabled,
                       icon: const SizedBox.shrink()))
             ],
           ),
@@ -352,7 +346,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                       readOnly: false,
                       hintText: 'Instagram profile link',
                       controller: TextEditingController(),
-                      isNightModeEnabled: widget.isNightModeEnabled,
                       icon: const SizedBox.shrink()))
             ],
           ),
@@ -373,7 +366,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                       readOnly: false,
                       hintText: 'Twitter profile link',
                       controller: TextEditingController(),
-                      isNightModeEnabled: widget.isNightModeEnabled,
                       icon: const SizedBox.shrink()))
             ],
           ),
@@ -394,7 +386,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                       readOnly: false,
                       hintText: 'Pinterest profile link',
                       controller: TextEditingController(),
-                      isNightModeEnabled: widget.isNightModeEnabled,
                       icon: const SizedBox.shrink()))
             ],
           ),
@@ -415,7 +406,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                       readOnly: false,
                       hintText: 'Steam profile link',
                       controller: TextEditingController(),
-                      isNightModeEnabled: widget.isNightModeEnabled,
                       icon: const SizedBox.shrink()))
             ],
           ),
@@ -436,7 +426,6 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                       readOnly: false,
                       hintText: 'Linkidin profile link',
                       controller: TextEditingController(),
-                      isNightModeEnabled: widget.isNightModeEnabled,
                       icon: const SizedBox.shrink()))
             ],
           ),

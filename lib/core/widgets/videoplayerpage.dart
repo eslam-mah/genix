@@ -100,7 +100,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
               videoFit: BoxFit.contain,
               controls: widget.showPlay
                   ? FlickPortraitControls(
-                      iconSize: widget.iconSize ?? 20.sp,
+                      iconSize: 0,
                       progressBarSettings: FlickProgressBarSettings(
                         height: 5.h,
                       ),

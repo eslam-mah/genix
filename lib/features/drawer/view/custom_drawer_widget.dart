@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:genix/core/services/shared_preferences.dart';
-import 'package:genix/core/utils/pref_keys.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/features/drawer/view%20model/log_out_cubit/log_out_cubit.dart';
 import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
-import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customlisttile.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
@@ -19,7 +15,6 @@ import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
 
 class CustomDrawerWidget extends StatelessWidget {
   final bool isNightMode;
-
   const CustomDrawerWidget({
     super.key,
     required this.isNightMode,
@@ -125,13 +120,14 @@ class CustomDrawerWidget extends StatelessWidget {
                     ),
                   ),
                   Switch(
-                    value: isNightMode,
+                    value: ThemeCubit().state == ThemeState.dark,
                     onChanged: (value) {
                       context.read<ThemeCubit>().toggleTheme();
                     },
                     activeColor: Colors.white,
-                    activeTrackColor:
-                        isNightMode ? AppColors.kPrimaryColor2 : Colors.white,
+                    activeTrackColor: ThemeCubit().state == ThemeState.dark
+                        ? AppColors.kPrimaryColor2
+                        : Colors.white,
                   ),
                 ],
               ),

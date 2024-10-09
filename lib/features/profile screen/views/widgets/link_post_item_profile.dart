@@ -144,7 +144,6 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                                 child: CustomTextWidget(
                                   textSize: 15.sp,
                                   fontFamily: '',
-                                  isNightMode: widget.isNightModeEnabled,
                                   fontWeight: FontWeight.normal,
                                   color: Colors.blue,
                                   text: content,
@@ -186,21 +185,18 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                                       fontFamily: '',
                                       fontWeight: FontWeight.normal,
                                       text: recentPost?.ogInfo?.siteName ?? '',
-                                      isNightMode: widget.isNightModeEnabled,
                                     ),
                                     CustomTextWidget(
                                       textSize: 12.sp,
                                       fontFamily: '',
                                       fontWeight: FontWeight.bold,
                                       text: recentPost?.ogInfo?.title ?? '',
-                                      isNightMode: widget.isNightModeEnabled,
                                     ),
                                     CustomTextWidget(
                                       textSize: 12.sp,
                                       fontFamily: '',
                                       fontWeight: FontWeight.normal,
                                       text: recentPost?.ogInfo?.url ?? '',
-                                      isNightMode: widget.isNightModeEnabled,
                                     )
                                   ],
                                 ),

@@ -7,7 +7,8 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 
 Future<dynamic> reportBottomSheet(
-    BuildContext context, bool isNightModeEnabled) {
+  BuildContext context,
+) {
   return showModalBottomSheet(
       isScrollControlled: true,
       showDragHandle: true,

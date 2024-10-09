@@ -49,17 +49,14 @@ class LinkPost extends StatelessWidget {
                         fontFamily: '',
                         fontWeight: FontWeight.normal,
                         text: postsModel.ogInfo?.siteName ?? '',
-                        isNightMode: isNightMode,
                       ),
                       CustomTextWidget(
                           textSize: 12.sp,
-                          isNightMode: isNightMode,
                           fontFamily: '',
                           fontWeight: FontWeight.bold,
                           text: postsModel.ogInfo?.title ?? ''),
                       CustomTextWidget(
                           textSize: 12.sp,
-                          isNightMode: isNightMode,
                           fontFamily: '',
                           fontWeight: FontWeight.normal,
                           text: postsModel.ogInfo?.url ?? '')

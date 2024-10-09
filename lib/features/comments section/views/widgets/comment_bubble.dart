@@ -6,6 +6,7 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/comments%20section/data/models/comments_model.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:timeago/timeago.dart' as timeago;
@@ -29,12 +30,10 @@ class CustomCommentBubble extends StatefulWidget {
     required this.onTap,
     // required this.commentText,
     required this.postsModel,
-    required this.isNightMode,
   });
   final Function() onTap;
   // final String commentText;
   final Comment postsModel;
-  final bool isNightMode;
   @override
   State<CustomCommentBubble> createState() => _CustomCommentBubbleState();
 }
@@ -85,7 +84,7 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                       Flexible(
                         child: Container(
                           decoration: BoxDecoration(
-                              color: widget.isNightMode
+                              color: ThemeCubit().state == ThemeState.dark
                                   ? Colors.black
                                   : AppColors.kAppBar2Color,
                               borderRadius: BorderRadius.circular(10.r)),
@@ -110,7 +109,6 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                                             text: widget.postsModel.user
                                                     ?.showname ??
                                                 '',
-                                            isNightMode: widget.isNightMode,
                                           ),
                                           if (widget.postsModel.user!
                                                   .isVerified ==
@@ -259,7 +257,7 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                       Flexible(
                         child: Container(
                           decoration: BoxDecoration(
-                              color: widget.isNightMode
+                              color: ThemeCubit().state == ThemeState.dark
                                   ? Colors.black
                                   : AppColors.kAppBar2Color,
                               borderRadius: BorderRadius.circular(10.r)),
@@ -283,7 +281,6 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                                             text: widget.postsModel.user
                                                     ?.showname ??
                                                 '',
-                                            isNightMode: widget.isNightMode,
                                           ),
                                           if (widget.postsModel.user!
                                                   .isVerified ==
