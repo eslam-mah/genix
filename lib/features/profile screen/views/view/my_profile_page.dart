@@ -179,6 +179,11 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                                 ?.coverImg ??
                                             '',
                                         isProfileEditorShown: true,
+                                        refresh: () {
+                                          setState(() {
+                                            _refreshProfile();
+                                          });
+                                        },
                                       ),
                                       SizedBox(
                                         height: 8.h,

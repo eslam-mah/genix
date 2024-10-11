@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
+import 'package:genix/features/groups%20page/data/models/groups_model.dart';
 import 'package:genix/features/groups%20page/view%20model/create_group_cubit/create_group_cubit.dart';
 import 'package:genix/features/groups%20page/view%20model/delete_group/delete_group_cubit.dart';
 import 'package:genix/features/groups%20page/view%20model/delete_group_member/delete_group_member_cubit.dart';
@@ -16,10 +18,11 @@ import 'package:genix/features/groups%20page/view%20model/update_group_details/u
 import 'package:genix/features/groups%20page/view%20model/update_group_invitation/update_group_invitation_cubit.dart';
 import 'package:genix/features/groups%20page/view%20model/update_group_member/update_group_member_cubit.dart';
 import 'package:genix/features/groups%20page/view%20model/update_group_profile/update_group_profile_cubit.dart';
-import 'package:genix/features/groups%20page/views/screens/groups_list_body.dart';
+import 'package:genix/features/groups%20page/views/screens/groups_screen_body.dart';
+import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_cubit.dart';
 import 'package:go_router/go_router.dart';
 
-abstract class GroupsRouter {
+abstract class GroupsScreenRouter {
   static final createGroupCubit = CreateGroupCubit();
   static final deleteGroupCubit = DeleteGroupCubit();
   static final deleteGroupMemberCubit = DeleteGroupMemberCubit();
@@ -37,10 +40,11 @@ abstract class GroupsRouter {
   static final updateGroupInvitationCubit = UpdateGroupInvitationCubit();
   static final updateGroupMemberCubit = UpdateGroupMemberCubit();
   static final updateGroupProfileCubit = UpdateGroupProfileCubit();
-
+  static final addReactCubit = AddReactCubit();
+  static final addCommentCubit = AddCommentCubit();
   static final List<GoRoute> goRoutes = [
     GoRoute(
-        path: GroupsListBody.route,
+        path: GroupsScreen.route,
         builder: (context, state) {
           return MultiBlocProvider(
             providers: [
@@ -95,8 +99,16 @@ abstract class GroupsRouter {
               BlocProvider.value(
                 value: updateGroupProfileCubit,
               ),
+              BlocProvider.value(
+                value: addReactCubit,
+              ),
+              BlocProvider.value(
+                value: addCommentCubit,
+              ),
             ],
-            child: const GroupsListBody(),
+            child: GroupsScreen(
+              groups: state.extra as GroupsModel,
+            ),
           );
         }),
   ];

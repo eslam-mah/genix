@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customeditingprofilewidget.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/profile%20screen/views/widgets/custom_icon_counter.dart';
 import 'package:genix/features/profile%20screen/views/widgets/edit_background_pic.dart';
 import 'package:genix/features/profile%20screen/views/widgets/edit_profile_pic.dart';
@@ -20,6 +21,7 @@ class CustomProfileHeader extends StatelessWidget {
     required this.bioText,
     required this.coverImageUrl,
     required this.isProfileEditorShown,
+    this.refresh,
   });
   final String imageUrl;
   final String profileName;
@@ -30,6 +32,7 @@ class CustomProfileHeader extends StatelessWidget {
   final num likesCount;
   final num savedCount;
   final bool isProfileEditorShown;
+  final Function()? refresh;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,7 @@ class CustomProfileHeader extends StatelessWidget {
           width: double.infinity,
           height: 400.h,
           child: CachedNetworkImage(
+            fit: BoxFit.fill,
             errorWidget: (context, error, stackTrace) {
               return Container(
                   alignment: Alignment.center, child: const SizedBox());
@@ -64,7 +68,7 @@ class CustomProfileHeader extends StatelessWidget {
                   whiteSize: 0,
                   icon: FontAwesomeIcons.pen,
                   onTapIcon: () {
-                    editProfilePicBottomSheet(context);
+                    editProfilePicBottomSheet(context, refresh);
                   },
                   imageUrl: imageUrl,
                   isProfileEditorShown: isProfileEditorShown,
@@ -72,26 +76,47 @@ class CustomProfileHeader extends StatelessWidget {
                 Text(
                   profileName,
                   style: TextStyle(
+                    shadows: [
+                      Shadow(
+                        color: ThemeCubit().state == ThemeState.dark
+                            ? Colors.black
+                            : Colors.white,
+                        blurRadius: 10.r,
+                      ),
+                      Shadow(
+                        color: ThemeCubit().state == ThemeState.dark
+                            ? Colors.black
+                            : Colors.white,
+                        blurRadius: 10.r,
+                      ),
+                      Shadow(
+                        color: ThemeCubit().state == ThemeState.dark
+                            ? Colors.black
+                            : Colors.white,
+                        blurRadius: 10.r,
+                      )
+                    ],
                     fontSize: 22.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 isProfileEditorShown
-                    ? IconButton(
-                        onPressed: () {
-                          // todo: edit bio
-                        },
-                        icon: CircleAvatar(
-                          backgroundColor:
-                              const Color.fromARGB(255, 108, 184, 246),
-                          radius: 15.r,
-                          child: Icon(
-                            FontAwesomeIcons.pen,
-                            size: 15.r,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
+                    ? SizedBox.shrink()
+                    // IconButton(
+                    //     onPressed: () {
+                    //       // todo: edit bio
+                    //     },
+                    //     icon: CircleAvatar(
+                    //       backgroundColor:
+                    //           const Color.fromARGB(255, 108, 184, 246),
+                    //       radius: 15.r,
+                    //       child: Icon(
+                    //         FontAwesomeIcons.pen,
+                    //         size: 15.r,
+                    //         color: Colors.white,
+                    //       ),
+                    //     ),
+                    //   )
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -138,16 +163,16 @@ class CustomProfileHeader extends StatelessWidget {
                   ),
                 ),
                 isProfileEditorShown
-                    ? GestureDetector(
-                        onTap: () {
-                          editBackgroundPicBottomSheet(context);
+                    ? IconButton(
+                        onPressed: () {
+                          editBackgroundPicBottomSheet(context, refresh);
                         },
-                        child: CircleAvatar(
+                        icon: CircleAvatar(
                           backgroundColor: Colors.grey,
-                          radius: 10.r,
+                          radius: 15.r,
                           child: Icon(
                             FontAwesomeIcons.pen,
-                            size: 10.r,
+                            size: 15.r,
                             color: Colors.white,
                           ),
                         ),

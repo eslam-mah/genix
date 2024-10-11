@@ -10,7 +10,8 @@ import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/features/settings%20screen/view%20model/update%20my%20profile/update_my_profile_cubit.dart';
 import 'package:go_router/go_router.dart';
 
-Future<dynamic> editBackgroundPicBottomSheet(BuildContext context) {
+Future<dynamic> editBackgroundPicBottomSheet(
+    BuildContext context, Function()? refresh) {
   return showModalBottomSheet(
       isScrollControlled: true,
       showDragHandle: true,
@@ -40,6 +41,7 @@ Future<dynamic> editBackgroundPicBottomSheet(BuildContext context) {
                   updateMyProfileCubit.updateProfile(coverImg: pickedFile);
                   // ignore: use_build_context_synchronously
                   GoRouter.of(context).pop();
+                  refresh!();
                 }
               } catch (e) {
                 print(e);

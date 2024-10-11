@@ -196,7 +196,6 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                                 CustomSupportTicketsHCounter(
                                   number: state.tickets.data.totalCount,
                                   text: 'TOTAL TICKETS',
-                                  isNightMode: isNightModeEnabled,
                                 ),
                                 SizedBox(
                                   width: 20.w,
@@ -204,7 +203,6 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                                 CustomSupportTicketsHCounter(
                                   number: state.tickets.data.openCount,
                                   text: 'OPEN ISSUES',
-                                  isNightMode: isNightModeEnabled,
                                 ),
                                 SizedBox(
                                   width: 20.w,
@@ -212,7 +210,6 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                                 CustomSupportTicketsHCounter(
                                   number: state.tickets.data.solvedCount,
                                   text: 'SOLVED TICKETS',
-                                  isNightMode: isNightModeEnabled,
                                 ),
                               ],
                             ),
@@ -221,7 +218,7 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                         SliverToBoxAdapter(
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.w),
-                            child: const Row(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 CustomSupportTicketsVCounter(

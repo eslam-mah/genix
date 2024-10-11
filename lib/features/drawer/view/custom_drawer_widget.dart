@@ -123,6 +123,7 @@ class CustomDrawerWidget extends StatelessWidget {
                     value: ThemeCubit().state == ThemeState.dark,
                     onChanged: (value) {
                       context.read<ThemeCubit>().toggleTheme();
+                      GoRouter.of(context).pop();
                     },
                     activeColor: Colors.white,
                     activeTrackColor: ThemeCubit().state == ThemeState.dark

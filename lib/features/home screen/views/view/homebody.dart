@@ -182,6 +182,7 @@ class _HomePageState extends State<HomePage> {
                       _nextPageKey = 1;
                     });
                     _pagingController.refresh();
+                    _storiesPagingController.refresh();
                   },
                 ),
                 child: CustomScrollView(

@@ -10,7 +10,8 @@ import 'package:genix/features/profile%20screen/data/profile_model/update_profil
 import 'package:genix/features/settings%20screen/view%20model/update%20my%20profile/update_my_profile_cubit.dart';
 import 'package:go_router/go_router.dart';
 
-Future<dynamic> editProfilePicBottomSheet(BuildContext context) {
+Future<dynamic> editProfilePicBottomSheet(
+    BuildContext context, Function()? refresh) {
   return showModalBottomSheet(
       isScrollControlled: true,
       showDragHandle: true,
@@ -39,8 +40,10 @@ Future<dynamic> editProfilePicBottomSheet(BuildContext context) {
                         File(result!.files.single.path!); // Extract file
                   });
                   updateMyProfileCubit.updateProfile(profileImg: pickedFile);
+
                   // ignore: use_build_context_synchronously
                   GoRouter.of(context).pop();
+                  refresh!();
                 }
               } catch (e) {
                 print(e);

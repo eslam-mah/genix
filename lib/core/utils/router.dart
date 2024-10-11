@@ -1,3 +1,4 @@
+import 'package:genix/features/groups%20page/group_screen_router.dart';
 import 'package:genix/features/splash%20screen/views/custom_loading_page.dart';
 import 'package:genix/features/chat%20screen/views/chat_listing_screen.dart';
 import 'package:genix/features/comments%20section/coments_router.dart';
@@ -65,6 +66,7 @@ abstract class Rout {
       path: kLoadingPage,
       builder: (context, state) => const CustomLoadingPage(),
     ),
+    ...GroupsScreenRouter.goRoutes,
     ...GroupsRouter.goRoutes,
     ...VideoShortsRouter.goRoutes,
     ...CommentsRouter.goRoutes,

@@ -4,7 +4,7 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customimagewidget.dart';
 import 'package:genix/features/followers%20list%20page/views/view/followers_page.dart';
-import 'package:genix/features/groups%20page/views/groupsscreenbody.dart';
+import 'package:genix/features/groups%20page/views/screens/groups_list_body.dart';
 import 'package:genix/features/profile%20screen/views/view/my_profile_page.dart';
 import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
 import 'package:genix/features/support%20tickets%20screen/views/view/support_tickets_page.dart';
@@ -63,7 +63,7 @@ class GlowingButtonBody extends StatelessWidget {
                 image: AppImages.kGroups,
                 text: 'Groups',
                 onTap: () {
-                  GoRouter.of(context).push(GroupsScreenBody.route);
+                  GoRouter.of(context).push(GroupsListBody.route);
                 },
                 duration: 500,
               ),
