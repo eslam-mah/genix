@@ -12,7 +12,7 @@ class DeletePostCubit extends Cubit<DeletePostState> {
     final result = await deletePostRepo.deletePost(postId: postId);
     result.fold(
         (l) => emit(DeletePostError()),
-        (r) => emit(
-            const DeletePostSuccess(message: 'Post Deleted successfully')));
+        (r) => emit(DeletePostSuccess(
+            message: 'Post Deleted successfully', id: postId)));
   }
 }

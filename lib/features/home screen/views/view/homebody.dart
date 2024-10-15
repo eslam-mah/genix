@@ -8,6 +8,9 @@ import 'package:genix/core/default_status_indicators/no_items_found_indicator.da
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/data/models/stories_list_model.dart';
+import 'package:genix/features/home%20screen/view%20model/add%20post/add_post_cubit.dart';
+import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_cubit.dart';
+import 'package:genix/features/home%20screen/view%20model/delete%20post/delete_post_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts/get_newsfeed_posts_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20stories/get_stories_cubit.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_story_widget.dart';
@@ -25,7 +28,7 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 
 import 'package:genix/features/home%20screen/views/widgets/custom_home_appbar.dart';
 
@@ -84,6 +87,8 @@ class _HomePageState extends State<HomePage> {
         BlocListener<GetNewsFeedPostsCubit, GetNewsFeedPostsState>(
           listener: (context, state) {
             if (state is GetNewsFeedPostsSuccess) {
+              state.posts.data.postsModel
+                  .sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
               _fetchPage(state.posts.data.postsModel);
             }
           },
@@ -93,6 +98,37 @@ class _HomePageState extends State<HomePage> {
             if (state is GetStoriesSuccess) {
               _fetchStories(state.stories.data.stories);
             }
+          },
+        ),
+        BlocListener<DeletePostCubit, DeletePostState>(
+          listener: (context, state) {
+            if (state is DeletePostSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Post deleted successfully.')),
+              );
+            } else if (state is DeletePostError) {
+              final currentItems = _pagingController.itemList ?? [];
+              final updatedItems = [...currentItems];
+              _pagingController.itemList = updatedItems;
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Failed to delete post.')),
+              );
+            }
+          },
+        ),
+        BlocListener<AddPostCubit, AddPostState>(
+          listener: (context, state) {
+            if (state is AddPostSuccess) {
+              List<PostsModel> items = _pagingController.itemList ?? [];
+              items.add(PostsModel(content: 'adding a post'));
+              _pagingController.itemList = items;
+              setState(() {});
+            }
+          },
+        ),
+        BlocListener<AddReactCubit, AddReactState>(
+          listener: (context, state) {
+            if (state is AddReactSuccess) {}
           },
         ),
         BlocListener<ThemeCubit, ThemeState>(
@@ -114,7 +150,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Positioned(
                 bottom: 20,
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;
@@ -263,6 +299,7 @@ class _HomePageState extends State<HomePage> {
                                       refresh: () {
                                         _pagingController.refresh();
                                       },
+                                      pagingController: _pagingController,
                                     );
                                   } else {
                                     return Shimmer.fromColors(

@@ -8,3 +8,13 @@ sealed class PostPageRatingState extends Equatable {
 }
 
 final class PostPageRatingInitial extends PostPageRatingState {}
+
+final class PostPageRatingLoading extends PostPageRatingState {}
+
+final class PostPageRatingSuccess extends PostPageRatingState {
+  final PagesModel page;
+
+  const PostPageRatingSuccess({required this.page});
+}
+
+final class PostPageRatingError extends PostPageRatingState {}

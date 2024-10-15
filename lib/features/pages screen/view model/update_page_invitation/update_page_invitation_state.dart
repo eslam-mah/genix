@@ -8,3 +8,13 @@ sealed class UpdatePageInvitationState extends Equatable {
 }
 
 final class UpdatePageInvitationInitial extends UpdatePageInvitationState {}
+
+final class UpdatePageInvitationLoading extends UpdatePageInvitationState {}
+
+final class UpdatePageInvitationSuccess extends UpdatePageInvitationState {
+  final String message;
+
+  const UpdatePageInvitationSuccess({required this.message});
+}
+
+final class UpdatePageInvitationError extends UpdatePageInvitationState {}

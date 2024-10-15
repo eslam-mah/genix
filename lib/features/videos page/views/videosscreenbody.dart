@@ -11,7 +11,7 @@ import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/videos%20page/widgets/videos_list_view.dart';
 
 class VideosScreenBody extends StatefulWidget {
@@ -45,7 +45,7 @@ class _VideosScreenBodyState extends State<VideosScreenBody> {
             const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;

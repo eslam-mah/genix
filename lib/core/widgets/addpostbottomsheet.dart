@@ -29,7 +29,6 @@ Future<dynamic> addPostModalBottomSheet(
   TextEditingController contentController = TextEditingController();
   TextEditingController pollsController = TextEditingController();
   TextEditingController currentLocationController = TextEditingController();
-  String contentText = contentController.text;
   FilePickerResult? result;
   List<File> selectedFiles = []; // To hold selected image and video files
   List<String> filePaths = [];
@@ -231,11 +230,16 @@ Future<dynamic> addPostModalBottomSheet(
                               pickFile();
                             },
                             icon: CircleAvatar(
-                              backgroundColor: AppColors.kTextFieldColor,
+                              backgroundColor:
+                                  ThemeCubit().state == ThemeState.dark
+                                      ? DarkModeColors.kBackGroundDark
+                                      : AppColors.kTextFieldColor,
                               radius: 20.r,
-                              child: const Icon(
+                              child: Icon(
                                 FontAwesomeIcons.image,
-                                color: Colors.black,
+                                color: ThemeCubit().state == ThemeState.dark
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                             ),
                           ),
@@ -246,11 +250,16 @@ Future<dynamic> addPostModalBottomSheet(
                               });
                             },
                             icon: CircleAvatar(
-                              backgroundColor: AppColors.kTextFieldColor,
+                              backgroundColor:
+                                  ThemeCubit().state == ThemeState.dark
+                                      ? DarkModeColors.kBackGroundDark
+                                      : AppColors.kTextFieldColor,
                               radius: 20.r,
-                              child: const Icon(
+                              child: Icon(
                                 FontAwesomeIcons.ellipsis,
-                                color: Colors.black,
+                                color: ThemeCubit().state == ThemeState.dark
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                             ),
                           )
@@ -286,7 +295,9 @@ Future<dynamic> addPostModalBottomSheet(
                                     ],
                                     color: isPoll
                                         ? AppColors.kPrimaryColor2
-                                        : AppColors.kTextFieldColor,
+                                        : ThemeCubit().state == ThemeState.dark
+                                            ? DarkModeColors.kBackGroundDark
+                                            : AppColors.kTextFieldColor,
                                     borderRadius: BorderRadius.circular(6.r)),
                                 child: Row(
                                   children: [
@@ -302,10 +313,14 @@ Future<dynamic> addPostModalBottomSheet(
                                     Text(
                                       'Create a poll',
                                       style: TextStyle(
-                                          fontSize: 15.sp,
-                                          color: isPoll
-                                              ? Colors.white
-                                              : Colors.black),
+                                        fontSize: 15.sp,
+                                        color: isPoll
+                                            ? Colors.white
+                                            : ThemeCubit().state ==
+                                                    ThemeState.dark
+                                                ? Colors.white
+                                                : Colors.black,
+                                      ),
                                     )
                                   ],
                                 ),
@@ -319,7 +334,6 @@ Future<dynamic> addPostModalBottomSheet(
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                    color: AppColors.kAppBar2Color,
                                     borderRadius: BorderRadius.circular(13.r)),
                                 child: CustomTextField2(
                                     readOnly: false,
@@ -335,7 +349,6 @@ Future<dynamic> addPostModalBottomSheet(
                               ),
                               Container(
                                 decoration: BoxDecoration(
-                                    color: AppColors.kAppBar2Color,
                                     borderRadius: BorderRadius.circular(13.r)),
                                 child: CustomTextField2(
                                     readOnly: false,
@@ -405,7 +418,9 @@ Future<dynamic> addPostModalBottomSheet(
                                     ],
                                     color: isCheckIn
                                         ? AppColors.kPrimaryColor2
-                                        : AppColors.kTextFieldColor,
+                                        : ThemeCubit().state == ThemeState.dark
+                                            ? DarkModeColors.kBackGroundDark
+                                            : AppColors.kTextFieldColor,
                                     borderRadius: BorderRadius.circular(6.r)),
                                 child: Row(
                                   children: [
@@ -421,10 +436,14 @@ Future<dynamic> addPostModalBottomSheet(
                                     Text(
                                       'Check in',
                                       style: TextStyle(
-                                          fontSize: 15.sp,
-                                          color: isCheckIn
-                                              ? Colors.white
-                                              : Colors.black),
+                                        fontSize: 15.sp,
+                                        color: isCheckIn
+                                            ? Colors.white
+                                            : ThemeCubit().state ==
+                                                    ThemeState.dark
+                                                ? Colors.white
+                                                : Colors.black,
+                                      ),
                                     )
                                   ],
                                 ),
@@ -442,15 +461,18 @@ Future<dynamic> addPostModalBottomSheet(
                                   width: 100.w,
                                   height: 50.h,
                                   decoration: BoxDecoration(
-                                      color: AppColors.kTextFieldColor,
                                       borderRadius: BorderRadius.circular(8.r)),
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Icon(FontAwesomeIcons.locationCrosshairs),
+                                      Icon(
+                                        FontAwesomeIcons.locationCrosshairs,
+                                        size: 13.sp,
+                                      ),
                                       Text(
                                         'Current',
+                                        style: TextStyle(fontSize: 13.sp),
                                       ),
                                     ],
                                   ),
@@ -462,7 +484,6 @@ Future<dynamic> addPostModalBottomSheet(
                               Expanded(
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: AppColors.kAppBar2Color,
                                       borderRadius:
                                           BorderRadius.circular(13.r)),
                                   child: CustomTextField2(
@@ -502,7 +523,9 @@ Future<dynamic> addPostModalBottomSheet(
                                     ],
                                     color: isLive
                                         ? AppColors.kPrimaryColor2
-                                        : AppColors.kTextFieldColor,
+                                        : ThemeCubit().state == ThemeState.dark
+                                            ? DarkModeColors.kBackGroundDark
+                                            : AppColors.kTextFieldColor,
                                     borderRadius: BorderRadius.circular(6.r)),
                                 child: Row(
                                   children: [
@@ -518,10 +541,14 @@ Future<dynamic> addPostModalBottomSheet(
                                     Text(
                                       'Go live',
                                       style: TextStyle(
-                                          fontSize: 15.sp,
-                                          color: isLive
-                                              ? Colors.white
-                                              : Colors.black),
+                                        fontSize: 15.sp,
+                                        color: isLive
+                                            ? Colors.white
+                                            : ThemeCubit().state ==
+                                                    ThemeState.dark
+                                                ? Colors.white
+                                                : Colors.black,
+                                      ),
                                     )
                                   ],
                                 ),
@@ -541,9 +568,12 @@ Future<dynamic> addPostModalBottomSheet(
                                 },
                                 icon: Icon(
                                   Icons.check_circle,
+                                  size: 15.sp,
                                   color: isCloseFriend
                                       ? AppColors.kPrimaryColor2
-                                      : Colors.black.withOpacity(0.5),
+                                      : ThemeCubit().state == ThemeState.dark
+                                          ? AppColors.kTextFieldColor
+                                          : Colors.black.withOpacity(0.5),
                                 ),
                               ),
                               SizedBox(
@@ -551,15 +581,14 @@ Future<dynamic> addPostModalBottomSheet(
                               ),
                               Icon(
                                 FontAwesomeIcons.userGroup,
-                                color: Colors.black.withOpacity(0.5),
+                                size: 16.sp,
                               ),
                               SizedBox(
                                 width: 30.w,
                               ),
                               Text(
                                 'Only for close friends?',
-                                style: TextStyle(
-                                    color: Colors.black.withOpacity(0.5)),
+                                style: TextStyle(fontSize: 14.sp),
                               )
                             ],
                           ),
@@ -580,14 +609,17 @@ Future<dynamic> addPostModalBottomSheet(
                                     child: CircleAvatar(
                                       backgroundColor: isPost == 1
                                           ? AppColors.kPrimaryColor2
-                                          : Colors.black.withOpacity(0.2),
+                                          : ThemeCubit().state ==
+                                                  ThemeState.dark
+                                              ? AppColors.kTextFieldColor
+                                              : Colors.black.withOpacity(0.2),
                                     ))),
                             SizedBox(
                               width: 20.w,
                             ),
                             Icon(
                               FontAwesomeIcons.solidSquarePlus,
-                              color: Colors.black.withOpacity(0.5),
+                              color: null,
                               size: 35.sp,
                             ),
                             SizedBox(
@@ -595,8 +627,7 @@ Future<dynamic> addPostModalBottomSheet(
                             ),
                             Text(
                               'News feed',
-                              style: TextStyle(
-                                  color: Colors.black.withOpacity(0.5)),
+                              style: TextStyle(fontSize: 14.sp),
                             )
                           ],
                         ),
@@ -616,7 +647,10 @@ Future<dynamic> addPostModalBottomSheet(
                                     child: CircleAvatar(
                                       backgroundColor: isPost == 2
                                           ? AppColors.kPrimaryColor2
-                                          : Colors.black.withOpacity(0.2),
+                                          : ThemeCubit().state ==
+                                                  ThemeState.dark
+                                              ? AppColors.kTextFieldColor
+                                              : Colors.black.withOpacity(0.2),
                                     ))),
                             SizedBox(
                               width: 20.w,
@@ -637,8 +671,7 @@ Future<dynamic> addPostModalBottomSheet(
                             ),
                             Text(
                               'Story',
-                              style: TextStyle(
-                                  color: Colors.black.withOpacity(0.5)),
+                              style: TextStyle(fontSize: 14.sp),
                             )
                           ],
                         ),
@@ -646,38 +679,56 @@ Future<dynamic> addPostModalBottomSheet(
                           height: 15.h,
                         ),
                         CustomButton(
-                            color: AppColors.kPrimaryColor,
-                            buttonText: 'Create post',
-                            width: double.infinity,
-                            height: 37.h,
-                            borderRadius: 8.r,
-                            onTap: () async {
+                          color: AppColors.kPrimaryColor,
+                          buttonText: 'Create post',
+                          width: double.infinity,
+                          height: 37.h,
+                          borderRadius: 8.r,
+                          onTap: () async {
+                            String contentText = contentController.text.trim();
+
+                            // Check if both content and files are empty
+                            if (contentText.isEmpty && selectedFiles.isEmpty) {
+                              // Show snackbar if content and files are empty
+                              GoRouter.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Content must be filled',
+                                      style: TextStyle(fontSize: 13.sp)),
+                                  backgroundColor:
+                                      ThemeCubit().state == ThemeState.dark
+                                          ? Colors.white
+                                          : Colors.black,
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            } else {
+                              // Proceed with posting if content or files are available
                               try {
-                                await addPostCubit.addPost(
-                                    data: PostForm(
-                                        isLive: false,
-                                        microphoneId: '',
-                                        cameraId: '',
-                                        cameraMirror: false,
-                                        deviceType: 'mobile',
-                                        content: 'Content Text testtttt',
-                                        pageId: '',
-                                        groupId: '',
-                                        postingIn: 'newsfeed',
-                                        files: filePaths,
-                                        checkinLocation: '2dssd',
-                                        pollOptions: [''],
-                                        pollQuestion: 'asdas',
-                                        eventTimestamp:
-                                            DateTime.now().toIso8601String(),
-                                        toCloseFriends: false,
-                                        poll: false,
-                                        checkin: false,
-                                        event: false));
-                                GoRouter.of(context).pop();
-                                print(
-                                    'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa${filePaths}___________________________dddddddd____________');
-                                setState(() {
+                                await addPostCubit
+                                    .addPost(
+                                  content: contentText,
+                                  pageId: '',
+                                  groupId: '',
+                                  postingIn: 'newsfeed',
+                                  files: selectedFiles,
+                                  checkInLocation: 'sa',
+                                  isLive: isLive,
+                                  cameraMirror: false,
+                                  cameraId: '',
+                                  deviceType: 'mobile',
+                                  microphoneId: '',
+                                  checkIn: false,
+                                  toCloseFriends: false,
+                                  pollOptions: ['ss'],
+                                  poll: false,
+                                  pollQuestion: 'as',
+                                  event: false,
+                                  eventTimeStamp: '',
+                                )
+                                    .then((onValue) {
+                                  // Close the modal and refresh after successful post creation
+                                  GoRouter.of(context).pop();
                                   refresh();
                                   refresh();
                                 });
@@ -685,7 +736,9 @@ Future<dynamic> addPostModalBottomSheet(
                                 print(
                                     '___________________________________${e}_______________________________________');
                               }
-                            })
+                            }
+                          },
+                        )
                       ],
                     )
                   ],

@@ -27,9 +27,10 @@ class FollowingsListView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 6.h),
                 child: ProfilesCard(
                   imageUrl: profile[index].user?.profileImg ?? '',
-                  userName: profile[index].user?.showname ?? '',
+                  showName: profile[index].user?.showname ?? '',
                   userBio: profile[index].user?.bio ?? '',
                   isActive: profile[index].user?.isActive ?? false,
+                  userName: profile[index].user?.username ?? '',
                 ),
               );
             }));

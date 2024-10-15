@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:genix/features/groups%20page/data/models/groups_list.dart';
 import 'package:genix/features/search%20page/data/repos/search_repository.dart';
 import 'package:genix/features/users/data/models/users_list.dart';
 
@@ -22,8 +23,8 @@ class SearchCubit extends Cubit<SearchState> {
     emit(SearchByGroupLoading());
     final result = await searchRepo.searchByGroup(query: query);
     result.fold((r) => emit(SearchByGroupError()), (r) {
-      final users = UserList.fromJson(r as Map<String, dynamic>);
-      emit(SearchByGroupSuccess(users: users));
+      final groups = GroupsList.fromJson(r as Map<String, dynamic>);
+      emit(SearchByGroupSuccess(groups: groups));
     });
   }
 

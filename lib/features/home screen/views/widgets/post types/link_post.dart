@@ -7,9 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class LinkPost extends StatelessWidget {
   final PostsModel postsModel;
-  final bool isNightMode;
-  const LinkPost(
-      {super.key, required this.postsModel, required this.isNightMode});
+  final bool? isNightMode;
+  const LinkPost({super.key, required this.postsModel, this.isNightMode});
 
   @override
   Widget build(BuildContext context) {

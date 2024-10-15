@@ -158,7 +158,7 @@ class _PostItemProfileState extends State<PostItemProfile> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(6.r),
                     child: uploads.length == 1
-                        ? GestureDetector(
+                        ? InkWell(
                             onTap: () {
                               _showImagePreview(context, uploads.first.fileUrl);
                             },
@@ -182,7 +182,7 @@ class _PostItemProfileState extends State<PostItemProfile> {
                             itemCount: uploads.length,
                             itemBuilder: (context, index) {
                               final upload = uploads[index];
-                              return GestureDetector(
+                              return InkWell(
                                 onTap: () {
                                   _showImagePreview(context, upload.fileUrl);
                                 },

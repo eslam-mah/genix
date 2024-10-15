@@ -82,6 +82,87 @@ class HttpFileHelper {
     return await http.Response.fromStream(response);
   }
 
+  static Future<http.Response> postContent({
+    required String url,
+    String? token,
+    String? content,
+    String? pageId,
+    String? groupId,
+    String? postingIn,
+    List<File>? files,
+    String? checkinLocation,
+    String? pollQuestion,
+    List<String>? pollOptions,
+    String? eventTimestamp,
+    String? microphoneId,
+    String? cameraId,
+    bool? cameraMirror,
+    String? deviceType,
+    bool? isLive,
+    bool? toCloseFriends,
+    bool? event,
+    bool? poll,
+    bool? checkin,
+  }) async {
+    token ??= await _getToken(); // Get token if not provided
+
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+
+    // Set headers
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept'] = 'application/json';
+    request.headers['Content-Type'] = 'multipart/form-data';
+
+    // Add fields
+    if (content != null) request.fields['content'] = content;
+    if (pageId != null) request.fields['page_id'] = pageId;
+    if (groupId != null) request.fields['group_id'] = groupId;
+    if (postingIn != null) request.fields['posting_in'] = postingIn;
+    if (checkinLocation != null)
+      request.fields['checkin_location'] = checkinLocation;
+    if (pollQuestion != null) request.fields['poll_question'] = pollQuestion;
+    if (eventTimestamp != null)
+      request.fields['event_timestamp'] = eventTimestamp;
+    if (microphoneId != null) request.fields['microphone_id'] = microphoneId;
+    if (cameraId != null) request.fields['camera_id'] = cameraId;
+    if (cameraMirror != null)
+      request.fields['camera_mirror'] = cameraMirror.toString();
+    if (deviceType != null) request.fields['device_type'] = deviceType;
+    if (isLive != null) request.fields['is_live'] = isLive.toString();
+    if (toCloseFriends != null)
+      request.fields['to_close_friends'] = toCloseFriends.toString();
+    if (event != null) request.fields['event'] = event.toString();
+    if (poll != null) request.fields['poll'] = poll.toString();
+    if (checkin != null) request.fields['checkin'] = checkin.toString();
+
+    // Add files if any
+    if (files != null && files.isNotEmpty) {
+      for (var file in files) {
+        if (await file.exists()) {
+          var fileMimeType =
+              lookupMimeType(file.path) ?? 'application/octet-stream';
+          var fileMimeTypeData = fileMimeType.split('/');
+          request.files.add(await http.MultipartFile.fromPath(
+            'files[]',
+            file.path,
+            contentType: MediaType(fileMimeTypeData[0], fileMimeTypeData[1]),
+          ));
+        }
+      }
+    }
+
+    // Add poll options if any
+    if (pollOptions != null && pollOptions.isNotEmpty) {
+      for (int i = 0; i < pollOptions.length; i++) {
+        request.fields['poll_options[$i]'] = pollOptions[i];
+      }
+    }
+
+    // Send request and handle response
+    final response = await request.send();
+    return await http.Response.fromStream(response);
+  }
+
   static Future<Either<FailureModel, Map>> handleRequestWithApiKey(
     Future<http.Response> Function(String apiKey) requestFunction,
     String apiKey,

@@ -11,12 +11,12 @@ class Group {
   String? website;
   String? about;
   String? socialFacebook;
-  dynamic socialTiktok;
-  dynamic socialInstagram;
-  dynamic socialTwitter;
-  dynamic socialSteam;
-  dynamic socialPinterest;
-  dynamic socialLinkedin;
+  String? socialTiktok;
+  String? socialInstagram;
+  String? socialTwitter;
+  String? socialSteam;
+  String? socialPinterest;
+  String? socialLinkedin;
   bool? isPrivate;
   int? membersCount;
   Me? me;
@@ -54,12 +54,12 @@ class Group {
         website: json['website'] as String?,
         about: json['about'] as String?,
         socialFacebook: json['social_facebook'] as String?,
-        socialTiktok: json['social_tiktok'] as dynamic,
-        socialInstagram: json['social_instagram'] as dynamic,
-        socialTwitter: json['social_twitter'] as dynamic,
-        socialSteam: json['social_steam'] as dynamic,
-        socialPinterest: json['social_pinterest'] as dynamic,
-        socialLinkedin: json['social_linkedin'] as dynamic,
+        socialTiktok: json['social_tiktok'] as String?,
+        socialInstagram: json['social_instagram'] as String?,
+        socialTwitter: json['social_twitter'] as String?,
+        socialSteam: json['social_steam'] as String?,
+        socialPinterest: json['social_pinterest'] as String?,
+        socialLinkedin: json['social_linkedin'] as String?,
         isPrivate: json['is_private'] as bool?,
         membersCount: json['members_count'] as int?,
         me: json['me'] == null

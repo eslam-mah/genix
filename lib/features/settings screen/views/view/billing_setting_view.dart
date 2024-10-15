@@ -201,7 +201,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
             ),
           ),
           SliverToBoxAdapter(
-            child: GestureDetector(
+            child: InkWell(
               onTap: () {
                 setState(() {
                   showTransactions = !showTransactions;
@@ -262,7 +262,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      GestureDetector(
+                      InkWell(
                         onTap: () {
                           setState(() {
                             transactionDialoge = !transactionDialoge;

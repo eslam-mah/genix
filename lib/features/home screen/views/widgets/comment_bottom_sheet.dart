@@ -203,7 +203,7 @@ Iterable<Widget> customCommentMethod(
                         SizedBox(width: 60.w),
                         const InkWell(child: Text('Like')),
                         SizedBox(width: 30.w),
-                        GestureDetector(
+                        InkWell(
                             onTap: () {
                               showModalBottomSheet(
                                   context: context,
@@ -345,7 +345,7 @@ Widget commentReplyWidget(
               SizedBox(width: 100.w),
               const Text('Like'),
               SizedBox(width: 30.w),
-              GestureDetector(
+              InkWell(
                   onTap: () {
                     showModalBottomSheet(
                         context: context,

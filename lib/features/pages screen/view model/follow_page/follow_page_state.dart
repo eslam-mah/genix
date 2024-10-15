@@ -8,3 +8,12 @@ sealed class FollowPageState extends Equatable {
 }
 
 final class FollowPageInitial extends FollowPageState {}
+
+final class FollowPageLoading extends FollowPageState {}
+
+final class FollowPageSuccess extends FollowPageState {
+  final String message;
+  const FollowPageSuccess({required this.message});
+}
+
+final class FollowPageError extends FollowPageState {}

@@ -16,7 +16,7 @@ import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit
 import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
 import 'package:genix/features/support%20tickets%20screen/view%20model/get%20all%20tickets/get_all_tickets_cubit.dart';
 import 'package:genix/features/support%20tickets%20screen/view%20model/post%20ticket/post_ticket_cubit.dart';
@@ -139,7 +139,7 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
               const CustomBottomAppBar(),
               Positioned(
                 bottom: 20,
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;
@@ -270,7 +270,7 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                                 noItemsFoundIndicatorBuilder: (_) =>
                                     SizedBox.shrink(),
                                 itemBuilder: (context, item, index) {
-                                  return GestureDetector(
+                                  return InkWell(
                                     onTap: () {
                                       GoRouter.of(context).push(
                                           TicketItemPage.route,

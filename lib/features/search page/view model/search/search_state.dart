@@ -23,8 +23,8 @@ final class SearchByUserError extends SearchState {}
 final class SearchByGroupLoading extends SearchState {}
 
 final class SearchByGroupSuccess extends SearchState {
-  final UserList users;
-  const SearchByGroupSuccess({required this.users});
+  final GroupsList groups;
+  const SearchByGroupSuccess({required this.groups});
 }
 
 final class SearchByGroupError extends SearchState {}

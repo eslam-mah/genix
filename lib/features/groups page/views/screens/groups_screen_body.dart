@@ -18,22 +18,20 @@ import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
-import 'package:genix/core/widgets/customheaderwidget.dart';
-import 'package:genix/core/widgets/customheaderwidget2.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
-import 'package:genix/features/groups%20page/data/models/group_profile_model/group_profile_model.dart';
-import 'package:genix/features/groups%20page/data/models/groups_model.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/groups%20page/view%20model/get_group_by_id/get_group_by_id_cubit.dart';
-import 'package:genix/features/groups%20page/views/widgets/groups_list_view.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/post_item.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class GroupsScreen extends StatefulWidget {
   static const String route = "/groups_screen";
-  final GroupsModel groups;
-  const GroupsScreen({super.key, required this.groups});
+  final int id;
+  const GroupsScreen({
+    super.key,
+    required this.id,
+  });
 
   @override
   State<GroupsScreen> createState() => _GroupsScreenState();
@@ -52,10 +50,10 @@ class _GroupsScreenState extends State<GroupsScreen> {
   void initState() {
     super.initState();
     getGroupByIdCubit = BlocProvider.of<GetGroupByIdCubit>(context);
-    context.read<GetGroupByIdCubit>().getGroupById(id: widget.groups.id);
+    context.read<GetGroupByIdCubit>().getGroupById(id: widget.id);
     _pagingController.addPageRequestListener((page) {
       print('**********PAGEKEY************ $page');
-      getGroupByIdCubit.getGroupById(id: widget.groups.id);
+      getGroupByIdCubit.getGroupById(id: widget.id);
     });
   }
 
@@ -101,12 +99,14 @@ class _GroupsScreenState extends State<GroupsScreen> {
           itemBuilder: (context, item, index) {
             print('++++++++++ $index');
             return PostItem(
-                isNightModeEnabled: isNightModeEnabled,
-                postsModel: item,
-                id: 0,
-                refresh: () {
-                  _pagingController.refresh();
-                });
+              isNightModeEnabled: isNightModeEnabled,
+              postsModel: item,
+              id: 0,
+              refresh: () {
+                _pagingController.refresh();
+              },
+              pagingController: _pagingController,
+            );
           }),
     );
   }
@@ -142,7 +142,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
             const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;
@@ -178,7 +178,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                 onRefresh: () async {
                   await context
                       .read<GetGroupByIdCubit>()
-                      .getGroupById(id: widget.groups.id);
+                      .getGroupById(id: widget.id);
                 },
                 child: BlocBuilder<GetGroupByIdCubit, GetGroupByIdState>(
                   builder: (context, state) {

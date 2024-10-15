@@ -8,3 +8,13 @@ sealed class PostPageInvitationState extends Equatable {
 }
 
 final class PostPageInvitationInitial extends PostPageInvitationState {}
+
+final class PostPageInvitationLoading extends PostPageInvitationState {}
+
+final class PostPageInvitationSuccess extends PostPageInvitationState {
+  final String message;
+
+  const PostPageInvitationSuccess({required this.message});
+}
+
+final class PostPageInvitationError extends PostPageInvitationState {}

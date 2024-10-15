@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/profile%20screen/data/profile_model/blockedCollection.dart';
 import 'package:genix/features/profile%20screen/data/profile_model/restrictedCollection.dart';
 
@@ -24,7 +25,7 @@ class Data extends Equatable {
   final int? postsCount;
   final List<Photo>? photos;
   final List<dynamic>? videos;
-  final List<RecentPost>? recentPosts;
+  final List<PostsModel>? recentPosts;
   final List<GroupsCollection>? groupsCollection;
   final List<PostedShort>? postedShorts;
   final List<SavedShort>? savedShorts;
@@ -79,7 +80,7 @@ class Data extends Equatable {
             .toList(),
         videos: json['videos'] as List<dynamic>?,
         recentPosts: (json['recentPosts'] as List<dynamic>?)
-            ?.map((e) => RecentPost.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => PostsModel.fromJson(e as Map<String, dynamic>))
             .toList(),
         groupsCollection: (json['groupsCollection'] as List<dynamic>?)
             ?.map((e) => GroupsCollection.fromJson(e as Map<String, dynamic>))
@@ -90,9 +91,9 @@ class Data extends Equatable {
         savedShorts: (json['savedShorts'] as List<dynamic>?)
             ?.map((e) => SavedShort.fromJson(e as Map<String, dynamic>))
             .toList(),
-        myFollowing: json['myFollowing'] == null
-            ? null
-            : MyFollowing.fromJson(json['myFollowing'] as Map<String, dynamic>),
+        myFollowing: json['myFollowing'] != null
+            ? MyFollowing.fromJson(json['myFollowing'] as Map<String, dynamic>)
+            : null,
         myRestrict: json['myRestrict'] as dynamic,
       );
 

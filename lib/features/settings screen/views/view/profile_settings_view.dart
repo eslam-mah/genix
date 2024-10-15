@@ -62,7 +62,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
               SizedBox(
                 width: 10.w,
               ),
-              GestureDetector(
+              InkWell(
                 onTap: () {
                   editProfilePicBottomSheet(
                       context, Function(String) onImageSelected) {}
@@ -141,7 +141,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
           SizedBox(
             height: 8.h,
           ),
-          GestureDetector(
+          InkWell(
             onTap: () {
               setState(() {
                 isSelected = 1;
@@ -165,7 +165,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
           SizedBox(
             height: 10.h,
           ),
-          GestureDetector(
+          InkWell(
             onTap: () {
               setState(() {
                 isSelected = 2;
@@ -225,7 +225,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
           SizedBox(
             width: 8.w,
           ),
-          GestureDetector(
+          InkWell(
               onTap: () {
                 setState(() {
                   isContrySelected = !isContrySelected;

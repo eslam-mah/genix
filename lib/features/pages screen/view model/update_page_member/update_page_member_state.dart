@@ -8,3 +8,13 @@ sealed class UpdatePageMemberState extends Equatable {
 }
 
 final class UpdatePageMemberInitial extends UpdatePageMemberState {}
+
+final class UpdatePageMemberLoading extends UpdatePageMemberState {}
+
+final class UpdatePageMemberSuccess extends UpdatePageMemberState {
+  final UpdatePageFollowerForm follower;
+
+  const UpdatePageMemberSuccess({required this.follower});
+}
+
+final class UpdatePageMemberError extends UpdatePageMemberState {}

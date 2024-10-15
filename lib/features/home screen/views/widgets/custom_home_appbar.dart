@@ -7,6 +7,8 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/addpostbottomsheet.dart';
 import 'package:genix/core/widgets/customappbaricon.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
+import 'package:genix/features/search%20page/views/view/search_page.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomHomeAppBar extends StatelessWidget {
   final PostsModel postsModel;
@@ -29,7 +31,9 @@ class CustomHomeAppBar extends StatelessWidget {
         ),
         CustomAppBarIcon(
           icon: FontAwesomeIcons.magnifyingGlass,
-          onTap: () {},
+          onTap: () {
+            GoRouter.of(context).push(SearchPage.route);
+          },
           size: 18.sp,
         ),
         Image.asset(

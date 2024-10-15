@@ -26,8 +26,9 @@ class RestrictedUsersListView extends StatelessWidget {
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 6.h),
                 child: ProfilesCard(
+                  userName: profile[index].user?.username ?? '',
                   imageUrl: profile[index].user?.profileImg ?? '',
-                  userName: profile[index].user?.showname ?? '',
+                  showName: profile[index].user?.showname ?? '',
                   userBio: profile[index].user?.bio ?? '',
                   isActive: profile[index].user?.isActive ?? false,
                 ),

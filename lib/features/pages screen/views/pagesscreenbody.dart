@@ -11,7 +11,7 @@ import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 
 class PagesScreenBody extends StatefulWidget {
   const PagesScreenBody({super.key});
@@ -44,7 +44,7 @@ class _PagesScreenBodyState extends State<PagesScreenBody> {
             const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;

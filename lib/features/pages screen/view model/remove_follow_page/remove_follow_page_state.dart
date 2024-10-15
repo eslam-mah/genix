@@ -8,3 +8,12 @@ sealed class RemoveFollowPageState extends Equatable {
 }
 
 final class RemoveFollowPageInitial extends RemoveFollowPageState {}
+
+final class RemoveFollowPageLoading extends RemoveFollowPageState {}
+
+final class RemoveFollowPageSuccess extends RemoveFollowPageState {
+  final int id;
+  const RemoveFollowPageSuccess({required this.id});
+}
+
+final class RemoveFollowPageError extends RemoveFollowPageState {}

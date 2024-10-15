@@ -1,4 +1,7 @@
 import 'package:genix/features/groups%20page/group_screen_router.dart';
+import 'package:genix/features/pages%20screen/page_screen_router.dart';
+import 'package:genix/features/pages%20screen/pages_router.dart';
+import 'package:genix/features/pages%20screen/views/screens/pages_screen_body.dart';
 import 'package:genix/features/splash%20screen/views/custom_loading_page.dart';
 import 'package:genix/features/chat%20screen/views/chat_listing_screen.dart';
 import 'package:genix/features/comments%20section/coments_router.dart';
@@ -10,7 +13,6 @@ import 'package:genix/features/home%20screen/home_router.dart';
 import 'package:genix/features/lock%20screen/lock_router.dart';
 import 'package:genix/features/login%20screen/login_router.dart';
 import 'package:genix/features/notifications%20screen/notifications_router.dart';
-import 'package:genix/features/pages%20screen/pagesscreen.dart';
 import 'package:genix/features/photos%20page/photosscreen.dart';
 import 'package:genix/features/profile%20screen/My_profile_router.dart';
 import 'package:genix/features/profile%20screen/profile_router.dart';
@@ -29,7 +31,6 @@ abstract class Rout {
   static const kReplies = '/replies';
   static const kPhotosScreen = '/photos';
   static const kVideosScreen = '/videos';
-  static const kPagesScreen = '/pages';
   static const kChatsListing = '/chat-listing';
   static const kLoadingPage = '/custom_loading_page';
 
@@ -55,10 +56,6 @@ abstract class Rout {
       builder: (context, state) => const VideosScreen(),
     ),
     GoRoute(
-      path: kPagesScreen,
-      builder: (context, state) => const PagesScreen(),
-    ),
-    GoRoute(
       path: kChatsListing,
       builder: (context, state) => const ChatListingScreen(),
     ),
@@ -66,6 +63,8 @@ abstract class Rout {
       path: kLoadingPage,
       builder: (context, state) => const CustomLoadingPage(),
     ),
+    ...PagesScreenRouter.goRoutes,
+    ...PagesRouter.goRoutes,
     ...GroupsScreenRouter.goRoutes,
     ...GroupsRouter.goRoutes,
     ...VideoShortsRouter.goRoutes,

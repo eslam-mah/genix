@@ -8,3 +8,12 @@ sealed class GetPagePhotosState extends Equatable {
 }
 
 final class GetPagePhotosInitial extends GetPagePhotosState {}
+
+final class GetPagePhotosLoading extends GetPagePhotosState {}
+
+final class GetPagePhotosSuccess extends GetPagePhotosState {
+  final PageProfileModel page;
+  const GetPagePhotosSuccess({required this.page});
+}
+
+final class GetPagePhotosError extends GetPagePhotosState {}

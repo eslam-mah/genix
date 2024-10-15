@@ -15,7 +15,7 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/settings%20screen/views/view/billing_setting_view.dart';
 import 'package:genix/features/settings%20screen/views/view/emails_setting_view.dart';
 
@@ -68,7 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
             const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;

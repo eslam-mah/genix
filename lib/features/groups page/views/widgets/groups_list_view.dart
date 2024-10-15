@@ -42,6 +42,7 @@ class GroupsGridView extends StatelessWidget {
                   photoUrl: group[index].profileImg ?? '',
                   gpName: group[index].name ?? '',
                   membersNumber: group[index].membersCount ?? 0,
+                  id: group[index].id ?? 0,
                 ),
               );
             }));

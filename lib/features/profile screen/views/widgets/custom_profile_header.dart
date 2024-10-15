@@ -22,6 +22,7 @@ class CustomProfileHeader extends StatelessWidget {
     required this.coverImageUrl,
     required this.isProfileEditorShown,
     this.refresh,
+    required this.isFriend,
   });
   final String imageUrl;
   final String profileName;
@@ -32,6 +33,7 @@ class CustomProfileHeader extends StatelessWidget {
   final num likesCount;
   final num savedCount;
   final bool isProfileEditorShown;
+  final bool isFriend;
   final Function()? refresh;
 
   @override
@@ -120,20 +122,35 @@ class CustomProfileHeader extends StatelessWidget {
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          IconButton(
-                            onPressed: () {
-                              // todo: remove friend
-                            },
-                            icon: CircleAvatar(
-                              backgroundColor: Colors.red,
-                              radius: 15.r,
-                              child: Icon(
-                                FontAwesomeIcons.userMinus,
-                                size: 15.r,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
+                          isFriend
+                              ? IconButton(
+                                  onPressed: () {
+                                    // todo: remove friend
+                                  },
+                                  icon: CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    radius: 15.r,
+                                    child: Icon(
+                                      FontAwesomeIcons.userMinus,
+                                      size: 15.r,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              : IconButton(
+                                  onPressed: () {
+                                    // todo: add friend
+                                  },
+                                  icon: CircleAvatar(
+                                    backgroundColor: Colors.green,
+                                    radius: 15.r,
+                                    child: Icon(
+                                      FontAwesomeIcons.userPlus,
+                                      size: 15.r,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
                           IconButton(
                             onPressed: () {
                               // todo: menu dialog

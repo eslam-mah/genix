@@ -20,7 +20,7 @@ class GroupItem extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        GoRouter.of(context).push(GroupsScreen.route, extra: group);
+        GoRouter.of(context).push(GroupsScreen.route, extra: group.id);
       },
       child: Container(
         height: 60.h,

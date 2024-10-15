@@ -30,8 +30,8 @@ class GroupsList {
 
 class GroupData {
   List<GroupsModel> collection;
-  List<GroupsModel> managed;
-  List<GroupsModel> suggested;
+  List<GroupsModel>? managed;
+  List<GroupsModel>? suggested;
 
   GroupData({
     required this.collection,
@@ -44,20 +44,24 @@ class GroupData {
       collection: (json['collection'] as List<dynamic>)
           .map((item) => GroupsModel.fromJson(item as Map<String, dynamic>))
           .toList(),
-      managed: (json['managed'] as List<dynamic>)
-          .map((item) => GroupsModel.fromJson(item as Map<String, dynamic>))
-          .toList(),
-      suggested: (json['suggested'] as List<dynamic>)
-          .map((item) => GroupsModel.fromJson(item as Map<String, dynamic>))
-          .toList(),
+      managed: json['managed'] != null && json['managed'] is List<dynamic>
+          ? (json['managed'] as List<dynamic>)
+              .map((item) => GroupsModel.fromJson(item as Map<String, dynamic>))
+              .toList()
+          : null,
+      suggested: json['suggested'] != null && json['suggested'] is List<dynamic>
+          ? (json['suggested'] as List<dynamic>)
+              .map((item) => GroupsModel.fromJson(item as Map<String, dynamic>))
+              .toList()
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['collection'] = this.collection.map((item) => item.toJson()).toList();
-    data['managed'] = this.managed.map((item) => item.toJson()).toList();
-    data['suggested'] = this.suggested.map((item) => item.toJson()).toList();
+    data['managed'] = this.managed?.map((item) => item.toJson()).toList();
+    data['suggested'] = this.suggested?.map((item) => item.toJson()).toList();
     return data;
   }
 }

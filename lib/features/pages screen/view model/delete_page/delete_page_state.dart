@@ -8,3 +8,13 @@ sealed class DeletePageState extends Equatable {
 }
 
 final class DeletePageInitial extends DeletePageState {}
+
+final class DeletePageLoading extends DeletePageState {}
+
+final class DeletePageSuccess extends DeletePageState {
+  final int id;
+
+  const DeletePageSuccess({required this.id});
+}
+
+final class DeletePageError extends DeletePageState {}

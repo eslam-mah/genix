@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:genix/features/groups%20page/data/models/groups_list.dart';
 import 'package:genix/features/groups%20page/data/repos/groups_repository.dart';
+import 'package:genix/features/pages%20screen/data/models/pages_list.dart';
 
 part 'get_all_groups_state.dart';
 

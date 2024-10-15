@@ -11,7 +11,7 @@ import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/photos%20page/widgets/photos_List_view.dart';
 import 'package:genix/features/profile%20screen/data/profile_model/profile_model.dart';
 
@@ -46,7 +46,7 @@ class _PhotosScreenBodyState extends State<PhotosScreenBody> {
             const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;

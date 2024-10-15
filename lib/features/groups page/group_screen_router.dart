@@ -107,7 +107,7 @@ abstract class GroupsScreenRouter {
               ),
             ],
             child: GroupsScreen(
-              groups: state.extra as GroupsModel,
+              id: state.extra as int,
             ),
           );
         }),

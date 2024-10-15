@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:genix/core/widgets/videoplayerpage.dart';
+import 'package:genix/core/widgets/video_player_page.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 
 class VideoPost extends StatelessWidget {

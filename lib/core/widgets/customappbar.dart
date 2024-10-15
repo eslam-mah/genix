@@ -29,7 +29,7 @@ class CustomAppBar extends StatelessWidget {
           onTap: () {},
           size: 18.sp,
         ),
-        GestureDetector(
+        InkWell(
           onTap: () {
             GoRouter.of(context).pushReplacement(HomePage.routeName);
           },

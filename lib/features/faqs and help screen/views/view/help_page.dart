@@ -10,7 +10,7 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 
 import 'package:genix/core/widgets/customglowingbutton.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 
 class HelpPageArgs {
   const HelpPageArgs();
@@ -47,7 +47,7 @@ class _HelpPageState extends State<HelpPage> {
           const CustomBottomAppBar(),
           Positioned(
               bottom: 20,
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () {
                   setState(() {
                     isSelected = !isSelected;

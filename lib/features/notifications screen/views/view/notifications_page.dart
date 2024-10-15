@@ -22,7 +22,7 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 
 import 'package:genix/core/widgets/customglowingbutton.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/notifications%20screen/data/models/notifications_model.dart';
 import 'package:genix/features/notifications%20screen/view%20model/get%20all%20notifications/get_all_notifications_cubit.dart';
 import 'package:genix/features/notifications%20screen/view%20model/update%20notification/update_notification_cubit.dart';
@@ -167,7 +167,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             ),
             Positioned(
                 bottom: 20,
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;

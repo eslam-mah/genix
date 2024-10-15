@@ -47,7 +47,7 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
             SizedBox(
               height: 10.h,
             ),
-            GestureDetector(
+            InkWell(
               onTap: () {
                 setState(() {
                   isSelected = 1;
@@ -74,7 +74,7 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
             SizedBox(
               height: 10.h,
             ),
-            GestureDetector(
+            InkWell(
               onTap: () {
                 setState(() {
                   isSelected = 2;
@@ -112,7 +112,7 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
             SizedBox(
               height: 10.h,
             ),
-            GestureDetector(
+            InkWell(
               onTap: () {
                 setState(() {
                   isLangSelected = !isLangSelected;

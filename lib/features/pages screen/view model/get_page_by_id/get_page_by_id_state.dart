@@ -8,3 +8,13 @@ sealed class GetPageByIdState extends Equatable {
 }
 
 final class GetPageByIdInitial extends GetPageByIdState {}
+
+final class GetPageByIdLoading extends GetPageByIdState {}
+
+final class GetPageByIdSuccess extends GetPageByIdState {
+  final PageProfileModel page;
+
+  const GetPageByIdSuccess({required this.page});
+}
+
+final class GetPageByIdError extends GetPageByIdState {}

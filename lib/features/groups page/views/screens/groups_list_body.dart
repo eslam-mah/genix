@@ -15,7 +15,7 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/groups%20page/data/models/groups_model.dart';
 import 'package:genix/features/groups%20page/view%20model/get_all_groups/get_all_groups_cubit.dart';
 import 'package:genix/features/groups%20page/views/widgets/group_item.dart';
@@ -123,7 +123,7 @@ class _GroupsListBodyState extends State<GroupsListBody> {
               const CustomBottomAppBar(),
               Positioned(
                   bottom: 20,
-                  child: GestureDetector(
+                  child: InkWell(
                     onTap: () {
                       setState(() {
                         isSelected = !isSelected;

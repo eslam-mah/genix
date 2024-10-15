@@ -43,25 +43,25 @@ class GroupsModel {
 
   factory GroupsModel.fromJson(Map<String, dynamic> json) {
     return GroupsModel(
-      id: json['id'],
-      name: json['name'],
-      profileImg: json['profile_img'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      profileImg: json['profile_img'] ?? '',
       coverImg: json['cover_img'],
-      category: json['category'],
-      website: json['website'],
-      about: json['about'],
-      socialFacebook: json['social_facebook'],
-      socialTiktok: json['social_tiktok'],
-      socialInstagram: json['social_instagram'],
-      socialTwitter: json['social_twitter'],
-      socialSteam: json['social_steam'],
-      socialPinterest: json['social_pinterest'],
-      socialLinkedin: json['social_linkedin'],
-      isPrivate: json['is_private'],
-      membersCount: json['members_count'],
-      me: Member.fromJson(json['me']),
+      category: json['category'] ?? '',
+      website: json['website'] ?? '',
+      about: json['about'] ?? '',
+      socialFacebook: json['social_facebook'] ?? '',
+      socialTiktok: json['social_tiktok'] ?? '',
+      socialInstagram: json['social_instagram'] ?? '',
+      socialTwitter: json['social_twitter'] ?? '',
+      socialSteam: json['social_steam'] ?? '',
+      socialPinterest: json['social_pinterest'] ?? '',
+      socialLinkedin: json['social_linkedin'] ?? '',
+      isPrivate: json['is_private'] ?? false,
+      membersCount: json['members_count'] ?? 0,
+      me: Member.fromJson(json['me'] ?? {}),
       // creatorUser: User.fromJson(json['creator_user']),
-      rating: Rating.fromJson(json['rating']),
+      rating: Rating.fromJson(json['rating'] ?? {}),
     );
   }
 
@@ -101,8 +101,8 @@ class Member {
 
   factory Member.fromJson(Map<String, dynamic> json) {
     return Member(
-      member: MemberDetails.fromJson(json['member']),
-      manager: json['manager'],
+      member: MemberDetails.fromJson(json['member'] ?? {}),
+      manager: json['manager'] ?? false,
     );
   }
 
@@ -133,14 +133,15 @@ class MemberDetails {
 
   factory MemberDetails.fromJson(Map<String, dynamic> json) {
     return MemberDetails(
-      id: json['id'],
+      id: json['id'] ?? 0,
       // user: User.fromJson(json['user']),
       roles: json['roles'] != null ? List<String>.from(json['roles']) : [],
       permissions: json['permissions'] != null
           ? List<String>.from(json['permissions'])
           : [],
-      stats: Stats.fromJson(json['stats']),
-      createdAt: DateTime.parse(json['created_at']),
+      stats: Stats.fromJson(json['stats'] ?? {}),
+      createdAt:
+          DateTime.parse(json['created_at'] ?? DateTime.now().toString()),
     );
   }
 
@@ -167,8 +168,8 @@ class Stats {
 
   factory Stats.fromJson(Map<String, dynamic> json) {
     return Stats(
-      postsCount: json['posts_count'],
-      postsCommentsCount: json['posts_comments_count'],
+      postsCount: json['posts_count'] ?? 0,
+      postsCommentsCount: json['posts_comments_count'] ?? 0,
     );
   }
 
@@ -191,8 +192,8 @@ class Rating {
 
   factory Rating.fromJson(Map<String, dynamic> json) {
     return Rating(
-      average: json['average'],
-      myRating: json['my_rating'],
+      average: json['average'] ?? 0,
+      myRating: json['my_rating'] ?? 0,
     );
   }
 

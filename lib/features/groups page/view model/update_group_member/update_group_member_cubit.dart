@@ -11,7 +11,7 @@ class UpdateGroupMemberCubit extends Cubit<UpdateGroupMemberState> {
   Future<void> updateGroupMember(
       {required Map<String, dynamic> data, required int id}) async {
     emit(UpdateGroupMemberLoading());
-    final result = await groupsRepository.joinGroup(data: data, id: id);
+    final result = await groupsRepository.updateGroupMember(data: data, id: id);
     result.fold(
       (l) => emit(UpdateGroupMemberError()),
       (r) {

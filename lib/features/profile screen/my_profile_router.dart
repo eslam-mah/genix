@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
+import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_cubit.dart';
 import 'package:genix/features/profile%20screen/new%20data/cubit/profile_cubit_cubit.dart';
 import 'package:genix/features/profile%20screen/view%20model/add%20friend/add_friend_cubit.dart';
 import 'package:genix/features/profile%20screen/view%20model/get%20profile/get_profile_cubit.dart';
@@ -18,6 +20,8 @@ abstract class MyProfileRouter {
   static final getAccountDetails = GetMyAccountDetailsCubit();
   static final updateMyProfileAccount = UpdateMyProfileCubit();
   // static final updateMyProfileAccount = ProfileCubit();
+  static final addReactCubit = AddReactCubit();
+  static final addCommentCubit = AddCommentCubit();
 
   static final List<GoRoute> goRoutes = [
     GoRoute(
@@ -42,6 +46,12 @@ abstract class MyProfileRouter {
               ),
               BlocProvider.value(
                 value: updateMyProfileAccount,
+              ),
+              BlocProvider.value(
+                value: addCommentCubit,
+              ),
+              BlocProvider.value(
+                value: addReactCubit,
               ),
             ],
             child: const MyProfilePage(),

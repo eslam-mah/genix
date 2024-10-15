@@ -21,12 +21,14 @@ import 'package:genix/features/home%20screen/views/widgets/post%20types/event_po
 import 'package:genix/features/home%20screen/views/widgets/post%20types/image_post.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/link_post.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/poll_post.dart';
+import 'package:genix/features/home%20screen/views/widgets/post%20types/shared_post.dart';
 import 'package:genix/features/home%20screen/views/widgets/replying_text_field.dart';
 import 'package:genix/features/home%20screen/views/widgets/share_bottom_sheet.dart';
 import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/video_post.dart';
 import 'package:genix/features/profile%20screen/views/view/profile_page.dart';
 import 'package:go_router/go_router.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:html/parser.dart' show parse;
@@ -35,7 +37,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 enum Reaction { cry, cute, angry, laugh, love, sad, surprise, wink, none }
 
-enum PostType { image, video, poll, link, event, short, content }
+enum PostType { image, video, poll, link, event, short, content, shared }
 
 class PostItem extends StatefulWidget {
   const PostItem({
@@ -44,11 +46,13 @@ class PostItem extends StatefulWidget {
     required this.postsModel,
     required this.id,
     required this.refresh,
+    required this.pagingController,
   });
   final int id;
   final bool isNightModeEnabled;
   final PostsModel postsModel;
   final Function() refresh;
+  final PagingController<int, PostsModel> pagingController;
 
   @override
   State<PostItem> createState() => _PostItemState();
@@ -91,10 +95,9 @@ class _PostItemState extends State<PostItem> {
       }
     }
     if (postModel.misc != null && postModel.misc!.poll != null) {
-      if (postModel.misc!.poll != null) {
-        postTypes.add(PostType.poll);
-      }
+      postTypes.add(PostType.poll);
     }
+
     if (postModel.ogInfo != null) {
       postTypes.add(PostType.link);
     }
@@ -103,6 +106,9 @@ class _PostItemState extends State<PostItem> {
     }
     if (postModel.isVideoShort == true) {
       postTypes.add(PostType.short);
+    }
+    if (postModel.sharedPost != null) {
+      postTypes.add(PostType.shared);
     } else {
       postTypes.add(PostType.content);
     }
@@ -132,6 +138,8 @@ class _PostItemState extends State<PostItem> {
         );
       case PostType.short:
         return const Text('short');
+      case PostType.shared:
+        return SharedPost(postsModel: widget.postsModel.sharedPost!);
       case PostType.content:
         return const SizedBox.shrink();
       default:
@@ -289,11 +297,13 @@ class _PostItemState extends State<PostItem> {
     }
 
     return SizedBox(
-      width: reactionWidgets.length == 1
-          ? 40.r
-          : reactionWidgets.length == 2
-              ? 60.r
-              : 80.r,
+      width: reactionWidgets.isEmpty
+          ? 1
+          : reactionWidgets.length == 1
+              ? 40.r
+              : reactionWidgets.length == 2
+                  ? 60.r
+                  : 80.r,
       height: 40.r,
       child: Stack(
         children: List.generate(reactionWidgets.length, (index) {
@@ -473,7 +483,7 @@ class _PostItemState extends State<PostItem> {
         ? _removeHtmlTags(widget.postsModel.content!)
         : '';
     if (user == null) {
-      return Container(); // Return an empty container or a placeholder if the data is invalid
+      return Container();
     }
     int totalReactions = _getTotalReactions();
 
@@ -495,8 +505,8 @@ class _PostItemState extends State<PostItem> {
                   children: [
                     InkWell(
                       onTap: () {
-                        GoRouter.of(context)
-                            .push(ProfilePage.route, extra: widget.postsModel);
+                        GoRouter.of(context).push(ProfilePage.route,
+                            extra: widget.postsModel.user?.username);
                       },
                       borderRadius: BorderRadius.circular(400.r),
                       child: CustomUserProfileImage(
@@ -511,12 +521,18 @@ class _PostItemState extends State<PostItem> {
                         children: [
                           Row(
                             children: [
-                              CustomTextWidget(
-                                textSize: 12.sp,
-                                fontFamily: 'fontFamily',
-                                color: AppColors.kPrimaryColor,
-                                fontWeight: FontWeight.normal,
-                                text: user.showname ?? 'Unknown User',
+                              InkWell(
+                                onTap: () {
+                                  GoRouter.of(context).push(ProfilePage.route,
+                                      extra: widget.postsModel.user?.username);
+                                },
+                                child: CustomTextWidget(
+                                  textSize: 12.sp,
+                                  fontFamily: 'fontFamily',
+                                  color: AppColors.kPrimaryColor,
+                                  fontWeight: FontWeight.normal,
+                                  text: user.showname ?? 'Unknown User',
+                                ),
                               ),
                               if (widget.postsModel.user!.isVerified == true)
                                 Image.asset(
@@ -533,7 +549,8 @@ class _PostItemState extends State<PostItem> {
                     ),
                     IconButton(
                       onPressed: () {
-                        showPostTabBar(context, widget.id, widget.postsModel);
+                        showPostTabBar(context, widget.id, widget.postsModel,
+                            widget.refresh, widget.pagingController);
                       },
                       icon: const Icon(FontAwesomeIcons.ellipsis),
                     ),
@@ -548,9 +565,11 @@ class _PostItemState extends State<PostItem> {
                             child: InkWell(
                               onTap: widget.postsModel.ogInfo != null
                                   ? () async {
+                                      // ignore: deprecated_member_use
                                       if (await canLaunch(
                                           widget.postsModel.ogInfo?.url ??
                                               '')) {
+                                        // ignore: deprecated_member_use
                                         await launch(
                                             widget.postsModel.ogInfo?.url ??
                                                 '');

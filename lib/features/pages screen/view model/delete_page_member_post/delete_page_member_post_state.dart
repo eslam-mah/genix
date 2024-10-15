@@ -8,3 +8,13 @@ sealed class DeletePageMemberPostState extends Equatable {
 }
 
 final class DeletePageMemberPostInitial extends DeletePageMemberPostState {}
+
+final class DeletePageMemberPostLoading extends DeletePageMemberPostState {}
+
+final class DeletePageMemberPostSuccess extends DeletePageMemberPostState {
+  final int id;
+
+  const DeletePageMemberPostSuccess({required this.id});
+}
+
+final class DeletePageMemberPostError extends DeletePageMemberPostState {}

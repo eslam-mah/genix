@@ -40,9 +40,7 @@ class PagesRepository {
   }
 
   Future<Either<FailureModel, Map>> updatePageProfile(
-      {required File coverImg,
-      required File profileImg,
-      required int id}) async {
+      {File? coverImg, File? profileImg, required int id}) async {
     return await HttpFileHelper.handleRequest((token) async {
       return await HttpFileHelper.patchProfile(
           coverImg: coverImg,

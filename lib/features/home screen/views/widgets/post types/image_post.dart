@@ -34,7 +34,7 @@ class ImagePost extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(6.r),
       child: uploads.length == 1
-          ? GestureDetector(
+          ? InkWell(
               onTap: () {
                 showImagePreview(context, uploads.first.fileUrl);
               },
@@ -57,7 +57,7 @@ class ImagePost extends StatelessWidget {
               itemCount: uploads.length,
               itemBuilder: (context, index) {
                 final upload = uploads[index];
-                return GestureDetector(
+                return InkWell(
                   onTap: () {
                     showImagePreview(context, upload.fileUrl);
                   },

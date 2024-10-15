@@ -15,18 +15,7 @@ class FollowersListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final followers = profileModel?.data?.followersCollection ?? [];
     if (followers.isEmpty) {
-      return Container(
-        child: InkWell(
-          onTap: () {
-            print(
-                'ddddddddddddddddd${followers.length}____________________________ssss_sss____-');
-          },
-          child: Icon(
-            Icons.account_balance_outlined,
-            size: 150,
-          ),
-        ),
-      );
+      return const SizedBox();
     }
     return SizedBox(
         height: followers.length == 1 ? 100.h : height,
@@ -39,8 +28,9 @@ class FollowersListView extends StatelessWidget {
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 6.h),
                 child: ProfilesCard(
+                  userName: followers[index].user?.username ?? '',
                   imageUrl: followers[index].user?.profileImg ?? '',
-                  userName: followers[index].user?.showname ?? '',
+                  showName: followers[index].user?.showname ?? '',
                   userBio: followers[index].user?.bio ?? '',
                   isActive: followers[index].user?.isActive ?? false,
                 ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:genix/core/widgets/videoplayerpage.dart';
+import 'package:genix/core/widgets/video_player_page.dart';
 import 'package:genix/features/profile%20screen/data/profile_model/profile_model.dart';
 
 class ShortsListView extends StatelessWidget {
