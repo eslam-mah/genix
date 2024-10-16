@@ -144,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
               const CustomBottomAppBar(),
               Positioned(
                   bottom: 20.h,
-                  child: InkWell(
+                  child: GestureDetector(
                     onTap: () {
                       setState(() {
                         isSelected = !isSelected;
@@ -194,34 +194,10 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Column(
                                 children: [
                                   CustomProfileHeader(
-                                    imageUrl:
-                                        state.profiles.data?.user?.profileImg ??
-                                            '',
-                                    profileName:
-                                        state.profiles.data?.user?.showname ??
-                                            '',
-                                    followersCount:
-                                        state.profiles.data?.followersCount ??
-                                            0,
-                                    friendsCount:
-                                        state.profiles.data?.followingCount ??
-                                            0,
-                                    likesCount:
-                                        state.profiles.data?.reactionsCount ??
-                                            0,
-                                    savedCount:
-                                        state.profiles.data?.postsCount ?? 0,
-                                    bioText:
-                                        state.profiles.data?.user?.bio ?? '',
-                                    coverImageUrl:
-                                        state.profiles.data?.user?.coverImg ??
-                                            '',
+                                    profileModel: state.profiles,
                                     isProfileEditorShown:
                                         state.profiles.data?.user?.id ==
                                             myProfileId,
-                                    isFriend: state.profiles.data?.user?.id ==
-                                        state.profiles.data?.myFollowing?.user
-                                            ?.id,
                                   ),
                                   SizedBox(
                                     height: 8.h,

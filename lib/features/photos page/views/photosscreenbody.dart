@@ -46,7 +46,7 @@ class _PhotosScreenBodyState extends State<PhotosScreenBody> {
             const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;

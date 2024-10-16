@@ -167,7 +167,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             ),
             Positioned(
                 bottom: 20,
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;

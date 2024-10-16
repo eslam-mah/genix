@@ -67,6 +67,12 @@ class _GroupsScreenState extends State<GroupsScreen> {
     try {
       final newItems = posts;
       print('fetch:: ${newItems.length}');
+
+      // Clear existing items if refreshing the first page
+      if (_nextPageKey == 1) {
+        _pagingController.itemList?.clear();
+      }
+
       final isLastPage = newItems.length < 20;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -142,7 +148,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
             const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;
@@ -183,6 +189,8 @@ class _GroupsScreenState extends State<GroupsScreen> {
                 child: BlocBuilder<GetGroupByIdCubit, GetGroupByIdState>(
                   builder: (context, state) {
                     if (state is GetGroupByIdSuccess) {
+                      final int average =
+                          state.group.data?.group?.rating?.average ?? 0;
                       return SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,7 +263,9 @@ class _GroupsScreenState extends State<GroupsScreen> {
                                                   ''),
                                           Row(
                                             children: [
-                                              for (int i = 0; i <= 4; i++) ...[
+                                              for (int i = 0;
+                                                  i <= (average - 1).floor();
+                                                  i++) ...[
                                                 Icon(
                                                   Icons.star,
                                                   color: Colors.yellow,

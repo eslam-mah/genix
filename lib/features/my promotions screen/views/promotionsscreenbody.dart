@@ -42,7 +42,7 @@ class _PromotionsScreenBodyState extends State<PromotionsScreenBody> {
           const CustomBottomAppBar(),
           Positioned(
               bottom: 20,
-              child: InkWell(
+              child: GestureDetector(
                 onTap: () {
                   setState(() {
                     isSelected = !isSelected;

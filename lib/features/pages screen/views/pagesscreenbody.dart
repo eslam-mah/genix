@@ -44,7 +44,7 @@ class _PagesScreenBodyState extends State<PagesScreenBody> {
             const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;

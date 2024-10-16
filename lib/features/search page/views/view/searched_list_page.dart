@@ -17,6 +17,8 @@ import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/groups%20page/data/models/groups_model.dart';
 import 'package:genix/features/groups%20page/views/widgets/group_item.dart';
+import 'package:genix/features/pages%20screen/data/models/pages_model.dart';
+import 'package:genix/features/pages%20screen/views/widgets/page_item.dart';
 import 'package:genix/features/search%20page/view%20model/search/search_cubit.dart';
 import 'package:genix/features/search%20page/views/widgets/user_item.dart';
 import 'package:genix/features/users/data/models/user_model.dart';
@@ -46,6 +48,8 @@ class _SearchedListPageState extends State<SearchedListPage> {
       PagingController(firstPageKey: 1);
   final PagingController<int, GroupsModel> _groupsPagingController =
       PagingController(firstPageKey: 1);
+  final PagingController<int, PagesModel> _pagesPagingController =
+      PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -66,8 +70,8 @@ class _SearchedListPageState extends State<SearchedListPage> {
         searchCubit.searchByGroup(query: widget.searchQuery);
       });
     } else {
-      _userPagingController.addPageRequestListener((page) {
-        searchCubit.searchByUser(query: widget.searchQuery);
+      _pagesPagingController.addPageRequestListener((page) {
+        searchCubit.searchByPage(query: widget.searchQuery);
       });
     }
   }
@@ -109,6 +113,44 @@ class _SearchedListPageState extends State<SearchedListPage> {
     } catch (error) {
       _groupsPagingController.error = error;
     }
+  }
+
+  Future<void> _fetchPagesPage(List<PagesModel> pagesList) async {
+    try {
+      final newItems = pagesList;
+      final isLastPage = newItems.length < 20;
+      if (isLastPage) {
+        _pagesPagingController.appendLastPage(newItems);
+      } else {
+        _pagesPagingController.appendPage(
+            newItems, _groupsPagingController.nextPageKey! + 1);
+      }
+    } catch (error) {
+      _pagesPagingController.error = error;
+    }
+  }
+
+  // Widget for displaying users' search results
+  Widget _pagePaginationList() {
+    return PagedSliverList<int, PagesModel>(
+      pagingController: _pagesPagingController,
+      builderDelegate: PagedChildBuilderDelegate<PagesModel>(
+          animateTransitions: true,
+          firstPageErrorIndicatorBuilder: (_) => FirstPageErrorIndicator(
+                onTryAgain: () => _pagesPagingController.refresh(),
+              ),
+          firstPageProgressIndicatorBuilder: (_) =>
+              const FirstPageProgressIndicator(),
+          newPageProgressIndicatorBuilder: (_) =>
+              const NewPageProgressIndicator(),
+          noItemsFoundIndicatorBuilder: (_) => const NoItemsFoundIndicator(),
+          itemBuilder: (context, page, index) {
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+              child: PageItem(page: page),
+            );
+          }),
+    );
   }
 
   // Widget for displaying users' search results
@@ -163,6 +205,8 @@ class _SearchedListPageState extends State<SearchedListPage> {
         return _userPaginationList();
       case '2':
         return _groupsPaginationList();
+      case '3':
+        return _pagePaginationList();
       default:
         return _userPaginationList();
     }
@@ -179,6 +223,9 @@ class _SearchedListPageState extends State<SearchedListPage> {
             } else if (state is SearchByGroupSuccess &&
                 widget.searchType == '2') {
               _fetchGroupsPage(state.groups.data.collection);
+            } else if (state is SearchByPageSuccess &&
+                widget.searchType == '3') {
+              _fetchPagesPage(state.pages.data.collection);
             }
           },
         ),
@@ -199,7 +246,7 @@ class _SearchedListPageState extends State<SearchedListPage> {
               const CustomBottomAppBar(),
               Positioned(
                 bottom: 20,
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;

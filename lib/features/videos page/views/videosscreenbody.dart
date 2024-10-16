@@ -45,7 +45,7 @@ class _VideosScreenBodyState extends State<VideosScreenBody> {
             const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;

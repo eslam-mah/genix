@@ -7,6 +7,7 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/pages%20screen/data/models/pages_model.dart';
+import 'package:genix/features/pages%20screen/views/screens/pages_screen_body.dart';
 import 'package:go_router/go_router.dart';
 
 class PageItem extends StatelessWidget {
@@ -18,7 +19,9 @@ class PageItem extends StatelessWidget {
     final themeState = context.read<ThemeCubit>().state;
 
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        GoRouter.of(context).push(PagesScreen.route, extra: page.id);
+      },
       child: Container(
         height: 60.h,
         padding: EdgeInsets.symmetric(horizontal: 8.w),

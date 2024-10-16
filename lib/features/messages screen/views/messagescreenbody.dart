@@ -42,7 +42,7 @@ class _MessageScreenBodyState extends State<MessageScreenBody> {
           const CustomBottomAppBar(),
           Positioned(
               bottom: 20,
-              child: InkWell(
+              child: GestureDetector(
                 onTap: () {
                   setState(() {
                     isSelected = !isSelected;

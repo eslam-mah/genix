@@ -20,9 +20,9 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 
 import 'package:genix/core/widgets/glowing_button_body.dart';
-import 'package:genix/features/groups%20page/view%20model/get_group_by_id/get_group_by_id_cubit.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/post_item.dart';
+import 'package:genix/features/pages%20screen/view%20model/get_page_by_id/get_page_by_id_cubit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class PagesScreen extends StatefulWidget {
@@ -45,15 +45,15 @@ class _PagesScreenState extends State<PagesScreen> {
   final PagingController<int, PostsModel> _pagingController =
       PagingController(firstPageKey: 1);
   int _nextPageKey = 1;
-  late GetGroupByIdCubit getGroupByIdCubit;
+  late GetPageByIdCubit getPageByIdCubit;
   @override
   void initState() {
     super.initState();
-    getGroupByIdCubit = BlocProvider.of<GetGroupByIdCubit>(context);
-    context.read<GetGroupByIdCubit>().getGroupById(id: widget.id);
+    getPageByIdCubit = BlocProvider.of<GetPageByIdCubit>(context);
+    context.read<GetPageByIdCubit>().getPageById(id: widget.id);
     _pagingController.addPageRequestListener((page) {
       print('**********PAGEKEY************ $page');
-      getGroupByIdCubit.getGroupById(id: widget.id);
+      getPageByIdCubit.getPageById(id: widget.id);
     });
   }
 
@@ -67,6 +67,12 @@ class _PagesScreenState extends State<PagesScreen> {
     try {
       final newItems = posts;
       print('fetch:: ${newItems.length}');
+
+      // Clear existing items if refreshing the first page
+      if (_nextPageKey == 1) {
+        _pagingController.itemList?.clear();
+      }
+
       final isLastPage = newItems.length < 20;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -115,13 +121,13 @@ class _PagesScreenState extends State<PagesScreen> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<GetGroupByIdCubit, GetGroupByIdState>(
+        BlocListener<GetPageByIdCubit, GetPageByIdState>(
           listener: (context, state) {
-            if (state is GetGroupByIdSuccess) {
+            if (state is GetPageByIdSuccess) {
               print(
-                  'LENGTH All:: ${state.group.data?.posts?.collection?.length}');
-              print('RESPONSE:: ${state.group.data?.posts?.collection}');
-              _fetchPage(state.group.data?.posts?.collection ?? []);
+                  'LENGTH All:: ${state.page.data?.posts?.collection?.length}');
+              print('RESPONSE:: ${state.page.data?.posts?.collection}');
+              _fetchPage(state.page.data?.posts?.collection ?? []);
             }
           },
         ),
@@ -142,7 +148,7 @@ class _PagesScreenState extends State<PagesScreen> {
             const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;
@@ -177,12 +183,15 @@ class _PagesScreenState extends State<PagesScreen> {
                 color: AppColors.kPrimaryColor,
                 onRefresh: () async {
                   await context
-                      .read<GetGroupByIdCubit>()
-                      .getGroupById(id: widget.id);
+                      .read<GetPageByIdCubit>()
+                      .getPageById(id: widget.id);
+                  _nextPageKey = 1;
                 },
-                child: BlocBuilder<GetGroupByIdCubit, GetGroupByIdState>(
+                child: BlocBuilder<GetPageByIdCubit, GetPageByIdState>(
                   builder: (context, state) {
-                    if (state is GetGroupByIdSuccess) {
+                    if (state is GetPageByIdSuccess) {
+                      final int average =
+                          state.page.data?.page?.rating?.average ?? 0;
                       return SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,7 +206,7 @@ class _PagesScreenState extends State<PagesScreen> {
                                       child: CachedNetworkImage(
                                         height: 350.h,
                                         imageUrl:
-                                            state.group.data?.group?.coverImg ??
+                                            state.page.data?.page?.coverImg ??
                                                 '',
                                         fit: BoxFit.cover,
                                         errorWidget:
@@ -223,7 +232,7 @@ class _PagesScreenState extends State<PagesScreen> {
                                           shape: BoxShape.circle,
                                         ),
                                         child: CachedNetworkImage(
-                                          imageUrl: state.group.data?.group
+                                          imageUrl: state.page.data?.page
                                                   ?.profileImg ??
                                               '',
                                           fit: BoxFit.fill,
@@ -250,12 +259,14 @@ class _PagesScreenState extends State<PagesScreen> {
                                               textSize: 17.sp,
                                               fontFamily: '',
                                               fontWeight: FontWeight.bold,
-                                              text: state.group.data?.group
-                                                      ?.name ??
-                                                  ''),
+                                              text:
+                                                  state.page.data?.page?.name ??
+                                                      ''),
                                           Row(
                                             children: [
-                                              for (int i = 0; i <= 4; i++) ...[
+                                              for (int i = 0;
+                                                  i <= (average - 1).floor();
+                                                  i++) ...[
                                                 Icon(
                                                   Icons.star,
                                                   color: Colors.yellow,
@@ -267,7 +278,7 @@ class _PagesScreenState extends State<PagesScreen> {
                                                   fontFamily: '',
                                                   fontWeight: FontWeight.normal,
                                                   text:
-                                                      ' ${state.group.data?.group?.rating?.average ?? ''}'),
+                                                      ' ${state.page.data?.page?.rating?.average ?? ''}'),
                                             ],
                                           )
                                         ],
@@ -285,14 +296,14 @@ class _PagesScreenState extends State<PagesScreen> {
                                     isGreen: true,
                                     isInvite: false,
                                     detail:
-                                        '${state.group.data?.group?.membersCount}',
+                                        '${state.page.data?.page?.membersCount}',
                                   ),
                                   _DetailsRow(
                                     icon: FontAwesomeIcons.userTie,
                                     title: 'CREATOR',
                                     isGreen: true,
                                     isInvite: false,
-                                    detail: state.group.data?.group?.creatorUser
+                                    detail: state.page.data?.page?.creatorUser
                                             ?.showname ??
                                         '',
                                   ),
@@ -302,16 +313,15 @@ class _PagesScreenState extends State<PagesScreen> {
                                     isGreen: false,
                                     isInvite: false,
                                     detail:
-                                        state.group.data?.group?.category ?? '',
+                                        state.page.data?.page?.category ?? '',
                                   ),
                                   _DetailsRow(
                                     icon: FontAwesomeIcons.earthEurope,
-                                    title: 'GROUP',
+                                    title: 'page',
                                     isGreen: false,
                                     isInvite: false,
                                     detail:
-                                        state.group.data?.group?.isPrivate ==
-                                                true
+                                        state.page.data?.page?.isPrivate == true
                                             ? 'private'
                                             : 'public',
                                   ),
@@ -321,7 +331,7 @@ class _PagesScreenState extends State<PagesScreen> {
                                     isGreen: true,
                                     isInvite: false,
                                     detail:
-                                        state.group.data?.group?.website ?? '',
+                                        state.page.data?.page?.website ?? '',
                                   ),
                                   const _DetailsRow(
                                     icon: FontAwesomeIcons.userPlus,
@@ -387,13 +397,13 @@ class _PagesScreenState extends State<PagesScreen> {
                           ],
                         ),
                       );
-                    } else if (state is GetGroupByIdLoading) {
+                    } else if (state is GetPageByIdLoading) {
                       return const Center(
                         child: CircularProgressIndicator(
                           color: AppColors.kPrimaryColor,
                         ),
                       );
-                    } else if (state is GetGroupByIdError) {
+                    } else if (state is GetPageByIdError) {
                       return Text(
                         'Error Loading Page',
                         style: TextStyle(fontSize: 25.sp),

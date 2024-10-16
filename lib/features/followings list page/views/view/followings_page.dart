@@ -50,7 +50,7 @@ class _FollowingsPageState extends State<FollowingsPage> {
             const CustomBottomAppBar(),
             Positioned(
                 bottom: 20,
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;

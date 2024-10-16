@@ -10,7 +10,13 @@ class RemoveFriendCubit extends Cubit<RemoveFriendState> {
   Future<void> removeFriend({required int uid}) async {
     emit(RemoveFriendLoading());
     final result = await removeFriendRepo.removeFriend(uid: uid);
-    result.fold((l) => emit(RemoveFriendError()),
-        (r) => emit(RemoveFriendSuccess(uid: uid)));
+    result.fold((l) {
+      emit(RemoveFriendError());
+      print('Error occurred while removing friend: ${l.message}');
+      print('errorrrrrrrrrrrrr');
+    }, (r) {
+      emit(RemoveFriendSuccess(uid: uid));
+      print('successsss');
+    });
   }
 }

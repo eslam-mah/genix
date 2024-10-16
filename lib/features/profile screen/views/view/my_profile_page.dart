@@ -161,7 +161,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
             ),
             Positioned(
                 bottom: 20.h,
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () {
                     setState(() {
                       isSelected = !isSelected;
@@ -219,37 +219,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                   child: Column(
                                     children: [
                                       CustomProfileHeader(
-                                        imageUrl: state.profiles.data?.user
-                                                ?.profileImg ??
-                                            '',
-                                        profileName: state.profiles.data?.user
-                                                ?.showname ??
-                                            '',
-                                        followersCount: state.profiles.data
-                                                ?.followersCount ??
-                                            0,
-                                        friendsCount: state.profiles.data
-                                                ?.followingCount ??
-                                            0,
-                                        likesCount: state.profiles.data
-                                                ?.reactionsCount ??
-                                            0,
-                                        savedCount:
-                                            state.profiles.data?.postsCount ??
-                                                0,
-                                        bioText:
-                                            state.profiles.data?.user?.bio ??
-                                                '',
-                                        coverImageUrl: state.profiles.data?.user
-                                                ?.coverImg ??
-                                            '',
                                         isProfileEditorShown: true,
                                         refresh: () {
                                           setState(() {
                                             _refreshProfile();
                                           });
                                         },
-                                        isFriend: false,
+                                        profileModel: state.profiles,
                                       ),
                                       SizedBox(
                                         height: 8.h,
