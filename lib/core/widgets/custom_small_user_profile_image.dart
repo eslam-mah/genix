@@ -19,7 +19,8 @@ class CustomSmallUserProfileImage extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: image,
               width: 20.w,
-              fit: BoxFit.cover,
+              height: 20.w,
+              fit: BoxFit.fill,
               errorWidget: (context, error, stackTrace) {
                 return Container(
                   width: 0.w,
@@ -33,24 +34,6 @@ class CustomSmallUserProfileImage extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-            bottom: 4.h,
-            right: 6.w,
-            child: isActive
-                ? CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 4,
-                  )
-                : SizedBox.shrink()),
-        Positioned(
-            bottom: 4.h,
-            right: 6.w,
-            child: isActive
-                ? CircleAvatar(
-                    backgroundColor: Colors.green,
-                    radius: 3,
-                  )
-                : SizedBox.shrink())
       ],
     );
   }

@@ -20,8 +20,10 @@ class VideoPost extends StatelessWidget {
           ? VideoPlayerWidget(
               videoUrl: uploads.first.fileUrl,
               showPlay: true,
-              shimmerWidth: 300.w,
-              shimmerHeight: 450.h,
+              shimmerWidth: 0,
+              played: false,
+              showLoadingIndicator: false,
+              shimmerHeight: 0,
               isMuted: true,
             )
           : GridView.builder(
@@ -39,9 +41,11 @@ class VideoPost extends StatelessWidget {
                 return VideoPlayerWidget(
                   videoUrl: upload.fileUrl,
                   showPlay: true,
-                  shimmerWidth: 300.w,
-                  shimmerHeight: 450.h,
+                  shimmerWidth: 0,
+                  shimmerHeight: 0,
                   isMuted: true,
+                  played: false,
+                  showLoadingIndicator: false,
                 );
               },
             ),

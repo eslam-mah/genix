@@ -30,8 +30,9 @@ class CustomAppBar extends StatelessWidget {
           size: 18.sp,
         ),
         InkWell(
+          borderRadius: BorderRadius.circular(200.r),
           onTap: () {
-            GoRouter.of(context).pushReplacement(HomePage.routeName);
+            context.go(HomePage.routeName);
           },
           child: Image.asset(
             AppImages.kLogo,

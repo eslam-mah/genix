@@ -191,6 +191,8 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                                 Center(
                                   child: VideoPlayerWidget(
                                     showFullScreenButton: false,
+                                    played: true,
+                                    showLoadingIndicator: true,
                                     videoUrl: item.fileUrl ?? '',
                                     showPlay: true,
                                     shimmerWidth: double.infinity,

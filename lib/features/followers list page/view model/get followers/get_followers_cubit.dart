@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:genix/features/followers%20list%20page/data/models/followers_list.dart';
 import 'package:genix/features/followers%20list%20page/data/models/followers_model.dart';

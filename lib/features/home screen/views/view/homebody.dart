@@ -14,6 +14,7 @@ import 'package:genix/features/home%20screen/view%20model/delete%20post/delete_p
 import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts/get_newsfeed_posts_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20stories/get_stories_cubit.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_story_widget.dart';
+import 'package:genix/features/home%20screen/views/widgets/post_shimmer_effect.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -217,6 +218,7 @@ class _HomePageState extends State<HomePage> {
                     setState(() {
                       _nextPageKey = 1;
                     });
+
                     _pagingController.refresh();
                     _storiesPagingController.refresh();
                   },
@@ -278,13 +280,18 @@ class _HomePageState extends State<HomePage> {
                             FirstPageErrorIndicator(
                           onTryAgain: () => _pagingController.refresh(),
                         ),
-                        firstPageProgressIndicatorBuilder: (_) =>
-                            const FirstPageProgressIndicator(),
+                        firstPageProgressIndicatorBuilder: (_) => Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.w, vertical: 15.h),
+                          child: PostShimmerEffect(
+                              isNightModeEnabled: isNightModeEnabled),
+                        ),
                         newPageProgressIndicatorBuilder: (_) =>
                             const NewPageProgressIndicator(),
                         noItemsFoundIndicatorBuilder: (_) =>
                             const NoItemsFoundIndicator(),
                         itemBuilder: (context, item, index) {
+                          // Your actual post item implementation
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -318,7 +325,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),

@@ -74,11 +74,23 @@ class _PostItemState extends State<PostItem> {
   TextEditingController commentTextEditingController = TextEditingController();
   late AddReactCubit addReactCubit;
   late AddCommentCubit addCommentCubit;
+
+  // ValueNotifier to track total reactions count
+  final ValueNotifier<int> totalReactionsNotifier = ValueNotifier<int>(0);
+  bool isUpdatingReaction = false;
+
   @override
   void initState() {
     super.initState();
     addReactCubit = BlocProvider.of<AddReactCubit>(context);
     addCommentCubit = BlocProvider.of<AddCommentCubit>(context);
+    totalReactionsNotifier.value = _getTotalReactions();
+  }
+
+  @override
+  void dispose() {
+    totalReactionsNotifier.dispose();
+    super.dispose();
   }
 
   List<PostType> _determinePostTypes(PostsModel postModel) {
@@ -90,7 +102,11 @@ class _PostItemState extends State<PostItem> {
           upload.type == "image/webp")) {
         postTypes.add(PostType.image);
       }
-      if (postModel.uploads!.any((upload) => upload.type == 'video')) {
+      if (postModel.uploads!.any((upload) =>
+          upload.type == 'video/mov' ||
+          upload.type == 'video/mp4' ||
+          upload.type == 'video/webm' ||
+          upload.type == 'video/heic')) {
         postTypes.add(PostType.video);
       }
     }
@@ -180,6 +196,8 @@ class _PostItemState extends State<PostItem> {
   }
 
   void _handleReactionPress(Reaction selectedReaction) {
+    if (isUpdatingReaction) return; // Prevent multiple requests at once
+
     String reactionType = '';
     switch (selectedReaction) {
       case Reaction.cute:
@@ -209,46 +227,32 @@ class _PostItemState extends State<PostItem> {
       default:
         break;
     }
-    // Update the total reactions count instantly in the UI
+
     setState(() {
-      // Increase the total reactions count based on the selected reaction
-      if (reactionType == 'cute' && widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.love =
-            (widget.postsModel.reactions?.summary?.love ?? 0) + 1;
-      } else if (reactionType == 'love' &&
-          widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.cute =
-            (widget.postsModel.reactions?.summary?.cute ?? 0) + 1;
-      } else if (reactionType == 'wow' &&
-          widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.wow =
-            (widget.postsModel.reactions?.summary?.wow ?? 0) + 1;
-      } else if (reactionType == 'haha' &&
-          widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.haha =
-            (widget.postsModel.reactions?.summary?.haha ?? 0) + 1;
-      } else if (reactionType == 'angry' &&
-          widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.angry =
-            (widget.postsModel.reactions?.summary?.angry ?? 0) + 1;
-      } else if (reactionType == 'sad' &&
-          widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.sad =
-            (widget.postsModel.reactions?.summary?.sad ?? 0) + 1;
-      } else if (reactionType == 'cry' &&
-          widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.cry =
-            (widget.postsModel.reactions?.summary?.cry ?? 0) + 1;
-      } else if (reactionType == 'wink' &&
-          widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.wink =
-            (widget.postsModel.reactions?.summary?.wink ?? 0) + 1;
-      }
+      isUpdatingReaction = true;
     });
 
     // Call the backend to update the reaction
-    addReactCubit.addReactions(
-        reactionType: reactionType, postId: widget.postsModel.id!.toInt());
+    addReactCubit
+        .addReactions(
+      reactionType: reactionType,
+      postId: widget.postsModel.id!.toInt(),
+    )
+        .then((_) {
+      setState(() {
+        // Update local state based on the new reaction
+        widget.postsModel.reactions?.byMe = reactionType;
+        widget.postsModel.reactions?.summary =
+            widget.postsModel.reactions?.summary ?? Summary();
+        isUpdatingReaction = false;
+      });
+      totalReactionsNotifier.value = _getTotalReactions();
+    }).catchError((error) {
+      // Handle error if needed, rollback UI update
+      setState(() {
+        isUpdatingReaction = false;
+      });
+    });
   }
 
   Widget _buildReactionIcon(String lottieFile) {
@@ -607,13 +611,18 @@ class _PostItemState extends State<PostItem> {
                       _buildReactionsRow(
                           widget.postsModel.reactions?.summary ?? Summary()),
                       SizedBox(width: 3.w),
-                      SizedBox(
-                        width: 30.w,
-                        child: CustomTextWidget(
-                            textSize: 13.sp,
-                            fontFamily: '',
-                            fontWeight: FontWeight.w500,
-                            text: ' $totalReactions'),
+                      ValueListenableBuilder<int>(
+                        valueListenable: totalReactionsNotifier,
+                        builder: (context, totalReactions, _) {
+                          return SizedBox(
+                            width: 30.w,
+                            child: CustomTextWidget(
+                                textSize: 13.sp,
+                                fontFamily: '',
+                                fontWeight: FontWeight.w500,
+                                text: ' $totalReactions'),
+                          );
+                        },
                       ),
                       const Spacer(),
                       Icon(FontAwesomeIcons.solidComment, size: 11.sp),
@@ -644,15 +653,7 @@ class _PostItemState extends State<PostItem> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            if (reaction == Reaction.none) {
-                              reaction = Reaction.love;
-                              _handleReactionPress(reaction);
-                            }
-                          });
-                        },
-                        onLongPress: () {
-                          setState(() {
-                            reactionView = true;
+                            reactionView = !reactionView;
                           });
                         },
                         child: Container(

@@ -32,6 +32,8 @@ class SavedShortsListView extends StatelessWidget {
                 shimmerWidth: 100.w,
                 shimmerHeight: 100.h,
                 isMuted: true,
+                played: false,
+                showLoadingIndicator: false,
               ),
             );
           }),

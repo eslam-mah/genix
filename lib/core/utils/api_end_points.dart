@@ -134,4 +134,12 @@ class ApiEndPoints {
   static const String deletePageMemberPost = "$baseUrl/page/member/posts";
   static const String deletePageMemberComment =
       "$baseUrl/page/member/posts/comments";
+  // payment
+  static const String createStripePayment = "$baseUrl/payments/stripe/create";
+  static const String getPromotions = "$baseUrl/payments/promotions";
+  static const String postPromotion = "$baseUrl/payments/promotion";
+  static const String getPromotionCpvRate =
+      "$baseUrl/payments/promotion/cpv-rate";
+  static const String getPromotionById = "$baseUrl/payments/promotion";
+  static const String getGifts = "$baseUrl/payments/gifts";
 }

@@ -29,9 +29,11 @@ class ShortsListView extends StatelessWidget {
                 videoUrl: shortVideos[index].fileUrl ?? '',
                 showPlay: true,
                 iconSize: 13.sp,
-                shimmerWidth: 100.w,
+                shimmerWidth: 130.w,
                 shimmerHeight: 100.h,
                 isMuted: true,
+                played: false,
+                showLoadingIndicator: false,
               ),
             );
           }),

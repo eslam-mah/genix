@@ -247,41 +247,40 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                           ),
                         ),
                         SliverToBoxAdapter(
-                          child: SizedBox(
-                            height: 100.h,
-                            child: PagedListView<int, TicketsModel>(
-                              scrollDirection: Axis.vertical,
-                              padding: EdgeInsets.zero,
-                              pagingController:
-                                  _pagingController, // Assuming this is the controller for tickets
-                              builderDelegate:
-                                  PagedChildBuilderDelegate<TicketsModel>(
-                                animateTransitions: true,
-                                firstPageErrorIndicatorBuilder: (_) =>
-                                    FirstPageErrorIndicator(
-                                  onTryAgain: () => _pagingController.refresh(),
-                                ),
-                                firstPageProgressIndicatorBuilder: (_) =>
-                                    FirstPageProgressIndicator(),
-                                newPageProgressIndicatorBuilder: (_) =>
-                                    const Center(
-                                  child: NewPageProgressIndicator(),
-                                ),
-                                noItemsFoundIndicatorBuilder: (_) =>
-                                    SizedBox.shrink(),
-                                itemBuilder: (context, item, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      GoRouter.of(context).push(
-                                          TicketItemPage.route,
-                                          extra: item);
-                                    },
-                                    child: CustomTicketsItem(
-                                      ticket: item,
-                                    ), // Passing the ticket item
-                                  );
-                                },
+                          child: PagedListView<int, TicketsModel>(
+                            scrollDirection: Axis.vertical,
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            pagingController:
+                                _pagingController, // Assuming this is the controller for tickets
+                            builderDelegate:
+                                PagedChildBuilderDelegate<TicketsModel>(
+                              animateTransitions: true,
+                              firstPageErrorIndicatorBuilder: (_) =>
+                                  FirstPageErrorIndicator(
+                                onTryAgain: () => _pagingController.refresh(),
                               ),
+                              firstPageProgressIndicatorBuilder: (_) =>
+                                  const FirstPageProgressIndicator(),
+                              newPageProgressIndicatorBuilder: (_) =>
+                                  const Center(
+                                child: NewPageProgressIndicator(),
+                              ),
+                              noItemsFoundIndicatorBuilder: (_) =>
+                                  const SizedBox.shrink(),
+                              itemBuilder: (context, item, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    GoRouter.of(context).push(
+                                        TicketItemPage.route,
+                                        extra: item);
+                                  },
+                                  child: CustomTicketsItem(
+                                    ticket: item,
+                                  ), // Passing the ticket item
+                                );
+                              },
                             ),
                           ),
                         ),

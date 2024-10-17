@@ -88,6 +88,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           }
         },
         child: ModalProgressHUD(
+          color: AppColors.kPrimaryColor,
           inAsyncCall: isLoading,
           child: SingleChildScrollView(
             child: Column(

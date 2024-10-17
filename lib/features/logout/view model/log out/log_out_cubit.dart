@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:genix/features/logout/data/repos/log_out_repository.dart';
 
@@ -11,6 +11,6 @@ class LogOutCubit extends Cubit<LogOutState> {
     emit(LogOutLoading());
     final result = await logOutRepo.logOut();
     result.fold((l) => emit(LogOutError()),
-        (r) => emit(LogOutSuccess(message: 'Logged out successfully')));
+        (r) => emit(const LogOutSuccess(message: 'Logged out successfully')));
   }
 }

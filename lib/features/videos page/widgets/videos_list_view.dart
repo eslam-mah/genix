@@ -41,6 +41,8 @@ class VideosGridView extends StatelessWidget {
               shimmerWidth: 100.w,
               shimmerHeight: 60.h,
               isMuted: true,
+              played: false,
+              showLoadingIndicator: false,
             );
           }),
     );

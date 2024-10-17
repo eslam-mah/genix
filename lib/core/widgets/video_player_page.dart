@@ -1,6 +1,8 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:genix/core/utils/colors.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
 
@@ -11,7 +13,9 @@ class VideoPlayerWidget extends StatefulWidget {
   final bool showPlay;
   final double? iconSize;
   final bool? showFullScreenButton;
-  final bool isMuted; // Add this to control mute state
+  final bool isMuted;
+  final bool played;
+  final bool showLoadingIndicator;
 
   const VideoPlayerWidget({
     super.key,
@@ -21,7 +25,9 @@ class VideoPlayerWidget extends StatefulWidget {
     required this.shimmerHeight,
     this.showFullScreenButton,
     required this.isMuted,
-    this.iconSize, // Initialize isMuted
+    this.iconSize,
+    required this.played,
+    required this.showLoadingIndicator, // Initialize isMuted
   });
 
   @override
@@ -57,7 +63,9 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       });
 
       // Automatically play the video after initialization
-      flickManager?.flickControlManager?.play();
+      widget.played
+          ? flickManager?.flickControlManager?.play()
+          : flickManager!.flickControlManager?.pause();
 
       // Set mute based on the initial state
       if (widget.isMuted) {
@@ -90,32 +98,43 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   Widget build(BuildContext context) {
     if (hasError) {
-      return Center(child: Text("Error loading video"));
+      return const Center(child: Text("Error loading video"));
     }
 
     return isInitialized
         ? FlickVideoPlayer(
             flickManager: flickManager!,
             flickVideoWithControls: FlickVideoWithControls(
+              playerErrorFallback: const CircularProgressIndicator(
+                color: AppColors.kPrimaryColor,
+              ),
               videoFit: BoxFit.contain,
               controls: widget.showPlay
                   ? FlickPortraitControls(
-                      iconSize: 0,
+                      iconSize: widget.iconSize ?? 20.sp,
                       progressBarSettings: FlickProgressBarSettings(
-                        height: 5.h,
+                        height: 3.h,
                       ),
                     )
                   : null,
             ),
           )
-        : Shimmer.fromColors(
-            baseColor: Colors.grey[100]!,
-            highlightColor: Colors.grey[50]!,
-            child: Container(
-              width: widget.shimmerWidth,
-              height: widget.shimmerHeight,
-              color: Colors.white,
-            ),
-          );
+        : widget.showLoadingIndicator
+            ? const CircularProgressIndicator(
+                color: AppColors.kPrimaryColor,
+              )
+            : Shimmer.fromColors(
+                baseColor: ThemeCubit().state == ThemeState.dark
+                    ? Colors.grey[1000]!
+                    : Colors.grey[300]!,
+                highlightColor: ThemeCubit().state == ThemeState.dark
+                    ? Colors.grey[600]!
+                    : Colors.grey[100]!,
+                child: Container(
+                  width: widget.shimmerWidth,
+                  height: widget.shimmerHeight,
+                  color: Colors.white,
+                ),
+              );
   }
 }

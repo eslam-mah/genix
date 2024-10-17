@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/reactions.dart';
 import 'package:genix/features/home%20screen/data/repos/posts_repository.dart';
