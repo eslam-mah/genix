@@ -53,6 +53,7 @@ class _PromotionsScreenBodyState extends State<PromotionsScreenBody> {
         ],
       )),
       appBar: AppBar(
+        toolbarHeight: 45.h,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(

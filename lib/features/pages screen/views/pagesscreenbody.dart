@@ -55,6 +55,7 @@ class _PagesScreenBodyState extends State<PagesScreenBody> {
           ],
         )),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(

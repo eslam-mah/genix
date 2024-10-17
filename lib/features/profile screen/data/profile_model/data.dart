@@ -7,7 +7,7 @@ import 'followers_collection.dart';
 import 'following_collection.dart';
 import 'groups_collection.dart';
 import 'my_following.dart';
-import 'photo.dart';
+import 'photo_and_video.dart';
 import 'posted_short.dart';
 import 'recent_post.dart';
 import 'saved_short.dart';
@@ -24,7 +24,7 @@ class Data extends Equatable {
   final List<RestrictedCollection>? restrictCollection;
   final int? postsCount;
   final List<Photo>? photos;
-  final List<dynamic>? videos;
+  final List<Video>? videos;
   final List<PostsModel>? recentPosts;
   final List<GroupsCollection>? groupsCollection;
   final List<PostedShort>? postedShorts;
@@ -78,7 +78,9 @@ class Data extends Equatable {
         photos: (json['photos'] as List<dynamic>?)
             ?.map((e) => Photo.fromJson(e as Map<String, dynamic>))
             .toList(),
-        videos: json['videos'] as List<dynamic>?,
+        videos: (json['videos'] as List<dynamic>?)
+            ?.map((e) => Video.fromJson(e as Map<String, dynamic>))
+            .toList(),
         recentPosts: (json['recentPosts'] as List<dynamic>?)
             ?.map((e) => PostsModel.fromJson(e as Map<String, dynamic>))
             .toList(),

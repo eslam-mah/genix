@@ -159,6 +159,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
           ],
         )),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(

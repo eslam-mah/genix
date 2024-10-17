@@ -53,6 +53,7 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
         ],
       )),
       appBar: AppBar(
+        toolbarHeight: 45.h,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(

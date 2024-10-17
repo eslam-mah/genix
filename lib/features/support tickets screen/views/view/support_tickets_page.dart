@@ -152,6 +152,7 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
           ),
         ),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(

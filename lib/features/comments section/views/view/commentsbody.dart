@@ -128,6 +128,7 @@ class _CommentsBodyState extends State<CommentsBody> {
         ),
         child: Scaffold(
           appBar: AppBar(
+            toolbarHeight: 45.h,
             title: const Text('Comments'),
           ),
           body: Stack(

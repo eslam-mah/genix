@@ -53,6 +53,7 @@ class _MessageScreenBodyState extends State<MessageScreenBody> {
         ],
       )),
       appBar: AppBar(
+        toolbarHeight: 45.h,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(

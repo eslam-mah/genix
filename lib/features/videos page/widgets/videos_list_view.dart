@@ -24,19 +24,13 @@ class VideosGridView extends StatelessWidget {
     }
     return SizedBox(
       height: height,
-      child: GridView.builder(
+      child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           itemCount: videos.length > 4 ? 4 : videos.length,
           scrollDirection: direction,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 1,
-          ),
           itemBuilder: (context, index) {
             return VideoPlayerWidget(
-              videoUrl: videos[index],
+              videoUrl: videos[index].fileUrl ?? "",
               showPlay: true,
               shimmerWidth: 100.w,
               shimmerHeight: 60.h,

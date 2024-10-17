@@ -27,6 +27,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 45.h,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         actions: [

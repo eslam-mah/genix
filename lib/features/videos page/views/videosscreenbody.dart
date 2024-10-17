@@ -56,6 +56,7 @@ class _VideosScreenBodyState extends State<VideosScreenBody> {
           ],
         )),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(

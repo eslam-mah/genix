@@ -175,6 +175,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           ],
         )),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(

@@ -79,6 +79,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ],
         )),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(

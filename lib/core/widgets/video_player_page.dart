@@ -120,12 +120,16 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             ),
           )
         : widget.showLoadingIndicator
-            ? const CircularProgressIndicator(
-                color: AppColors.kPrimaryColor,
+            ? SizedBox(
+                height: 50.h,
+                width: 50.h,
+                child: const CircularProgressIndicator(
+                  color: AppColors.kPrimaryColor,
+                ),
               )
             : Shimmer.fromColors(
                 baseColor: ThemeCubit().state == ThemeState.dark
-                    ? Colors.grey[1000]!
+                    ? Colors.grey[700]!
                     : Colors.grey[300]!,
                 highlightColor: ThemeCubit().state == ThemeState.dark
                     ? Colors.grey[600]!

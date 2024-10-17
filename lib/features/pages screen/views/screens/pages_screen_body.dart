@@ -159,6 +159,7 @@ class _PagesScreenState extends State<PagesScreen> {
           ],
         )),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(

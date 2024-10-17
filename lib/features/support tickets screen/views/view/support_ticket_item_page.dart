@@ -61,6 +61,7 @@ class _TicketItemPageState extends State<TicketItemPage> {
         ),
       ),
       appBar: AppBar(
+        toolbarHeight: 45.h,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(

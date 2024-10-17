@@ -58,6 +58,7 @@ class _HelpPageState extends State<HelpPage> {
         ],
       )),
       appBar: AppBar(
+        toolbarHeight: 45.h,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(

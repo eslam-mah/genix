@@ -28,6 +28,7 @@ import 'package:genix/features/profile%20screen/view%20model/get%20profile/get_p
 import 'package:genix/features/profile%20screen/views/widgets/custom_icon_listview.dart';
 import 'package:genix/features/profile%20screen/views/widgets/custom_profile_header.dart';
 import 'package:genix/features/photos%20page/widgets/photos_List_view.dart';
+import 'package:genix/features/profile%20screen/views/widgets/custom_profile_shimmer.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 
 import 'package:genix/features/videos%20page/widgets/videos_list_view.dart';
@@ -155,6 +156,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ],
           )),
           appBar: AppBar(
+            toolbarHeight: 45.h,
             automaticallyImplyLeading: false,
             actions: [
               IconButton(
@@ -182,10 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     return BlocBuilder<GetProfileCubit, GetProfileState>(
                         builder: (context, state) {
                       if (state is GetProfileLoading) {
-                        return const Center(
-                            child: CircularProgressIndicator(
-                          color: AppColors.kPrimaryColor,
-                        ));
+                        return const Center(child: ProfileShimmer());
                       } else if (state is GetProfileSuccess) {
                         final profileModel = state.profiles;
                         return CustomScrollView(
@@ -252,7 +251,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ],
                                         ),
                                         VideosGridView(
-                                          height: 200.h,
+                                          height: 170.h,
                                           crossAxisCount: 2,
                                           direction: Axis.horizontal,
                                           profileModel: profileModel,
@@ -451,16 +450,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         return const Center(
                             child: Text('Error loading profile'));
                       } else {
-                        return const Center(
-                            child: CircularProgressIndicator(
-                          color: AppColors.kPrimaryColor,
-                        ));
+                        return const Center(child: ProfileShimmer());
                       }
                     });
                   } else {
-                    return const Center(
-                        child: CircularProgressIndicator(
-                            color: AppColors.kPrimaryColor));
+                    return const Center(child: ProfileShimmer());
                   }
                 })),
     );

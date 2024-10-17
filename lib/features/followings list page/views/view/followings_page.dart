@@ -61,6 +61,7 @@ class _FollowingsPageState extends State<FollowingsPage> {
           ],
         )),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(

@@ -28,6 +28,7 @@ import 'package:genix/features/profile%20screen/view%20model/get%20profile/get_p
 import 'package:genix/features/profile%20screen/views/widgets/custom_icon_listview.dart';
 import 'package:genix/features/profile%20screen/views/widgets/custom_profile_header.dart';
 import 'package:genix/features/photos%20page/widgets/photos_List_view.dart';
+import 'package:genix/features/profile%20screen/views/widgets/custom_profile_shimmer.dart';
 import 'package:genix/features/profile%20screen/views/widgets/recent_posts_list.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/settings%20screen/view%20model/update%20my%20profile/update_my_profile_cubit.dart';
@@ -172,6 +173,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
           ],
         )),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
@@ -481,8 +483,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           return const Center(
                               child: Text('Error loading profile'));
                         } else {
-                          return const Center(
-                              child: CircularProgressIndicator());
+                          return const Center(child: ProfileShimmer());
                         }
                       },
                     );
@@ -490,7 +491,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     return const Center(
                         child: Text('Error loading account details'));
                   } else {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: ProfileShimmer());
                   }
                 },
               ),

@@ -164,6 +164,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(

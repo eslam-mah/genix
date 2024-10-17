@@ -22,7 +22,7 @@ class VideoPost extends StatelessWidget {
               showPlay: true,
               shimmerWidth: 0,
               played: false,
-              showLoadingIndicator: false,
+              showLoadingIndicator: true,
               shimmerHeight: 0,
               isMuted: true,
             )
@@ -45,7 +45,7 @@ class VideoPost extends StatelessWidget {
                   shimmerHeight: 0,
                   isMuted: true,
                   played: false,
-                  showLoadingIndicator: false,
+                  showLoadingIndicator: true,
                 );
               },
             ),

@@ -57,6 +57,7 @@ class _PhotosScreenBodyState extends State<PhotosScreenBody> {
           ],
         )),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(

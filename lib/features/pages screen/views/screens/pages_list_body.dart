@@ -134,6 +134,7 @@ class _PagesListBodyState extends State<PagesListBody> {
             ],
           )),
           appBar: AppBar(
+            toolbarHeight: 45.h,
             automaticallyImplyLeading: false,
             actions: [
               IconButton(

@@ -134,6 +134,7 @@ class _GroupsListBodyState extends State<GroupsListBody> {
             ],
           )),
           appBar: AppBar(
+            toolbarHeight: 45.h,
             automaticallyImplyLeading: false,
             actions: [
               IconButton(
