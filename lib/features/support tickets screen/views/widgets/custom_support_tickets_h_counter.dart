@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 
 class CustomSupportTicketsHCounter extends StatelessWidget {
   const CustomSupportTicketsHCounter({
@@ -17,7 +18,9 @@ class CustomSupportTicketsHCounter extends StatelessWidget {
       width: 100.w,
       height: 90.h,
       decoration: BoxDecoration(
-          color: AppColors.kAppBar2Color,
+          color: ThemeCubit().state == ThemeState.dark
+              ? DarkModeColors.kItemColorDark
+              : AppColors.kAppBar2Color,
           borderRadius: BorderRadius.circular(8.r)),
       child: Row(
         children: [
@@ -40,15 +43,14 @@ class CustomSupportTicketsHCounter extends StatelessWidget {
                 textSize: 40.sp,
                 fontFamily: '',
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
                 text: number.toString(),
               ),
               CustomTextWidget(
-                  textSize: 10.sp,
-                  fontFamily: '',
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                  text: text)
+                textSize: 10.sp,
+                fontFamily: '',
+                fontWeight: FontWeight.w500,
+                text: text,
+              )
             ],
           ),
         ],

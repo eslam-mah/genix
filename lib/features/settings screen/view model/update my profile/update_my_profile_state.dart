@@ -1,19 +1,35 @@
 part of 'update_my_profile_cubit.dart';
 
-sealed class UpdateMyProfileState extends Equatable {
+// Abstract base class for the profile states
+abstract class UpdateMyProfileState extends Equatable {
   const UpdateMyProfileState();
 
   @override
   List<Object> get props => [];
 }
 
-final class UpdateMyProfileInitial extends UpdateMyProfileState {}
+// Initial state when nothing has happened
+class UpdateProfileInitial extends UpdateMyProfileState {}
 
-final class UpdateMyProfileLoading extends UpdateMyProfileState {}
+// State for when the profile is being updated (loading state)
+class UpdateProfileLoading extends UpdateMyProfileState {}
 
-final class UpdateMyProfileSuccess extends UpdateMyProfileState {
-  final String profile;
-  const UpdateMyProfileSuccess({required this.profile});
+// State for when the profile update succeeds
+class UpdateProfileSuccess extends UpdateMyProfileState {
+  final Map<String, dynamic> data;
+
+  const UpdateProfileSuccess(this.data);
+
+  @override
+  List<Object> get props => [data];
 }
 
-final class UpdateMyProfileError extends UpdateMyProfileState {}
+// State for when the profile update fails
+class UpdateProfileError extends UpdateMyProfileState {
+  final String errorMessage;
+
+  const UpdateProfileError(this.errorMessage);
+
+  @override
+  List<Object> get props => [errorMessage];
+}

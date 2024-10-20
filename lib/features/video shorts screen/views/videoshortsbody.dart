@@ -6,8 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
 import 'package:genix/core/default_status_indicators/first_page_progress_indicator.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
+import 'package:genix/core/widgets/video_player_page.dart';
 
-import 'package:genix/core/widgets/videoplayerpage.dart';
 import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/video%20shorts%20screen/data/models/shorts_model.dart';
@@ -122,7 +122,6 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
         backgroundColor: Colors.black,
         key: _scaffoldKey,
         endDrawer: CustomDrawerWidget(
-          onNightModeChanged: handleNightModeChanged,
           isNightMode: isNightModeEnabled,
         ),
         bottomNavigationBar: SafeArea(
@@ -135,7 +134,7 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
             ),
             Positioned(
                 bottom: 10,
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     addVideoBottomSheet(context);
                   },
@@ -192,6 +191,8 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                                 Center(
                                   child: VideoPlayerWidget(
                                     showFullScreenButton: false,
+                                    played: true,
+                                    showLoadingIndicator: true,
                                     videoUrl: item.fileUrl ?? '',
                                     showPlay: true,
                                     shimmerWidth: double.infinity,
@@ -336,20 +337,22 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           CustomTextWidget(
-                                              maxLines: 4,
-                                              text: item.user?.showname ?? '',
-                                              textSize: 12.sp,
-                                              fontFamily: '',
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.white),
+                                            maxLines: 4,
+                                            text: item.user?.showname ?? '',
+                                            textSize: 12.sp,
+                                            fontFamily: '',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.white,
+                                          ),
                                           CustomTextWidget(
-                                              maxLines: 4,
-                                              text: _formatCreatedAt(
-                                                  item.createdAt ?? ''),
-                                              textSize: 12.sp,
-                                              fontFamily: '',
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.white)
+                                            maxLines: 4,
+                                            text: _formatCreatedAt(
+                                                item.createdAt ?? ''),
+                                            textSize: 12.sp,
+                                            fontFamily: '',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.white,
+                                          )
                                         ],
                                       ),
                                     ],
@@ -365,12 +368,13 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                                       SizedBox(
                                         width: 280.w,
                                         child: CustomTextWidget(
-                                            maxLines: 4,
-                                            text: content,
-                                            textSize: 12.sp,
-                                            fontFamily: '',
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.white),
+                                          maxLines: 4,
+                                          text: content,
+                                          textSize: 12.sp,
+                                          fontFamily: '',
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.white,
+                                        ),
                                       )
                                     ],
                                   )

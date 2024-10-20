@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/profile%20screen/data/profile_model/blockedCollection.dart';
 import 'package:genix/features/profile%20screen/data/profile_model/restrictedCollection.dart';
 
@@ -6,7 +7,7 @@ import 'followers_collection.dart';
 import 'following_collection.dart';
 import 'groups_collection.dart';
 import 'my_following.dart';
-import 'photo.dart';
+import 'photo_and_video.dart';
 import 'posted_short.dart';
 import 'recent_post.dart';
 import 'saved_short.dart';
@@ -23,8 +24,8 @@ class Data extends Equatable {
   final List<RestrictedCollection>? restrictCollection;
   final int? postsCount;
   final List<Photo>? photos;
-  final List<dynamic>? videos;
-  final List<RecentPost>? recentPosts;
+  final List<Video>? videos;
+  final List<PostsModel>? recentPosts;
   final List<GroupsCollection>? groupsCollection;
   final List<PostedShort>? postedShorts;
   final List<SavedShort>? savedShorts;
@@ -77,9 +78,11 @@ class Data extends Equatable {
         photos: (json['photos'] as List<dynamic>?)
             ?.map((e) => Photo.fromJson(e as Map<String, dynamic>))
             .toList(),
-        videos: json['videos'] as List<dynamic>?,
+        videos: (json['videos'] as List<dynamic>?)
+            ?.map((e) => Video.fromJson(e as Map<String, dynamic>))
+            .toList(),
         recentPosts: (json['recentPosts'] as List<dynamic>?)
-            ?.map((e) => RecentPost.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => PostsModel.fromJson(e as Map<String, dynamic>))
             .toList(),
         groupsCollection: (json['groupsCollection'] as List<dynamic>?)
             ?.map((e) => GroupsCollection.fromJson(e as Map<String, dynamic>))
@@ -90,9 +93,9 @@ class Data extends Equatable {
         savedShorts: (json['savedShorts'] as List<dynamic>?)
             ?.map((e) => SavedShort.fromJson(e as Map<String, dynamic>))
             .toList(),
-        myFollowing: json['myFollowing'] == null
-            ? null
-            : MyFollowing.fromJson(json['myFollowing'] as Map<String, dynamic>),
+        myFollowing: json['myFollowing'] != null
+            ? MyFollowing.fromJson(json['myFollowing'] as Map<String, dynamic>)
+            : null,
         myRestrict: json['myRestrict'] as dynamic,
       );
 

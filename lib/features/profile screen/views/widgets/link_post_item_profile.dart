@@ -14,7 +14,7 @@ import 'package:genix/features/comments%20section/views/view/commentsbody.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_list.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_post_components.dart';
-import 'package:genix/features/home%20screen/views/widgets/share_bottom_sheet.dart';
+import 'package:genix/features/home%20screen/views/widgets/share_post/share_bottom_sheet.dart';
 import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
 import 'package:genix/features/profile%20screen/data/profile_model/profile_model.dart';
 import 'package:go_router/go_router.dart';
@@ -53,14 +53,14 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
   }
 
   final List<dynamic> reactions = [
-    ReactionElement(Lottie.asset(AppLotties.kLaughReact), Reaction.laugh),
-    ReactionElement(Lottie.asset(AppLotties.kSadReact), Reaction.sad),
-    ReactionElement(Lottie.asset(AppLotties.kWowReact), Reaction.surprise),
-    ReactionElement(Lottie.asset(AppLotties.kCry), Reaction.cry),
-    ReactionElement(Lottie.asset(AppLotties.kLove), Reaction.love),
-    ReactionElement(Lottie.asset(AppLotties.kAngryReact), Reaction.angry),
-    ReactionElement(Lottie.asset(AppLotties.kWinkReact), Reaction.wink),
-    ReactionElement(Lottie.asset(AppLotties.kCute), Reaction.cute),
+    ReactionElement(Lottie.asset(AppLottie.kLaughReact), Reaction.laugh),
+    ReactionElement(Lottie.asset(AppLottie.kSadReact), Reaction.sad),
+    ReactionElement(Lottie.asset(AppLottie.kWowReact), Reaction.surprise),
+    ReactionElement(Lottie.asset(AppLottie.kCry), Reaction.cry),
+    ReactionElement(Lottie.asset(AppLottie.kLove), Reaction.love),
+    ReactionElement(Lottie.asset(AppLottie.kAngryReact), Reaction.angry),
+    ReactionElement(Lottie.asset(AppLottie.kWinkReact), Reaction.wink),
+    ReactionElement(Lottie.asset(AppLottie.kCute), Reaction.cute),
   ];
 
   @override
@@ -142,11 +142,12 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                                       'https://www.google.com/');
                                 },
                                 child: CustomTextWidget(
-                                    textSize: 15.sp,
-                                    fontFamily: '',
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.blue,
-                                    text: content),
+                                  textSize: 15.sp,
+                                  fontFamily: '',
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.blue,
+                                  text: content,
+                                ),
                               ),
                             ),
                             SizedBox(height: 7.h),
@@ -180,24 +181,23 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     CustomTextWidget(
-                                        textSize: 12.sp,
-                                        fontFamily: '',
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.black,
-                                        text:
-                                            recentPost?.ogInfo?.siteName ?? ''),
+                                      textSize: 12.sp,
+                                      fontFamily: '',
+                                      fontWeight: FontWeight.normal,
+                                      text: recentPost?.ogInfo?.siteName ?? '',
+                                    ),
                                     CustomTextWidget(
-                                        textSize: 12.sp,
-                                        fontFamily: '',
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                        text: recentPost?.ogInfo?.title ?? ''),
+                                      textSize: 12.sp,
+                                      fontFamily: '',
+                                      fontWeight: FontWeight.bold,
+                                      text: recentPost?.ogInfo?.title ?? '',
+                                    ),
                                     CustomTextWidget(
-                                        textSize: 12.sp,
-                                        fontFamily: '',
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.black,
-                                        text: recentPost?.ogInfo?.url ?? '')
+                                      textSize: 12.sp,
+                                      fontFamily: '',
+                                      fontWeight: FontWeight.normal,
+                                      text: recentPost?.ogInfo?.url ?? '',
+                                    )
                                   ],
                                 ),
                               )
@@ -213,7 +213,7 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                       CircleAvatar(
                         radius: 12.r,
                         child:
-                            Lottie.asset(AppLotties.kAngryReact, height: 405.h),
+                            Lottie.asset(AppLottie.kAngryReact, height: 405.h),
                       ),
                       SizedBox(width: 3.w),
                       SizedBox(
@@ -280,6 +280,7 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                         icon: FontAwesomeIcons.solidComment,
                         width: 90.w,
                         text: 'Comment',
+                        isNightMode: widget.isNightModeEnabled,
                         onTap: () {
                           GoRouter.of(context).push(CommentsBody.routeName,
                               extra: widget.profileModel);
@@ -289,6 +290,7 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                         icon: FontAwesomeIcons.share,
                         width: 90.w,
                         text: 'Share',
+                        isNightMode: widget.isNightModeEnabled,
                         onTap: () {
                           shareBottomSheet(context);
                         },
@@ -355,45 +357,42 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
       case Reaction.cry:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kCry), const Text('Cry')],
+          children: [Lottie.asset(AppLottie.kCry), const Text('Cry')],
         );
       case Reaction.cute:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kCute), const Text('Cute')],
+          children: [Lottie.asset(AppLottie.kCute), const Text('Cute')],
         );
       case Reaction.angry:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kAngryReact), const Text('Angry')],
+          children: [Lottie.asset(AppLottie.kAngryReact), const Text('Angry')],
         );
       case Reaction.laugh:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kLaughReact), const Text('HAHA')],
+          children: [Lottie.asset(AppLottie.kLaughReact), const Text('HAHA')],
         );
       case Reaction.sad:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kSadReact), const Text('Sad')],
+          children: [Lottie.asset(AppLottie.kSadReact), const Text('Sad')],
         );
       case Reaction.surprise:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Lottie.asset(AppLotties.kWowReact),
-            const Text('Surprise')
-          ],
+          children: [Lottie.asset(AppLottie.kWowReact), const Text('Surprise')],
         );
       case Reaction.wink:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kWinkReact), const Text('Wink')],
+          children: [Lottie.asset(AppLottie.kWinkReact), const Text('Wink')],
         );
       case Reaction.love:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kLove), const Text('Love')],
+          children: [Lottie.asset(AppLottie.kLove), const Text('Love')],
         );
       default:
         return const Row(

@@ -7,12 +7,10 @@ import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_
 import 'package:genix/features/home%20screen/view%20model/delete%20post/delete_post_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20live%20channel/get_live_channel_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts/get_newsfeed_posts_cubit.dart';
-import 'package:genix/features/home%20screen/view%20model/get%20photo%20posts/get_photo_posts_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20post%20by%20id/get_post_by_id_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20reactions/get_reactions_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20stories/get_stories_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20timeline%20posts/get_timeline_posts_cubit.dart';
-import 'package:genix/features/home%20screen/view%20model/get%20video%20posts/get_video_posts_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/post%20report/post_report_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/save%20post/save_post_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/share%20post/share_post_cubit.dart';
@@ -32,12 +30,10 @@ abstract class HomeRouter {
   static final deleteUserPostCubit = DeleteUserCubit();
   static final getLiveChannelCubit = GetLiveChannelCubit();
   static final getNewsFeedPostsCubit = GetNewsFeedPostsCubit();
-  static final getPhotoPostsCubit = GetPhotoPostsCubit();
   static final getPostByIdCubit = GetPostByIdCubit();
   static final getReactionsCubit = GetReactionsCubit();
   static final getStoriesCubit = GetStoriesCubit();
   static final getTimeLinePostsCubit = GetTimelinePostsCubit();
-  static final getVideoPostsCubit = GetVideoPostsCubit();
   static final savePostCubit = SavePostCubit();
   static final addReportCubit = PostReportCubit();
   static final sharePostCubit = SharePostCubit();
@@ -76,9 +72,6 @@ abstract class HomeRouter {
                 value: getNewsFeedPostsCubit,
               ),
               BlocProvider.value(
-                value: getPhotoPostsCubit,
-              ),
-              BlocProvider.value(
                 value: getPostByIdCubit,
               ),
               BlocProvider.value(
@@ -89,9 +82,6 @@ abstract class HomeRouter {
               ),
               BlocProvider.value(
                 value: getTimeLinePostsCubit,
-              ),
-              BlocProvider.value(
-                value: getVideoPostsCubit,
               ),
               BlocProvider.value(
                 value: savePostCubit,

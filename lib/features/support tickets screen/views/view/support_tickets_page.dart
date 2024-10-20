@@ -6,14 +6,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
 import 'package:genix/core/default_status_indicators/first_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/new_page_progress_indicator.dart';
+import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
+import 'package:genix/core/utils/pref_keys.dart';
 import 'package:genix/core/widgets/customappbar.dart';
 import 'package:genix/core/widgets/custombottomappbar.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
 import 'package:genix/features/support%20tickets%20screen/view%20model/get%20all%20tickets/get_all_tickets_cubit.dart';
 import 'package:genix/features/support%20tickets%20screen/view%20model/post%20ticket/post_ticket_cubit.dart';
@@ -47,6 +50,8 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
   @override
   void initState() {
     super.initState();
+    isNightModeEnabled = CacheData.getData(key: PrefKeys.kDarkMode) ?? false;
+
     context.read<GetAllTicketsCubit>().getAllTickets();
     getAllTicketsCubit = BlocProvider.of<GetAllTicketsCubit>(context);
     _pagingController.addPageRequestListener((page) {
@@ -76,6 +81,7 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
     setState(() {
       isNightModeEnabled = isNightMode;
     });
+    CacheData.setData(key: PrefKeys.kDarkMode, value: isNightMode);
   }
 
   @override
@@ -115,19 +121,22 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
               }
             }
           },
+        ),
+        BlocListener<ThemeCubit, ThemeState>(
+          listener: (context, state) {
+            final isNightMode = state == ThemeState.dark;
+            handleNightModeChanged(isNightMode);
+          },
         )
       ],
       child: Scaffold(
-        backgroundColor: isSelected ? AppColors.kAppBar2Color : Colors.white,
         key: _scaffoldKey,
         bottomNavigationBar: SafeArea(
           child: Stack(
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
-              CustomBottomAppBar(
-                isNightMode: isNightModeEnabled,
-              ),
+              const CustomBottomAppBar(),
               Positioned(
                 bottom: 20,
                 child: GestureDetector(
@@ -143,6 +152,7 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
           ),
         ),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
@@ -155,12 +165,10 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
               },
             ),
           ],
-          backgroundColor: AppColors.kAppBar2Color,
           elevation: 0,
           title: const CustomAppBar(),
         ),
         endDrawer: CustomDrawerWidget(
-          onNightModeChanged: handleNightModeChanged,
           isNightMode: isNightModeEnabled,
         ),
         body: isSelected
@@ -168,8 +176,8 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
             : BlocBuilder<GetAllTicketsCubit, GetAllTicketsState>(
                 builder: (context, state) {
                   if (state is GetAllTicketsLoading) {
-                    return Center(
-                      child: const CircularProgressIndicator(
+                    return const Center(
+                      child: CircularProgressIndicator(
                         color: AppColors.kPrimaryColor,
                       ),
                     );
@@ -177,9 +185,8 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                     return CustomScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
                       slivers: [
-                        SliverToBoxAdapter(
-                          child:
-                              const CustomHeaderWidget(text: 'Support tickets'),
+                        const SliverToBoxAdapter(
+                          child: CustomHeaderWidget(text: 'Support tickets'),
                         ),
                         SliverToBoxAdapter(
                           child: Padding(
@@ -188,20 +195,23 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                             child: Row(
                               children: [
                                 CustomSupportTicketsHCounter(
-                                    number: state.tickets.data.totalCount,
-                                    text: 'TOTAL TICKETS'),
+                                  number: state.tickets.data.totalCount,
+                                  text: 'TOTAL TICKETS',
+                                ),
                                 SizedBox(
                                   width: 20.w,
                                 ),
                                 CustomSupportTicketsHCounter(
-                                    number: state.tickets.data.openCount,
-                                    text: 'OPEN ISSUES'),
+                                  number: state.tickets.data.openCount,
+                                  text: 'OPEN ISSUES',
+                                ),
                                 SizedBox(
                                   width: 20.w,
                                 ),
                                 CustomSupportTicketsHCounter(
-                                    number: state.tickets.data.solvedCount,
-                                    text: 'SOLVED TICKETS'),
+                                  number: state.tickets.data.solvedCount,
+                                  text: 'SOLVED TICKETS',
+                                ),
                               ],
                             ),
                           ),
@@ -238,41 +248,40 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                           ),
                         ),
                         SliverToBoxAdapter(
-                          child: SizedBox(
-                            height: 100.h,
-                            child: PagedListView<int, TicketsModel>(
-                              scrollDirection: Axis.vertical,
-                              padding: EdgeInsets.zero,
-                              pagingController:
-                                  _pagingController, // Assuming this is the controller for tickets
-                              builderDelegate:
-                                  PagedChildBuilderDelegate<TicketsModel>(
-                                animateTransitions: true,
-                                firstPageErrorIndicatorBuilder: (_) =>
-                                    FirstPageErrorIndicator(
-                                  onTryAgain: () => _pagingController.refresh(),
-                                ),
-                                firstPageProgressIndicatorBuilder: (_) =>
-                                    FirstPageProgressIndicator(),
-                                newPageProgressIndicatorBuilder: (_) =>
-                                    const Center(
-                                  child: NewPageProgressIndicator(),
-                                ),
-                                noItemsFoundIndicatorBuilder: (_) =>
-                                    SizedBox.shrink(),
-                                itemBuilder: (context, item, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      GoRouter.of(context).push(
-                                          TicketItemPage.route,
-                                          extra: item);
-                                    },
-                                    child: CustomTicketsItem(
-                                        ticket:
-                                            item), // Passing the ticket item
-                                  );
-                                },
+                          child: PagedListView<int, TicketsModel>(
+                            scrollDirection: Axis.vertical,
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            pagingController:
+                                _pagingController, // Assuming this is the controller for tickets
+                            builderDelegate:
+                                PagedChildBuilderDelegate<TicketsModel>(
+                              animateTransitions: true,
+                              firstPageErrorIndicatorBuilder: (_) =>
+                                  FirstPageErrorIndicator(
+                                onTryAgain: () => _pagingController.refresh(),
                               ),
+                              firstPageProgressIndicatorBuilder: (_) =>
+                                  const FirstPageProgressIndicator(),
+                              newPageProgressIndicatorBuilder: (_) =>
+                                  const Center(
+                                child: NewPageProgressIndicator(),
+                              ),
+                              noItemsFoundIndicatorBuilder: (_) =>
+                                  const SizedBox.shrink(),
+                              itemBuilder: (context, item, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    GoRouter.of(context).push(
+                                        TicketItemPage.route,
+                                        extra: item);
+                                  },
+                                  child: CustomTicketsItem(
+                                    ticket: item,
+                                  ), // Passing the ticket item
+                                );
+                              },
                             ),
                           ),
                         ),
@@ -289,7 +298,6 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                         textSize: 18.sp,
                         fontFamily: '',
                         fontWeight: FontWeight.normal,
-                        color: Colors.black,
                         text: 'Error loading Tickets',
                       ),
                     );

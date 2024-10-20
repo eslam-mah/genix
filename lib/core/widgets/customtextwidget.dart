@@ -6,7 +6,7 @@ class CustomTextWidget extends StatelessWidget {
     required this.textSize,
     required this.fontFamily,
     required this.fontWeight,
-    required this.color,
+    this.color,
     required this.text,
     this.maxLines,
     this.width,
@@ -15,7 +15,7 @@ class CustomTextWidget extends StatelessWidget {
   final double textSize;
   final String fontFamily;
   final FontWeight fontWeight;
-  final Color color;
+  final Color? color;
   final int? maxLines;
   final double? width;
   @override

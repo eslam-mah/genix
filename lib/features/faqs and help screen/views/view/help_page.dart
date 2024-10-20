@@ -10,7 +10,7 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 
 import 'package:genix/core/widgets/customglowingbutton.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 
 class HelpPageArgs {
   const HelpPageArgs();
@@ -38,16 +38,13 @@ class _HelpPageState extends State<HelpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isSelected ? AppColors.kAppBar2Color : Colors.white,
       key: _scaffoldKey,
       bottomNavigationBar: SafeArea(
           child: Stack(
         alignment: Alignment.center,
         clipBehavior: Clip.none,
         children: [
-          CustomBottomAppBar(
-            isNightMode: isNightModeEnabled,
-          ),
+          const CustomBottomAppBar(),
           Positioned(
               bottom: 20,
               child: GestureDetector(
@@ -61,6 +58,7 @@ class _HelpPageState extends State<HelpPage> {
         ],
       )),
       appBar: AppBar(
+        toolbarHeight: 45.h,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -73,12 +71,10 @@ class _HelpPageState extends State<HelpPage> {
             },
           ),
         ],
-        backgroundColor: AppColors.kAppBar2Color,
         elevation: 0,
         title: const CustomAppBar(),
       ),
       endDrawer: CustomDrawerWidget(
-        onNightModeChanged: handleNightModeChanged,
         isNightMode: isNightModeEnabled,
       ),
       body: isSelected

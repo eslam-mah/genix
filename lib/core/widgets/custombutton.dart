@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
-    required this.color,
+    this.color,
     required this.buttonText,
     this.width,
     required this.height,
@@ -12,7 +12,7 @@ class CustomButton extends StatelessWidget {
     required this.onTap,
     this.icon,
   });
-  final Color color;
+  final Color? color;
   final String buttonText;
   final double? width;
   final double height;
@@ -24,27 +24,30 @@ class CustomButton extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(10.r),
       onTap: onTap,
-      child: Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-            color: color, borderRadius: BorderRadius.circular(borderRadius)),
-        child: Center(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (icon != null) ...[
-              icon!,
-              SizedBox(
-                width: 10.w,
+      child: Material(
+        color: Colors.transparent,
+        child: Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+              color: color, borderRadius: BorderRadius.circular(borderRadius)),
+          child: Center(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (icon != null) ...[
+                icon!,
+                SizedBox(
+                  width: 10.w,
+                ),
+              ],
+              Text(
+                buttonText,
+                style: TextStyle(fontSize: 15.sp, color: Colors.white),
               ),
             ],
-            Text(
-              buttonText,
-              style: TextStyle(fontSize: 15.sp, color: Colors.white),
-            ),
-          ],
-        )),
+          )),
+        ),
       ),
     );
   }

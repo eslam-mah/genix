@@ -1,5 +1,6 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/summary.dart';
 import 'package:genix/features/home%20screen/data/repos/posts_repository.dart';
 
@@ -18,7 +19,10 @@ class AddReactCubit extends Cubit<AddReactState> {
     final result = await addReactionsRepo.addReact(data: data, postId: postId);
     result.fold(
       (failure) => emit(AddReactError()),
-      (success) => emit(AddReactSuccess(reactionType: reactionType)),
+      (success) {
+        final post = PostsModel.fromJson(success as Map<String, dynamic>);
+        emit(AddReactSuccess(reactionType: post));
+      },
     );
   }
 }

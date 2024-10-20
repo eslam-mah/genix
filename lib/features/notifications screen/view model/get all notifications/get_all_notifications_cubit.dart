@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:genix/features/notifications%20screen/data/models/notifications_list.dart';
 import 'package:genix/features/notifications%20screen/data/repos/notifications_repository.dart';

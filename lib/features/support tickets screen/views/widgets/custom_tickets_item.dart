@@ -13,6 +13,7 @@ class CustomTicketsItem extends StatelessWidget {
     required this.ticket,
   });
   final TicketsModel ticket;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,32 +42,32 @@ class CustomTicketsItem extends StatelessWidget {
                       SizedBox(
                         width: 170.w,
                         child: CustomTextWidget(
-                            textSize: 12.sp,
-                            fontFamily: '',
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                            text: ticket.title),
+                          textSize: 12.sp,
+                          fontFamily: '',
+                          fontWeight: FontWeight.w400,
+                          text: ticket.title,
+                        ),
                       )
                     ],
                   ),
                   CustomTextWidget(
-                      textSize: 12.sp,
-                      fontFamily: '',
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                      text:
-                          'Created on ${DateFormat('MMMM d, yyyy').format(ticket.createdAt)}')
+                    textSize: 12.sp,
+                    fontFamily: '',
+                    fontWeight: FontWeight.w400,
+                    text:
+                        'Created on ${DateFormat('MMMM d, yyyy').format(ticket.createdAt)}',
+                  )
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomTextWidget(
-                      textSize: 12.sp,
-                      fontFamily: '',
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                      text: 'Last reply by'),
+                    textSize: 12.sp,
+                    fontFamily: '',
+                    fontWeight: FontWeight.w400,
+                    text: 'Last reply by',
+                  ),
                   Row(
                     children: [
                       CustomSmallUserProfileImage(
@@ -79,11 +80,11 @@ class CustomTicketsItem extends StatelessWidget {
                       SizedBox(
                         width: 40.w,
                         child: CustomTextWidget(
-                            textSize: 12.sp,
-                            fontFamily: '',
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                            text: ticket.lastUser.showname),
+                          textSize: 12.sp,
+                          fontFamily: '',
+                          fontWeight: FontWeight.w400,
+                          text: ticket.lastUser.showname,
+                        ),
                       ),
                     ],
                   )

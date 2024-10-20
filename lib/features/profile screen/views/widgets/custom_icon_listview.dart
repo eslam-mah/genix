@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:genix/features/followers%20list%20page/views/view/my_followers_page.dart';
+import 'package:genix/features/followings%20list%20page/views/view/followings_page.dart';
 import 'package:genix/features/profile%20screen/views/widgets/custom_icon_profile_button.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomIconButtonListView extends StatelessWidget {
   const CustomIconButtonListView({

@@ -2,7 +2,7 @@ import 'summary.dart';
 
 class Reactions {
   Summary? summary;
-  String? byMe;
+  dynamic byMe;
 
   Reactions({this.summary, this.byMe});
 

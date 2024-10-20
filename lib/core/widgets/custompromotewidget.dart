@@ -47,8 +47,7 @@ class CustomPromoteWidget extends StatelessWidget {
               ),
               Text(
                 '${(1 / 3 * coins).toInt()} Views',
-                style: TextStyle(
-                    color: Colors.black.withOpacity(0.5), fontSize: 12.sp),
+                style: TextStyle(fontSize: 12.sp),
               )
             ],
           )

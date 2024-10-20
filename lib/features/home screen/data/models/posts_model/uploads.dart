@@ -21,14 +21,14 @@ class Upload {
 
   factory Upload.fromJson(Map<String, dynamic> json) {
     return Upload(
-      id: json['id'],
-      file: json['file'],
-      fileUrl: json['file_url'],
-      filename: json['filename'],
-      extension: json['extension'],
-      type: json['type'],
-      size: json['size'],
-      createdAt: json['created_at'],
+      id: json['id'] ?? 0,
+      file: json['file'] ?? '',
+      fileUrl: json['file_url'] ?? '',
+      filename: json['filename'] ?? '',
+      extension: json['extension'] ?? '',
+      type: json['type'] ?? '',
+      size: json['size'] ?? 0,
+      createdAt: json['created_at'] ?? '',
     );
   }
 

@@ -1,50 +1,66 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customeditingprofilewidget.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
+import 'package:genix/features/profile%20screen/data/profile_model/profile_model.dart';
+import 'package:genix/features/profile%20screen/view%20model/add%20friend/add_friend_cubit.dart';
+import 'package:genix/features/profile%20screen/view%20model/remove%20friend/remove_friend_cubit.dart';
 import 'package:genix/features/profile%20screen/views/widgets/custom_icon_counter.dart';
 import 'package:genix/features/profile%20screen/views/widgets/edit_background_pic.dart';
 import 'package:genix/features/profile%20screen/views/widgets/edit_profile_pic.dart';
 
-class CustomProfileHeader extends StatelessWidget {
-  const CustomProfileHeader({
+class CustomProfileHeader extends StatefulWidget {
+  CustomProfileHeader({
     super.key,
-    required this.imageUrl,
-    required this.profileName,
-    required this.followersCount,
-    required this.friendsCount,
-    required this.likesCount,
-    required this.savedCount,
-    required this.bioText,
-    required this.coverImageUrl,
+    required this.isProfileEditorShown,
+    this.refresh,
+    required this.profileModel,
   });
-  final String imageUrl;
-  final String profileName;
-  final String bioText;
-  final String coverImageUrl;
-  final num followersCount;
-  final num friendsCount;
-  final num likesCount;
-  final num savedCount;
+
+  final bool isProfileEditorShown;
+  final ProfileModel profileModel;
+  final Function()? refresh;
+
+  @override
+  State<CustomProfileHeader> createState() => _CustomProfileHeaderState();
+}
+
+class _CustomProfileHeaderState extends State<CustomProfileHeader> {
+  late ValueNotifier<bool> isFriendNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+    isFriendNotifier = ValueNotifier(
+      widget.profileModel.data?.user?.id ==
+          widget.profileModel.data?.myFollowing?.user?.id,
+    );
+  }
+
+  @override
+  void dispose() {
+    isFriendNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        SizedBox(
           width: double.infinity,
           height: 400.h,
-          color: Colors.white,
           child: CachedNetworkImage(
+            fit: BoxFit.fill,
             errorWidget: (context, error, stackTrace) {
               return Container(
-                  color: Colors.white,
-                  alignment: Alignment.center,
-                  child: const SizedBox());
+                  alignment: Alignment.center, child: const SizedBox());
             },
-            imageUrl: coverImageUrl,
+            imageUrl: widget.profileModel.data?.user?.coverImg ?? "",
           ),
         ),
         Positioned(
@@ -65,27 +81,142 @@ class CustomProfileHeader extends StatelessWidget {
                   whiteSize: 0,
                   icon: FontAwesomeIcons.pen,
                   onTapIcon: () {
-                    editProfilePicBottomSheet(context);
+                    editProfilePicBottomSheet(context, widget.refresh);
                   },
-                  imageUrl: imageUrl,
+                  imageUrl: widget.profileModel.data?.user?.profileImg ?? "",
+                  isProfileEditorShown: widget.isProfileEditorShown,
                 ),
                 Text(
-                  profileName,
+                  widget.profileModel.data?.user?.showname ?? '',
                   style: TextStyle(
-                    color: Colors.black,
+                    shadows: [
+                      Shadow(
+                        color: ThemeCubit().state == ThemeState.dark
+                            ? Colors.black
+                            : Colors.white,
+                        blurRadius: 10.r,
+                      ),
+                      Shadow(
+                        color: ThemeCubit().state == ThemeState.dark
+                            ? Colors.black
+                            : Colors.white,
+                        blurRadius: 10.r,
+                      ),
+                      Shadow(
+                        color: ThemeCubit().state == ThemeState.dark
+                            ? Colors.black
+                            : Colors.white,
+                        blurRadius: 10.r,
+                      )
+                    ],
                     fontSize: 22.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                CircleAvatar(
-                  backgroundColor: const Color.fromARGB(255, 108, 184, 246),
-                  radius: 15.r,
-                  child: Icon(
-                    FontAwesomeIcons.pen,
-                    size: 15.r,
-                    color: Colors.white,
-                  ),
-                ),
+                widget.isProfileEditorShown
+                    ? SizedBox.shrink()
+                    : ValueListenableBuilder<bool>(
+                        valueListenable: isFriendNotifier,
+                        builder: (context, isFriend, _) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              isFriend
+                                  ? IconButton(
+                                      onPressed: () {
+                                        context
+                                            .read<RemoveFriendCubit>()
+                                            .removeFriend(
+                                                uid: widget.profileModel.data
+                                                        ?.myFollowing?.id ??
+                                                    0)
+                                            .then((onValue) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  'Follow removed successfully',
+                                                  style: TextStyle(
+                                                      fontSize: 13.sp)),
+                                              backgroundColor:
+                                                  ThemeCubit().state ==
+                                                          ThemeState.dark
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                              duration:
+                                                  const Duration(seconds: 2),
+                                            ),
+                                          );
+                                          isFriendNotifier.value = false;
+                                        });
+                                      },
+                                      icon: CircleAvatar(
+                                        backgroundColor: Colors.red,
+                                        radius: 15.r,
+                                        child: Icon(
+                                          FontAwesomeIcons.userMinus,
+                                          size: 15.r,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    )
+                                  : IconButton(
+                                      onPressed: () {
+                                        context
+                                            .read<AddFriendCubit>()
+                                            .addFriend(
+                                              uid: widget.profileModel.data
+                                                      ?.user?.id ??
+                                                  0,
+                                            )
+                                            .then((onValue) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  'Follow added successfully',
+                                                  style: TextStyle(
+                                                      fontSize: 13.sp)),
+                                              backgroundColor:
+                                                  ThemeCubit().state ==
+                                                          ThemeState.dark
+                                                      ? Colors.white
+                                                      : Colors.black,
+                                              duration:
+                                                  const Duration(seconds: 2),
+                                            ),
+                                          );
+                                          isFriendNotifier.value = true;
+                                        });
+                                      },
+                                      icon: CircleAvatar(
+                                        backgroundColor: Colors.green,
+                                        radius: 15.r,
+                                        child: Icon(
+                                          FontAwesomeIcons.userPlus,
+                                          size: 15.r,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                              IconButton(
+                                onPressed: () {
+                                  // todo: menu dialog
+                                },
+                                icon: CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  radius: 15.r,
+                                  child: Icon(
+                                    FontAwesomeIcons.ellipsis,
+                                    size: 15.r,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                      ),
                 Container(
                   decoration: BoxDecoration(
                       color: Colors.grey,
@@ -93,25 +224,27 @@ class CustomProfileHeader extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: Text(
-                      bioText,
+                      widget.profileModel.data?.user?.bio ?? "",
                       style: TextStyle(fontSize: 15.sp, color: Colors.white),
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    editBackgroundPicBottomSheet(context);
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    radius: 10.r,
-                    child: Icon(
-                      FontAwesomeIcons.pen,
-                      size: 10.r,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
+                widget.isProfileEditorShown
+                    ? IconButton(
+                        onPressed: () {
+                          editBackgroundPicBottomSheet(context, widget.refresh);
+                        },
+                        icon: CircleAvatar(
+                          backgroundColor: Colors.grey,
+                          radius: 15.r,
+                          child: Icon(
+                            FontAwesomeIcons.pen,
+                            size: 15.r,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    : const SizedBox()
               ],
             ),
           ),
@@ -120,7 +253,6 @@ class CustomProfileHeader extends StatelessWidget {
             top: 360.h,
             left: 33.w,
             child: Container(
-              // width: 300.w,
               decoration: BoxDecoration(
                   color: AppColors.kPrimaryColor2,
                   borderRadius: BorderRadius.circular(8.r)),
@@ -128,19 +260,22 @@ class CustomProfileHeader extends StatelessWidget {
                 children: [
                   CustomCounterIcon(
                     icon: FontAwesomeIcons.users,
-                    number: followersCount.toInt(),
+                    number:
+                        widget.profileModel.data?.followersCount?.toInt() ?? 0,
                   ),
                   CustomCounterIcon(
                     icon: FontAwesomeIcons.userPlus,
-                    number: friendsCount.toInt(),
+                    number:
+                        widget.profileModel.data?.followingCount?.toInt() ?? 0,
                   ),
                   CustomCounterIcon(
-                    icon: FontAwesomeIcons.solidHeart,
-                    number: likesCount.toInt(),
-                  ),
+                      icon: FontAwesomeIcons.solidHeart,
+                      number:
+                          widget.profileModel.data?.reactionsCount?.toInt() ??
+                              0),
                   CustomCounterIcon(
                     icon: FontAwesomeIcons.clipboardUser,
-                    number: savedCount.toInt(),
+                    number: widget.profileModel.data?.postsCount?.toInt() ?? 0,
                   ),
                 ],
               ),

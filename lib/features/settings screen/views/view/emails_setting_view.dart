@@ -24,7 +24,6 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //  backgroundColor: widget.isNightModeEnabled ? Colors.black : Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
@@ -37,14 +36,18 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
             SizedBox(
               height: 20.h,
             ),
-            const Text('EMAIL NOTIFICATIONS',
-                style: TextStyle(color: Colors.grey)),
+            Text('EMAIL NOTIFICATIONS',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                )),
             Text('Select push and email notifications you\'d like to recieve',
-                style: TextStyle(color: Colors.black.withOpacity(0.6))),
+                style: TextStyle(
+                  fontSize: 12.sp,
+                )),
             SizedBox(
               height: 10.h,
             ),
-            GestureDetector(
+            InkWell(
               onTap: () {
                 setState(() {
                   isSelected = 1;
@@ -71,7 +74,7 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
             SizedBox(
               height: 10.h,
             ),
-            GestureDetector(
+            InkWell(
               onTap: () {
                 setState(() {
                   isSelected = 2;
@@ -98,18 +101,22 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
             SizedBox(
               height: 10.h,
             ),
-            const Text('LANGUAGE PREFERENCE',
-                style: TextStyle(color: Colors.grey)),
+            Text('LANGUAGE PREFERENCE',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                )),
             Text('Select your email language',
-                style: TextStyle(color: Colors.black.withOpacity(0.6))),
+                style: TextStyle(
+                  fontSize: 12.sp,
+                )),
             SizedBox(
               height: 10.h,
             ),
-            GestureDetector(
+            InkWell(
               onTap: () {
-                setState(() async {
+                setState(() {
                   isLangSelected = !isLangSelected;
-                  await showDialog(
+                  showDialog(
                       context: context,
                       builder: (context) {
                         return AlertDialog(
@@ -129,12 +136,9 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
                 decoration: BoxDecoration(
-                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(13.r),
                   border: Border.all(
-                    color: isLangSelected
-                        ? AppColors.kPrimaryColor2
-                        : Colors.grey.withOpacity(0.4),
+                    color: AppColors.kPrimaryColor2,
                     width: 2,
                   ),
                 ),
@@ -144,7 +148,6 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
                     Text(
                       'English',
                       style: TextStyle(
-                        color: Colors.black,
                         fontSize: 16.sp, // Adjust size as needed
                       ),
                     ),
@@ -158,8 +161,7 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
             ),
             Text(
                 'Note: you will always get notifications you have always turned on for individual account changes.',
-                style: TextStyle(
-                    color: Colors.black.withOpacity(0.6), fontSize: 10.sp)),
+                style: TextStyle(fontSize: 10.sp)),
             SizedBox(
               height: 10.h,
             ),

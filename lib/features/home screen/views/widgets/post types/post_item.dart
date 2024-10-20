@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
@@ -11,33 +8,38 @@ import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/comments%20section/data/models/comments_model.dart';
 import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
-import 'package:genix/features/comments%20section/views/view/commentsbody.dart';
 import 'package:genix/features/comments%20section/views/widgets/comment_bubble.dart';
 import 'package:genix/features/comments%20section/views/widgets/temp_comment_bubble.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/summary.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_cubit.dart';
 import 'package:genix/features/home%20screen/views/widgets/commenting_text_field.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_post_components.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/event_post.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/image_post.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/link_post.dart';
+import 'package:genix/features/home%20screen/views/widgets/post%20types/media_item.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/poll_post.dart';
+import 'package:genix/features/home%20screen/views/widgets/post%20types/shared_post.dart';
+import 'package:genix/features/home%20screen/views/widgets/reaction_box.dart';
+import 'package:genix/features/home%20screen/views/widgets/reaction_view.dart';
+import 'package:genix/features/home%20screen/views/widgets/reacts_list.dart';
 import 'package:genix/features/home%20screen/views/widgets/replying_text_field.dart';
-import 'package:genix/features/home%20screen/views/widgets/share_bottom_sheet.dart';
+import 'package:genix/features/home%20screen/views/widgets/share_post/share_bottom_sheet.dart';
 import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/video_post.dart';
 import 'package:genix/features/profile%20screen/views/view/profile_page.dart';
 import 'package:go_router/go_router.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-enum Reaction { cry, cute, angry, laugh, love, sad, surprise, wink, none }
+enum Reaction { angry, laugh, love, sad, surprise, like, none }
 
-enum PostType { image, video, poll, link, event, short, content }
+enum PostType { image, video, poll, link, event, short, content, shared, media }
 
 class PostItem extends StatefulWidget {
   const PostItem({
@@ -46,11 +48,13 @@ class PostItem extends StatefulWidget {
     required this.postsModel,
     required this.id,
     required this.refresh,
+    required this.pagingController,
   });
   final int id;
   final bool isNightModeEnabled;
   final PostsModel postsModel;
   final Function() refresh;
+  final PagingController<int, PostsModel> pagingController;
 
   @override
   State<PostItem> createState() => _PostItemState();
@@ -72,25 +76,69 @@ class _PostItemState extends State<PostItem> {
   TextEditingController commentTextEditingController = TextEditingController();
   late AddReactCubit addReactCubit;
   late AddCommentCubit addCommentCubit;
+  final ValueNotifier<int> totalReactionsNotifier = ValueNotifier<int>(0);
+  final ValueNotifier<String> userReactionNotifier =
+      ValueNotifier<String>(''); // New
+
+  // ValueNotifier to track total reactions count
+  bool hasImage = false;
+  bool hasVideo = false;
+
+  @override
+  void initState() {
+    super.initState();
+    addReactCubit = BlocProvider.of<AddReactCubit>(context);
+    addCommentCubit = BlocProvider.of<AddCommentCubit>(context);
+    totalReactionsNotifier.value = _getTotalReactions();
+    userReactionNotifier.value =
+        ''; // Initialize with the user's current reaction
+  }
+
+  int _getTotalReactions() {
+    final reactionsSummary = widget.postsModel.reactions?.summary;
+    if (reactionsSummary != null) {
+      return (reactionsSummary.love ?? 0) +
+          (reactionsSummary.sad ?? 0) +
+          (reactionsSummary.haha ?? 0) +
+          (reactionsSummary.angry ?? 0) +
+          (reactionsSummary.like ?? 0) +
+          (reactionsSummary.wow ?? 0);
+    }
+    return 0;
+  }
 
   List<PostType> _determinePostTypes(PostsModel postModel) {
     final List<PostType> postTypes = [];
     if (postModel.uploads != null) {
+      // Check for images
       if (postModel.uploads!.any((upload) =>
           upload.type == "image/png" ||
           upload.type == "image/jpeg" ||
           upload.type == "image/webp")) {
-        postTypes.add(PostType.image);
+        hasImage = true;
       }
-      if (postModel.uploads!.any((upload) => upload.type == 'video')) {
+      // Check for videos
+      if (postModel.uploads!.any((upload) =>
+          upload.type == 'video/mov' ||
+          upload.type == 'video/mp4' ||
+          upload.type == 'video/webm' ||
+          upload.type == 'video/heic')) {
+        hasVideo = true;
+      }
+
+      if (hasImage && hasVideo) {
+        postTypes.add(PostType.media);
+      } else if (hasImage) {
+        postTypes.add(PostType.image);
+      } else if (hasVideo) {
         postTypes.add(PostType.video);
       }
     }
+
     if (postModel.misc != null && postModel.misc!.poll != null) {
-      if (postModel.misc!.poll != null) {
-        postTypes.add(PostType.poll);
-      }
+      postTypes.add(PostType.poll);
     }
+
     if (postModel.ogInfo != null) {
       postTypes.add(PostType.link);
     }
@@ -100,19 +148,12 @@ class _PostItemState extends State<PostItem> {
     if (postModel.isVideoShort == true) {
       postTypes.add(PostType.short);
     }
-    if (postModel.uploads == null &&
-        postModel.ogInfo == null &&
-        postModel.misc == null) {
+    if (postModel.sharedPost != null) {
+      postTypes.add(PostType.shared);
+    } else {
       postTypes.add(PostType.content);
     }
     return postTypes;
-  }
-
-  List<Widget> _getPostTypeWidgets(
-      List<PostType> postTypes, PostsModel postModel) {
-    return postTypes
-        .map((postType) => _getPostType(postType, postModel))
-        .toList();
   }
 
   Widget _getPostType(PostType postType, PostsModel postModel) {
@@ -121,14 +162,27 @@ class _PostItemState extends State<PostItem> {
         return ImagePost(postsModel: widget.postsModel);
       case PostType.video:
         return VideoPost(postsModel: widget.postsModel);
+      case PostType.media:
+        return MediaPost(postsModel: widget.postsModel);
       case PostType.poll:
-        return PollPost(postsModel: widget.postsModel);
+        return PollPost(
+          postsModel: widget.postsModel,
+          isNightMode: widget.isNightModeEnabled,
+        );
       case PostType.event:
-        return EventPost(postsModel: widget.postsModel);
+        return EventPost(
+          postsModel: widget.postsModel,
+          isNightMode: widget.isNightModeEnabled,
+        );
       case PostType.link:
-        return LinkPost(postsModel: widget.postsModel);
+        return LinkPost(
+          postsModel: widget.postsModel,
+          isNightMode: widget.isNightModeEnabled,
+        );
       case PostType.short:
-        return Text('short');
+        return const Text('short');
+      case PostType.shared:
+        return SharedPost(postsModel: widget.postsModel.sharedPost!);
       case PostType.content:
         return const SizedBox.shrink();
       default:
@@ -139,154 +193,6 @@ class _PostItemState extends State<PostItem> {
   String _removeHtmlTags(String htmlString) {
     final document = parse(htmlString);
     return document.body?.text ?? '';
-  }
-
-  final List<dynamic> reactions = [
-    _ReactionElement(Lottie.asset(AppLotties.kLaughReact), Reaction.laugh),
-    _ReactionElement(Lottie.asset(AppLotties.kSadReact), Reaction.sad),
-    _ReactionElement(Lottie.asset(AppLotties.kWowReact), Reaction.surprise),
-    _ReactionElement(Lottie.asset(AppLotties.kCry), Reaction.cry),
-    _ReactionElement(Lottie.asset(AppLotties.kLove), Reaction.love),
-    _ReactionElement(Lottie.asset(AppLotties.kAngryReact), Reaction.angry),
-    _ReactionElement(Lottie.asset(AppLotties.kWinkReact), Reaction.wink),
-    _ReactionElement(Lottie.asset(AppLotties.kCute), Reaction.cute),
-  ];
-
-  int _getTotalReactions() {
-    final reactionsSummary = widget.postsModel.reactions?.summary;
-    if (reactionsSummary != null) {
-      int totalReactions = (reactionsSummary.like ?? 0) +
-          (reactionsSummary.love ?? 0) +
-          (reactionsSummary.sad ?? 0) +
-          (reactionsSummary.haha ?? 0) +
-          (reactionsSummary.angry ?? 0) +
-          (reactionsSummary.wow ?? 0);
-      return totalReactions;
-    }
-    return 0;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    addReactCubit = BlocProvider.of<AddReactCubit>(context);
-    addCommentCubit = BlocProvider.of<AddCommentCubit>(context);
-  }
-
-  void _handleReactionPress(Reaction selectedReaction) {
-    String reactionType = '';
-    switch (selectedReaction) {
-      case Reaction.cute:
-        reactionType = 'cute';
-        break;
-      case Reaction.love:
-        reactionType = 'love';
-        break;
-      case Reaction.surprise:
-        reactionType = 'wow';
-        break;
-      case Reaction.laugh:
-        reactionType = 'haha';
-        break;
-      case Reaction.angry:
-        reactionType = 'angry';
-        break;
-      case Reaction.sad:
-        reactionType = 'sad';
-        break;
-      default:
-        break;
-    }
-
-    // Update the total reactions count instantly in the UI
-    setState(() {
-      // Increase the total reactions count based on the selected reaction
-      if (reactionType == 'cute' && widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.like =
-            (widget.postsModel.reactions?.summary?.like ?? 0) + 1;
-      } else if (reactionType == 'love' &&
-          widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.love =
-            (widget.postsModel.reactions?.summary?.love ?? 0) + 1;
-      } else if (reactionType == 'wow' &&
-          widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.wow =
-            (widget.postsModel.reactions?.summary?.wow ?? 0) + 1;
-      } else if (reactionType == 'haha' &&
-          widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.haha =
-            (widget.postsModel.reactions?.summary?.haha ?? 0) + 1;
-      } else if (reactionType == 'angry' &&
-          widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.angry =
-            (widget.postsModel.reactions?.summary?.angry ?? 0) + 1;
-      } else if (reactionType == 'sad' &&
-          widget.postsModel.reactions?.byMe == null) {
-        widget.postsModel.reactions?.summary?.sad =
-            (widget.postsModel.reactions?.summary?.sad ?? 0) + 1;
-      }
-    });
-
-    // Call the backend to update the reaction
-    addReactCubit.addReactions(
-        reactionType: reactionType, postId: widget.postsModel.id!.toInt());
-  }
-
-  Widget _buildReactionIcon(String lottieFile) {
-    return CircleAvatar(
-      backgroundColor: Colors.transparent,
-      radius: 20.r,
-      child: Lottie.asset(
-        lottieFile,
-        width: 40.r,
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-
-  Widget _buildReactionsRow(Summary summary) {
-    List<Widget> reactionWidgets = [];
-
-    if (summary.like != null && summary.like! > 0) {
-      reactionWidgets.add(_buildReactionIcon(AppLotties.kLove));
-    }
-    if (summary.love != null && summary.love! > 0) {
-      reactionWidgets.add(_buildReactionIcon(AppLotties.kCute));
-    }
-    if (summary.wow != null && summary.wow! > 0) {
-      reactionWidgets.add(_buildReactionIcon(AppLotties.kWowReact));
-    }
-    if (summary.haha != null && summary.haha! > 0) {
-      reactionWidgets.add(_buildReactionIcon(AppLotties.kLaughReact));
-    }
-    if (summary.angry != null && summary.angry! > 0) {
-      reactionWidgets.add(_buildReactionIcon(AppLotties.kAngryReact));
-    }
-    if (summary.sad != null && summary.sad! > 0) {
-      reactionWidgets.add(_buildReactionIcon(AppLotties.kSadReact));
-    }
-
-    // Limit to 3 reactions
-    if (reactionWidgets.length > 3) {
-      reactionWidgets = reactionWidgets.sublist(0, 3);
-    }
-
-    return SizedBox(
-      width: reactionWidgets.length == 1
-          ? 40.r
-          : reactionWidgets.length == 2
-              ? 60.r
-              : 80.r,
-      height: 40.r,
-      child: Stack(
-        children: List.generate(reactionWidgets.length, (index) {
-          return Positioned(
-            left: index * 20.r, // Adjust the spacing between reactions
-            child: reactionWidgets[index],
-          );
-        }),
-      ),
-    );
   }
 
   Future<void> addComment() async {
@@ -400,380 +306,304 @@ class _PostItemState extends State<PostItem> {
         ? _removeHtmlTags(widget.postsModel.content!)
         : '';
     if (user == null) {
-      return Container(); // Return an empty container or a placeholder if the data is invalid
+      return Container();
     }
-    int totalReactions = _getTotalReactions();
 
-    return Stack(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6.r),
-              color: AppColors.kPostColor,
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 7.h),
-              child: Column(children: [
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        GoRouter.of(context)
-                            .push(ProfilePage.route, extra: widget.postsModel);
-                      },
-                      borderRadius: BorderRadius.circular(400.r),
-                      child: CustomUserProfileImage(
-                        image: user.profileImg ?? '',
-                        isActive: user.isActive ?? false,
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          reactionView = false;
+        });
+      },
+      child: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6.r),
+                color: ThemeCubit().state == ThemeState.dark
+                    ? DarkModeColors.kItemColorDark
+                    : AppColors.kPostColor,
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 7.h),
+                child: Column(children: [
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          GoRouter.of(context).push(ProfilePage.route,
+                              extra: widget.postsModel.user?.username);
+                        },
+                        borderRadius: BorderRadius.circular(400.r),
+                        child: CustomUserProfileImage(
+                          image: user.profileImg ?? '',
+                          isActive: user.isActive ?? false,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 10.w),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(user.showname ?? 'Unknown User'),
-                              if (widget.postsModel.user!.isVerified == true)
-                                Image.asset(
-                                  AppGifs.kVerified,
-                                  width: 20.w,
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    GoRouter.of(context).push(ProfilePage.route,
+                                        extra:
+                                            widget.postsModel.user?.username);
+                                  },
+                                  child: CustomTextWidget(
+                                    textSize: 12.sp,
+                                    fontFamily: 'fontFamily',
+                                    color: AppColors.kPrimaryColor,
+                                    fontWeight: FontWeight.normal,
+                                    text: user.showname ?? 'Unknown User',
+                                  ),
                                 ),
-                            ],
-                          ),
-                          if (user.createdAt != null)
-                            Text(DateFormat('MMMM d, yyyy')
-                                .format(widget.postsModel.createdAt!))
-                        ],
+                                if (widget.postsModel.user!.isVerified == true)
+                                  Image.asset(
+                                    AppGifs.kVerified,
+                                    width: 20.w,
+                                  ),
+                              ],
+                            ),
+                            if (user.createdAt != null)
+                              Text(DateFormat('MMMM d, yyyy')
+                                  .format(widget.postsModel.createdAt!))
+                          ],
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        showPostTabBar(context, widget.isNightModeEnabled,
-                            widget.id, widget.postsModel);
-                      },
-                      icon: const Icon(FontAwesomeIcons.ellipsis),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 4.h),
-                widget.postsModel.content != null
-                    ? Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: InkWell(
-                              onTap: widget.postsModel.ogInfo != null
-                                  ? () async {
-                                      if (await canLaunch(
-                                          widget.postsModel.ogInfo?.url ??
-                                              '')) {
-                                        await launch(
+                      IconButton(
+                        onPressed: () {
+                          showPostTabBar(context, widget.id, widget.postsModel,
+                              widget.refresh, widget.pagingController);
+                        },
+                        icon: const Icon(FontAwesomeIcons.ellipsis),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4.h),
+                  widget.postsModel.content != null
+                      ? Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: InkWell(
+                                onTap: widget.postsModel.ogInfo != null
+                                    ? () async {
+                                        // ignore: deprecated_member_use
+                                        if (await canLaunch(
                                             widget.postsModel.ogInfo?.url ??
-                                                '');
-                                      } else {
-                                        throw 'Could not launch ${widget.postsModel.ogInfo?.url ?? ''}';
+                                                '')) {
+                                          // ignore: deprecated_member_use
+                                          await launch(
+                                              widget.postsModel.ogInfo?.url ??
+                                                  '');
+                                        } else {
+                                          throw 'Could not launch ${widget.postsModel.ogInfo?.url ?? ''}';
+                                        }
                                       }
-                                    }
-                                  : null,
-                              child: CustomTextWidget(
+                                    : null,
+                                child: CustomTextWidget(
                                   textSize: 15.sp,
                                   fontFamily: '',
                                   fontWeight: FontWeight.normal,
                                   color: widget.postsModel.ogInfo != null
                                       ? Colors.blue
-                                      : Colors.black,
-                                  text: content),
+                                      : null,
+                                  text: content,
+                                ),
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 7.h),
-                        ],
-                      )
-                    : const SizedBox.shrink(),
-                _getPostType(_determinePostTypes(widget.postsModel).first,
-                    widget.postsModel),
-                SizedBox(height: 4.h),
-                if (widget.postsModel.isEvent == false) ...[
-                  const Divider(color: Colors.white),
+                            SizedBox(height: 7.h),
+                          ],
+                        )
+                      : const SizedBox.shrink(),
+                  _getPostType(_determinePostTypes(widget.postsModel).first,
+                      widget.postsModel),
                   SizedBox(height: 4.h),
-                  Row(
-                    children: [
-                      _buildReactionsRow(
-                          widget.postsModel.reactions?.summary ?? Summary()),
-                      SizedBox(width: 3.w),
-                      SizedBox(
-                        width: 30.w,
-                        child: CustomTextWidget(
-                            textSize: 13.sp,
-                            fontFamily: '',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            text: ' $totalReactions'),
-                      ),
-                      Spacer(),
-                      Icon(FontAwesomeIcons.solidComment, size: 11.sp),
-                      SizedBox(width: 9.w),
-                      SizedBox(
-                          width: widget.postsModel.commentsCount!.toDouble(),
-                          child: Text("${widget.postsModel.commentsCount}",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 11.sp))),
-                      SizedBox(width: 9.w),
-                      Text('Comments', style: TextStyle(fontSize: 11.sp)),
-                      SizedBox(width: 9.w),
-                      Icon(FontAwesomeIcons.share, size: 11.sp),
-                      SizedBox(width: 9.w),
-                      SizedBox(
-                          width: widget.postsModel.sharesCount!.toDouble(),
-                          child: Text("${widget.postsModel.sharesCount}",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 11.sp))),
-                      SizedBox(width: 9.w),
-                      Text('Shares', style: TextStyle(fontSize: 11.sp)),
-                    ],
-                  ),
-                  SizedBox(height: 20.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            if (reaction == Reaction.none) {
-                              reaction = Reaction.love;
-                              _handleReactionPress(reaction);
-                            }
-                          });
-                        },
-                        onLongPress: () {
-                          setState(() {
-                            reactionView = true;
-                          });
-                        },
-                        child: Container(
-                          height: 30.h,
-                          width: 100.w,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: _getReactionIcon(reaction),
+                  if (widget.postsModel.isEvent == false) ...[
+                    Divider(
+                        color: widget.isNightModeEnabled
+                            ? Colors.black
+                            : Colors.white),
+                    SizedBox(height: 4.h),
+                    Row(
+                      children: [
+                        ReactsList(
+                          postsModel: widget.postsModel,
+                          totalReactionsNotifier: totalReactionsNotifier,
+                          userReactionNotifier: userReactionNotifier,
                         ),
-                      ),
-                      CustomPostComponents(
-                        icon: FontAwesomeIcons.solidComment,
-                        width: 100.w,
-                        text: 'Comment',
-                        onTap: () {
-                          setState(() {
-                            isComment = !isComment;
-                            isReply = false;
-                          });
-                        },
-                      ),
-                      CustomPostComponents(
-                        icon: FontAwesomeIcons.share,
-                        width: 100.w,
-                        text: 'Share',
-                        onTap: () {
-                          shareBottomSheet(context);
-                        },
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Column(
-                        children: _flattenCommentsAndReplies()
-                            .take(viewMoreComments
-                                ? _flattenCommentsAndReplies().length
-                                : 2)
-                            .map((item) => Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10.w, vertical: 10.h),
-                                  child: item.content == null
-                                      ? Shimmer.fromColors(
-                                          baseColor: Colors.grey[300]!,
-                                          highlightColor: Colors.grey[100]!,
-                                          child: Container(
-                                            width: double.infinity,
-                                            height: 50.h,
-                                            color: Colors.grey[300],
-                                          ),
-                                        )
-                                      : CustomCommentBubble(
-                                          onTap: () {
-                                            setState(() {
-                                              isReply = !isReply;
-                                              isComment = false;
-                                            });
-                                          },
-                                          postsModel: item,
-                                        ),
-                                ))
-                            .toList(),
-                      ),
-                      if (showThirdWidget)
-                        Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: TempCommentBubble(
-                                onTap: () {},
-                                commentText: comments.last.content ?? '',
-                                postsModel: Comment())),
-                      if (_flattenCommentsAndReplies().length > 2) ...[
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: InkWell(
-                            onTap: () {
+                        const Spacer(),
+                        Icon(FontAwesomeIcons.solidComment, size: 11.sp),
+                        SizedBox(width: 9.w),
+                        SizedBox(
+                            width: widget.postsModel.commentsCount!.toDouble(),
+                            child: Text("${widget.postsModel.commentsCount}",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontSize: 11.sp))),
+                        SizedBox(width: 9.w),
+                        Text('Comments', style: TextStyle(fontSize: 11.sp)),
+                        SizedBox(width: 9.w),
+                        Icon(FontAwesomeIcons.share, size: 11.sp),
+                        SizedBox(width: 9.w),
+                        SizedBox(
+                            width: widget.postsModel.sharesCount!.toDouble(),
+                            child: Text("${widget.postsModel.sharesCount}",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontSize: 11.sp))),
+                        SizedBox(width: 9.w),
+                        Text('Shares', style: TextStyle(fontSize: 11.sp)),
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkWell(
+                            onLongPress: () {
                               setState(() {
-                                viewMoreComments = !viewMoreComments;
+                                reactionView = !reactionView;
                               });
                             },
-                            child: CustomTextWidget(
-                                textSize: 13.sp,
-                                fontFamily: '',
-                                fontWeight: FontWeight.normal,
-                                color: Colors.black,
-                                text: viewMoreComments
-                                    ? 'Hide comments'
-                                    : 'View more comments'),
-                          ),
-                        )
-                      ],
-                      if (isComment) ...[
-                        SizedBox(height: 10.h),
-                        CommentingTextField(
-                            postsModel: widget.postsModel,
-                            onPressed: () {
-                              addComment();
-                              // widget.refresh();
-                            },
-                            textEditingController: commentTextEditingController)
-                      ] else if (isReply) ...[
-                        SizedBox(height: 10.h),
-                        ReplyingTextField(
-                            postsModel: widget.postsModel,
-                            onPressed: () {
-                              addReply();
-                              // widget.refresh();
-                            },
-                            textEditingController: replyTextEditingController)
-                      ],
-                    ],
-                  )
-                ],
-              ]),
-            ),
-          ),
-        ),
-        if (reactionView)
-          Positioned(
-            bottom: 60.h,
-            left: 30.w,
-            child: Container(
-              height: 60.h,
-              width: 300.w,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.8),
-                borderRadius: BorderRadius.circular(50.r),
-              ),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: reactions.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    duration: const Duration(milliseconds: 375),
-                    child: SlideAnimation(
-                      verticalOffset: 15 + index + 15,
-                      child: FadeInAnimation(
-                        child: IconButton(
-                          onPressed: () {
+                            child: ReactionBox(
+                              postsModel: widget.postsModel,
+                              reaction: reaction,
+                            )),
+                        CustomPostComponents(
+                          icon: FontAwesomeIcons.solidComment,
+                          width: 100.w,
+                          text: 'Comment',
+                          onTap: () {
                             setState(() {
-                              if (reactionView &&
-                                  reaction != reactions[index].reaction) {
-                                reaction = reactions[index].reaction;
-                                _handleReactionPress(reaction);
-                                totalReactions++;
-                              }
-                              reactionView = false;
+                              isComment = !isComment;
+                              isReply = false;
                             });
                           },
-                          icon: reactions[index].image,
+                          isNightMode: widget.isNightModeEnabled,
                         ),
-                      ),
+                        CustomPostComponents(
+                          icon: FontAwesomeIcons.share,
+                          width: 100.w,
+                          isNightMode: widget.isNightModeEnabled,
+                          text: 'Share',
+                          onTap: () {
+                            shareBottomSheet(context);
+                          },
+                        ),
+                      ],
                     ),
-                  );
-                },
+                    Column(
+                      children: [
+                        Column(
+                          children: _flattenCommentsAndReplies()
+                              .take(viewMoreComments
+                                  ? _flattenCommentsAndReplies().length
+                                  : 2)
+                              .map((item) => Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10.w, vertical: 10.h),
+                                    child: item.content == null
+                                        ? Shimmer.fromColors(
+                                            baseColor: Colors.grey[300]!,
+                                            highlightColor: Colors.grey[100]!,
+                                            child: Container(
+                                              width: double.infinity,
+                                              height: 50.h,
+                                              color: Colors.grey[300],
+                                            ),
+                                          )
+                                        : CustomCommentBubble(
+                                            onTap: () {
+                                              setState(() {
+                                                isReply = !isReply;
+                                                isComment = false;
+                                              });
+                                            },
+                                            postsModel: item,
+                                          ),
+                                  ))
+                              .toList(),
+                        ),
+                        if (showThirdWidget)
+                          Padding(
+                              padding: EdgeInsets.all(10.r),
+                              child: TempCommentBubble(
+                                  onTap: () {},
+                                  commentText: comments.last.content ?? '',
+                                  postsModel: Comment())),
+                        if (_flattenCommentsAndReplies().length > 2) ...[
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  viewMoreComments = !viewMoreComments;
+                                });
+                              },
+                              child: CustomTextWidget(
+                                  textSize: 13.sp,
+                                  fontFamily: '',
+                                  fontWeight: FontWeight.normal,
+                                  text: viewMoreComments
+                                      ? 'Hide comments'
+                                      : 'View more comments'),
+                            ),
+                          )
+                        ],
+                        if (isComment) ...[
+                          SizedBox(height: 10.h),
+                          CommentingTextField(
+                              postsModel: widget.postsModel,
+                              onPressed: () {
+                                addComment();
+                                // widget.refresh();
+                              },
+                              textEditingController:
+                                  commentTextEditingController)
+                        ] else if (isReply) ...[
+                          SizedBox(height: 10.h),
+                          ReplyingTextField(
+                              postsModel: widget.postsModel,
+                              onPressed: () {
+                                addReply();
+                                // widget.refresh();
+                              },
+                              textEditingController: replyTextEditingController)
+                        ],
+                      ],
+                    )
+                  ],
+                ]),
               ),
             ),
           ),
-      ],
+          if (reactionView)
+            Positioned(
+                bottom: widget.postsModel.comments!.length < 2
+                    ? widget.postsModel.comments!.isEmpty
+                        ? 70.h
+                        : 150.h
+                    : 270.h,
+                left: 30.w,
+                child: ReactionView(
+                  postsModel: widget.postsModel,
+                  addReactCubit: addReactCubit,
+                  reaction: reaction,
+                  onClose: () {
+                    setState(() {
+                      reactionView = false; // Close the ReactionView
+                    });
+                  },
+                  totalReactionsNotifier: totalReactionsNotifier,
+                  userReactionNotifier: userReactionNotifier,
+                )),
+        ],
+      ),
     );
   }
-
-  Widget _getReactionIcon(Reaction r) {
-    final reactionByMe = widget.postsModel.reactions?.byMe;
-
-    // Check the reaction type directly from `reactionByMe`
-    if (reactionByMe == "sad" || r == Reaction.cry) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kCry), const Text('Cry')],
-      );
-    } else if (reactionByMe == "like" || r == Reaction.cute) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kCute), const Text('Cute')],
-      );
-    } else if (reactionByMe == "angry" || r == Reaction.angry) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kAngryReact), const Text('Angry')],
-      );
-    } else if (reactionByMe == "haha" || r == Reaction.laugh) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kLaughReact), const Text('HAHA')],
-      );
-    } else if (reactionByMe == "sad" || r == Reaction.sad) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kSadReact), const Text('Sad')],
-      );
-    } else if (reactionByMe == "wow" || r == Reaction.surprise) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kWowReact), const Text('Wow')],
-      );
-    } else if (reactionByMe == "wink" || r == Reaction.wink) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kWinkReact), const Text('Wink')],
-      );
-    } else if (reactionByMe == "love" || r == Reaction.love) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [Lottie.asset(AppLotties.kLove), const Text('Love')],
-      );
-    } else {
-      // Default fallback
-      return const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Icon(FontAwesomeIcons.solidHeart),
-          Text('Like'),
-        ],
-      );
-    }
-  }
-}
-
-class _ReactionElement {
-  final Reaction reaction;
-  final LottieBuilder image;
-  _ReactionElement(this.image, this.reaction);
 }

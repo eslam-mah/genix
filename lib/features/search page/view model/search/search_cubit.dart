@@ -1,5 +1,7 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:genix/features/groups%20page/data/models/groups_list.dart';
+import 'package:genix/features/pages%20screen/data/models/pages_list.dart';
 import 'package:genix/features/search%20page/data/repos/search_repository.dart';
 import 'package:genix/features/users/data/models/users_list.dart';
 
@@ -22,8 +24,8 @@ class SearchCubit extends Cubit<SearchState> {
     emit(SearchByGroupLoading());
     final result = await searchRepo.searchByGroup(query: query);
     result.fold((r) => emit(SearchByGroupError()), (r) {
-      final users = UserList.fromJson(r as Map<String, dynamic>);
-      emit(SearchByGroupSuccess(users: users));
+      final groups = GroupsList.fromJson(r as Map<String, dynamic>);
+      emit(SearchByGroupSuccess(groups: groups));
     });
   }
 
@@ -31,8 +33,8 @@ class SearchCubit extends Cubit<SearchState> {
     emit(SearchByPageLoading());
     final result = await searchRepo.searchByPage(query: query);
     result.fold((r) => emit(SearchByPageError()), (r) {
-      final users = UserList.fromJson(r as Map<String, dynamic>);
-      emit(SearchByPageSuccess(users: users));
+      final pages = PagesList.fromJson(r as Map<String, dynamic>);
+      emit(SearchByPageSuccess(pages: pages));
     });
   }
 }

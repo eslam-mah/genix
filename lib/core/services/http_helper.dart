@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:genix/core/services/checkinternet.dart';
 import 'package:genix/core/services/failure_model.dart';
 import 'package:genix/core/services/http_reponse_status.dart';
+import 'package:genix/core/utils/pref_keys.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
@@ -16,13 +17,13 @@ class HttpHelper {
   static Future<void> _saveToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     debugPrint('HttpHelper._saveToken: $token');
-    await prefs.setString('auth_token', token);
+    await prefs.setString(PrefKeys.kToken, token);
   }
 
   // Function to get token
   static Future<String?> _getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('auth_token');
+    return prefs.getString(PrefKeys.kToken);
   }
 
   // Function to handle login and store token
@@ -67,11 +68,7 @@ class HttpHelper {
     }
   }
 
-  static Future<http.Response> postData({
-    required String linkUrl,
-    required Map data,
-    String? token,
-  }) async {
+  static Future<http.Response> postData({required String linkUrl, required Map data, String? token, Map<String, String>? header}) async {
     token ??= await _getToken(); // Get token if not provided
     var headers = {
       'Authorization': 'Bearer $token',
@@ -82,7 +79,7 @@ class HttpHelper {
     var response = await http.post(
       Uri.parse(linkUrl),
       body: json.encode(data),
-      headers: headers,
+      headers: header ?? headers,
     );
 
     return response;
@@ -170,9 +167,11 @@ class HttpHelper {
     required String name,
     String? token,
   }) async {
-    token ??= await _getToken(); // Get token if not provided
+    token ??= await _getToken(); // Ensure token is retrieved
+
     var request = http.MultipartRequest('PATCH', Uri.parse(linkUrl));
     request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept'] = 'application/json';
 
     if (!await file.exists()) {
       throw Exception("File not found at path: ${file.path}");
@@ -186,6 +185,54 @@ class HttpHelper {
       file.path,
       contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
     ));
+
+    // Log request details
+    print("Uploading file: ${file.path}");
+    print("MIME Type: $mimeType");
+
+    // Send the request
+    final response = await request.send();
+
+    // Get the response
+    return await http.Response.fromStream(response);
+  }
+
+  static Future<http.Response> postMultipartData({
+    required String linkUrl,
+    required Map<String, dynamic> data,
+    required List<File> files, // List of files
+    required String name, // The name of the file field in the form
+    String? token,
+  }) async {
+    token ??= await _getToken(); // Get token if not provided
+
+    var request = http.MultipartRequest('POST', Uri.parse(linkUrl));
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept'] = 'application/json';
+
+    // Add other data fields to the multipart request
+    data.forEach((key, value) {
+      request.fields[key] = value.toString();
+    });
+
+    // Attach files to the request
+    for (int i = 0; i < files.length; i++) {
+      File file = files[i];
+
+      if (!await file.exists()) {
+        throw Exception("File not found at path: ${file.path}");
+      }
+
+      var mimeType = lookupMimeType(file.path) ?? 'application/octet-stream';
+      var mimeTypeData = mimeType.split('/');
+
+      // Attach the file with the correct field name (e.g., `files.0`, `files.1`)
+      request.files.add(await http.MultipartFile.fromPath(
+        'files.$i', // Use 'files.0', 'files.1' etc.
+        file.path,
+        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+      ));
+    }
 
     final response = await request.send();
     return await http.Response.fromStream(response);
@@ -218,6 +265,38 @@ class HttpHelper {
     return await http.Response.fromStream(response);
   }
 
+  static Future<Either<FailureModel, Map>> handleRequestWithApiKey(
+    Future<http.Response> Function(String apiKey) requestFunction,
+    String apiKey,
+  ) async {
+    try {
+      http.Response response = await requestFunction(apiKey);
+
+      // Log the status code and response body for debugging
+      print('Status Code: ${response.statusCode}');
+      print('Response Body: ${response.body}');
+
+      if (response.statusCode == 202) {
+        return Right(jsonDecode(response.body));
+      } else if (response.statusCode == 401 || response.statusCode == 400) {
+        String message = jsonDecode(response.body)['message'];
+        return Left(FailureModel(
+          responseStatus: HttpResponseStatus.invalidData,
+          message: message,
+        ));
+      } else {
+        String message = jsonDecode(response.body)['message'];
+        return Left(FailureModel(
+          responseStatus: HttpResponseStatus.failure,
+          message: message,
+        ));
+      }
+    } catch (e) {
+      print('Exception occurred: $e');
+      return Left(FailureModel(responseStatus: HttpResponseStatus.failure, message: e.toString()));
+    }
+  }
+
   static Future<Either<FailureModel, Map>> handleRequest(
     Future<http.Response> Function(String token) requestFunction,
   ) async {
@@ -226,7 +305,11 @@ class HttpHelper {
         String token = await _getToken() ?? "";
         http.Response response = await requestFunction(token);
 
-        if (response.statusCode == 200 || response.statusCode == 202) {
+        // Log the status code and response body for debugging
+        print('Status Code: ${response.statusCode}');
+        print('Response Body: ${response.body}');
+
+        if (response.statusCode == 202) {
           return Right(jsonDecode(response.body));
         } else if (response.statusCode == 401 || response.statusCode == 400) {
           String message = jsonDecode(response.body)['message'];
@@ -242,12 +325,31 @@ class HttpHelper {
           ));
         }
       } else {
-        return Left(
-          FailureModel(responseStatus: HttpResponseStatus.noInternet),
-        );
+        return Left(FailureModel(responseStatus: HttpResponseStatus.noInternet));
       }
     } catch (e) {
-      return Left(FailureModel(responseStatus: HttpResponseStatus.failure));
+      print('Exception occurred: $e');
+      return Left(FailureModel(responseStatus: HttpResponseStatus.failure, message: e.toString()));
     }
   }
 }
+// static Future<http.Response> postPatchData({
+//   required String linkUrl,
+//   required Map data,
+//   String? token,
+// }) async {
+//   token ??= await _getToken(); // Get token if not provided
+//   var headers = {
+//     'Authorization': 'Bearer $token',
+//     'accept': 'application/json',
+//     'Content-Type': 'multipart/form-data',
+//   };
+
+//   var response = await http.patch(
+//     Uri.parse(linkUrl),
+//     body: json.encode(data),
+//     headers: headers,
+//   );
+
+//   return response;
+// }

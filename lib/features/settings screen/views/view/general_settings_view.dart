@@ -38,12 +38,16 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'ENABLE FOLLOW ME',
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                    ),
                   ),
                   Text('Enable this if you want people to follow you.',
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)))
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                      ))
                 ],
               ),
               Switch(
@@ -65,14 +69,20 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'SEND ME NOTIFICATIONS',
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                    ),
                   ),
                   Text('Send me notifications about my friends, like,',
-                      style: TextStyle(color: Colors.black.withOpacity(0.6))),
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                      )),
                   Text('share or message me.',
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)))
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                      ))
                 ],
               ),
               Switch(
@@ -94,12 +104,16 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'SEARCH PRIVACY',
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                    ),
                   ),
                   Text('Hide your profile from search engine.',
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)))
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                      ))
                 ],
               ),
               Switch(

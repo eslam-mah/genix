@@ -6,32 +6,32 @@ import 'package:genix/features/profile%20screen/data/profile_model/profile_model
 class FollowersListView extends StatelessWidget {
   const FollowersListView({
     super.key,
-    required this.height,
     this.profileModel,
   });
-  final double height;
   final ProfileModel? profileModel;
   @override
   Widget build(BuildContext context) {
-    final profile = profileModel?.data?.followersCollection ?? [];
-    if (profile.isEmpty) {
-      return Container();
+    final followers = profileModel?.data?.followersCollection ?? [];
+    if (followers.isEmpty) {
+      return const SizedBox();
     }
-    return SizedBox(
-        height: profile.length == 1 ? 100.h : height,
-        child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: profile.length > 2 ? 2 : profile.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 6.h),
-                child: ProfilesCard(
-                  imageUrl: profile[index].user?.profileImg ?? '',
-                  userName: profile[index].user?.showname ?? '',
-                  userBio: profile[index].user?.bio ?? '',
-                  isActive: profile[index].user?.isActive ?? false,
-                ),
-              );
-            }));
+    return ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: followers.length > 2 ? 2 : followers.length,
+        itemBuilder: (context, index) {
+          print(
+              'ddddddddddddddddd${followers.length}____________________________ssss_sss____-');
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: 6.h),
+            child: ProfilesCard(
+              userName: followers[index].user?.username ?? '',
+              imageUrl: followers[index].user?.profileImg ?? '',
+              showName: followers[index].user?.showname ?? '',
+              userBio: followers[index].user?.bio ?? '',
+              isActive: followers[index].user?.isActive ?? false,
+            ),
+          );
+        });
   }
 }

@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:genix/features/home%20screen/data/repos/posts_repository.dart';
 
@@ -12,7 +12,7 @@ class DeletePostCubit extends Cubit<DeletePostState> {
     final result = await deletePostRepo.deletePost(postId: postId);
     result.fold(
         (l) => emit(DeletePostError()),
-        (r) => emit(
-            const DeletePostSuccess(message: 'Post Deleted successfully')));
+        (r) => emit(DeletePostSuccess(
+            message: 'Post Deleted successfully', id: postId)));
   }
 }

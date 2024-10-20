@@ -4,6 +4,7 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customiconbutton.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 
 class CustomSupportTicketsVCounter extends StatelessWidget {
   const CustomSupportTicketsVCounter({
@@ -19,13 +20,16 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
   final String text;
   final String buttonText;
   final IconData buttonIcon;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 150.w,
       height: 250.h,
       decoration: BoxDecoration(
-          color: AppColors.kAppBar2Color,
+          color: ThemeCubit().state == ThemeState.dark
+              ? DarkModeColors.kItemColorDark
+              : AppColors.kAppBar2Color,
           borderRadius: BorderRadius.circular(8.r)),
       child: Column(
         //    mainAxisAlignment: MainAxisAlignment.end,
@@ -44,18 +48,17 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
                   textSize: 20.sp,
                   fontFamily: '',
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
                   text: title,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 13.w),
                   child: CustomTextWidget(
-                      maxLines: 1000,
-                      textSize: 12.sp,
-                      fontFamily: '',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      text: text),
+                    maxLines: 1000,
+                    textSize: 12.sp,
+                    fontFamily: '',
+                    fontWeight: FontWeight.w500,
+                    text: text,
+                  ),
                 ),
                 CustomIconButton(
                     icon: buttonIcon,

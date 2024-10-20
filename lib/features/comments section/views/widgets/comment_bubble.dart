@@ -6,6 +6,9 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/comments%20section/data/models/comments_model.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
+import 'package:genix/features/profile%20screen/views/view/profile_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:timeago/timeago.dart' as timeago;
@@ -48,14 +51,14 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
   }
 
   final List<dynamic> reactions = [
-    ReactionElement(Lottie.asset(AppLotties.kLaughReact), Reaction.laugh),
-    ReactionElement(Lottie.asset(AppLotties.kSadReact), Reaction.sad),
-    ReactionElement(Lottie.asset(AppLotties.kWowReact), Reaction.surprise),
-    ReactionElement(Lottie.asset(AppLotties.kCry), Reaction.cry),
-    ReactionElement(Lottie.asset(AppLotties.kLove), Reaction.love),
-    ReactionElement(Lottie.asset(AppLotties.kAngryReact), Reaction.angry),
-    ReactionElement(Lottie.asset(AppLotties.kWinkReact), Reaction.wink),
-    ReactionElement(Lottie.asset(AppLotties.kCute), Reaction.cute),
+    ReactionElement(Lottie.asset(AppLottie.kLaughReact), Reaction.laugh),
+    ReactionElement(Lottie.asset(AppLottie.kSadReact), Reaction.sad),
+    ReactionElement(Lottie.asset(AppLottie.kWowReact), Reaction.surprise),
+    ReactionElement(Lottie.asset(AppLottie.kCry), Reaction.cry),
+    ReactionElement(Lottie.asset(AppLottie.kLove), Reaction.love),
+    ReactionElement(Lottie.asset(AppLottie.kAngryReact), Reaction.angry),
+    ReactionElement(Lottie.asset(AppLottie.kWinkReact), Reaction.wink),
+    ReactionElement(Lottie.asset(AppLottie.kCute), Reaction.cute),
   ];
   @override
   Widget build(BuildContext context) {
@@ -76,14 +79,23 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                   Row(
                     children: [
                       SizedBox(width: 60.w),
-                      CustomUserProfileImage(
-                          image: widget.postsModel.user?.profileImg ?? '',
-                          isActive: widget.postsModel.user?.isActive ?? false),
+                      InkWell(
+                        onTap: () {
+                          GoRouter.of(context).push(ProfilePage.route,
+                              extra: widget.postsModel.user?.username);
+                        },
+                        child: CustomUserProfileImage(
+                            image: widget.postsModel.user?.profileImg ?? '',
+                            isActive:
+                                widget.postsModel.user?.isActive ?? false),
+                      ),
                       SizedBox(width: 15.w),
                       Flexible(
                         child: Container(
                           decoration: BoxDecoration(
-                              color: AppColors.kAppBar2Color,
+                              color: ThemeCubit().state == ThemeState.dark
+                                  ? Colors.black
+                                  : AppColors.kAppBar2Color,
                               borderRadius: BorderRadius.circular(10.r)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -97,16 +109,24 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                                     Expanded(
                                       child: Row(
                                         children: [
-                                          CustomTextWidget(
+                                          InkWell(
+                                            onTap: () {
+                                              GoRouter.of(context).push(
+                                                  ProfilePage.route,
+                                                  extra: widget.postsModel.user
+                                                      ?.username);
+                                            },
+                                            child: CustomTextWidget(
                                               width: 70.w,
                                               maxLines: 3,
                                               textSize: 12.sp,
                                               fontFamily: '',
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.black,
                                               text: widget.postsModel.user
                                                       ?.showname ??
-                                                  ''),
+                                                  '',
+                                            ),
+                                          ),
                                           if (widget.postsModel.user!
                                                   .isVerified ==
                                               true)
@@ -173,7 +193,12 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                           },
                           child: getReactionText(reaction)),
                       SizedBox(width: 30.w),
-                      InkWell(onTap: widget.onTap, child: const Text('Reply'))
+                      InkWell(
+                          onTap: widget.onTap,
+                          child: Text(
+                            'Reply',
+                            style: TextStyle(fontSize: 12.sp),
+                          ))
                     ],
                   ),
                 ],
@@ -242,14 +267,23 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                 children: [
                   Row(
                     children: [
-                      CustomUserProfileImage(
-                          image: widget.postsModel.user?.profileImg ?? '',
-                          isActive: widget.postsModel.user?.isActive ?? false),
+                      InkWell(
+                        onTap: () {
+                          GoRouter.of(context).push(ProfilePage.route,
+                              extra: widget.postsModel.user?.username);
+                        },
+                        child: CustomUserProfileImage(
+                            image: widget.postsModel.user?.profileImg ?? '',
+                            isActive:
+                                widget.postsModel.user?.isActive ?? false),
+                      ),
                       SizedBox(width: 15.w),
                       Flexible(
                         child: Container(
                           decoration: BoxDecoration(
-                              color: AppColors.kAppBar2Color,
+                              color: ThemeCubit().state == ThemeState.dark
+                                  ? Colors.black
+                                  : AppColors.kAppBar2Color,
                               borderRadius: BorderRadius.circular(10.r)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -263,15 +297,23 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                                     Expanded(
                                       child: Row(
                                         children: [
-                                          CustomTextWidget(
+                                          InkWell(
+                                            onTap: () {
+                                              GoRouter.of(context).push(
+                                                  ProfilePage.route,
+                                                  extra: widget.postsModel.user
+                                                      ?.username);
+                                            },
+                                            child: CustomTextWidget(
                                               maxLines: 3,
                                               textSize: 12.sp,
                                               fontFamily: '',
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.black,
                                               text: widget.postsModel.user
                                                       ?.showname ??
-                                                  ''),
+                                                  '',
+                                            ),
+                                          ),
                                           if (widget.postsModel.user!
                                                   .isVerified ==
                                               true)
@@ -410,43 +452,43 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
       case Reaction.cry:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kCry), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kCry), Text('$reactNum')],
         );
       case Reaction.cute:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kCute), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kCute), Text('$reactNum')],
         );
       case Reaction.angry:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kAngryReact), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kAngryReact), Text('$reactNum')],
         );
       case Reaction.laugh:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kLaughReact), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kLaughReact), Text('$reactNum')],
         );
       case Reaction.sad:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kSadReact), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kSadReact), Text('$reactNum')],
         );
       case Reaction.surprise:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kWowReact), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kWowReact), Text('$reactNum')],
         );
       case Reaction.wink:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kWinkReact), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kWinkReact), Text('$reactNum')],
         );
 
       case Reaction.love:
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [Lottie.asset(AppLotties.kLove), Text('$reactNum')],
+          children: [Lottie.asset(AppLottie.kLove), Text('$reactNum')],
         );
       default:
         return const SizedBox.shrink();
@@ -456,50 +498,50 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
   Widget getReactionText(Reaction r) {
     switch (r) {
       case Reaction.cry:
-        return const Text(
+        return Text(
           'Cry',
-          style: TextStyle(color: Colors.blue),
+          style: TextStyle(color: Colors.blue, fontSize: 12.sp),
         );
       case Reaction.cute:
-        return const Text(
+        return Text(
           'Cute',
-          style: TextStyle(color: Colors.blue),
+          style: TextStyle(color: Colors.blue, fontSize: 12.sp),
         );
       case Reaction.angry:
-        return const Text(
+        return Text(
           'Angry',
-          style: TextStyle(color: Colors.blue),
+          style: TextStyle(color: Colors.blue, fontSize: 12.sp),
         );
       case Reaction.laugh:
-        return const Text(
+        return Text(
           'Laugh',
-          style: TextStyle(color: Colors.blue),
+          style: TextStyle(color: Colors.blue, fontSize: 12.sp),
         );
       case Reaction.sad:
-        return const Text(
+        return Text(
           'Sad',
-          style: TextStyle(color: Colors.blue),
+          style: TextStyle(color: Colors.blue, fontSize: 12.sp),
         );
       case Reaction.surprise:
-        return const Text(
+        return Text(
           'Surprise',
-          style: TextStyle(color: Colors.blue),
+          style: TextStyle(color: Colors.blue, fontSize: 12.sp),
         );
       case Reaction.wink:
-        return const Text(
+        return Text(
           'Wink',
-          style: TextStyle(color: Colors.blue),
+          style: TextStyle(color: Colors.blue, fontSize: 12.sp),
         );
 
       case Reaction.love:
-        return const Text(
+        return Text(
           'Love',
-          style: TextStyle(color: Colors.blue),
+          style: TextStyle(fontSize: 12.sp, color: Colors.blue),
         );
       default:
-        return const Text(
+        return Text(
           'Like',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(fontSize: 12.sp),
         );
     }
   }

@@ -1,63 +1,51 @@
 import 'package:genix/features/users/data/models/user_model.dart';
 
 class UserList {
-  String status;
-  Data data;
+  bool success;
+  UserData data;
+  String? message;
 
-  UserList({required this.status, required this.data});
+  UserList({
+    required this.success,
+    required this.data,
+    this.message,
+  });
 
   factory UserList.fromJson(Map<String, dynamic> json) {
     return UserList(
-      status: json['status'],
-      data: Data.fromJson(json['data']),
+      success: json['success'],
+      data: UserData.fromJson(json['data']),
+      message: json['message'],
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = this.status;
+    data['success'] = this.success;
     data['data'] = this.data.toJson();
+    data['message'] = this.message;
     return data;
   }
 }
 
-class Data {
-  List<UserModel> users;
+class UserData {
+  List<UserModel> collection;
 
-  Data({required this.users});
+  UserData({
+    required this.collection,
+  });
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    var usersJson = json['collection'] as List;
-    List<UserModel> usersList =
-        usersJson.map((i) => UserModel.fromJson(i)).toList();
-
-    return Data(
-      users: usersList,
+  factory UserData.fromJson(Map<String, dynamic> json) {
+    return UserData(
+      collection: (json['collection'] as List<dynamic>)
+          .map((item) => UserModel.fromJson(item as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['collection'] =
-        this.users.map((userModel) => userModel.toJson()).toList();
+    data['collection'] = this.collection.map((item) => item.toJson()).toList();
     return data;
-  }
-
-  void addUser({required UserModel user}) {
-    this.users.add(user);
-  }
-
-  void updateUser({required UserModel newUser}) {
-    final updatedUserIndex = this.users.indexWhere((u) => u.id == newUser.id);
-    if (updatedUserIndex != -1) {
-      this.users[updatedUserIndex] = newUser;
-    }
-  }
-
-  void deleteUser(int userId) {
-    final removedUserIndex = this.users.indexWhere((u) => u.id == userId);
-    if (removedUserIndex != -1) {
-      this.users.removeAt(removedUserIndex);
-    }
   }
 }

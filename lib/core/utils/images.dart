@@ -43,7 +43,7 @@ class AppGifs {
   static const kVerified = 'assets/images/resources/verified.gif';
 }
 
-class AppLotties {
+class AppLottie {
   static const kAngryReact = 'assets/images/animations/angry-emoji.json';
   static const kLaughReact = 'assets/images/animations/laugh-emoji.json';
   static const kSadReact = 'assets/images/animations/sad-emoji.json';

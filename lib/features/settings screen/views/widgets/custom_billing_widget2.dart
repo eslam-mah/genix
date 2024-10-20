@@ -66,8 +66,12 @@ class _CustomBillingWidget2State extends State<CustomBillingWidget2> {
           ),
           borderRadius: BorderRadius.circular(3.r),
           color: widget.isSelected == widget.numberSelected
-              ? AppColors.kPromoteColor
-              : AppColors.kTextFieldColor),
+              ? widget.isNightModeEnabled
+                  ? AppColors.kPrimaryColor
+                  : AppColors.kPromoteColor
+              : widget.isNightModeEnabled
+                  ? DarkModeColors.kItemColorDark3
+                  : AppColors.kTextFieldColor),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -111,8 +115,7 @@ class _CustomBillingWidget2State extends State<CustomBillingWidget2> {
                 width: 100.w,
                 child: Text(
                   '$views EUR',
-                  style: TextStyle(
-                      color: Colors.black.withOpacity(0.5), fontSize: 12.sp),
+                  style: TextStyle(fontSize: 12.sp),
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                 ),

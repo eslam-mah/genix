@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
+import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 
 class PollPost extends StatefulWidget {
   final PostsModel postsModel;
-  const PollPost({super.key, required this.postsModel});
+  final bool? isNightMode;
+  const PollPost({super.key, required this.postsModel, this.isNightMode});
 
   @override
   State<PollPost> createState() => _PollPostState();
@@ -17,16 +19,16 @@ class _PollPostState extends State<PollPost> {
   Widget build(BuildContext context) {
     final user = widget.postsModel.user;
     final poll = widget.postsModel.misc?.poll;
-    final pollOptions = poll?.options ?? [];
-    int totalVotes = pollOptions.fold(
-        0, (sum, option) => sum + (option.votesFromUsers?.length ?? 0));
+    final pollOptions = poll?.options;
+    int totalVotes = pollOptions!
+        .fold(0, (sum, option) => sum + (option.votesFromUsers?.length ?? 0));
     return ClipRRect(
       borderRadius: BorderRadius.circular(6.r),
       child: Column(
         children: pollOptions.map((option) {
           double percentage = totalVotes == 0
               ? 0
-              : (option.votesFromUsers?.length ?? 0) / totalVotes * 100;
+              : (option.votesFromUsers?.length ?? 0) / totalVotes * 170;
 
           return InkWell(
             onTap: () {
@@ -59,7 +61,7 @@ class _PollPostState extends State<PollPost> {
                     child: Text(
                       option.title ?? '',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 20.sp,
                       ),
                     ),
                   ),
@@ -83,10 +85,12 @@ class _PollPostState extends State<PollPost> {
                           ),
                         ),
                         Center(
-                          child: Text(
-                            '${option.votesFromUsers?.length ?? 0} votes',
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 14.sp),
+                          child: CustomTextWidget(
+                            textSize: 14.sp,
+                            fontFamily: 'fontFamily',
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black,
+                            text: '${option.votesFromUsers?.length ?? 0} votes',
                           ),
                         ),
                       ],

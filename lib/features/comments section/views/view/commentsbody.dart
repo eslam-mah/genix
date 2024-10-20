@@ -128,6 +128,7 @@ class _CommentsBodyState extends State<CommentsBody> {
         ),
         child: Scaffold(
           appBar: AppBar(
+            toolbarHeight: 45.h,
             title: const Text('Comments'),
           ),
           body: Stack(
@@ -144,7 +145,7 @@ class _CommentsBodyState extends State<CommentsBody> {
                                 textSize: 17.sp,
                                 fontFamily: '',
                                 fontWeight: FontWeight.normal,
-                                color: Colors.black.withOpacity(0.4),
+                                // color: Colors.black.withOpacity(0.4),
                                 text: 'No comments yet',
                               ),
                             )
@@ -189,9 +190,9 @@ class _CommentsBodyState extends State<CommentsBody> {
                                                 padding: EdgeInsets.symmetric(
                                                     vertical: 10.h),
                                                 child: CustomCommentBubble(
-                                                    onTap: () {},
-                                                    postsModel:
-                                                        commentReplies[i]),
+                                                  onTap: () {},
+                                                  postsModel: commentReplies[i],
+                                                ),
                                               );
                                             }),
                                           ),

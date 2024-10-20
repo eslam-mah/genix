@@ -15,7 +15,7 @@ class CustomIconProfileButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 17.w),
-      child: GestureDetector(
+      child: InkWell(
         onTap: onTap,
         child: SizedBox(
           child: Column(

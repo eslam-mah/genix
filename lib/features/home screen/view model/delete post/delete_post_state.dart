@@ -13,8 +13,9 @@ final class DeletePostLoading extends DeletePostState {}
 
 final class DeletePostSuccess extends DeletePostState {
   final String message;
+  final int id;
 
-  const DeletePostSuccess({required this.message});
+  const DeletePostSuccess({required this.id, required this.message});
 }
 
 final class DeletePostError extends DeletePostState {}

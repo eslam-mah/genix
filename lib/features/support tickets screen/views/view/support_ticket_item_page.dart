@@ -13,7 +13,7 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
 import 'package:intl/intl.dart';
 
@@ -39,16 +39,13 @@ class _TicketItemPageState extends State<TicketItemPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isSelected ? AppColors.kAppBar2Color : Colors.white,
       key: _scaffoldKey,
       bottomNavigationBar: SafeArea(
         child: Stack(
           alignment: Alignment.center,
           clipBehavior: Clip.none,
           children: [
-            CustomBottomAppBar(
-              isNightMode: isNightModeEnabled,
-            ),
+            const CustomBottomAppBar(),
             Positioned(
               bottom: 20,
               child: GestureDetector(
@@ -64,6 +61,7 @@ class _TicketItemPageState extends State<TicketItemPage> {
         ),
       ),
       appBar: AppBar(
+        toolbarHeight: 45.h,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -76,12 +74,10 @@ class _TicketItemPageState extends State<TicketItemPage> {
             },
           ),
         ],
-        backgroundColor: AppColors.kAppBar2Color,
         elevation: 0,
         title: const CustomAppBar(),
       ),
       endDrawer: CustomDrawerWidget(
-        onNightModeChanged: handleNightModeChanged,
         isNightMode: isNightModeEnabled,
       ),
       body: isSelected
@@ -111,17 +107,17 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     CustomTextWidget(
-                                        textSize: 18.sp,
-                                        fontFamily: '',
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.black,
-                                        text: 'Ticket summary'),
+                                      textSize: 18.sp,
+                                      fontFamily: '',
+                                      fontWeight: FontWeight.normal,
+                                      text: 'Ticket summary',
+                                    ),
                                     CustomTextWidget(
-                                        textSize: 18.sp,
-                                        fontFamily: '',
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.black,
-                                        text: 'Available actions')
+                                      textSize: 18.sp,
+                                      fontFamily: '',
+                                      fontWeight: FontWeight.normal,
+                                      text: 'Available actions',
+                                    )
                                   ],
                                 ),
                                 Row(
@@ -229,29 +225,30 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         CustomTextWidget(
-                                            textSize: 13.sp,
-                                            fontFamily: '',
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.green,
-                                            text: widget.ticket.user.showname),
+                                          textSize: 13.sp,
+                                          fontFamily: '',
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.green,
+                                          text: widget.ticket.user.showname,
+                                        ),
                                         CustomTextWidget(
-                                            textSize: 13.sp,
-                                            fontFamily: '',
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black,
-                                            text:
-                                                'wrote on ${DateFormat('MMMM d, yyyy').format(widget.ticket.createdAt)}'),
+                                          textSize: 13.sp,
+                                          fontFamily: '',
+                                          fontWeight: FontWeight.normal,
+                                          text:
+                                              'wrote on ${DateFormat('MMMM d, yyyy').format(widget.ticket.createdAt)}',
+                                        ),
                                       ],
                                     )
                                   ],
                                 ),
                                 CustomTextWidget(
-                                    maxLines: 1000,
-                                    textSize: 13.sp,
-                                    fontFamily: '',
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.black,
-                                    text: widget.ticket.content)
+                                  maxLines: 1000,
+                                  textSize: 13.sp,
+                                  fontFamily: '',
+                                  fontWeight: FontWeight.normal,
+                                  text: widget.ticket.content,
+                                )
                               ],
                             ),
                           ),
@@ -281,19 +278,20 @@ class _TextRow extends StatelessWidget {
     return Row(
       children: [
         CustomTextWidget(
-            textSize: 13.sp,
-            fontFamily: '',
-            fontWeight: FontWeight.normal,
-            color: Colors.black,
-            text: titleText + ': '),
+          textSize: 13.sp,
+          fontFamily: '',
+          fontWeight: FontWeight.normal,
+          text: titleText + ': ',
+        ),
         SizedBox(
           width: 100.w,
           child: CustomTextWidget(
-              textSize: 13.sp,
-              fontFamily: '',
-              fontWeight: FontWeight.normal,
-              color: isGreen ? Colors.green : Colors.grey.shade500,
-              text: theText),
+            textSize: 13.sp,
+            fontFamily: '',
+            fontWeight: FontWeight.normal,
+            color: isGreen ? Colors.green : Colors.grey.shade500,
+            text: theText,
+          ),
         )
       ],
     );

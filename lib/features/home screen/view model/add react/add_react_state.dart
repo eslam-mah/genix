@@ -12,7 +12,7 @@ class AddReactInitial extends AddReactState {}
 class AddReactLoading extends AddReactState {}
 
 class AddReactSuccess extends AddReactState {
-  final String reactionType;
+  final PostsModel reactionType;
 
   const AddReactSuccess({required this.reactionType});
 

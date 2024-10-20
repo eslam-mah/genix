@@ -13,30 +13,46 @@ class CustomGlowingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 50.w,
-      height: 50.h,
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.kPrimaryColor2.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 7,
-              offset: const Offset(0, 3),
-            ),
-          ],
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        // Shadow layer outside the ClipRRect
+        Container(
+          width: 56.r,
+          height: 56.r,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.kPrimaryColor2.withOpacity(0.5),
+                spreadRadius: 3,
+                blurRadius: 7,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+        ),
+        // Clipped circular button
+        ClipRRect(
           borderRadius: BorderRadius.circular(1000.r),
-          color: AppColors.kPrimaryColor2),
-      child: isSelected
-          ? Icon(
-              FontAwesomeIcons.x,
-              size: 18.sp,
-              color: Colors.white,
-            )
-          : const Icon(
-              FontAwesomeIcons.bars,
-              color: Colors.white,
-            ),
+          child: Container(
+            width: 56.r,
+            height: 56.r,
+            color: AppColors.kPrimaryColor2,
+            child: isSelected
+                ? Icon(
+                    FontAwesomeIcons.x,
+                    size: 23.r,
+                    color: Colors.white,
+                  )
+                : Icon(
+                    FontAwesomeIcons.bars,
+                    size: 23.r,
+                    color: Colors.white,
+                  ),
+          ),
+        ),
+      ],
     );
   }
 }
