@@ -6,8 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
 import 'package:genix/core/default_status_indicators/first_page_progress_indicator.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
-
 import 'package:genix/core/widgets/video_player_page.dart';
+
 import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/video%20shorts%20screen/data/models/shorts_model.dart';

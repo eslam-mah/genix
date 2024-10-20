@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:genix/core/extension/date_time_extension.dart';
+import 'package:genix/core/utils/router.dart';
 import 'package:genix/features/chat%20screen/models/chat_room.dart';
+import 'package:go_router/go_router.dart';
+import 'package:html/parser.dart' show parse;
 
 class ChatRoomTile extends StatelessWidget {
   final ChatRoom item;
@@ -16,16 +19,17 @@ class ChatRoomTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          context.push(Rout.kChatScreen, extra: {'chatRoom': item});
+        },
         borderRadius: BorderRadius.circular(8.0),
         child: Ink(
           decoration: BoxDecoration(
-            color: const Color(0xffDBDADDFF),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Row(
               children: [
                 SizedBox(
@@ -34,7 +38,18 @@ class ChatRoomTile extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50.0),
                     child: CachedNetworkImage(
-                        imageUrl: 'https://picsum.photos/250?image=9'),
+                      imageUrl: item.user?.profileImg ?? '',
+                      fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => Container(
+                        color: Colors.grey,
+                        child: const Center(
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12.0),
@@ -51,7 +66,7 @@ class ChatRoomTile extends StatelessWidget {
                           ),
                           Text(
                             item.lastMessage?.createdAt?.toTimeAgo() ?? '',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 12.0,
                             ),
@@ -62,20 +77,21 @@ class ChatRoomTile extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              item.lastMessage?.content ?? '',
+                              _removeHtmlTags(item.lastMessage?.content ?? ''),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: Colors.grey),
+                              style: const TextStyle(color: Colors.grey),
                             ),
                           ),
-                          Container(
-                            width: 12.0,
-                            height: 12.0,
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(50.0),
-                            ),
-                          )
+                          if (item.isUnread == true)
+                            Container(
+                              width: 12.0,
+                              height: 12.0,
+                              decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(50.0),
+                              ),
+                            )
                         ],
                       ),
                     ],
@@ -87,5 +103,10 @@ class ChatRoomTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _removeHtmlTags(String htmlString) {
+    final document = parse(htmlString);
+    return document.body?.text ?? '';
   }
 }

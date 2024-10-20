@@ -68,11 +68,7 @@ class HttpHelper {
     }
   }
 
-  static Future<http.Response> postData({
-    required String linkUrl,
-    required Map data,
-    String? token,
-  }) async {
+  static Future<http.Response> postData({required String linkUrl, required Map data, String? token, Map<String, String>? header}) async {
     token ??= await _getToken(); // Get token if not provided
     var headers = {
       'Authorization': 'Bearer $token',
@@ -83,7 +79,7 @@ class HttpHelper {
     var response = await http.post(
       Uri.parse(linkUrl),
       body: json.encode(data),
-      headers: headers,
+      headers: header ?? headers,
     );
 
     return response;
@@ -297,8 +293,7 @@ class HttpHelper {
       }
     } catch (e) {
       print('Exception occurred: $e');
-      return Left(FailureModel(
-          responseStatus: HttpResponseStatus.failure, message: e.toString()));
+      return Left(FailureModel(responseStatus: HttpResponseStatus.failure, message: e.toString()));
     }
   }
 
@@ -330,13 +325,11 @@ class HttpHelper {
           ));
         }
       } else {
-        return Left(
-            FailureModel(responseStatus: HttpResponseStatus.noInternet));
+        return Left(FailureModel(responseStatus: HttpResponseStatus.noInternet));
       }
     } catch (e) {
       print('Exception occurred: $e');
-      return Left(FailureModel(
-          responseStatus: HttpResponseStatus.failure, message: e.toString()));
+      return Left(FailureModel(responseStatus: HttpResponseStatus.failure, message: e.toString()));
     }
   }
 }

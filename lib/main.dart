@@ -9,8 +9,11 @@ import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 
+import 'core/services/locator.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();
   await CacheData.cacheInitialization();
 
   runApp(const Genix());

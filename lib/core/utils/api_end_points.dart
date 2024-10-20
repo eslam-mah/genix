@@ -90,12 +90,17 @@ class ApiEndPoints {
   static const String deleteUserComment =
       "$baseUrl/accounts/user/posts/comments";
   // shorts
-  static const String getShorts = "$baseUrl/posts/shorts";
-  static const String getSavedShorts = "$baseUrl/posts/shorts/saved";
-  static const String getPostedShorts = "$baseUrl/posts/shorts/posted";
-  static const String searchShorts = "$baseUrl/posts/shorts/search";
-  static const String addShort = "$baseUrl/posts/short";
-  static const String updateShort = "$baseUrl/posts/short";
+
+  static const String getShorts = baseUrl + "/posts/shorts";
+  static const String getSavedShorts = baseUrl + "/posts/shorts/saved";
+  static const String getPostedShorts = baseUrl + "/posts/shorts/posted";
+  static const String searchShorts = baseUrl + "/posts/shorts/search";
+  static const String addShort = baseUrl + "/posts/short";
+  static const String updateShort = baseUrl + "/posts/short";
+  static const String chatRooms = baseUrl + "/chat/rooms";
+  static const String chatRoom = baseUrl + "/chat/room/";
+  static const String chatRoomMessages = baseUrl + "/chat/room/messages/";
+  static const String chatRoomMessage = baseUrl + "/chat/room/message/";
   // groups
   static const String getGroupsList = "$baseUrl/groups";
   static const String getGroup = "$baseUrl/group";
@@ -142,4 +147,5 @@ class ApiEndPoints {
       "$baseUrl/payments/promotion/cpv-rate";
   static const String getPromotionById = "$baseUrl/payments/promotion";
   static const String getGifts = "$baseUrl/payments/gifts";
+
 }
