@@ -99,4 +99,8 @@ class ApiEndPoints {
   static const String searchShorts = baseUrl + "/posts/shorts/search";
   static const String addShort = baseUrl + "/posts/short";
   static const String updateShort = baseUrl + "/posts/short";
+  static const String chatRooms = baseUrl + "/chat/rooms";
+  static const String chatRoom = baseUrl + "/chat/room/";
+  static const String chatRoomMessages = baseUrl + "/chat/room/messages/";
+  static const String chatRoomMessage = baseUrl + "/chat/room/message/";
 }

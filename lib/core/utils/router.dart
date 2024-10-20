@@ -69,7 +69,12 @@ abstract class Rout {
     ),
     GoRoute(
       path: kChatScreen,
-      builder: (context, state) => const ChatScreen(),
+      builder: (context, GoRouterState pageState) {
+        final date = pageState.extra as Map<String, dynamic>;
+        return ChatScreen(
+          chatRoom: date['chatRoom'],
+        );
+      },
     ),
     ...VideoShortsRouter.goRoutes,
     ...CommentsRouter.goRoutes,

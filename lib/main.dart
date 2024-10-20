@@ -6,8 +6,11 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 
+import 'core/services/locator.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();
   await CacheData.cacheInitialization();
   runApp(const Genix());
 }
