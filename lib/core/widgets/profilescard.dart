@@ -49,6 +49,7 @@ class ProfilesCard extends StatelessWidget {
                 CustomUserProfileImage(
                   image: imageUrl,
                   isActive: isActive,
+                  showname: showName,
                 ),
                 SizedBox(
                   width: 15.w,

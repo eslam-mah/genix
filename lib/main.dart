@@ -6,6 +6,7 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/features/drawer/view%20model/log_out_cubit/log_out_cubit.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
+import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 
 Future<void> main() async {
@@ -29,8 +30,8 @@ class Genix extends StatelessWidget {
           providers: [
             BlocProvider(create: (context) => FirstLoadCubit()),
             BlocProvider(create: (context) => ThemeCubit()),
-            BlocProvider(
-                create: (context) => LogOutCubit()), // Add ThemeCubit here
+            BlocProvider(create: (context) => LogOutCubit()),
+            BlocProvider(create: (context) => GetMyAccountDetailsCubit()),
           ],
           child: BlocBuilder<ThemeCubit, ThemeState>(
             builder: (context, themeState) {

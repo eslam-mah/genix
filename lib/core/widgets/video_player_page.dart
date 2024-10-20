@@ -121,10 +121,12 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           )
         : widget.showLoadingIndicator
             ? SizedBox(
-                height: 50.h,
-                width: 50.h,
-                child: const CircularProgressIndicator(
-                  color: AppColors.kPrimaryColor,
+                height: 160.h,
+                width: 300.w,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.kPrimaryColor,
+                  ),
                 ),
               )
             : Shimmer.fromColors(

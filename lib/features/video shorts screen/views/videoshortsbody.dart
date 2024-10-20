@@ -326,8 +326,9 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                                   Row(
                                     children: [
                                       CustomUserProfileImage(
+                                        showname: item.user?.showname ?? '',
                                         image: item.user?.profileImg ?? '',
-                                        isActive: true,
+                                        isActive: item.user?.isActive ?? false,
                                       ),
                                       SizedBox(
                                         width: 10.w,

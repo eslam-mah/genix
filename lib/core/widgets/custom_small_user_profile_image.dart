@@ -5,9 +5,14 @@ import 'package:genix/core/utils/images.dart';
 
 class CustomSmallUserProfileImage extends StatelessWidget {
   const CustomSmallUserProfileImage(
-      {super.key, required this.image, required this.isActive, r});
+      {super.key,
+      required this.image,
+      required this.isActive,
+      r,
+      required this.textPlaceHolder});
   final String image;
   final bool isActive;
+  final Widget textPlaceHolder;
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +28,12 @@ class CustomSmallUserProfileImage extends StatelessWidget {
               fit: BoxFit.fill,
               errorWidget: (context, error, stackTrace) {
                 return Container(
-                  width: 0.w,
-                  color: Colors.transparent,
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    AppImages.kLogo,
-                  ),
-                );
+                    width: 0.w,
+                    color: Colors.purple,
+                    alignment: Alignment.center,
+                    child: Center(
+                      child: textPlaceHolder,
+                    ));
               },
             ),
           ),

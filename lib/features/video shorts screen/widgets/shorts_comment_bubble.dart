@@ -15,6 +15,7 @@ class ShortsCommentBubble extends StatelessWidget {
             const CustomUserProfileImage(
               isActive: true,
               image: '',
+              showname: '',
             ),
             SizedBox(width: 15.w),
             Flexible(

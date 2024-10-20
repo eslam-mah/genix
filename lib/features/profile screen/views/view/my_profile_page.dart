@@ -32,9 +32,7 @@ import 'package:genix/features/profile%20screen/views/widgets/custom_icon_listvi
 import 'package:genix/features/profile%20screen/views/widgets/custom_profile_header.dart';
 import 'package:genix/features/photos%20page/views/widgets/photos_List_view.dart';
 import 'package:genix/features/profile%20screen/views/widgets/custom_profile_shimmer.dart';
-import 'package:genix/features/profile%20screen/views/widgets/recent_posts_list.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
-import 'package:genix/features/settings%20screen/view%20model/update%20my%20profile/update_my_profile_cubit.dart';
 import 'package:genix/features/videos%20page/views/view/my_videos_page.dart';
 import 'package:genix/features/videos%20page/views/widgets/videos_list_view.dart';
 import 'package:go_router/go_router.dart';

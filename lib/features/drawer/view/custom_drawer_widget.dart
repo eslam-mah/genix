@@ -5,7 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/features/drawer/view%20model/log_out_cubit/log_out_cubit.dart';
+import 'package:genix/features/drawer/view/widget/drawer_profile_shimmer.dart';
 import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
+import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customlisttile.dart';
@@ -29,42 +31,71 @@ class CustomDrawerWidget extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 30.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const CustomUserProfileImage(image: '', isActive: true),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Radu'),
-                      Row(
-                        children: [
-                          const CircleAvatar(
-                            backgroundColor: Colors.green,
-                            radius: 4,
+              BlocBuilder<GetMyAccountDetailsCubit, GetMyAccountDetailsState>(
+                builder: (context, state) {
+                  if (state is GetMyAccountDetailsSuccess) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CustomUserProfileImage(
+                          image: state.account.data?.profileImg ?? '',
+                          isActive: true,
+                          showname: state.account.data?.showname ?? '',
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              state.account.data?.showname ?? '',
+                              style: TextStyle(fontSize: 13.sp),
+                            ),
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor:
+                                      state.account.data?.isActive == true
+                                          ? Colors.green
+                                          : Colors.red,
+                                  radius: 4.r,
+                                ),
+                                SizedBox(width: 10.w),
+                                Text(
+                                  state.account.data?.isActive == true
+                                      ? 'Active'
+                                      : 'Inactive',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12.sp),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        InkWell(
+                          onTap: () {},
+                          borderRadius: BorderRadius.circular(8.r),
+                          child: Container(
+                            width: 40.w,
+                            height: 23.w,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: AppColors.kPrimaryColor2,
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Edit',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.sp),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           ),
-                          SizedBox(width: 10.w),
-                          const Text(
-                            'Active',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Container(
-                    width: 40.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      color: AppColors.kPrimaryColor2,
-                    ),
-                    child: const Text(
-                      'Edit',
-                      style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                  )
-                ],
+                        )
+                      ],
+                    );
+                  } else {
+                    return const DrawerProfileShimmer();
+                  }
+                },
               ),
               SizedBox(height: 30.h),
               CustomListTile(

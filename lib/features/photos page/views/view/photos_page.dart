@@ -73,8 +73,8 @@ class _PhotosPageState extends State<PhotosPage> {
     return PagedSliverGrid<int, PhotosModel>(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 10.w,
-        mainAxisSpacing: 10.w,
+        crossAxisSpacing: 2.w,
+        mainAxisSpacing: 2.w,
         childAspectRatio: 1.2,
       ),
       pagingController: _pagingController,

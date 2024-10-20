@@ -85,9 +85,10 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                               extra: widget.postsModel.user?.username);
                         },
                         child: CustomUserProfileImage(
-                            image: widget.postsModel.user?.profileImg ?? '',
-                            isActive:
-                                widget.postsModel.user?.isActive ?? false),
+                          image: widget.postsModel.user?.profileImg ?? '',
+                          isActive: widget.postsModel.user?.isActive ?? false,
+                          showname: widget.postsModel.user?.showname ?? '',
+                        ),
                       ),
                       SizedBox(width: 15.w),
                       Flexible(
@@ -274,6 +275,7 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                         },
                         child: CustomUserProfileImage(
                             image: widget.postsModel.user?.profileImg ?? '',
+                            showname: widget.postsModel.user?.showname ?? '',
                             isActive:
                                 widget.postsModel.user?.isActive ?? false),
                       ),

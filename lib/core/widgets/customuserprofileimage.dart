@@ -8,17 +8,18 @@ class CustomUserProfileImage extends StatelessWidget {
       {super.key,
       required this.image,
       required this.isActive,
-      r,
       this.width,
       this.height,
       this.bottom,
-      this.right});
+      this.right,
+      required this.showname});
   final String image;
   final bool isActive;
   final double? width;
   final double? height;
   final double? bottom;
   final double? right;
+  final String showname;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -34,11 +35,10 @@ class CustomUserProfileImage extends StatelessWidget {
               fit: BoxFit.cover,
               errorWidget: (context, error, stackTrace) {
                 return Container(
-                  color: Colors.white,
+                  color: Colors.purple,
                   alignment: Alignment.center,
-                  child: Image.asset(
-                    AppImages.kLogo,
-                  ),
+                  child: Text(showname.split('').take(2).join().toUpperCase(),
+                      style: TextStyle(fontSize: 15.sp)),
                 );
               },
             ),

@@ -85,6 +85,14 @@ class _CustomProfileHeaderState extends State<CustomProfileHeader> {
                   },
                   imageUrl: widget.profileModel.data?.user?.profileImg ?? "",
                   isProfileEditorShown: widget.isProfileEditorShown,
+                  textPlaceHolder: Text(
+                      widget.profileModel.data?.user?.showname!
+                              .split('')
+                              .take(2)
+                              .join()
+                              .toUpperCase() ??
+                          "",
+                      style: TextStyle(fontSize: 35.sp)),
                 ),
                 Text(
                   widget.profileModel.data?.user?.showname ?? '',

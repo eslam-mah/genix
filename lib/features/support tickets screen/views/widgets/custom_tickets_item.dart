@@ -24,6 +24,7 @@ class CustomTicketsItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CustomUserProfileImage(
+                showname: ticket.user.showname,
                 image: ticket.user.profileImg,
                 isActive: ticket.user.isActive,
               ),
@@ -71,6 +72,14 @@ class CustomTicketsItem extends StatelessWidget {
                   Row(
                     children: [
                       CustomSmallUserProfileImage(
+                        textPlaceHolder: Text(
+                          ticket.lastUser.showname
+                              .split('')
+                              .take(2)
+                              .join()
+                              .toUpperCase(),
+                          style: TextStyle(fontSize: 10.sp),
+                        ),
                         image: ticket.lastUser.profileImg,
                         isActive: ticket.lastUser.isActive,
                       ),

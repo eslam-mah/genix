@@ -132,6 +132,7 @@ class _SharedPostState extends State<SharedPost> {
                 },
                 borderRadius: BorderRadius.circular(400.r),
                 child: CustomUserProfileImage(
+                  showname: widget.postsModel.user?.showname ?? '',
                   image: widget.postsModel.user?.profileImg ?? '',
                   isActive: widget.postsModel.user?.isActive ?? false,
                 ),

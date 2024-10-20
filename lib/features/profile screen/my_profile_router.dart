@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_cubit.dart';
-import 'package:genix/features/profile%20screen/new%20data/cubit/profile_cubit_cubit.dart';
 import 'package:genix/features/profile%20screen/view%20model/add%20friend/add_friend_cubit.dart';
 import 'package:genix/features/profile%20screen/view%20model/get%20profile/get_profile_cubit.dart';
 import 'package:genix/features/profile%20screen/view%20model/remove%20friend/remove_friend_cubit.dart';

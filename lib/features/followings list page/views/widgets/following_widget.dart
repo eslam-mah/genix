@@ -43,6 +43,7 @@ class FollowingWidget extends StatelessWidget {
                 height: 40.w,
                 bottom: 15.w,
                 right: 25.w,
+                showname: user.user.showname,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

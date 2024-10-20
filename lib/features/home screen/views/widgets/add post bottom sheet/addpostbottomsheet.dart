@@ -516,7 +516,7 @@ Future<dynamic> addPostModalBottomSheet(
                               child: Row(
                                 children: [
                                   InkWell(
-                                    onTap: (){},
+                                    onTap: () {},
                                     child: Container(
                                       width: 100.w,
                                       height: 50.h,
@@ -548,7 +548,7 @@ Future<dynamic> addPostModalBottomSheet(
                                           borderRadius:
                                               BorderRadius.circular(13.r)),
                                       child: CustomTextField2(
-                                          readOnly: true,
+                                          readOnly: false,
                                           hintText: 'Custom location',
                                           controller: currentLocationController,
                                           icon: const SizedBox.shrink()),
@@ -723,16 +723,10 @@ Future<dynamic> addPostModalBottomSheet(
                                 SizedBox(
                                   width: 20.w,
                                 ),
-                                SizedBox(
-                                  height: 35.h,
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.purple,
-                                    child: Text(
-                                      'RA',
-                                      style: TextStyle(
-                                          fontSize: 18.sp, color: Colors.white),
-                                    ),
-                                  ),
+                                Icon(
+                                  FontAwesomeIcons.circlePlus,
+                                  color: null,
+                                  size: 35.sp,
                                 ),
                                 SizedBox(
                                   width: 30.w,
@@ -759,7 +753,8 @@ Future<dynamic> addPostModalBottomSheet(
                                 // Check if content is empty and no files are selected
                                 if (contentText.isEmpty &&
                                     selectedFiles.isEmpty &&
-                                    isPoll == false) {
+                                    isPoll == false &&
+                                    isCheckIn == false) {
                                   GoRouter.of(context).pop();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -829,14 +824,16 @@ Future<dynamic> addPostModalBottomSheet(
                                       postingIn:
                                           isPost == 1 ? 'newsfeed' : 'story',
                                       files: selectedFiles,
-                                      checkInLocation:
-                                          currentLocationController.text.trim(),
+                                      checkInLocation: isCheckIn
+                                          ? currentLocationController.text
+                                              .trim()
+                                          : 'a',
                                       isLive: isLive,
                                       cameraMirror: false,
                                       cameraId: '',
                                       deviceType: 'mobile',
                                       microphoneId: '',
-                                      checkIn: true,
+                                      checkIn: isCheckIn,
                                       toCloseFriends: isCloseFriend,
                                       pollOptions: isPoll
                                           ? pollOptions
@@ -845,7 +842,7 @@ Future<dynamic> addPostModalBottomSheet(
                                       pollQuestion: isPoll
                                           ? pollQuestionController.text.trim()
                                           : 'a', // Poll question submitted
-                                      event: true,
+                                      event: isCheckIn,
                                       eventTimeStamp: DateTime.now().toString(),
                                     )
                                         .then((onValue) {

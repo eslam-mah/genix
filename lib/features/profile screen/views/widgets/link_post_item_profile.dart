@@ -7,15 +7,12 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
-import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/comments%20section/views/view/commentsbody.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/posts_list.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
+
 import 'package:genix/features/home%20screen/views/widgets/custom_post_components.dart';
 import 'package:genix/features/home%20screen/views/widgets/share_post/share_bottom_sheet.dart';
-import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
 import 'package:genix/features/profile%20screen/data/profile_model/profile_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -100,6 +97,7 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                       CustomUserProfileImage(
                         image: user.profileImg ?? '',
                         isActive: user.isActive ?? false,
+                        showname: user.showname ?? '',
                       ),
                       SizedBox(width: 10.w),
                       Expanded(

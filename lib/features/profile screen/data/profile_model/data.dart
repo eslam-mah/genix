@@ -9,7 +9,6 @@ import 'groups_collection.dart';
 import 'my_following.dart';
 import 'photo_and_video.dart';
 import 'posted_short.dart';
-import 'recent_post.dart';
 import 'saved_short.dart';
 import 'user.dart';
 

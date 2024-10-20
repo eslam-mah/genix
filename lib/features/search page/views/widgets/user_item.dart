@@ -38,6 +38,7 @@ class UserItem extends StatelessWidget {
               ),
               CustomUserProfileImage(
                 image: user.profileImg,
+                showname: user.showname,
                 isActive: user.isActive,
                 width: 40.w,
                 height: 40.w,

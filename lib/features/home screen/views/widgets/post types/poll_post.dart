@@ -25,82 +25,94 @@ class _PollPostState extends State<PollPost> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(6.r),
       child: Column(
-        children: pollOptions.map((option) {
-          double percentage = totalVotes == 0
-              ? 0
-              : (option.votesFromUsers?.length ?? 0) / totalVotes * 170;
+        children: [
+          Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                poll?.question ?? "",
+                style:
+                    TextStyle(fontSize: 20.sp, color: AppColors.kPrimaryColor),
+              )),
+          Column(
+            children: pollOptions.map((option) {
+              double percentage = totalVotes == 0
+                  ? 0
+                  : (option.votesFromUsers?.length ?? 0) / totalVotes * 170;
 
-          return InkWell(
-            onTap: () {
-              setState(() {
-                if (userVotedOptionId == option.title) {
-                  userVotedOptionId = null;
-                  option.votesFromUsers?.remove(user?.id as int);
-                } else {
-                  // Vote
-                  if (userVotedOptionId != null) {
-                    // Remove vote from the previous option
-                    pollOptions
-                        .firstWhere((opt) => opt.title == userVotedOptionId)
-                        .votesFromUsers
-                        ?.remove(user?.id as int);
-                  }
-                  userVotedOptionId = option.title;
-                  option.votesFromUsers?.add(user?.id as int);
-                }
-              });
-            },
-            child: Container(
-              color: userVotedOptionId == option.title
-                  ? AppColors.kPrimaryColor.withOpacity(0.1)
-                  : Colors.transparent,
-              padding: EdgeInsets.symmetric(vertical: 10.h),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      option.title ?? '',
-                      style: TextStyle(
-                        fontSize: 20.sp,
+              return InkWell(
+                onTap: () {
+                  setState(() {
+                    if (userVotedOptionId == option.title) {
+                      userVotedOptionId = null;
+                      option.votesFromUsers?.remove(user?.id as int);
+                    } else {
+                      // Vote
+                      if (userVotedOptionId != null) {
+                        // Remove vote from the previous option
+                        pollOptions
+                            .firstWhere((opt) => opt.title == userVotedOptionId)
+                            .votesFromUsers
+                            ?.remove(user?.id as int);
+                      }
+                      userVotedOptionId = option.title;
+                      option.votesFromUsers?.add(user?.id as int);
+                    }
+                  });
+                },
+                child: Container(
+                  color: userVotedOptionId == option.title
+                      ? AppColors.kPrimaryColor.withOpacity(0.1)
+                      : Colors.transparent,
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          option.title ?? '',
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 20.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4.r),
+                                color: Colors.grey[300],
+                              ),
+                            ),
+                            AnimatedContainer(
+                              duration: Duration(milliseconds: 600),
+                              height: 20.h,
+                              width: percentage.w,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4.r),
+                                color: AppColors.kPrimaryColor,
+                              ),
+                            ),
+                            Center(
+                              child: CustomTextWidget(
+                                textSize: 14.sp,
+                                fontFamily: 'fontFamily',
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black,
+                                text:
+                                    '${option.votesFromUsers?.length ?? 0} votes',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Stack(
-                      children: [
-                        Container(
-                          height: 20.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4.r),
-                            color: Colors.grey[300],
-                          ),
-                        ),
-                        AnimatedContainer(
-                          duration: Duration(milliseconds: 600),
-                          height: 20.h,
-                          width: percentage.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4.r),
-                            color: AppColors.kPrimaryColor,
-                          ),
-                        ),
-                        Center(
-                          child: CustomTextWidget(
-                            textSize: 14.sp,
-                            fontFamily: 'fontFamily',
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black,
-                            text: '${option.votesFromUsers?.length ?? 0} votes',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }).toList(),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
       ),
     );
   }

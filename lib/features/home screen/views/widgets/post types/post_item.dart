@@ -338,6 +338,7 @@ class _PostItemState extends State<PostItem> {
                         },
                         borderRadius: BorderRadius.circular(400.r),
                         child: CustomUserProfileImage(
+                          showname: user.showname ?? '',
                           image: user.profileImg ?? '',
                           isActive: user.isActive ?? false,
                         ),

@@ -3,7 +3,6 @@ import 'package:genix/features/profile%20screen/data/profile_model/misc.dart';
 import 'package:genix/features/profile%20screen/data/profile_model/uploads.dart';
 
 import 'og_info.dart';
-import 'reactions.dart';
 import 'user.dart';
 
 class RecentPost extends Equatable {

@@ -78,6 +78,7 @@ class _TempCommentBubbleState extends State<TempCommentBubble> {
                       SizedBox(width: 60.w),
                       CustomUserProfileImage(
                           image: widget.postsModel.user?.profileImg ?? '',
+                          showname: widget.postsModel.user?.showname ?? '',
                           isActive: widget.postsModel.user?.isActive ?? false),
                       SizedBox(width: 15.w),
                       Flexible(
@@ -244,6 +245,7 @@ class _TempCommentBubbleState extends State<TempCommentBubble> {
                     children: [
                       CustomUserProfileImage(
                           image: widget.postsModel.user?.profileImg ?? '',
+                          showname: widget.postsModel.user?.showname ?? '',
                           isActive: widget.postsModel.user?.isActive ?? false),
                       SizedBox(width: 15.w),
                       Flexible(

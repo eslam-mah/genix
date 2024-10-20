@@ -215,6 +215,7 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     CustomUserProfileImage(
+                                        showname: widget.ticket.user.showname,
                                         image: widget.ticket.user.profileImg,
                                         isActive: widget.ticket.user.isActive),
                                     SizedBox(
