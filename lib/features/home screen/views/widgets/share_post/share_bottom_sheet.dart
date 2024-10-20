@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/custombutton.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 
 Future<dynamic> shareBottomSheet(BuildContext context) {
   int typeSelected = 0;
@@ -47,7 +48,9 @@ Future<dynamic> shareBottomSheet(BuildContext context) {
                               width: 157.w,
                               height: 40.h,
                               decoration: BoxDecoration(
-                                  color: AppColors.kTextFieldColor,
+                                  color: ThemeCubit().state == ThemeState.dark
+                                      ? DarkModeColors.kItemColorDark
+                                      : AppColors.kTextFieldColor,
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.green.withOpacity(0.5),
@@ -98,7 +101,9 @@ Future<dynamic> shareBottomSheet(BuildContext context) {
                                         ? Colors.green
                                         : Colors.black.withOpacity(0.5),
                                   ),
-                                  color: AppColors.kTextFieldColor,
+                                  color: ThemeCubit().state == ThemeState.dark
+                                      ? DarkModeColors.kItemColorDark
+                                      : AppColors.kTextFieldColor,
                                   borderRadius: BorderRadius.circular(12.r)),
                               child: Row(
                                 mainAxisAlignment:
@@ -142,7 +147,9 @@ Future<dynamic> shareBottomSheet(BuildContext context) {
                                         ? Colors.green
                                         : Colors.black.withOpacity(0.5),
                                   ),
-                                  color: AppColors.kTextFieldColor,
+                                  color: ThemeCubit().state == ThemeState.dark
+                                      ? DarkModeColors.kItemColorDark
+                                      : AppColors.kTextFieldColor,
                                   borderRadius: BorderRadius.circular(12.r)),
                               child: Row(
                                 mainAxisAlignment:
@@ -182,7 +189,9 @@ Future<dynamic> shareBottomSheet(BuildContext context) {
                                         ? Colors.green
                                         : Colors.black.withOpacity(0.5),
                                   ),
-                                  color: AppColors.kTextFieldColor,
+                                  color: ThemeCubit().state == ThemeState.dark
+                                      ? DarkModeColors.kItemColorDark
+                                      : AppColors.kTextFieldColor,
                                   borderRadius: BorderRadius.circular(12.r)),
                               child: Row(
                                 mainAxisAlignment:
@@ -240,7 +249,9 @@ Future<dynamic> shareBottomSheet(BuildContext context) {
                                           ? Colors.green
                                           : Colors.black.withOpacity(0.5),
                                     ),
-                                    color: AppColors.kTextFieldColor,
+                                    color: ThemeCubit().state == ThemeState.dark
+                                        ? DarkModeColors.kItemColorDark
+                                        : AppColors.kTextFieldColor,
                                     borderRadius: BorderRadius.circular(12.r)),
                                 child: Row(
                                   mainAxisAlignment:
@@ -299,7 +310,9 @@ Future<dynamic> shareBottomSheet(BuildContext context) {
                                           ? Colors.green
                                           : Colors.black.withOpacity(0.5),
                                     ),
-                                    color: AppColors.kTextFieldColor,
+                                    color: ThemeCubit().state == ThemeState.dark
+                                        ? DarkModeColors.kItemColorDark
+                                        : AppColors.kTextFieldColor,
                                     borderRadius: BorderRadius.circular(12.r)),
                                 child: Row(
                                   mainAxisAlignment:
@@ -358,7 +371,9 @@ Future<dynamic> shareBottomSheet(BuildContext context) {
                                           ? Colors.green
                                           : Colors.black.withOpacity(0.5),
                                     ),
-                                    color: AppColors.kTextFieldColor,
+                                    color: ThemeCubit().state == ThemeState.dark
+                                        ? DarkModeColors.kItemColorDark
+                                        : AppColors.kTextFieldColor,
                                     borderRadius: BorderRadius.circular(12.r)),
                                 child: Row(
                                   mainAxisAlignment:
@@ -388,7 +403,9 @@ Future<dynamic> shareBottomSheet(BuildContext context) {
                             ),
                             Container(
                               decoration: BoxDecoration(
-                                color: AppColors.kTextFieldColor,
+                                color: ThemeCubit().state == ThemeState.dark
+                                    ? DarkModeColors.kItemColorDark
+                                    : AppColors.kTextFieldColor,
                                 borderRadius: BorderRadius.circular(20.r),
                               ),
                               height: 100.h,

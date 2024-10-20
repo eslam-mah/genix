@@ -18,8 +18,10 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 import 'package:genix/core/widgets/followingslistview.dart';
-import 'package:genix/core/widgets/saved_shorts.dart';
-import 'package:genix/core/widgets/shorts_list_view.dart';
+import 'package:genix/features/photos%20page/views/view/photos_page.dart';
+import 'package:genix/features/profile%20screen/views/widgets/saved_shorts.dart';
+import 'package:genix/features/profile%20screen/views/widgets/shorts_list_view.dart';
+import 'package:genix/features/followers%20list%20page/views/view/followers_page.dart';
 import 'package:genix/features/followers%20list%20page/views/widgets/followers_list_view.dart';
 import 'package:genix/features/groups%20page/views/widgets/groups_list_view.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
@@ -27,11 +29,13 @@ import 'package:genix/features/home%20screen/views/widgets/post%20types/post_ite
 import 'package:genix/features/profile%20screen/view%20model/get%20profile/get_profile_cubit.dart';
 import 'package:genix/features/profile%20screen/views/widgets/custom_icon_listview.dart';
 import 'package:genix/features/profile%20screen/views/widgets/custom_profile_header.dart';
-import 'package:genix/features/photos%20page/widgets/photos_List_view.dart';
+import 'package:genix/features/photos%20page/views/widgets/photos_List_view.dart';
 import 'package:genix/features/profile%20screen/views/widgets/custom_profile_shimmer.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
+import 'package:genix/features/videos%20page/views/view/videos_page.dart';
 
-import 'package:genix/features/videos%20page/widgets/videos_list_view.dart';
+import 'package:genix/features/videos%20page/views/widgets/videos_list_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -218,7 +222,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 child: CustomHeaderWidget2(
                                                     text: 'Photos')),
                                             InkWell(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  GoRouter.of(context).push(
+                                                      PhotosPage.route,
+                                                      extra: state.profiles.data
+                                                              ?.user?.id ??
+                                                          0);
+                                                },
                                                 child: const Text(
                                                   'See all',
                                                   style: TextStyle(
@@ -227,9 +237,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ],
                                         ),
                                         PhotosGridView(
-                                          height: 110.h,
-                                          crossAxisCount: 2,
-                                          direction: Axis.horizontal,
                                           profileModel: profileModel,
                                         )
                                       ],
@@ -242,7 +249,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 child: CustomHeaderWidget2(
                                                     text: 'Videos')),
                                             InkWell(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  GoRouter.of(context).push(
+                                                      VideosPage.route,
+                                                      extra: state.profiles.data
+                                                              ?.user?.id ??
+                                                          0);
+                                                },
                                                 child: const Text(
                                                   'See all',
                                                   style: TextStyle(
@@ -251,9 +264,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ],
                                         ),
                                         VideosGridView(
-                                          height: 170.h,
-                                          crossAxisCount: 2,
-                                          direction: Axis.horizontal,
                                           profileModel: profileModel,
                                         )
                                       ],
@@ -275,7 +285,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ],
                                         ),
                                         ShortsListView(
-                                            height: 200.h,
                                             profileModel: profileModel)
                                       ],
                                     ),
@@ -296,7 +305,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ],
                                         ),
                                         SavedShortsListView(
-                                          height: 200.h,
                                           profileModel: profileModel,
                                         )
                                       ],
@@ -329,7 +337,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 child: CustomHeaderWidget2(
                                                     text: 'Followers')),
                                             InkWell(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  GoRouter.of(context).push(
+                                                      FollowersPage.route,
+                                                      extra: state.profiles.data
+                                                              ?.user?.id ??
+                                                          0);
+                                                },
                                                 child: const Text(
                                                   'See all',
                                                   style: TextStyle(
@@ -338,7 +352,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ],
                                         ),
                                         FollowersListView(
-                                            height: 170.h,
                                             profileModel: profileModel)
                                       ],
                                     ),

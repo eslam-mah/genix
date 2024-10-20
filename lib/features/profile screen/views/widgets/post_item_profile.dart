@@ -12,7 +12,7 @@ import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/comments%20section/views/view/commentsbody.dart';
 
 import 'package:genix/features/home%20screen/views/widgets/custom_post_components.dart';
-import 'package:genix/features/home%20screen/views/widgets/share_bottom_sheet.dart';
+import 'package:genix/features/home%20screen/views/widgets/share_post/share_bottom_sheet.dart';
 import 'package:genix/features/profile%20screen/data/profile_model/profile_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';

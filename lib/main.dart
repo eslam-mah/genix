@@ -7,14 +7,10 @@ import 'package:genix/core/utils/router.dart';
 import 'package:genix/features/drawer/view%20model/log_out_cubit/log_out_cubit.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
-import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheData.cacheInitialization();
-  final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
-  Hive.init(appDocumentDir.path);
 
   runApp(const Genix());
 }

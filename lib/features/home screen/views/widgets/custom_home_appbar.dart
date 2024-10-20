@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:genix/core/utils/images.dart';
-import 'package:genix/core/widgets/addpostbottomsheet.dart';
+import 'package:genix/features/home%20screen/views/widgets/add%20post%20bottom%20sheet/addpostbottomsheet.dart';
 import 'package:genix/core/widgets/customappbaricon.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/search%20page/views/view/search_page.dart';

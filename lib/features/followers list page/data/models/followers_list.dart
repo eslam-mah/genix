@@ -1,67 +1,55 @@
 import 'package:genix/features/followers%20list%20page/data/models/followers_model.dart';
 
 class FollowersList {
-  String status;
-  Data data;
+  bool success;
+  FollowersData data;
+  String? message;
 
-  FollowersList({required this.status, required this.data});
+  FollowersList({
+    required this.success,
+    required this.data,
+    this.message,
+  });
 
   factory FollowersList.fromJson(Map<String, dynamic> json) {
     return FollowersList(
-      status: json['status'],
-      data: Data.fromJson(json['data']),
+      success: json['success'],
+      data: FollowersData.fromJson(json['data']),
+      message: json['message'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = this.status;
+    data['success'] = this.success;
     data['data'] = this.data.toJson();
+    data['message'] = this.message;
     return data;
   }
 }
 
-class Data {
-  List<FollowersModel> followers;
+class FollowersData {
+  List<FollowersModel> collection;
+  UserModel user;
 
-  Data({required this.followers});
+  FollowersData({
+    required this.collection,
+    required this.user,
+  });
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    var followersJson = json['collection'] as List;
-    List<FollowersModel> followersList =
-        followersJson.map((i) => FollowersModel.fromJson(i)).toList();
-
-    return Data(
-      followers: followersList,
+  factory FollowersData.fromJson(Map<String, dynamic> json) {
+    return FollowersData(
+      collection: (json['collection'] as List<dynamic>)
+          .map((item) => FollowersModel.fromJson(item as Map<String, dynamic>))
+          .toList(),
+      user: UserModel.fromJson(json['user']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['collection'] = this
-        .followers
-        .map((followersModel) => followersModel.toJson())
-        .toList();
+    data['collection'] = this.collection.map((item) => item.toJson()).toList();
+    data['user'] = this.user.toJson();
     return data;
-  }
-
-  void addFollower({required FollowersModel follower}) {
-    this.followers.add(follower);
-  }
-
-  void updateFollower({required FollowersModel newFollower}) {
-    final updatedFollowerIndex =
-        this.followers.indexWhere((f) => f.user.id == newFollower.user.id);
-    if (updatedFollowerIndex != -1) {
-      this.followers[updatedFollowerIndex] = newFollower;
-    }
-  }
-
-  void deleteFollower(int userId) {
-    final removedFollowerIndex =
-        this.followers.indexWhere((f) => f.user.id == userId);
-    if (removedFollowerIndex != -1) {
-      this.followers.removeAt(removedFollowerIndex);
-    }
   }
 }

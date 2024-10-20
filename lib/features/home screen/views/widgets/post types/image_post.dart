@@ -14,20 +14,23 @@ class ImagePost extends StatelessWidget {
     if (user == null || uploads == null || uploads.isEmpty) {
       return Container(); // Return an empty container or a placeholder if the data is invalid
     }
-    void showImagePreview(BuildContext context, String imageUrl) {
+
+    void openImageDialog(BuildContext context, String imageUrl) {
       showDialog(
         context: context,
-        builder: (context) => Dialog(
-            child: Container(
-          width: double.infinity,
-          height: 520.h,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(imageUrl),
-              fit: BoxFit.contain,
+        builder: (BuildContext context) {
+          return Dialog(
+            backgroundColor: Colors.black,
+            child: InteractiveViewer(
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                placeholder: (context, url) =>
+                    const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
             ),
-          ),
-        )),
+          );
+        },
       );
     }
 
@@ -36,7 +39,7 @@ class ImagePost extends StatelessWidget {
       child: uploads.length == 1
           ? InkWell(
               onTap: () {
-                showImagePreview(context, uploads.first.fileUrl);
+                openImageDialog(context, uploads.first.fileUrl);
               },
               child: CachedNetworkImage(
                 imageUrl: uploads.first.fileUrl,
@@ -59,7 +62,7 @@ class ImagePost extends StatelessWidget {
                 final upload = uploads[index];
                 return InkWell(
                   onTap: () {
-                    showImagePreview(context, upload.fileUrl);
+                    openImageDialog(context, upload.fileUrl);
                   },
                   child: CachedNetworkImage(
                     imageUrl: upload.fileUrl,

@@ -154,20 +154,6 @@ class PostsRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> getPhotoPosts({required num uid}) async {
-    return await HttpHelper.handleRequest((token) async {
-      return await HttpHelper.getData(
-          linkUrl: ApiEndPoints.getPhotoPosts + '/$uid', token: token);
-    });
-  }
-
-  Future<Either<FailureModel, Map>> getVideoPosts({required num uid}) async {
-    return await HttpHelper.handleRequest((token) async {
-      return await HttpHelper.getData(
-          linkUrl: ApiEndPoints.getVideoPosts + '/$uid', token: token);
-    });
-  }
-
   Future<Either<FailureModel, Map>> getStories() async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(

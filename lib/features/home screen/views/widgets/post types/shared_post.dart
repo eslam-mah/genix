@@ -9,6 +9,7 @@ import 'package:genix/features/home%20screen/data/models/posts_model/posts_model
 import 'package:genix/features/home%20screen/views/widgets/post%20types/event_post.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/image_post.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/link_post.dart';
+import 'package:genix/features/home%20screen/views/widgets/post%20types/media_item.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/poll_post.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/video_post.dart';
 import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
@@ -20,7 +21,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 enum Reaction { cry, cute, angry, laugh, love, sad, surprise, wink, none }
 
-enum PostType { image, video, poll, link, event, short, content }
+enum PostType { image, video, poll, link, event, short, content, media }
 
 class SharedPost extends StatefulWidget {
   final PostsModel postsModel;
@@ -33,17 +34,35 @@ class SharedPost extends StatefulWidget {
 class _SharedPostState extends State<SharedPost> {
   List<PostType> _determinePostTypes(PostsModel postModel) {
     final List<PostType> postTypes = [];
+    bool hasImage = false;
+    bool hasVideo = false;
+
     if (postModel.uploads != null) {
+      // Check for images
       if (postModel.uploads!.any((upload) =>
           upload.type == "image/png" ||
           upload.type == "image/jpeg" ||
           upload.type == "image/webp")) {
-        postTypes.add(PostType.image);
+        hasImage = true;
       }
-      if (postModel.uploads!.any((upload) => upload.type == 'video')) {
+      // Check for videos
+      if (postModel.uploads!.any((upload) =>
+          upload.type == 'video/mov' ||
+          upload.type == 'video/mp4' ||
+          upload.type == 'video/webm' ||
+          upload.type == 'video/heic')) {
+        hasVideo = true;
+      }
+
+      if (hasImage && hasVideo) {
+        postTypes.add(PostType.media);
+      } else if (hasImage) {
+        postTypes.add(PostType.image);
+      } else if (hasVideo) {
         postTypes.add(PostType.video);
       }
     }
+
     if (postModel.misc != null && postModel.misc!.poll != null) {
       postTypes.add(PostType.poll);
     }
@@ -59,29 +78,26 @@ class _SharedPostState extends State<SharedPost> {
     } else {
       postTypes.add(PostType.content);
     }
+
     return postTypes;
   }
 
   Widget _getPostType(PostType postType, PostsModel postModel) {
     switch (postType) {
       case PostType.image:
-        return ImagePost(postsModel: widget.postsModel);
+        return ImagePost(postsModel: postModel);
       case PostType.video:
-        return VideoPost(postsModel: widget.postsModel);
+        return VideoPost(postsModel: postModel);
+      case PostType.media:
+        return MediaPost(postsModel: postModel); // Mixed media post
       case PostType.poll:
-        return PollPost(
-          postsModel: widget.postsModel,
-        );
+        return PollPost(postsModel: postModel);
       case PostType.event:
-        return EventPost(
-          postsModel: widget.postsModel,
-        );
+        return EventPost(postsModel: postModel);
       case PostType.link:
-        return LinkPost(
-          postsModel: widget.postsModel,
-        );
+        return LinkPost(postsModel: postModel);
       case PostType.short:
-        return const Text('short');
+        return const Text('Short Video Post');
       case PostType.content:
         return const SizedBox.shrink();
       default:

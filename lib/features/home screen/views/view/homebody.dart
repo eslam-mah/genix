@@ -310,15 +310,8 @@ class _HomePageState extends State<HomePage> {
                                       pagingController: _pagingController,
                                     );
                                   } else {
-                                    return Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 300.h,
-                                        color: Colors.white,
-                                      ),
-                                    );
+                                    return PostShimmerEffect(
+                                        isNightModeEnabled: isNightModeEnabled);
                                   }
                                 },
                               )

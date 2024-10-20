@@ -28,7 +28,7 @@ class _PollPostState extends State<PollPost> {
         children: pollOptions.map((option) {
           double percentage = totalVotes == 0
               ? 0
-              : (option.votesFromUsers?.length ?? 0) / totalVotes * 100;
+              : (option.votesFromUsers?.length ?? 0) / totalVotes * 170;
 
           return InkWell(
             onTap: () {

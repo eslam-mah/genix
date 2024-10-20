@@ -1,4 +1,5 @@
-part of 'get_photo_posts_cubit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:genix/features/photos%20page/data/models/photos_list.dart';
 
 sealed class GetPhotoPostsState extends Equatable {
   const GetPhotoPostsState();
@@ -12,7 +13,7 @@ final class GetPhotoPostsInitial extends GetPhotoPostsState {}
 final class GetPhotoPostsLoading extends GetPhotoPostsState {}
 
 final class GetPhotoPostsSuccess extends GetPhotoPostsState {
-  final PostsList photoPosts;
+  final PhotosList photoPosts;
   const GetPhotoPostsSuccess({required this.photoPosts});
 }
 

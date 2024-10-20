@@ -12,7 +12,7 @@ final class GetVideoPostsInitial extends GetVideoPostsState {}
 final class GetVideoPostsLoading extends GetVideoPostsState {}
 
 final class GetVideoPostsSuccess extends GetVideoPostsState {
-  final PostsList videoPosts;
+  final VideosList videoPosts;
   const GetVideoPostsSuccess({required this.videoPosts});
 }
 

@@ -16,7 +16,7 @@ abstract class FollowingsRouter {
                 value: getFollowingsCubit,
               ),
             ],
-            child: FollowingsPage(args: state.extra as FollowingsPageArgs),
+            child: FollowingsPage(id: state.extra as int),
           );
         }),
   ];

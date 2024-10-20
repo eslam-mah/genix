@@ -6,10 +6,8 @@ import 'package:genix/features/profile%20screen/data/profile_model/profile_model
 class FollowingsListView extends StatelessWidget {
   const FollowingsListView({
     super.key,
-    required this.height,
     required this.profileModel,
   });
-  final double height;
   final ProfileModel profileModel;
   @override
   Widget build(BuildContext context) {
@@ -17,22 +15,21 @@ class FollowingsListView extends StatelessWidget {
     if (profile.isEmpty) {
       return Container();
     }
-    return SizedBox(
-        height: profile.length == 1 ? 60.h : height,
-        child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: profile.length > 2 ? 2 : profile.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 6.h),
-                child: ProfilesCard(
-                  imageUrl: profile[index].user?.profileImg ?? '',
-                  showName: profile[index].user?.showname ?? '',
-                  userBio: profile[index].user?.bio ?? '',
-                  isActive: profile[index].user?.isActive ?? false,
-                  userName: profile[index].user?.username ?? '',
-                ),
-              );
-            }));
+    return ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: profile.length > 2 ? 2 : profile.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: 6.h),
+            child: ProfilesCard(
+              imageUrl: profile[index].user?.profileImg ?? '',
+              showName: profile[index].user?.showname ?? '',
+              userBio: profile[index].user?.bio ?? '',
+              isActive: profile[index].user?.isActive ?? false,
+              userName: profile[index].user?.username ?? '',
+            ),
+          );
+        });
   }
 }
