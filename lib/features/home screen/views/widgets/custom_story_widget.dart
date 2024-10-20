@@ -15,7 +15,7 @@ class CustomStoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
           //  Navigator.of(context).push(CustomTransition(MessageScreenBody()));
         },

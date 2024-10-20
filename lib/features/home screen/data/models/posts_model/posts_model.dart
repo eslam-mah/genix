@@ -1,4 +1,5 @@
 import 'package:genix/features/comments%20section/data/models/comments_model.dart';
+import 'package:genix/features/groups%20page/data/models/groups_model.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/misc.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/uploads.dart';
 
@@ -10,8 +11,9 @@ class PostsModel {
   num? id;
   User? user;
   dynamic page;
-  dynamic group;
+  GroupsModel? group;
   String? content;
+  PostsModel? sharedPost;
   bool? inNewsfeed;
   bool? inStory;
   bool? isVideoShort;
@@ -53,11 +55,17 @@ class PostsModel {
 
   PostsModel.fromJson(Map<String, dynamic> json)
       : id = json['id'] != null && json['id'] is num ? json['id'] as num : null,
+        sharedPost = json['shared_post'] != null &&
+                json['shared_post'] is Map<String, dynamic>
+            ? PostsModel.fromJson(json['shared_post'] as Map<String, dynamic>)
+            : null,
         user = json['user'] != null
             ? User.fromJson(json['user'] as Map<String, dynamic>)
             : null,
         page = json['page'],
-        group = json['group'],
+        group = json['group'] != null && json['group'] is Map<String, dynamic>
+            ? GroupsModel.fromJson(json['group'] as Map<String, dynamic>)
+            : null,
         content = json['content'] != null && json['content'] is String
             ? json['content'] as String?
             : null,

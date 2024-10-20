@@ -13,9 +13,9 @@ class CustomAppBarIcon extends StatelessWidget {
   final double size;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-        onTap: onTap,
-        child: Icon(
+    return IconButton(
+        onPressed: onTap,
+        icon: Icon(
           icon,
           size: size,
           color: color,

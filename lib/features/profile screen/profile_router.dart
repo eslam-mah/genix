@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
+import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_cubit.dart';
 import 'package:genix/features/profile%20screen/view%20model/add%20friend/add_friend_cubit.dart';
 import 'package:genix/features/profile%20screen/view%20model/get%20profile/get_profile_cubit.dart';
 import 'package:genix/features/profile%20screen/view%20model/remove%20friend/remove_friend_cubit.dart';
@@ -14,6 +16,8 @@ abstract class ProfileRouter {
   static final isCloseFriendCubit = IsCloseFriendCubit();
   static final removeFriendCubit = RemoveFriendCubit();
   static final getAccountDetails = GetMyAccountDetailsCubit();
+  static final addReactCubit = AddReactCubit();
+  static final addCommentCubit = AddCommentCubit();
 
   static final List<GoRoute> goRoutes = [
     GoRoute(
@@ -36,8 +40,14 @@ abstract class ProfileRouter {
               BlocProvider.value(
                 value: getAccountDetails,
               ),
+              BlocProvider.value(
+                value: addCommentCubit,
+              ),
+              BlocProvider.value(
+                value: addReactCubit,
+              ),
             ],
-            child: ProfilePage(postsModel: state.extra as PostsModel),
+            child: ProfilePage(userName: state.extra as String),
           );
         }),
   ];

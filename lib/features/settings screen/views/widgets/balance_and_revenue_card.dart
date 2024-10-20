@@ -22,7 +22,7 @@ class BalanceAndRevenueCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('CURRENT BALANCE', style: TextStyle(color: Colors.grey)),
+                Text('CURRENT BALANCE', style: TextStyle(fontSize: 13.sp)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -53,8 +53,7 @@ class BalanceAndRevenueCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('REVENUE FROM SHORTS',
-                    style: TextStyle(color: Colors.grey)),
+                Text('REVENUE FROM SHORTS', style: TextStyle(fontSize: 15.sp)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -82,7 +81,7 @@ class BalanceAndRevenueCard extends StatelessWidget {
                           color: Colors.grey),
                       child: Text(
                         'WITHDRAW',
-                        style: TextStyle(color: Colors.white, fontSize: 10.sp),
+                        style: TextStyle(fontSize: 10.sp),
                         textAlign: TextAlign.center,
                       ),
                     )

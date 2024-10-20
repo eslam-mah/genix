@@ -41,13 +41,11 @@ class EventWidget extends StatelessWidget {
                 children: [
                   CustomTextWidget(
                       textSize: 13.sp,
-                      isNightMode: isNightMode,
                       fontFamily: '',
                       fontWeight: FontWeight.bold,
                       text: text),
                   CustomTextWidget(
                       textSize: 16.sp,
-                      isNightMode: isNightMode,
                       fontFamily: '',
                       fontWeight: FontWeight.normal,
                       text: eventText),

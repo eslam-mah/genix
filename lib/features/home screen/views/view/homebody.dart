@@ -5,21 +5,16 @@ import 'package:genix/core/default_status_indicators/first_page_error_indicator.
 import 'package:genix/core/default_status_indicators/first_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/new_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/no_items_found_indicator.dart';
-import 'package:genix/features/comments%20section/data/models/comments_model.dart';
-import 'package:genix/features/comments%20section/view%20model/cubit/add_comment_cubit.dart';
-import 'package:genix/features/drawer/view%20model/theme_cubit.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/post_form.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/data.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/summary.dart';
 import 'package:genix/features/home%20screen/data/models/stories_list_model.dart';
-import 'package:genix/features/home%20screen/view%20model/add%20poll/add_poll_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20post/add_post_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_cubit.dart';
+import 'package:genix/features/home%20screen/view%20model/delete%20post/delete_post_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts/get_newsfeed_posts_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20stories/get_stories_cubit.dart';
-import 'package:genix/features/home%20screen/view%20model/update%20post%20by%20id/update_post_by_id_cubit.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_story_widget.dart';
+import 'package:genix/features/home%20screen/views/widgets/post_shimmer_effect.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -34,7 +29,7 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 
 import 'package:genix/features/home%20screen/views/widgets/custom_home_appbar.dart';
 
@@ -93,6 +88,8 @@ class _HomePageState extends State<HomePage> {
         BlocListener<GetNewsFeedPostsCubit, GetNewsFeedPostsState>(
           listener: (context, state) {
             if (state is GetNewsFeedPostsSuccess) {
+              state.posts.data.postsModel
+                  .sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
               _fetchPage(state.posts.data.postsModel);
             }
           },
@@ -102,6 +99,37 @@ class _HomePageState extends State<HomePage> {
             if (state is GetStoriesSuccess) {
               _fetchStories(state.stories.data.stories);
             }
+          },
+        ),
+        BlocListener<DeletePostCubit, DeletePostState>(
+          listener: (context, state) {
+            if (state is DeletePostSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Post deleted successfully.')),
+              );
+            } else if (state is DeletePostError) {
+              final currentItems = _pagingController.itemList ?? [];
+              final updatedItems = [...currentItems];
+              _pagingController.itemList = updatedItems;
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Failed to delete post.')),
+              );
+            }
+          },
+        ),
+        BlocListener<AddPostCubit, AddPostState>(
+          listener: (context, state) {
+            if (state is AddPostSuccess) {
+              List<PostsModel> items = _pagingController.itemList ?? [];
+              items.add(PostsModel(content: 'adding a post'));
+              _pagingController.itemList = items;
+              setState(() {});
+            }
+          },
+        ),
+        BlocListener<AddReactCubit, AddReactState>(
+          listener: (context, state) {
+            if (state is AddReactSuccess) {}
           },
         ),
         BlocListener<ThemeCubit, ThemeState>(
@@ -118,8 +146,7 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
-              CustomBottomAppBar(
-                isNightMode: isNightModeEnabled,
+              const CustomBottomAppBar(
                 homeEnabled: false,
               ),
               Positioned(
@@ -137,6 +164,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         appBar: AppBar(
+          toolbarHeight: 45.h,
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
@@ -158,7 +186,6 @@ class _HomePageState extends State<HomePage> {
                   refresh: () {
                     _pagingController.refresh();
                   },
-                  isNightMode: isNightModeEnabled,
                 );
               } else {
                 return Shimmer.fromColors(
@@ -192,7 +219,9 @@ class _HomePageState extends State<HomePage> {
                     setState(() {
                       _nextPageKey = 1;
                     });
+
                     _pagingController.refresh();
+                    _storiesPagingController.refresh();
                   },
                 ),
                 child: CustomScrollView(
@@ -224,13 +253,13 @@ class _HomePageState extends State<HomePage> {
                                             _storiesPagingController.refresh(),
                                       ),
                                       firstPageProgressIndicatorBuilder: (_) =>
-                                          FirstPageProgressIndicator(),
+                                          const FirstPageProgressIndicator(),
                                       newPageProgressIndicatorBuilder: (_) =>
                                           const Center(
                                               child:
                                                   NewPageProgressIndicator()),
                                       noItemsFoundIndicatorBuilder: (_) =>
-                                          SizedBox.shrink(),
+                                          const SizedBox.shrink(),
                                       itemBuilder: (context, item, index) {
                                         return CustomStoryWidget(
                                             storyModel: item);
@@ -252,13 +281,18 @@ class _HomePageState extends State<HomePage> {
                             FirstPageErrorIndicator(
                           onTryAgain: () => _pagingController.refresh(),
                         ),
-                        firstPageProgressIndicatorBuilder: (_) =>
-                            FirstPageProgressIndicator(),
+                        firstPageProgressIndicatorBuilder: (_) => Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.w, vertical: 15.h),
+                          child: PostShimmerEffect(
+                              isNightModeEnabled: isNightModeEnabled),
+                        ),
                         newPageProgressIndicatorBuilder: (_) =>
                             const NewPageProgressIndicator(),
                         noItemsFoundIndicatorBuilder: (_) =>
-                            NoItemsFoundIndicator(),
+                            const NoItemsFoundIndicator(),
                         itemBuilder: (context, item, index) {
+                          // Your actual post item implementation
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -273,17 +307,11 @@ class _HomePageState extends State<HomePage> {
                                       refresh: () {
                                         _pagingController.refresh();
                                       },
+                                      pagingController: _pagingController,
                                     );
                                   } else {
-                                    return Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 300.h,
-                                        color: Colors.white,
-                                      ),
-                                    );
+                                    return PostShimmerEffect(
+                                        isNightModeEnabled: isNightModeEnabled);
                                   }
                                 },
                               )
@@ -291,7 +319,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),

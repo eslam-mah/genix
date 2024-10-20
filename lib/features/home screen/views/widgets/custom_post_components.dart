@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 
 class CustomPostComponents extends StatelessWidget {
   const CustomPostComponents({
@@ -23,7 +24,9 @@ class CustomPostComponents extends StatelessWidget {
           height: 30.h,
           width: width,
           decoration: BoxDecoration(
-              color: isNightMode ? Colors.black : Colors.white,
+              color: ThemeCubit().state == ThemeState.dark
+                  ? Colors.black
+                  : Colors.white,
               borderRadius: BorderRadius.circular(8.r)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

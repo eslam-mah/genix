@@ -41,6 +41,7 @@ class _RepliesBodyState extends State<RepliesBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 45.h,
         title: const Text('Replies'),
       ),
       body: Padding(

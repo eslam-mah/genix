@@ -17,8 +17,7 @@ class ReplyingTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(13.r)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(13.r)),
       child: TextField(
         controller: textEditingController,
         maxLines: null,

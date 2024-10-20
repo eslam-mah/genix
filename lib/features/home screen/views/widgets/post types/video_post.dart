@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:genix/core/widgets/videoplayerpage.dart';
+import 'package:genix/core/widgets/video_player_page.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
+import 'package:genix/features/home%20screen/views/widgets/video_post_item.dart';
 
 class VideoPost extends StatelessWidget {
   final PostsModel postsModel;
@@ -20,8 +21,10 @@ class VideoPost extends StatelessWidget {
           ? VideoPlayerWidget(
               videoUrl: uploads.first.fileUrl,
               showPlay: true,
-              shimmerWidth: 300.w,
-              shimmerHeight: 450.h,
+              shimmerWidth: 0,
+              played: false,
+              showLoadingIndicator: true,
+              shimmerHeight: 0,
               isMuted: true,
             )
           : GridView.builder(
@@ -36,12 +39,8 @@ class VideoPost extends StatelessWidget {
               itemCount: uploads.length,
               itemBuilder: (context, index) {
                 final upload = uploads[index];
-                return VideoPlayerWidget(
-                  videoUrl: upload.fileUrl,
-                  showPlay: true,
-                  shimmerWidth: 300.w,
-                  shimmerHeight: 450.h,
-                  isMuted: true,
+                return VideoPlayerPostItem(
+                  video: upload.fileUrl,
                 );
               },
             ),

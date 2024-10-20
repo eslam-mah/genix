@@ -27,7 +27,8 @@ class CustomTextField extends StatelessWidget {
         readOnly: readOnly,
         decoration: InputDecoration(
           hintText: hintText,
-          focusedBorder: UnderlineInputBorder(
+          hintStyle: TextStyle(fontSize: 15.sp),
+          focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: AppColors.kPrimaryColor),
           ),
         ),

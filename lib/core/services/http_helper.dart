@@ -1,25 +1,29 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:genix/core/services/checkinternet.dart';
 import 'package:genix/core/services/failure_model.dart';
 import 'package:genix/core/services/http_reponse_status.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:genix/core/utils/pref_keys.dart';
 import 'package:http/http.dart' as http;
-import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HttpHelper {
   // Function to save token
   static Future<void> _saveToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('auth_token', token);
+    debugPrint('HttpHelper._saveToken: $token');
+    await prefs.setString(PrefKeys.kToken, token);
   }
 
   // Function to get token
   static Future<String?> _getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('auth_token');
+    return prefs.getString(PrefKeys.kToken);
   }
 
   // Function to handle login and store token
@@ -167,9 +171,11 @@ class HttpHelper {
     required String name,
     String? token,
   }) async {
-    token ??= await _getToken(); // Get token if not provided
+    token ??= await _getToken(); // Ensure token is retrieved
+
     var request = http.MultipartRequest('PATCH', Uri.parse(linkUrl));
     request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept'] = 'application/json';
 
     if (!await file.exists()) {
       throw Exception("File not found at path: ${file.path}");
@@ -184,7 +190,14 @@ class HttpHelper {
       contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
     ));
 
+    // Log request details
+    print("Uploading file: ${file.path}");
+    print("MIME Type: $mimeType");
+
+    // Send the request
     final response = await request.send();
+
+    // Get the response
     return await http.Response.fromStream(response);
   }
 
@@ -327,3 +340,23 @@ class HttpHelper {
     }
   }
 }
+// static Future<http.Response> postPatchData({
+//   required String linkUrl,
+//   required Map data,
+//   String? token,
+// }) async {
+//   token ??= await _getToken(); // Get token if not provided
+//   var headers = {
+//     'Authorization': 'Bearer $token',
+//     'accept': 'application/json',
+//     'Content-Type': 'multipart/form-data',
+//   };
+
+//   var response = await http.patch(
+//     Uri.parse(linkUrl),
+//     body: json.encode(data),
+//     headers: headers,
+//   );
+
+//   return response;
+// }

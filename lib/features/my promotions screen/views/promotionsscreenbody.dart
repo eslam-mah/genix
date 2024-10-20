@@ -10,7 +10,7 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 
 import 'package:genix/core/widgets/customglowingbutton.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 
 class PromotionsScreenBody extends StatefulWidget {
   const PromotionsScreenBody({super.key});
@@ -39,9 +39,7 @@ class _PromotionsScreenBodyState extends State<PromotionsScreenBody> {
         alignment: Alignment.center,
         clipBehavior: Clip.none,
         children: [
-          CustomBottomAppBar(
-            isNightMode: isNightModeEnabled,
-          ),
+          const CustomBottomAppBar(),
           Positioned(
               bottom: 20,
               child: GestureDetector(
@@ -55,6 +53,7 @@ class _PromotionsScreenBodyState extends State<PromotionsScreenBody> {
         ],
       )),
       appBar: AppBar(
+        toolbarHeight: 45.h,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(

@@ -1,19 +1,30 @@
 part of 'add_post_cubit.dart';
 
-sealed class AddPostState extends Equatable {
+abstract class AddPostState extends Equatable {
   const AddPostState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class AddPostInitial extends AddPostState {}
+class AddPostInitial extends AddPostState {}
 
-final class AddPostLoading extends AddPostState {}
+class AddPostLoading extends AddPostState {}
 
-final class AddPostSuccess extends AddPostState {
-  final PostsModel post;
-  const AddPostSuccess({required this.post});
+class AddPostSuccess extends AddPostState {
+  final Map<String, dynamic> response;
+
+  const AddPostSuccess(this.response);
+
+  @override
+  List<Object?> get props => [response];
 }
 
-final class AddPostError extends AddPostState {}
+class AddPostFailure extends AddPostState {
+  final String error;
+
+  const AddPostFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}

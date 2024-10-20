@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:genix/features/users/data/models/users_list.dart';
 import 'package:genix/features/users/data/repos/user_repository.dart';

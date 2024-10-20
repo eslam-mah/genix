@@ -1,37 +1,36 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
+import 'package:genix/core/services/failure_model.dart';
+import 'package:equatable/equatable.dart';
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:genix/features/settings%20screen/data/models/settings_model.dart';
 import 'package:genix/features/settings%20screen/data/repos/setting_repository.dart';
 
+// Define the states
 part 'update_my_profile_state.dart';
 
 class UpdateMyProfileCubit extends Cubit<UpdateMyProfileState> {
-  UpdateMyProfileCubit() : super(UpdateMyProfileInitial());
-  final SettingRepository updateFilesRepo = SettingRepository();
-  Future<void> updateMyProfile(
-      {required File profileImg, required File coverImg}) async {
-    emit(UpdateMyProfileLoading());
-    if (profileImg != null) {
-      final result =
-          await updateFilesRepo.updateProfile(profileImg, "profile_img");
-      result.fold(
-        (l) => emit(UpdateMyProfileError()),
-        (r) {
-          emit(UpdateMyProfileSuccess(profile: r['data']['profile_img']));
-        },
-      );
-    }
+  final SettingRepository profileRepository = SettingRepository();
 
-    if (coverImg != null) {
-      final result = await updateFilesRepo.updateProfile(coverImg, "cover_img");
-      result.fold(
-        (l) => emit(UpdateMyProfileError()),
-        (r) {
-          emit(UpdateMyProfileSuccess(profile: r['data']['cover_img']));
-        },
-      );
-    }
+  UpdateMyProfileCubit() : super(UpdateProfileInitial());
+
+  // Function to update profile image and cover image
+  Future<void> updateProfile({File? profileImg, File? coverImg}) async {
+    emit(UpdateProfileLoading()); // Emit loading state
+
+    // Call the repository to update the profile
+    Either<FailureModel, Map> result = await profileRepository.updateProfile(
+      profileImg: profileImg,
+      coverImg: coverImg,
+    );
+
+    // Handle the result
+    result.fold(
+      (failure) =>
+          emit(UpdateProfileError(failure.message ?? '')), // Emit failure state
+      (data) => emit(UpdateProfileSuccess(
+          data as Map<String, dynamic>)), // Emit success state
+    );
   }
 }

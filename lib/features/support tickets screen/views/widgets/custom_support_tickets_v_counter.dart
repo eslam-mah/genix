@@ -4,6 +4,7 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customiconbutton.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 
 class CustomSupportTicketsVCounter extends StatelessWidget {
   const CustomSupportTicketsVCounter({
@@ -13,14 +14,12 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
     required this.title,
     required this.buttonText,
     required this.buttonIcon,
-    required this.isNightMode,
   });
   final IconData icon;
   final String title;
   final String text;
   final String buttonText;
   final IconData buttonIcon;
-  final bool isNightMode;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,9 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
       width: 150.w,
       height: 250.h,
       decoration: BoxDecoration(
-          color: AppColors.kAppBar2Color,
+          color: ThemeCubit().state == ThemeState.dark
+              ? DarkModeColors.kItemColorDark
+              : AppColors.kAppBar2Color,
           borderRadius: BorderRadius.circular(8.r)),
       child: Column(
         //    mainAxisAlignment: MainAxisAlignment.end,
@@ -48,7 +49,6 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
                   fontFamily: '',
                   fontWeight: FontWeight.bold,
                   text: title,
-                  isNightMode: isNightMode,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 13.w),
@@ -58,7 +58,6 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
                     fontFamily: '',
                     fontWeight: FontWeight.w500,
                     text: text,
-                    isNightMode: isNightMode,
                   ),
                 ),
                 CustomIconButton(

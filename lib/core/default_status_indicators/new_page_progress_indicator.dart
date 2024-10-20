@@ -3,14 +3,11 @@ import 'package:genix/core/utils/colors.dart';
 
 class NewPageProgressIndicator extends StatelessWidget {
   const NewPageProgressIndicator({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) =>
-      // FooterTile(
-      //       child:
-      Center(
+  Widget build(BuildContext context) => const Center(
           child: CircularProgressIndicator(
         color: AppColors.kPrimaryColor,
       ));

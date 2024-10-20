@@ -6,9 +6,8 @@ import 'package:genix/features/home%20screen/data/models/posts_model/posts_model
 
 class PollPost extends StatefulWidget {
   final PostsModel postsModel;
-  final bool isNightMode;
-  const PollPost(
-      {super.key, required this.postsModel, required this.isNightMode});
+  final bool? isNightMode;
+  const PollPost({super.key, required this.postsModel, this.isNightMode});
 
   @override
   State<PollPost> createState() => _PollPostState();
@@ -20,16 +19,16 @@ class _PollPostState extends State<PollPost> {
   Widget build(BuildContext context) {
     final user = widget.postsModel.user;
     final poll = widget.postsModel.misc?.poll;
-    final pollOptions = poll?.options ?? [];
-    int totalVotes = pollOptions.fold(
-        0, (sum, option) => sum + (option.votesFromUsers?.length ?? 0));
+    final pollOptions = poll?.options;
+    int totalVotes = pollOptions!
+        .fold(0, (sum, option) => sum + (option.votesFromUsers?.length ?? 0));
     return ClipRRect(
       borderRadius: BorderRadius.circular(6.r),
       child: Column(
         children: pollOptions.map((option) {
           double percentage = totalVotes == 0
               ? 0
-              : (option.votesFromUsers?.length ?? 0) / totalVotes * 100;
+              : (option.votesFromUsers?.length ?? 0) / totalVotes * 170;
 
           return InkWell(
             onTap: () {
@@ -87,13 +86,12 @@ class _PollPostState extends State<PollPost> {
                         ),
                         Center(
                           child: CustomTextWidget(
-                              textSize: 14.sp,
-                              fontFamily: 'fontFamily',
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black,
-                              text:
-                                  '${option.votesFromUsers?.length ?? 0} votes',
-                              isNightMode: widget.isNightMode),
+                            textSize: 14.sp,
+                            fontFamily: 'fontFamily',
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black,
+                            text: '${option.votesFromUsers?.length ?? 0} votes',
+                          ),
                         ),
                       ],
                     ),

@@ -9,12 +9,10 @@ class BigTextField extends StatelessWidget {
     required this.hintText,
     this.color,
     required this.controller,
-    required this.isNightMode,
   });
   final String hintText;
   final Color? color;
   final TextEditingController controller;
-  final bool isNightMode;
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -13,7 +13,7 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 
-import 'package:genix/core/widgets/glowingbuttonbody.dart';
+import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
 import 'package:intl/intl.dart';
 
@@ -45,9 +45,7 @@ class _TicketItemPageState extends State<TicketItemPage> {
           alignment: Alignment.center,
           clipBehavior: Clip.none,
           children: [
-            CustomBottomAppBar(
-              isNightMode: isNightModeEnabled,
-            ),
+            const CustomBottomAppBar(),
             Positioned(
               bottom: 20,
               child: GestureDetector(
@@ -63,6 +61,7 @@ class _TicketItemPageState extends State<TicketItemPage> {
         ),
       ),
       appBar: AppBar(
+        toolbarHeight: 45.h,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -112,14 +111,12 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                       fontFamily: '',
                                       fontWeight: FontWeight.normal,
                                       text: 'Ticket summary',
-                                      isNightMode: isNightModeEnabled,
                                     ),
                                     CustomTextWidget(
                                       textSize: 18.sp,
                                       fontFamily: '',
                                       fontWeight: FontWeight.normal,
                                       text: 'Available actions',
-                                      isNightMode: isNightModeEnabled,
                                     )
                                   ],
                                 ),
@@ -135,33 +132,28 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                           titleText: 'Title',
                                           theText: widget.ticket.title,
                                           isGreen: false,
-                                          isNightMode: isNightModeEnabled,
                                         ),
                                         _TextRow(
                                           titleText: 'Created at',
                                           theText: DateFormat('MMMM d, yyyy')
                                               .format(widget.ticket.createdAt),
                                           isGreen: false,
-                                          isNightMode: isNightModeEnabled,
                                         ),
                                         _TextRow(
                                           titleText: 'Last Reply by',
                                           theText:
                                               widget.ticket.lastUser.showname,
                                           isGreen: true,
-                                          isNightMode: isNightModeEnabled,
                                         ),
                                         _TextRow(
                                           titleText: 'Replies in total',
                                           theText: '0',
                                           isGreen: false,
-                                          isNightMode: isNightModeEnabled,
                                         ),
                                         _TextRow(
                                           titleText: 'Status',
                                           theText: widget.ticket.status,
                                           isGreen: true,
-                                          isNightMode: isNightModeEnabled,
                                         )
                                       ],
                                     ),
@@ -238,7 +230,6 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                           fontWeight: FontWeight.normal,
                                           color: Colors.green,
                                           text: widget.ticket.user.showname,
-                                          isNightMode: isNightModeEnabled,
                                         ),
                                         CustomTextWidget(
                                           textSize: 13.sp,
@@ -246,7 +237,6 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                           fontWeight: FontWeight.normal,
                                           text:
                                               'wrote on ${DateFormat('MMMM d, yyyy').format(widget.ticket.createdAt)}',
-                                          isNightMode: isNightModeEnabled,
                                         ),
                                       ],
                                     )
@@ -258,7 +248,6 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                   fontFamily: '',
                                   fontWeight: FontWeight.normal,
                                   text: widget.ticket.content,
-                                  isNightMode: isNightModeEnabled,
                                 )
                               ],
                             ),
@@ -280,12 +269,10 @@ class _TextRow extends StatelessWidget {
     required this.titleText,
     required this.theText,
     required this.isGreen,
-    required this.isNightMode,
   });
   final String titleText;
   final String theText;
   final bool isGreen;
-  final bool isNightMode;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -295,7 +282,6 @@ class _TextRow extends StatelessWidget {
           fontFamily: '',
           fontWeight: FontWeight.normal,
           text: titleText + ': ',
-          isNightMode: isNightMode,
         ),
         SizedBox(
           width: 100.w,
@@ -305,7 +291,6 @@ class _TextRow extends StatelessWidget {
             fontWeight: FontWeight.normal,
             color: isGreen ? Colors.green : Colors.grey.shade500,
             text: theText,
-            isNightMode: isNightMode,
           ),
         )
       ],

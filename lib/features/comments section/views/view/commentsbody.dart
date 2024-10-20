@@ -128,6 +128,7 @@ class _CommentsBodyState extends State<CommentsBody> {
         ),
         child: Scaffold(
           appBar: AppBar(
+            toolbarHeight: 45.h,
             title: const Text('Comments'),
           ),
           body: Stack(
@@ -145,7 +146,7 @@ class _CommentsBodyState extends State<CommentsBody> {
                                 fontFamily: '',
                                 fontWeight: FontWeight.normal,
                                 // color: Colors.black.withOpacity(0.4),
-                                text: 'No comments yet', isNightMode: false,
+                                text: 'No comments yet',
                               ),
                             )
                           : ListView.builder(
@@ -174,13 +175,11 @@ class _CommentsBodyState extends State<CommentsBody> {
                                                 child: CustomCommentBubble(
                                                   onTap: () {},
                                                   postsModel: comment,
-                                                  isNightMode: false,
                                                 ),
                                               )
                                             : CustomCommentBubble(
                                                 onTap: () {},
                                                 postsModel: comment,
-                                                isNightMode: false,
                                               ),
                                         Padding(
                                           padding: EdgeInsets.only(left: 20.w),
@@ -193,7 +192,6 @@ class _CommentsBodyState extends State<CommentsBody> {
                                                 child: CustomCommentBubble(
                                                   onTap: () {},
                                                   postsModel: commentReplies[i],
-                                                  isNightMode: false,
                                                 ),
                                               );
                                             }),

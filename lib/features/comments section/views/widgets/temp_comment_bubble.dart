@@ -29,12 +29,10 @@ class TempCommentBubble extends StatefulWidget {
     required this.onTap,
     required this.commentText,
     required this.postsModel,
-    required this.isNightMode,
   });
   final Function() onTap;
   final String commentText;
   final Comment postsModel;
-  final bool isNightMode;
   @override
   State<TempCommentBubble> createState() => _TempCommentBubbleState();
 }
@@ -108,7 +106,6 @@ class _TempCommentBubbleState extends State<TempCommentBubble> {
                                             text: widget.postsModel.user
                                                     ?.showname ??
                                                 '',
-                                            isNightMode: widget.isNightMode,
                                           ),
                                           if (widget.postsModel.user!
                                                   .isVerified ==
@@ -274,7 +271,6 @@ class _TempCommentBubbleState extends State<TempCommentBubble> {
                                             text: widget.postsModel.user
                                                     ?.showname ??
                                                 '',
-                                            isNightMode: widget.isNightMode,
                                           ),
                                           if (widget.postsModel.user!
                                                   .isVerified ==

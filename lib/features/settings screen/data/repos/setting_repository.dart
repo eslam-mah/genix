@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:genix/core/services/failure_model.dart';
+import 'package:genix/core/services/http_file_helper.dart';
 import 'package:genix/core/services/http_helper.dart';
 import 'package:genix/core/utils/api_end_points.dart';
 
@@ -67,16 +68,39 @@ class SettingRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> updateProfile(
-      File profile, String name) async {
-    return await HttpHelper.handleRequest((token) async {
-      return await HttpHelper.patchFile(
-          linkUrl: ApiEndPoints.updateMyAccountProfile,
-          file: profile,
-          name: name,
-          token: token);
+  // Future<Either<FailureModel, Map>> updateProfile(
+  //     {required Map<String, dynamic> data}) async {
+  //   return await HttpHelper.handleRequest((token) async {
+  //     return await HttpHelper.patchData(
+  //         linkUrl: ApiEndPoints.updateMyAccountProfile,
+  //         data: data,
+  //         token: token);
+  //   });
+  // }
+  Future<Either<FailureModel, Map>> updateProfile({
+    File? profileImg,
+    File? coverImg,
+  }) async {
+    return await HttpFileHelper.handleRequest((token) async {
+      return await HttpFileHelper.patchProfile(
+        linkUrl: ApiEndPoints.updateMyAccountProfile,
+        token: token,
+        profileImg: profileImg,
+        coverImg: coverImg,
+      );
     });
   }
+
+  // Future<Either<FailureModel, Map>> updateProfile(
+  //     {required File profile, String? name}) async {
+  //   return await HttpHelper.handleRequest((token) async {
+  //     return await HttpHelper.patchFile(
+  //         linkUrl: ApiEndPoints.updateMyAccountProfile,
+  //         file: profile,
+  //         name: name ?? '',
+  //         token: token);
+  //   });
+  // }
 
   Future<Either<FailureModel, Map>> deleteMyAccount() async {
     return await HttpHelper.handleRequest((token) async {

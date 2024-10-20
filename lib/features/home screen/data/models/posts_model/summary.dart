@@ -1,35 +1,29 @@
 class Summary {
   int? love;
-  int? cute;
   int? wow;
   int? haha;
   int? angry;
   int? sad;
-  int? wink;
-  int? cry;
+  int? like;
 
-  Summary({this.love, this.cute, this.wow, this.haha, this.angry, this.sad});
+  Summary({this.love, this.wow, this.haha, this.angry, this.sad, this.like});
 
   Summary.fromJson(Map<String, dynamic> json)
-      : love = json['like'],
-        cute = json['love'],
+      : love = json['love'],
         wow = json['wow'],
         haha = json['haha'],
         angry = json['angry'],
         sad = json['sad'],
-        cry = json['cry'],
-        wink = json['wink'];
+        like = json['like'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['like'] = love;
-    data['love'] = cute;
+    data['love'] = love;
     data['wow'] = wow;
     data['haha'] = haha;
     data['angry'] = angry;
     data['sad'] = sad;
-    data['wink'] = wink;
-    data['cry'] = cry;
+    data['like'] = like;
     return data;
   }
 }

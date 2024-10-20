@@ -6,6 +6,9 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/comments%20section/data/models/comments_model.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
+import 'package:genix/features/profile%20screen/views/view/profile_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:timeago/timeago.dart' as timeago;
@@ -29,12 +32,10 @@ class CustomCommentBubble extends StatefulWidget {
     required this.onTap,
     // required this.commentText,
     required this.postsModel,
-    required this.isNightMode,
   });
   final Function() onTap;
   // final String commentText;
   final Comment postsModel;
-  final bool isNightMode;
   @override
   State<CustomCommentBubble> createState() => _CustomCommentBubbleState();
 }
@@ -78,14 +79,21 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                   Row(
                     children: [
                       SizedBox(width: 60.w),
-                      CustomUserProfileImage(
-                          image: widget.postsModel.user?.profileImg ?? '',
-                          isActive: widget.postsModel.user?.isActive ?? false),
+                      InkWell(
+                        onTap: () {
+                          GoRouter.of(context).push(ProfilePage.route,
+                              extra: widget.postsModel.user?.username);
+                        },
+                        child: CustomUserProfileImage(
+                            image: widget.postsModel.user?.profileImg ?? '',
+                            isActive:
+                                widget.postsModel.user?.isActive ?? false),
+                      ),
                       SizedBox(width: 15.w),
                       Flexible(
                         child: Container(
                           decoration: BoxDecoration(
-                              color: widget.isNightMode
+                              color: ThemeCubit().state == ThemeState.dark
                                   ? Colors.black
                                   : AppColors.kAppBar2Color,
                               borderRadius: BorderRadius.circular(10.r)),
@@ -101,16 +109,23 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                                     Expanded(
                                       child: Row(
                                         children: [
-                                          CustomTextWidget(
-                                            width: 70.w,
-                                            maxLines: 3,
-                                            textSize: 12.sp,
-                                            fontFamily: '',
-                                            fontWeight: FontWeight.bold,
-                                            text: widget.postsModel.user
-                                                    ?.showname ??
-                                                '',
-                                            isNightMode: widget.isNightMode,
+                                          InkWell(
+                                            onTap: () {
+                                              GoRouter.of(context).push(
+                                                  ProfilePage.route,
+                                                  extra: widget.postsModel.user
+                                                      ?.username);
+                                            },
+                                            child: CustomTextWidget(
+                                              width: 70.w,
+                                              maxLines: 3,
+                                              textSize: 12.sp,
+                                              fontFamily: '',
+                                              fontWeight: FontWeight.bold,
+                                              text: widget.postsModel.user
+                                                      ?.showname ??
+                                                  '',
+                                            ),
                                           ),
                                           if (widget.postsModel.user!
                                                   .isVerified ==
@@ -252,14 +267,21 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                 children: [
                   Row(
                     children: [
-                      CustomUserProfileImage(
-                          image: widget.postsModel.user?.profileImg ?? '',
-                          isActive: widget.postsModel.user?.isActive ?? false),
+                      InkWell(
+                        onTap: () {
+                          GoRouter.of(context).push(ProfilePage.route,
+                              extra: widget.postsModel.user?.username);
+                        },
+                        child: CustomUserProfileImage(
+                            image: widget.postsModel.user?.profileImg ?? '',
+                            isActive:
+                                widget.postsModel.user?.isActive ?? false),
+                      ),
                       SizedBox(width: 15.w),
                       Flexible(
                         child: Container(
                           decoration: BoxDecoration(
-                              color: widget.isNightMode
+                              color: ThemeCubit().state == ThemeState.dark
                                   ? Colors.black
                                   : AppColors.kAppBar2Color,
                               borderRadius: BorderRadius.circular(10.r)),
@@ -275,15 +297,22 @@ class _CustomCommentBubbleState extends State<CustomCommentBubble> {
                                     Expanded(
                                       child: Row(
                                         children: [
-                                          CustomTextWidget(
-                                            maxLines: 3,
-                                            textSize: 12.sp,
-                                            fontFamily: '',
-                                            fontWeight: FontWeight.bold,
-                                            text: widget.postsModel.user
-                                                    ?.showname ??
-                                                '',
-                                            isNightMode: widget.isNightMode,
+                                          InkWell(
+                                            onTap: () {
+                                              GoRouter.of(context).push(
+                                                  ProfilePage.route,
+                                                  extra: widget.postsModel.user
+                                                      ?.username);
+                                            },
+                                            child: CustomTextWidget(
+                                              maxLines: 3,
+                                              textSize: 12.sp,
+                                              fontFamily: '',
+                                              fontWeight: FontWeight.bold,
+                                              text: widget.postsModel.user
+                                                      ?.showname ??
+                                                  '',
+                                            ),
                                           ),
                                           if (widget.postsModel.user!
                                                   .isVerified ==

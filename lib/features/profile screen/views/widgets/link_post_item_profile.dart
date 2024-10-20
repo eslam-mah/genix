@@ -14,7 +14,7 @@ import 'package:genix/features/comments%20section/views/view/commentsbody.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_list.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_post_components.dart';
-import 'package:genix/features/home%20screen/views/widgets/share_bottom_sheet.dart';
+import 'package:genix/features/home%20screen/views/widgets/share_post/share_bottom_sheet.dart';
 import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
 import 'package:genix/features/profile%20screen/data/profile_model/profile_model.dart';
 import 'package:go_router/go_router.dart';
@@ -144,7 +144,6 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                                 child: CustomTextWidget(
                                   textSize: 15.sp,
                                   fontFamily: '',
-                                  isNightMode: widget.isNightModeEnabled,
                                   fontWeight: FontWeight.normal,
                                   color: Colors.blue,
                                   text: content,
@@ -186,21 +185,18 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                                       fontFamily: '',
                                       fontWeight: FontWeight.normal,
                                       text: recentPost?.ogInfo?.siteName ?? '',
-                                      isNightMode: widget.isNightModeEnabled,
                                     ),
                                     CustomTextWidget(
                                       textSize: 12.sp,
                                       fontFamily: '',
                                       fontWeight: FontWeight.bold,
                                       text: recentPost?.ogInfo?.title ?? '',
-                                      isNightMode: widget.isNightModeEnabled,
                                     ),
                                     CustomTextWidget(
                                       textSize: 12.sp,
                                       fontFamily: '',
                                       fontWeight: FontWeight.normal,
                                       text: recentPost?.ogInfo?.url ?? '',
-                                      isNightMode: widget.isNightModeEnabled,
                                     )
                                   ],
                                 ),

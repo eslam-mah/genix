@@ -2,30 +2,76 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:genix/core/services/failure_model.dart';
+import 'package:genix/core/services/http_file_helper.dart';
 import 'package:genix/core/services/http_helper.dart';
 import 'package:genix/core/utils/api_end_points.dart';
 
 class PostsRepository {
-  Future<Either<FailureModel, Map>> addPost(
-      {required Map<String, dynamic> data}) async {
-    return await HttpHelper.handleRequest((token) async {
-      return await HttpHelper.postData(
-          linkUrl: ApiEndPoints.addPost, data: data, token: token);
-    });
-  }
+  // Future<Either<FailureModel, Map>> addPost(
+  //     {required Map<String, dynamic> data}) async {
+  //   return await HttpHelper.handleRequest((token) async {
+  //     return await HttpHelper.postData(
+  //         linkUrl: ApiEndPoints.addPost, data: data, token: token);
+  //   });
+  // }
 
-  Future<Either<FailureModel, Map>> addFilePost({
-    required Map<String, dynamic> data,
-    required List<File> files, // Support multiple files
-    required String name, // Name for the file field
+  // Future<Either<FailureModel, Map>> addFilePost({
+  //   required Map<String, dynamic> data,
+  //   required List<File> files, // Support multiple files
+  //   required String name, // Name for the file field
+  // }) async {
+  //   return await HttpHelper.handleRequest((token) async {
+  //     return await HttpHelper.postMultipartData(
+  //       linkUrl: ApiEndPoints.addPost,
+  //       data: data,
+  //       files: files,
+  //       name: name,
+  //       token: token,
+  //     );
+  //   });
+  // }
+  Future<Either<FailureModel, Map>> addPost({
+    required String content,
+    required String pageId,
+    required String groupId,
+    required String postingIn,
+    required List<File> files,
+    required String checkInLocation,
+    required bool isLive,
+    required bool cameraMirror,
+    required String cameraId,
+    required String deviceType,
+    required String microphoneId,
+    required bool checkIn,
+    required bool toCloseFriends,
+    required List<String> pollOptions,
+    required bool poll,
+    required String pollQuestion,
+    required bool event,
+    required String eventTimeStamp,
   }) async {
-    return await HttpHelper.handleRequest((token) async {
-      return await HttpHelper.postMultipartData(
-        linkUrl: ApiEndPoints.addPost,
-        data: data,
-        files: files,
-        name: name,
+    return await HttpFileHelper.handleRequest((token) async {
+      return await HttpFileHelper.postContent(
+        url: ApiEndPoints.addPost,
         token: token,
+        content: content,
+        pageId: pageId,
+        groupId: groupId,
+        postingIn: postingIn,
+        files: files,
+        checkinLocation: checkInLocation,
+        cameraId: cameraId,
+        cameraMirror: cameraMirror,
+        deviceType: 'mobile',
+        isLive: isLive,
+        microphoneId: microphoneId,
+        checkin: checkIn,
+        toCloseFriends: toCloseFriends,
+        poll: poll,
+        pollOptions: pollOptions,
+        pollQuestion: pollQuestion,
+        event: event,
+        eventTimestamp: eventTimeStamp,
       );
     });
   }
@@ -105,20 +151,6 @@ class PostsRepository {
       print('Token: $token');
       return await HttpHelper.getData(
           linkUrl: ApiEndPoints.getPostsInNewsFeed, token: token);
-    });
-  }
-
-  Future<Either<FailureModel, Map>> getPhotoPosts({required num uid}) async {
-    return await HttpHelper.handleRequest((token) async {
-      return await HttpHelper.getData(
-          linkUrl: ApiEndPoints.getPhotoPosts + '/$uid', token: token);
-    });
-  }
-
-  Future<Either<FailureModel, Map>> getVideoPosts({required num uid}) async {
-    return await HttpHelper.handleRequest((token) async {
-      return await HttpHelper.getData(
-          linkUrl: ApiEndPoints.getVideoPosts + '/$uid', token: token);
     });
   }
 

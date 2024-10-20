@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
+import 'package:genix/core/utils/pref_keys.dart';
+import 'package:genix/core/utils/router.dart';
 import 'package:genix/features/home%20screen/views/view/homebody.dart';
 import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
@@ -40,14 +42,17 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
         child: BlocListener<FirstLoadCubit, FirstLoadState>(
           listener: (context, state) {
             if (state is FirstLoadSuccess &&
-                CacheData.getData(key: 'auth_token') != null) {
+                CacheData.getData(key: PrefKeys.kToken) != null) {
               GoRouter.of(context).push(HomePage.routeName);
+            } else if (state is FirstLoadSuccess &&
+                CacheData.getData(key: PrefKeys.kToken) == null) {
+              GoRouter.of(context)
+                  .push(LoginScreen.route, extra: const LogInScreenArgs());
             } else if (state is FirstLoadError) {
               GoRouter.of(context)
-                  .push(LoginScreen.route, extra: LogInScreenArgs());
-            } else if (CacheData.getData(key: 'auth_token') == null) {
-              GoRouter.of(context)
-                  .push(LoginScreen.route, extra: LogInScreenArgs());
+                  .push(LoginScreen.route, extra: const LogInScreenArgs());
+            } else {
+              GoRouter.of(context).push(Rout.kLoadingPage);
             }
           },
           child: SizedBox(

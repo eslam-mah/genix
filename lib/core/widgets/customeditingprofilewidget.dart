@@ -63,7 +63,7 @@ class CustomUserProfileEditingImage extends StatelessWidget {
                   backgroundColor: Colors.grey,
                   radius: smallSize,
                   child: Center(
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: onTapIcon,
                       child: Icon(
                         icon,
