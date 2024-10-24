@@ -105,7 +105,7 @@ class PostsRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> deletePost({required num postId}) async {
+  Future<Either<FailureModel, Map>> deletePost({required int postId}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.deleteData(
           linkUrl: ApiEndPoints.deletePost + '/$postId', token: token);

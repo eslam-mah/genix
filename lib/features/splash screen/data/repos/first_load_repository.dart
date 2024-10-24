@@ -10,13 +10,17 @@ class FirstLoadRepository {
         return await HttpHelper.getData(
             linkUrl: "https://api.genix.social/api/firstload", token: token);
       });
-      print("Response: $response"); // Debugging line
-      return response;
+
+      if (response.isRight()) {
+        return response; // Return success response as Map
+      } else {
+        // Assuming the HttpHelper can return a FailureModel containing the HttpResponseStatus
+        final failure = response.fold((l) => l, (r) => null);
+        return Left(failure!);
+      }
     } catch (e) {
-      print("Error: $e"); // Debugging line
       return Left(FailureModel(
-          message: e.toString(),
-          responseStatus: HttpResponseStatus.unAuthorized));
+          message: e.toString(), responseStatus: HttpResponseStatus.failure));
     }
   }
 }

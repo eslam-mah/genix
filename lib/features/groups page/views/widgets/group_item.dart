@@ -67,18 +67,20 @@ class GroupItem extends StatelessWidget {
                     fontFamily: '',
                     fontWeight: FontWeight.normal,
                     text: group.name),
-                Row(
-                  children: [
-                    Icon(Icons.verified,
-                        color: AppColors.kPrimaryColor, size: 15.sp),
-                    CustomTextWidget(
-                        textSize: 15.sp,
-                        fontFamily: '',
-                        fontWeight: FontWeight.normal,
-                        color: AppColors.kPrimaryColor,
-                        text: ' Group joined'),
-                  ],
-                ),
+                // group.me.member.id != null
+                //     ? Row(
+                //         children: [
+                //           Icon(Icons.verified,
+                //               color: AppColors.kPrimaryColor, size: 15.sp),
+                //           CustomTextWidget(
+                //               textSize: 15.sp,
+                //               fontFamily: '',
+                //               fontWeight: FontWeight.normal,
+                //               color: AppColors.kPrimaryColor,
+                //               text: ' Group joined'),
+                //         ],
+                //       )
+                //     : const SizedBox.shrink(),
               ],
             )
           ],

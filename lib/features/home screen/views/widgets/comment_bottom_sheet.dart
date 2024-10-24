@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 
-import 'package:genix/core/widgets/customuserprofileimage.dart';
+import 'package:genix/core/widgets/custom_user_profile_image.dart';
 
 Future<dynamic> commentsBottomSheet(BuildContext context) {
   final TextEditingController textEditingController = TextEditingController();

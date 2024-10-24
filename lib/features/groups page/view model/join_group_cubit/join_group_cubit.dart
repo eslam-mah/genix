@@ -7,10 +7,9 @@ part 'join_group_state.dart';
 class JoinGroupCubit extends Cubit<JoinGroupState> {
   JoinGroupCubit() : super(JoinGroupInitial());
   final GroupsRepository groupsRepository = GroupsRepository();
-  Future<void> joinGroup(
-      {required Map<String, dynamic> data, required int id}) async {
+  Future<void> joinGroup({Map<String, dynamic>? data, required int id}) async {
     emit(JoinGroupLoading());
-    final result = await groupsRepository.joinGroup(data: data, id: id);
+    final result = await groupsRepository.joinGroup(data: data ?? {}, id: id);
     result.fold(
       (l) => emit(JoinGroupError()),
       (r) {

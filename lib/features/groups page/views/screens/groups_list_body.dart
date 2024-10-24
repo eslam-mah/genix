@@ -18,6 +18,7 @@ import 'package:genix/core/widgets/customheaderwidget2.dart';
 import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/groups%20page/data/models/groups_model.dart';
 import 'package:genix/features/groups%20page/view%20model/get_all_groups/get_all_groups_cubit.dart';
+import 'package:genix/features/groups%20page/views/widgets/create_group/create_group_bottom_sheet.dart';
 import 'package:genix/features/groups%20page/views/widgets/group_item.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -179,7 +180,11 @@ class _GroupsListBodyState extends State<GroupsListBody> {
                             height: 40.h,
                             borderRadius: 10.r,
                             color: AppColors.kPrimaryColor,
-                            onTap: () {},
+                            onTap: () {
+                              createGroupBottomSheet(context, () {
+                                _pagingController.refresh();
+                              });
+                            },
                             icon: Icon(
                               Icons.add,
                               color: Colors.white,

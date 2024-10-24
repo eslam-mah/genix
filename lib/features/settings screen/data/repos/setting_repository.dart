@@ -28,11 +28,47 @@ class SettingRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> updateMyAccount(
-      {required Map<String, dynamic> data}) async {
-    return await HttpHelper.handleRequest((token) async {
-      return await HttpHelper.patchData(
-          linkUrl: ApiEndPoints.updateMyAccount, data: data, token: token);
+  Future<Either<FailureModel, Map>> updateAccountDetails(
+      {required String showName,
+      required String userName,
+      required String email,
+      required String bio,
+      required String city,
+      required String country,
+      required String currentPassword,
+      required String newPassword,
+      required String payPalEmail,
+      required String facebook,
+      required String tiktok,
+      required String instagram,
+      required String x,
+      required String pinterest,
+      required String steam,
+      required String linkedIn,
+      required String gender,
+      required File profileImg}) async {
+    return await HttpFileHelper.handleRequest((token) async {
+      return await HttpFileHelper.patchAccount(
+          linkUrl: ApiEndPoints.updateMyAccount,
+          token: token,
+          socialTwitter: x,
+          gender: gender,
+          socialFacebook: facebook,
+          socialInstagram: instagram,
+          socialLinkedin: linkedIn,
+          bio: bio,
+          paypalEmail: payPalEmail,
+          newPassword: newPassword,
+          currentPassword: currentPassword,
+          socialPinterest: pinterest,
+          socialSteam: steam,
+          socialTiktok: tiktok,
+          profileImg: profileImg,
+          showname: showName,
+          username: userName,
+          email: email,
+          city: city,
+          country: country);
     });
   }
 

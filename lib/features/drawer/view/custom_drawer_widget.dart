@@ -11,7 +11,7 @@ import 'package:genix/features/settings%20screen/view%20model/get%20my%20account
 import 'package:go_router/go_router.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customlisttile.dart';
-import 'package:genix/core/widgets/customuserprofileimage.dart';
+import 'package:genix/core/widgets/custom_user_profile_image.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
 

@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:genix/core/widgets/video_player_page.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/views/widgets/video_post_item.dart';
 
@@ -36,6 +35,14 @@ class MediaPost extends StatelessWidget {
       );
     }
 
+    bool isEven(int number) {
+      if (number % 2 == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     bool isVideo(String fileUrl) {
       return fileUrl.endsWith(".mp4") ||
           fileUrl.endsWith(".mov") ||
@@ -49,7 +56,11 @@ class MediaPost extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: uploads.length > 1 ? 2 : 1,
+          crossAxisCount: uploads.length > 1
+              ? isEven(uploads.length)
+                  ? 2
+                  : 3
+              : 1,
           crossAxisSpacing: 1,
           mainAxisSpacing: 1,
           childAspectRatio: 1,

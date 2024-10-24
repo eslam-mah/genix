@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/widgets/custom_small_user_profile_image.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
-import 'package:genix/core/widgets/customuserprofileimage.dart';
+import 'package:genix/core/widgets/custom_user_profile_image.dart';
 import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
 import 'package:intl/intl.dart';
 

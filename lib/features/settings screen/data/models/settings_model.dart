@@ -29,12 +29,15 @@ class Data {
   String? email;
   int? coins;
   int? revenueCoins;
-  int? revenue;
+  double? revenue; // Adjusted to double as the example shows a decimal value
   bool? allowFollowers;
   bool? allowNotifications;
   bool? allowTags;
   bool? allowSearchEngines;
   bool? allowEmails;
+  bool? hideGender;
+  bool? hideLocation;
+  bool? hideAge;
   String? dateOfBirth;
   String? paypalEmail;
   String? profileImg;
@@ -52,7 +55,7 @@ class Data {
   String? socialPinterest;
   String? socialLinkedin;
   List<String>? roles;
-  List<String>? permissions; // Assuming permissions are a list of strings
+  List<String>? permissions;
   bool? verified;
   bool? tfaEnabled;
   bool? isVerified;
@@ -62,45 +65,49 @@ class Data {
   String? locale;
   String? activeAt;
 
-  Data(
-      {this.id,
-      this.username,
-      this.showname,
-      this.email,
-      this.coins,
-      this.revenueCoins,
-      this.revenue,
-      this.allowFollowers,
-      this.allowNotifications,
-      this.allowTags,
-      this.allowSearchEngines,
-      this.allowEmails,
-      this.dateOfBirth,
-      this.paypalEmail,
-      this.profileImg,
-      this.coverImg,
-      this.gender,
-      this.bio,
-      this.country,
-      this.city,
-      this.age,
-      this.socialFacebook,
-      this.socialTiktok,
-      this.socialInstagram,
-      this.socialTwitter,
-      this.socialSteam,
-      this.socialPinterest,
-      this.socialLinkedin,
-      this.roles,
-      this.permissions,
-      this.verified,
-      this.tfaEnabled,
-      this.isVerified,
-      this.createdAt,
-      this.isActive,
-      this.status,
-      this.locale,
-      this.activeAt});
+  Data({
+    this.id,
+    this.username,
+    this.showname,
+    this.email,
+    this.coins,
+    this.revenueCoins,
+    this.revenue,
+    this.allowFollowers,
+    this.allowNotifications,
+    this.allowTags,
+    this.allowSearchEngines,
+    this.allowEmails,
+    this.hideGender,
+    this.hideLocation,
+    this.hideAge,
+    this.dateOfBirth,
+    this.paypalEmail,
+    this.profileImg,
+    this.coverImg,
+    this.gender,
+    this.bio,
+    this.country,
+    this.city,
+    this.age,
+    this.socialFacebook,
+    this.socialTiktok,
+    this.socialInstagram,
+    this.socialTwitter,
+    this.socialSteam,
+    this.socialPinterest,
+    this.socialLinkedin,
+    this.roles,
+    this.permissions,
+    this.verified,
+    this.tfaEnabled,
+    this.isVerified,
+    this.createdAt,
+    this.isActive,
+    this.status,
+    this.locale,
+    this.activeAt,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -109,12 +116,15 @@ class Data {
     email = json['email'];
     coins = json['coins'];
     revenueCoins = json['revenue_coins'];
-    revenue = json['revenue'];
+    revenue = json['revenue']?.toDouble();
     allowFollowers = json['allow_followers'];
     allowNotifications = json['allow_notifications'];
     allowTags = json['allow_tags'];
     allowSearchEngines = json['allow_search_engines'];
     allowEmails = json['allow_emails'];
+    hideGender = json['hide_gender'];
+    hideLocation = json['hide_location'];
+    hideAge = json['hide_age'];
     dateOfBirth = json['date_of_birth'];
     paypalEmail = json['paypal_email'];
     profileImg = json['profile_img'];
@@ -159,6 +169,9 @@ class Data {
     data['allow_tags'] = allowTags;
     data['allow_search_engines'] = allowSearchEngines;
     data['allow_emails'] = allowEmails;
+    data['hide_gender'] = hideGender;
+    data['hide_location'] = hideLocation;
+    data['hide_age'] = hideAge;
     data['date_of_birth'] = dateOfBirth;
     data['paypal_email'] = paypalEmail;
     data['profile_img'] = profileImg;

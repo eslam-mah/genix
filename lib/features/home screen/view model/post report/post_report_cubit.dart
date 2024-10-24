@@ -11,7 +11,10 @@ class PostReportCubit extends Cubit<PostReportState> {
   Future<void> postReport({required ReportForm data}) async {
     emit(PostReportLoading());
     final result = await postReportRepo.postReport(data: data.toJson());
-    result.fold((l) => emit(PostReportError()), (r) {
+    result.fold((l) {
+      print('333333333333333333333333333${l.message}___________________');
+      emit(PostReportError());
+    }, (r) {
       final report = ReportForm.fromJson(data.toJson());
       emit(PostReportSuccess(report: report));
     });

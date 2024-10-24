@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
-import 'package:genix/core/widgets/customuserprofileimage.dart';
+import 'package:genix/core/widgets/custom_user_profile_image.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/profile%20screen/views/view/profile_page.dart';
 import 'package:genix/features/users/data/models/user_model.dart';

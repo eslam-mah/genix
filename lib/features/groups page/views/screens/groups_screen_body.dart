@@ -21,8 +21,15 @@ import 'package:genix/core/widgets/customglowingbutton.dart';
 
 import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/groups%20page/view%20model/get_group_by_id/get_group_by_id_cubit.dart';
+import 'package:genix/features/groups%20page/views/widgets/edit_group_cover_bottom_sheet.dart';
+import 'package:genix/features/groups%20page/views/widgets/edit_group_profile_bottom_sheet.dart';
+import 'package:genix/features/groups%20page/views/widgets/follow_button.dart';
+import 'package:genix/features/groups%20page/views/widgets/group%20post/add_group_post_bottom_sheet.dart';
+import 'package:genix/features/groups%20page/views/widgets/show_group_tab_bar.dart';
+import 'package:genix/features/pages%20screen/views/widgets/add%20post%20bottom%20sheet/add_page_post_bottom_sheet.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/post_item.dart';
+import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class GroupsScreen extends StatefulWidget {
@@ -55,6 +62,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
       print('**********PAGEKEY************ $page');
       getGroupByIdCubit.getGroupById(id: widget.id);
     });
+    context.read<GetMyAccountDetailsCubit>().getMyAccountDetails();
   }
 
   void handleNightModeChanged(bool isNightMode) {
@@ -219,33 +227,107 @@ class _GroupsScreenState extends State<GroupsScreen> {
                                       ),
                                     ),
                                   ),
+                                  state.group.data?.group?.me?.manager ?? false
+                                      ? Positioned(
+                                          right: 18.w,
+                                          bottom: 70.h,
+                                          child: InkWell(
+                                            onTap: () {
+                                              editGroupCoverBottomSheet(context,
+                                                  () async {
+                                                await context
+                                                    .read<GetGroupByIdCubit>()
+                                                    .getGroupById(
+                                                        id: widget.id);
+                                              },
+                                                  state.group.data?.group?.id ??
+                                                      0);
+                                            },
+                                            child: CircleAvatar(
+                                              backgroundColor: Colors.grey,
+                                              radius: 12.r,
+                                              child: Center(
+                                                child: Icon(
+                                                  FontAwesomeIcons.pen,
+                                                  color: Colors.white,
+                                                  size: 12.sp,
+                                                ),
+                                              ),
+                                            ),
+                                          ))
+                                      : const SizedBox.shrink(),
+                                  state.group.data?.group?.me?.manager ?? false
+                                      ? const SizedBox.shrink()
+                                      : Positioned(
+                                          right: 18.w,
+                                          bottom: 350.h,
+                                          child: FollowButton(
+                                            groupProfileModel: state.group,
+                                          )),
                                   Positioned(
                                     bottom: 15.h,
                                     left: 10.w,
-                                    child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(400.r),
-                                      child: Container(
-                                        width: 80.w,
-                                        height: 80.w,
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(400.r),
+                                          child: Container(
+                                            width: 80.w,
+                                            height: 80.w,
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: CachedNetworkImage(
+                                              imageUrl: state.group.data?.group
+                                                      ?.profileImg ??
+                                                  '',
+                                              fit: BoxFit.fill,
+                                              errorWidget:
+                                                  (context, error, stackTrace) {
+                                                return Image.asset(
+                                                  AppImages.kLogo,
+                                                  width: 70.w,
+                                                  height: 70.w,
+                                                );
+                                              },
+                                            ),
+                                          ),
                                         ),
-                                        child: CachedNetworkImage(
-                                          imageUrl: state.group.data?.group
-                                                  ?.profileImg ??
-                                              '',
-                                          fit: BoxFit.fill,
-                                          errorWidget:
-                                              (context, error, stackTrace) {
-                                            return Image.asset(
-                                              AppImages.kLogo,
-                                              width: 70.w,
-                                              height: 70.w,
-                                            );
-                                          },
-                                        ),
-                                      ),
+                                        state.group.data?.group?.me?.manager ??
+                                                false
+                                            ? Positioned(
+                                                bottom: 2.h,
+                                                right: 0.w,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    editGroupProfileBottomSheet(
+                                                        context, () async {
+                                                      await context
+                                                          .read<
+                                                              GetGroupByIdCubit>()
+                                                          .getGroupById(
+                                                              id: widget.id);
+                                                    },
+                                                        state.group.data?.group
+                                                                ?.id ??
+                                                            0);
+                                                  },
+                                                  child: CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.grey,
+                                                    radius: 12.r,
+                                                    child: Center(
+                                                      child: Icon(
+                                                        FontAwesomeIcons.pen,
+                                                        color: Colors.white,
+                                                        size: 12.sp,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ))
+                                            : const SizedBox.shrink()
+                                      ],
                                     ),
                                   ),
                                   Positioned(
@@ -263,22 +345,64 @@ class _GroupsScreenState extends State<GroupsScreen> {
                                                       ?.name ??
                                                   ''),
                                           Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              for (int i = 0;
-                                                  i <= (average - 1).floor();
-                                                  i++) ...[
-                                                Icon(
-                                                  Icons.star,
-                                                  color: Colors.yellow,
-                                                  size: 15.r,
-                                                )
-                                              ],
-                                              CustomTextWidget(
-                                                  textSize: 15.sp,
-                                                  fontFamily: '',
-                                                  fontWeight: FontWeight.normal,
-                                                  text:
-                                                      ' ${state.group.data?.group?.rating?.average ?? ''}'),
+                                              SizedBox(
+                                                width: 200.w,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    for (int i = 0;
+                                                        i <=
+                                                            (average - 1)
+                                                                .floor();
+                                                        i++) ...[
+                                                      Icon(
+                                                        Icons.star,
+                                                        color: Colors.yellow,
+                                                        size: 15.r,
+                                                      )
+                                                    ],
+                                                    CustomTextWidget(
+                                                        textSize: 15.sp,
+                                                        fontFamily: '',
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        text:
+                                                            ' ${state.group.data?.group?.rating?.average ?? ''}'),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.r)),
+                                                width: 40.w,
+                                                height: 30.w,
+                                                child: Center(
+                                                  child: IconButton(
+                                                      onPressed: () async {
+                                                        await showGroupTabBar(
+                                                            context,
+                                                            state.group, () {
+                                                          context
+                                                              .read<
+                                                                  GetGroupByIdCubit>()
+                                                              .getGroupById(
+                                                                  id: widget
+                                                                      .id);
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                          FontAwesomeIcons
+                                                              .ellipsis,
+                                                          size: 18.r)),
+                                                ),
+                                              ),
                                             ],
                                           )
                                         ],
@@ -381,7 +505,11 @@ class _GroupsScreenState extends State<GroupsScreen> {
                                     buttonText: 'CREATE NEW POST',
                                     height: 40.h,
                                     borderRadius: 5.r,
-                                    onTap: () {},
+                                    onTap: () {
+                                      addGroupPostModalBottomSheet(context, () {
+                                        _pagingController.refresh();
+                                      }, state.group.data?.group?.id ?? 0);
+                                    },
                                     icon: Icon(
                                       Icons.add,
                                       size: 17.sp,

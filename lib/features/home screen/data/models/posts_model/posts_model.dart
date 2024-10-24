@@ -2,6 +2,7 @@ import 'package:genix/features/comments%20section/data/models/comments_model.dar
 import 'package:genix/features/groups%20page/data/models/groups_model.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/misc.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/uploads.dart';
+import 'package:genix/features/pages%20screen/data/models/pages_model.dart';
 
 import 'og_info.dart';
 import 'reactions.dart';
@@ -10,7 +11,7 @@ import 'user.dart';
 class PostsModel {
   num? id;
   User? user;
-  dynamic page;
+  PagesModel? page;
   GroupsModel? group;
   String? content;
   PostsModel? sharedPost;
@@ -62,7 +63,9 @@ class PostsModel {
         user = json['user'] != null
             ? User.fromJson(json['user'] as Map<String, dynamic>)
             : null,
-        page = json['page'],
+        page = json['page'] != null && json['page'] is Map<String, dynamic>
+            ? PagesModel.fromJson(json['page'] as Map<String, dynamic>)
+            : null,
         group = json['group'] != null && json['group'] is Map<String, dynamic>
             ? GroupsModel.fromJson(json['group'] as Map<String, dynamic>)
             : null,

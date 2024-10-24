@@ -12,7 +12,7 @@ final class UpdateGeneralSettingsInitial extends UpdateGeneralSettingsState {}
 final class UpdateGeneralSettingsLoading extends UpdateGeneralSettingsState {}
 
 final class UpdateGeneralSettingsSuccess extends UpdateGeneralSettingsState {
-  final SettingsModel setting;
+  final GeneralSettingsForm setting;
   const UpdateGeneralSettingsSuccess({required this.setting});
 }
 

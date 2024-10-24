@@ -12,7 +12,7 @@ final class UpdateMyAccountInitial extends UpdateMyAccountState {}
 final class UpdateMyAccountLoading extends UpdateMyAccountState {}
 
 final class UpdateMyAccountSuccess extends UpdateMyAccountState {
-  final SettingsModel setting;
+  final Map<String, dynamic> setting;
   const UpdateMyAccountSuccess({required this.setting});
 }
 

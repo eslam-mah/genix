@@ -7,7 +7,9 @@ import 'package:genix/core/services/checkinternet.dart';
 import 'package:genix/core/services/failure_model.dart';
 import 'package:genix/core/services/http_reponse_status.dart';
 import 'package:genix/core/utils/pref_keys.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
+// ignore: depend_on_referenced_packages
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,6 +84,90 @@ class HttpFileHelper {
     return await http.Response.fromStream(response);
   }
 
+  static Future<http.Response> patchAccount({
+    required String linkUrl,
+    String? token,
+    File? profileImg,
+    String? showname,
+    String? username,
+    String? email,
+    String? bio,
+    String? city,
+    String? country,
+    String? gender,
+    String? currentPassword,
+    String? newPassword,
+    String? paypalEmail,
+    String? socialFacebook,
+    String? socialTiktok,
+    String? socialInstagram,
+    String? socialTwitter,
+    String? socialPinterest,
+    String? socialSteam,
+    String? socialLinkedin,
+  }) async {
+    token ??= await _getToken(); // Get token if not provided
+
+    var request = http.MultipartRequest('POST', Uri.parse(linkUrl));
+
+    // Set headers
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept'] = 'application/json';
+    request.headers['Content-Type'] = 'multipart/form-data';
+
+    // Add the required '_method' field for patch method
+    request.fields['_method'] = 'patch';
+
+    // Add profile image if available
+    if (profileImg != null && await profileImg.exists()) {
+      var mimeType =
+          lookupMimeType(profileImg.path) ?? 'application/octet-stream';
+      var mimeTypeData = mimeType.split('/');
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'profile_img',
+        profileImg.path,
+        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+      ));
+    }
+
+    // Add other optional fields to the request
+    if (showname != null) request.fields['showname'] = showname;
+    if (username != null) request.fields['username'] = username;
+    if (email != null) request.fields['email'] = email;
+    if (bio != null) request.fields['bio'] = bio;
+    if (city != null) request.fields['city'] = city;
+    if (country != null) request.fields['country'] = country;
+    if (gender != null) request.fields['gender'] = gender;
+    if (currentPassword != null) {
+      request.fields['current_password'] = currentPassword;
+    }
+    if (newPassword != null) request.fields['new_password'] = newPassword;
+    if (paypalEmail != null) request.fields['paypal_email'] = paypalEmail;
+    if (socialFacebook != null) {
+      request.fields['social_facebook'] = socialFacebook;
+    }
+    if (socialTiktok != null) request.fields['social_tiktok'] = socialTiktok;
+    if (socialInstagram != null) {
+      request.fields['social_instagram'] = socialInstagram;
+    }
+    if (socialTwitter != null) request.fields['social_twitter'] = socialTwitter;
+    if (socialPinterest != null) {
+      request.fields['social_pinterest'] = socialPinterest;
+    }
+    if (socialSteam != null) request.fields['social_steam'] = socialSteam;
+    if (socialLinkedin != null) {
+      request.fields['social_linkedin'] = socialLinkedin;
+    }
+
+    // Log request details for debugging
+    print("Sending PATCH request to $linkUrl with fields: ${request.fields}");
+
+    // Send the request and return the response
+    final response = await request.send();
+    return await http.Response.fromStream(response);
+  }
+
   static Future<http.Response> postContent({
     required String url,
     String? token,
@@ -118,19 +204,23 @@ class HttpFileHelper {
     if (pageId != null) request.fields['page_id'] = pageId;
     if (groupId != null) request.fields['group_id'] = groupId;
     if (postingIn != null) request.fields['posting_in'] = postingIn;
-    if (checkinLocation != null)
+    if (checkinLocation != null) {
       request.fields['checkin_location'] = checkinLocation;
+    }
     if (pollQuestion != null) request.fields['poll_question'] = pollQuestion;
-    if (eventTimestamp != null)
+    if (eventTimestamp != null) {
       request.fields['event_timestamp'] = eventTimestamp;
+    }
     if (microphoneId != null) request.fields['microphone_id'] = microphoneId;
     if (cameraId != null) request.fields['camera_id'] = cameraId;
-    if (cameraMirror != null)
+    if (cameraMirror != null) {
       request.fields['camera_mirror'] = cameraMirror.toString();
+    }
     if (deviceType != null) request.fields['device_type'] = deviceType;
     if (isLive != null) request.fields['is_live'] = isLive.toString();
-    if (toCloseFriends != null)
+    if (toCloseFriends != null) {
       request.fields['to_close_friends'] = toCloseFriends.toString();
+    }
     if (event != null) request.fields['event'] = event.toString();
     if (poll != null) request.fields['poll'] = poll.toString();
     if (checkin != null) request.fields['checkin'] = checkin.toString();
@@ -156,6 +246,167 @@ class HttpFileHelper {
       for (int i = 0; i < pollOptions.length; i++) {
         request.fields['poll_options[$i]'] = pollOptions[i];
       }
+    }
+
+    // Send request and handle response
+    final response = await request.send();
+    return await http.Response.fromStream(response);
+  }
+
+  static Future<http.Response> createGroupOrPage({
+    required String url,
+    String? token,
+    String? name,
+    String? category,
+    File? profileImg,
+    File? coverImg,
+    String? website,
+    String? about,
+    String? socialFacebook,
+    String? socialTiktok,
+    String? socialInstagram,
+    String? socialTwitter,
+    String? socialPinterest,
+    String? socialSteam,
+    String? socialLinkedin,
+  }) async {
+    token ??= await _getToken(); // Get token if not provided
+
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+
+    // Set headers
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept'] = 'application/json';
+    request.headers['Content-Type'] = 'multipart/form-data';
+
+    // Add fields
+    if (name != null) request.fields['name'] = name;
+    if (category != null) request.fields['category'] = category;
+    if (website != null) request.fields['website'] = website;
+    if (about != null) request.fields['about'] = about;
+    if (socialFacebook != null) {
+      request.fields['social_facebook'] = socialFacebook;
+    }
+    if (socialTiktok != null) request.fields['social_tiktok'] = socialTiktok;
+    if (socialInstagram != null) {
+      request.fields['social_instagram'] = socialInstagram;
+    }
+    if (socialTwitter != null) request.fields['social_twitter'] = socialTwitter;
+    if (socialPinterest != null) {
+      request.fields['social_pinterest'] = socialPinterest;
+    }
+    if (socialSteam != null) request.fields['social_steam'] = socialSteam;
+    if (socialLinkedin != null) {
+      request.fields['social_linkedin'] = socialLinkedin;
+    }
+
+    // Add profile image if available
+    if (profileImg != null && await profileImg.exists()) {
+      var mimeType =
+          lookupMimeType(profileImg.path) ?? 'application/octet-stream';
+      var mimeTypeData = mimeType.split('/');
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'profile_img',
+        profileImg.path,
+        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+      ));
+    }
+
+    // Add cover image if available
+    if (coverImg != null && await coverImg.exists()) {
+      var mimeType =
+          lookupMimeType(coverImg.path) ?? 'application/octet-stream';
+      var mimeTypeData = mimeType.split('/');
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'cover_img',
+        coverImg.path,
+        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+      ));
+    }
+
+    // Send request and handle response
+    final response = await request.send();
+    return await http.Response.fromStream(response);
+  }
+
+  static Future<http.Response> patchGroupOrPage({
+    required String url,
+    String? token,
+    required String name,
+    String? category,
+    File? profileImg,
+    File? coverImg,
+    String? website,
+    String? about,
+    String? socialFacebook,
+    String? socialTiktok,
+    String? socialInstagram,
+    String? socialTwitter,
+    String? socialPinterest,
+    String? socialSteam,
+    String? socialLinkedin,
+  }) async {
+    token ??= await _getToken(); // Get token if not provided
+
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+
+    // Set headers
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept'] = 'application/json';
+    request.headers['Content-Type'] = 'multipart/form-data';
+
+    // Add the required '_method' field for patch method
+    request.fields['_method'] = 'patch';
+
+    // Add mandatory name field
+    request.fields['name'] = name;
+
+    // Add optional fields
+    if (category != null) request.fields['category'] = category;
+    if (website != null) request.fields['website'] = website;
+    if (about != null) request.fields['about'] = about;
+    if (socialFacebook != null) {
+      request.fields['social_facebook'] = socialFacebook;
+    }
+    if (socialTiktok != null) request.fields['social_tiktok'] = socialTiktok;
+    if (socialInstagram != null) {
+      request.fields['social_instagram'] = socialInstagram;
+    }
+    if (socialTwitter != null) request.fields['social_twitter'] = socialTwitter;
+    if (socialPinterest != null) {
+      request.fields['social_pinterest'] = socialPinterest;
+    }
+    if (socialSteam != null) request.fields['social_steam'] = socialSteam;
+    if (socialLinkedin != null) {
+      request.fields['social_linkedin'] = socialLinkedin;
+    }
+
+    // Add profile image if available
+    if (profileImg != null && await profileImg.exists()) {
+      var mimeType =
+          lookupMimeType(profileImg.path) ?? 'application/octet-stream';
+      var mimeTypeData = mimeType.split('/');
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'profile_img',
+        profileImg.path,
+        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+      ));
+    }
+
+    // Add cover image if available
+    if (coverImg != null && await coverImg.exists()) {
+      var mimeType =
+          lookupMimeType(coverImg.path) ?? 'application/octet-stream';
+      var mimeTypeData = mimeType.split('/');
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'cover_img',
+        coverImg.path,
+        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+      ));
     }
 
     // Send request and handle response

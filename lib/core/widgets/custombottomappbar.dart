@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/customappbaricon.dart';
-import 'package:genix/features/chat%20screen/models/chat_room.dart';
 import 'package:genix/features/home%20screen/views/view/homebody.dart';
 import 'package:genix/features/notifications%20screen/views/view/notifications_page.dart';
 import 'package:genix/features/profile%20screen/views/view/my_profile_page.dart';
@@ -36,7 +35,7 @@ class CustomBottomAppBar extends StatelessWidget {
             icon: FontAwesomeIcons.house,
             onTap: homeEnabled ?? true
                 ? () {
-                    GoRouter.of(context).push(
+                    context.go(
                       HomePage.routeName,
                     );
                   }

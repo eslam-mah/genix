@@ -6,6 +6,7 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 import 'package:genix/core/widgets/customtextfield2.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/settings%20screen/views/widgets/balance_and_revenue_card.dart';
 import 'package:genix/features/settings%20screen/views/widgets/custom_billing_widget.dart';
 import 'package:genix/features/settings%20screen/views/widgets/custom_billing_widget2.dart';
@@ -14,9 +15,7 @@ import 'package:genix/features/settings%20screen/views/widgets/transaction_histo
 class BillingAreaSettings extends StatefulWidget {
   const BillingAreaSettings({
     super.key,
-    required this.isNightModeEnabled,
   });
-  final bool isNightModeEnabled;
 
   @override
   State<BillingAreaSettings> createState() => _BillingAreaSettingsState();
@@ -83,7 +82,8 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                           isSelected: isSelected,
                           numberSelected: 1,
                           coins: 10,
-                          isNightModeEnabled: widget.isNightModeEnabled),
+                          isNightModeEnabled:
+                              ThemeCubit().state == ThemeState.dark),
                     ),
                     SizedBox(
                       width: 10.w,
@@ -98,7 +98,8 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                           isSelected: isSelected,
                           numberSelected: 2,
                           coins: 50,
-                          isNightModeEnabled: widget.isNightModeEnabled),
+                          isNightModeEnabled:
+                              ThemeCubit().state == ThemeState.dark),
                     )
                   ],
                 ),
@@ -117,7 +118,8 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                           isSelected: isSelected,
                           numberSelected: 3,
                           coins: 1500,
-                          isNightModeEnabled: widget.isNightModeEnabled),
+                          isNightModeEnabled:
+                              ThemeCubit().state == ThemeState.dark),
                     ),
                     SizedBox(
                       width: 10.w,
@@ -132,7 +134,8 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                           isSelected: isSelected,
                           numberSelected: 4,
                           coins: 3500,
-                          isNightModeEnabled: widget.isNightModeEnabled),
+                          isNightModeEnabled:
+                              ThemeCubit().state == ThemeState.dark),
                     )
                   ],
                 ),
@@ -151,7 +154,8 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                           isSelected: isSelected,
                           numberSelected: 5,
                           coins: 7000,
-                          isNightModeEnabled: widget.isNightModeEnabled),
+                          isNightModeEnabled:
+                              ThemeCubit().state == ThemeState.dark),
                     ),
                     SizedBox(
                       width: 10.w,
@@ -166,7 +170,8 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                           isSelected: isSelected,
                           numberSelected: 6,
                           coins: 10000,
-                          isNightModeEnabled: widget.isNightModeEnabled),
+                          isNightModeEnabled:
+                              ThemeCubit().state == ThemeState.dark),
                     )
                   ],
                 ),
@@ -177,7 +182,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                     isSelected: isSelected,
                     numberSelected: 7,
                     coins: 100,
-                    isNightModeEnabled: widget.isNightModeEnabled)
+                    isNightModeEnabled: ThemeCubit().state == ThemeState.dark)
               ],
             ),
           ),

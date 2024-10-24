@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
-import 'package:genix/core/widgets/customuserprofileimage.dart';
+import 'package:genix/core/widgets/custom_user_profile_image.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/event_post.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/image_post.dart';
@@ -12,7 +11,6 @@ import 'package:genix/features/home%20screen/views/widgets/post%20types/link_pos
 import 'package:genix/features/home%20screen/views/widgets/post%20types/media_item.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/poll_post.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/video_post.dart';
-import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
 import 'package:genix/features/profile%20screen/views/view/profile_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:html/parser.dart';

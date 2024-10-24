@@ -5,6 +5,7 @@ import 'package:genix/features/comments%20section/replies.dart';
 import 'package:genix/features/followers%20list%20page/followers_router.dart';
 import 'package:genix/features/followers%20list%20page/my_followers_router.dart';
 import 'package:genix/features/followings%20list%20page/followings_router.dart';
+import 'package:genix/features/groups%20page/group_members_router.dart';
 import 'package:genix/features/groups%20page/group_screen_router.dart';
 import 'package:genix/features/groups%20page/groups_router.dart';
 import 'package:genix/features/home%20screen/home_router.dart';
@@ -69,6 +70,9 @@ abstract class Rout {
       path: kLoadingPage,
       builder: (context, state) => const CustomLoadingPage(),
     ),
+
+    /// group members
+    ...GroupMembersRouter.goRoutes,
 
     /// photos
     ...PhotosRouter.goRoutes,

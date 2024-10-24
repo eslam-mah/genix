@@ -12,6 +12,14 @@ class VideoPost extends StatelessWidget {
   Widget build(BuildContext context) {
     final uploads = postsModel.uploads;
     final user = postsModel.user;
+    bool isEven(int number) {
+      if (number % 2 == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     if (user == null || uploads == null || uploads.isEmpty) {
       return Container(); // Return an empty container or a placeholder if the data is invalid
     }
@@ -31,9 +39,13 @@ class VideoPost extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: uploads.length,
-                crossAxisSpacing: 1,
-                mainAxisSpacing: 1,
+                crossAxisCount: uploads.length > 1
+                    ? isEven(uploads.length)
+                        ? 2
+                        : 3
+                    : 1,
+                crossAxisSpacing: 1.w,
+                mainAxisSpacing: 1.w,
                 childAspectRatio: 1,
               ),
               itemCount: uploads.length,

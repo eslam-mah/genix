@@ -12,9 +12,9 @@ final class GetGroupMembersInitial extends GetGroupMembersState {}
 final class GetGroupMembersLoading extends GetGroupMembersState {}
 
 final class GetGroupMembersSuccess extends GetGroupMembersState {
-  final GroupProfileModel group;
+  final MembersList member;
 
-  const GetGroupMembersSuccess({required this.group});
+  const GetGroupMembersSuccess({required this.member});
 }
 
 final class GetGroupMembersError extends GetGroupMembersState {}

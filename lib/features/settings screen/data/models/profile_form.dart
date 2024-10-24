@@ -1,11 +1,14 @@
+import 'dart:io';
+
 class ProfileForm {
-  String showname;
-  String username;
-  String email;
-  String bio;
-  String city;
-  String country;
-  String gender;
+  String? showname;
+  String? username;
+  String? email;
+  String? bio;
+  String? city;
+  String? country;
+  String? gender;
+  File? profileImg;
   String? currentPassword;
   String? newPassword;
   String? paypalEmail;

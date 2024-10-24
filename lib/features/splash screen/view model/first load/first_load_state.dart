@@ -1,20 +1,33 @@
 part of 'first_load_cubit.dart';
 
 @immutable
-sealed class FirstLoadState extends Equatable {
+abstract class FirstLoadState extends Equatable {
   const FirstLoadState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class FirstLoadInitial extends FirstLoadState {}
+class FirstLoadInitial extends FirstLoadState {}
 
-final class FirstLoadLoading extends FirstLoadState {}
+class FirstLoadLoading extends FirstLoadState {}
 
-final class FirstLoadSuccess extends FirstLoadState {
+class FirstLoadSuccess extends FirstLoadState {
   final ValidationModel firstLoad;
-  const FirstLoadSuccess({required this.firstLoad});
+  final HttpResponseStatus status; // Use the enum here
+
+  const FirstLoadSuccess({required this.firstLoad, required this.status});
+
+  @override
+  List<Object?> get props => [firstLoad, status];
 }
 
-final class FirstLoadError extends FirstLoadState {}
+class FirstLoadError extends FirstLoadState {
+  final String? message;
+  final HttpResponseStatus status; // Use the enum here
+
+  const FirstLoadError({this.message, required this.status});
+
+  @override
+  List<Object?> get props => [message, status];
+}

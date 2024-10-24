@@ -8,9 +8,8 @@ import 'package:genix/features/home%20screen/data/repos/posts_repository.dart';
 part 'add_post_state.dart';
 
 class AddPostCubit extends Cubit<AddPostState> {
-  final PostsRepository addPostRepo = PostsRepository();
   AddPostCubit() : super(AddPostInitial());
-
+  final PostsRepository addPostRepo = PostsRepository();
   Future<void> addPost({
     required String content,
     required String pageId,

@@ -9,7 +9,7 @@ import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/video_player_page.dart';
 
 import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
-import 'package:genix/core/widgets/customuserprofileimage.dart';
+import 'package:genix/core/widgets/custom_user_profile_image.dart';
 import 'package:genix/features/video%20shorts%20screen/data/models/shorts_model.dart';
 import 'package:genix/features/video%20shorts%20screen/view%20model/cubit/add_short_cubit.dart';
 import 'package:genix/features/video%20shorts%20screen/view%20model/cubit/get_shorts_cubit.dart';

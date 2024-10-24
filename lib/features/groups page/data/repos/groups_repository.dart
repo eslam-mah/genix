@@ -21,21 +21,74 @@ class GroupsRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> createGroup(
-      {required Map<String, dynamic> data}) async {
-    return await HttpHelper.handleRequest((token) async {
-      return await HttpHelper.postData(
-          data: data, linkUrl: ApiEndPoints.createGroup, token: token);
+  Future<Either<FailureModel, Map>> createGroup({
+    required String name,
+    required String category,
+    required String website,
+    required String about,
+    required String facebook,
+    required String tiktok,
+    required String x,
+    required String instagram,
+    required String pinterest,
+    required String steam,
+    required String linkedin,
+    required File profileImg,
+    required File coverImg,
+  }) async {
+    return await HttpFileHelper.handleRequest((token) async {
+      return await HttpFileHelper.createGroupOrPage(
+          url: ApiEndPoints.createGroup,
+          token: token,
+          name: name,
+          category: category,
+          website: website,
+          about: about,
+          socialFacebook: facebook,
+          socialTiktok: tiktok,
+          socialInstagram: instagram,
+          socialTwitter: x,
+          socialSteam: steam,
+          socialPinterest: pinterest,
+          socialLinkedin: linkedin,
+          profileImg: profileImg,
+          coverImg: coverImg);
     });
   }
 
-  Future<Either<FailureModel, Map>> updateGroupDetails(
-      {required Map<String, dynamic> data, required int id}) async {
-    return await HttpHelper.handleRequest((token) async {
-      return await HttpHelper.patchData(
-          data: data,
-          linkUrl: ApiEndPoints.updateGroupDetails + '/$id',
-          token: token);
+  Future<Either<FailureModel, Map>> updateGroupDetails({
+    required int id,
+    required String name,
+    required String category,
+    required String website,
+    required String about,
+    required String facebook,
+    required String tiktok,
+    required String x,
+    required String instagram,
+    required String pinterest,
+    required String steam,
+    required String linkedin,
+    required File profileImg,
+    required File coverImg,
+  }) async {
+    return await HttpFileHelper.handleRequest((token) async {
+      return await HttpFileHelper.patchGroupOrPage(
+          url: ApiEndPoints.updateGroupDetails + '/$id',
+          token: token,
+          name: name,
+          category: category,
+          website: website,
+          about: about,
+          socialFacebook: facebook,
+          socialTiktok: tiktok,
+          socialInstagram: instagram,
+          socialTwitter: x,
+          socialSteam: steam,
+          socialPinterest: pinterest,
+          socialLinkedin: linkedin,
+          profileImg: profileImg,
+          coverImg: coverImg);
     });
   }
 

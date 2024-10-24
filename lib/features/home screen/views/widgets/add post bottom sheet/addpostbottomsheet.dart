@@ -11,12 +11,10 @@ import 'package:genix/core/widgets/bigtextfield.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customtextfield2.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
-import 'package:genix/features/home%20screen/data/models/posts_model/post_form.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20post/add_post_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
-import 'package:path/path.dart' as path;
 
 Future<dynamic> addPostModalBottomSheet(
     BuildContext context, PostsModel postsModel, Function() refresh) {
@@ -27,7 +25,6 @@ Future<dynamic> addPostModalBottomSheet(
   bool isCloseFriend = false;
   List<Widget> textFields = [];
   TextEditingController contentController = TextEditingController();
-  List<TextEditingController> pollsController = [];
   List<TextEditingController> pollOptionsControllers = [];
   TextEditingController pollQuestionController = TextEditingController();
   TextEditingController currentLocationController = TextEditingController();

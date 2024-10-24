@@ -14,6 +14,13 @@ class ImagePost extends StatelessWidget {
     if (user == null || uploads == null || uploads.isEmpty) {
       return Container(); // Return an empty container or a placeholder if the data is invalid
     }
+    bool isEven(int number) {
+      if (number % 2 == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
 
     void openImageDialog(BuildContext context, String imageUrl) {
       showDialog(
@@ -50,11 +57,15 @@ class ImagePost extends StatelessWidget {
             )
           : GridView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: uploads.length,
-                crossAxisSpacing: 1,
-                mainAxisSpacing: 1,
+                crossAxisCount: uploads.length > 1
+                    ? isEven(uploads.length)
+                        ? 2
+                        : 3
+                    : 1,
+                crossAxisSpacing: 1.w,
+                mainAxisSpacing: 1.w,
                 childAspectRatio: 1,
               ),
               itemCount: uploads.length,

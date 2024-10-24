@@ -43,7 +43,9 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
           listener: (context, state) {
             if (state is FirstLoadSuccess &&
                 CacheData.getData(key: PrefKeys.kToken) != null) {
-              GoRouter.of(context).push(HomePage.routeName);
+              context.go(
+                HomePage.routeName,
+              );
             } else if (state is FirstLoadSuccess &&
                 CacheData.getData(key: PrefKeys.kToken) == null) {
               GoRouter.of(context)

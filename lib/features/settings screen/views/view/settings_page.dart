@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/services/shared_preferences.dart';
-import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/pref_keys.dart';
 import 'package:genix/core/widgets/customappbar.dart';
 
@@ -16,12 +15,15 @@ import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget.dart';
 
 import 'package:genix/core/widgets/glowing_button_body.dart';
+import 'package:genix/features/notifications%20screen/views/widgets/notification_shimmer_item.dart';
+import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/settings%20screen/views/view/billing_setting_view.dart';
 import 'package:genix/features/settings%20screen/views/view/emails_setting_view.dart';
 
 import 'package:genix/features/settings%20screen/views/view/general_settings_view.dart';
 import 'package:genix/features/settings%20screen/views/view/profile_settings_view.dart';
 import 'package:genix/features/settings%20screen/views/view/security_setting_view.dart';
+import 'package:genix/features/settings%20screen/views/widgets/settings_shimmer.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -38,6 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     super.initState();
     isNightModeEnabled = CacheData.getData(key: PrefKeys.kDarkMode) ?? false;
+    context.read<GetMyAccountDetailsCubit>().getMyAccountDetails();
   }
 
   void handleNightModeChanged(bool isNightMode) {
@@ -121,21 +124,33 @@ class _SettingsPageState extends State<SettingsPage> {
                         ],
                         indicatorColor: Colors.green,
                       ),
-                      Expanded(
-                        child: TabBarView(children: [
-                          GeneralSettingsBody(
-                            isNightModeEnabled: isNightModeEnabled,
-                          ),
-                          ProfileSettingsBody(
-                              isNightModeEnabled: isNightModeEnabled),
-                          SecuritySettingsBody(
-                              isNightModeEnabled: isNightModeEnabled),
-                          EmailsSettingBody(
-                              isNightModeEnabled: isNightModeEnabled),
-                          BillingAreaSettings(
-                            isNightModeEnabled: isNightModeEnabled,
-                          )
-                        ]),
+                      BlocBuilder<GetMyAccountDetailsCubit,
+                          GetMyAccountDetailsState>(
+                        builder: (context, state) {
+                          if (state is GetMyAccountDetailsSuccess) {
+                            return Expanded(
+                              child: TabBarView(children: [
+                                GeneralSettingsBody(
+                                  setting: state.account,
+                                ),
+                                ProfileSettingsBody(
+                                  setting: state.account,
+                                ),
+                                SecuritySettingsBody(
+                                  setting: state.account,
+                                ),
+                                EmailsSettingBody(
+                                  setting: state.account,
+                                ),
+                                const BillingAreaSettings()
+                              ]),
+                            );
+                          } else {
+                            print('____________________________${state}');
+                            return SettingsShimmer(
+                                isNightModeEnabled: isNightModeEnabled);
+                          }
+                        },
                       )
                     ],
                   ),

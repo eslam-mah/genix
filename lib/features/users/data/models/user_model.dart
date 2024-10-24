@@ -23,15 +23,15 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'],
-      username: json['username'],
-      showname: json['showname'],
-      profileImg: json['profile_img'],
+      id: json['id'] ?? 0,
+      username: json['username'] ?? '',
+      showname: json['showname'] ?? '',
+      profileImg: json['profile_img'] ?? '',
       coverImg: json['cover_img'] ?? '',
-      isVerified: json['is_verified'],
-      createdAt: json['created_at'],
-      isActive: json['is_active'],
-      status: json['status'],
+      isVerified: json['is_verified'] ?? false,
+      createdAt: json['created_at'] ?? '',
+      isActive: json['is_active'] ?? false,
+      status: json['status'] ?? 0,
     );
   }
 

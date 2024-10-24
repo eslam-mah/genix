@@ -12,7 +12,7 @@ final class UpdateMyEmailsInitial extends UpdateMyEmailsState {}
 final class UpdateMyEmailsLoading extends UpdateMyEmailsState {}
 
 final class UpdateMyEmailsSuccess extends UpdateMyEmailsState {
-  final SettingsModel setting;
+  final String setting;
   const UpdateMyEmailsSuccess({required this.setting});
 }
 

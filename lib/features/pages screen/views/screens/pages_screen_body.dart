@@ -23,6 +23,7 @@ import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/post_item.dart';
 import 'package:genix/features/pages%20screen/view%20model/get_page_by_id/get_page_by_id_cubit.dart';
+import 'package:genix/features/pages%20screen/views/widgets/add%20post%20bottom%20sheet/add_page_post_bottom_sheet.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class PagesScreen extends StatefulWidget {
@@ -381,7 +382,11 @@ class _PagesScreenState extends State<PagesScreen> {
                                     buttonText: 'CREATE NEW POST',
                                     height: 40.h,
                                     borderRadius: 5.r,
-                                    onTap: () {},
+                                    onTap: () {
+                                      addPagePostModalBottomSheet(context, () {
+                                        _pagingController.refresh();
+                                      }, state.page.data?.page?.id ?? 0);
+                                    },
                                     icon: Icon(
                                       Icons.add,
                                       size: 17.sp,
