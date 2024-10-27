@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:genix/core/widgets/custombutton.dart';
-import 'package:genix/features/drawer/view%20model/log_out_cubit/log_out_cubit.dart';
-import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
-import 'package:go_router/go_router.dart';
 import 'package:genix/core/utils/colors.dart';
+import 'package:genix/core/utils/router.dart';
+import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customlisttile.dart';
 import 'package:genix/core/widgets/customuserprofileimage.dart';
+import 'package:genix/features/drawer/view%20model/log_out_cubit/log_out_cubit.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
+import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
 import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomDrawerWidget extends StatelessWidget {
   final bool isNightMode;
+
   const CustomDrawerWidget({
     super.key,
     required this.isNightMode,
@@ -90,6 +92,13 @@ class CustomDrawerWidget extends StatelessWidget {
                 onTap: () {},
               ),
               CustomListTile(
+                icon: FontAwesomeIcons.message,
+                text: 'Chat',
+                onTap: () {
+                  context.push(Rout.kChatsListing);
+                },
+              ),
+              CustomListTile(
                 icon: FontAwesomeIcons.key,
                 text: 'Lock screen',
                 onTap: () {},
@@ -126,9 +135,7 @@ class CustomDrawerWidget extends StatelessWidget {
                       GoRouter.of(context).pop();
                     },
                     activeColor: Colors.white,
-                    activeTrackColor: ThemeCubit().state == ThemeState.dark
-                        ? AppColors.kPrimaryColor2
-                        : Colors.white,
+                    activeTrackColor: ThemeCubit().state == ThemeState.dark ? AppColors.kPrimaryColor2 : Colors.white,
                   ),
                 ],
               ),
@@ -182,8 +189,7 @@ class _LogOutDialog extends StatelessWidget {
                             await context.read<LogOutCubit>().logOut();
 
                             // ignore: use_build_context_synchronously
-                            GoRouter.of(context).go(LoginScreen.route,
-                                extra: const LogInScreenArgs());
+                            GoRouter.of(context).go(LoginScreen.route, extra: const LogInScreenArgs());
                           }),
                       CustomButton(
                           color: Colors.red,

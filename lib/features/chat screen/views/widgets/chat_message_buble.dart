@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart'; // Import the flutter_svg package
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/cubit/user_cubit/user_cubit.dart';
 import 'package:genix/core/services/locator.dart';
 import 'package:genix/features/chat%20screen/models/chat_room_messages.dart';
+import 'package:genix/features/chat%20screen/views/cubit/download_file_Cubit/download_cubit.dart';
 import 'package:genix/features/chat%20screen/views/video_player_screen.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:intl/intl.dart';
@@ -65,19 +67,6 @@ class _ChatBubbleState extends State<ChatBubble> {
                         )
                         .toList(),
                   ),
-
-                // ...message.uploads!.map(
-                //   (upload) => Container(
-                //     constraints: const BoxConstraints(maxWidth: 250),
-                //     padding: const EdgeInsets.only(
-                //       top: 8.0,
-                //       left: 8.0,
-                //       right: 8.0,
-                //       bottom: 8.0,
-                //     ),
-                //     child: _buildUploadWidget(upload, context),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -109,6 +98,7 @@ class _ChatBubbleState extends State<ChatBubble> {
 
   // Helper method to handle uploads and check the file type
   Widget _buildUploadWidget(Upload upload, BuildContext context) {
+    DownloadCubit downloadCubit = DownloadCubit();
     if (upload.type != null && upload.type!.contains('image/svg+xml')) {
       // Display SVG images
       return Padding(
@@ -161,25 +151,63 @@ class _ChatBubbleState extends State<ChatBubble> {
       }
       return _buildVideoWidget(upload.fileUrl!, thumbnailUrl, context);
     } else {
-      return InkWell(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              const Icon(
-                FontAwesomeIcons.fileArrowDown,
-                color: Colors.white,
+      return BlocConsumer<DownloadCubit, DownloadState>(
+        listener: (context, downloadState) {
+          if (downloadState is DownloadSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("File downloaded successfully"),
+                duration: Duration(seconds: 1),
               ),
-              const SizedBox(width: 5),
-              Expanded(
-                child: Text(
-                  upload.filename ?? 'Unsupported file type',
-                  style: const TextStyle(color: Colors.white),
-                ),
+            );
+          }
+          if (downloadState is DownloadLoading) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Downloading file..."),
               ),
-            ],
-          ),
-        ),
+            );
+          }
+          if (downloadState is DownloadFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Failed to download file: ${downloadState.error}"),
+              ),
+            );
+          }
+        },
+        bloc: downloadCubit,
+        builder: (context, downloadState) {
+          return InkWell(
+            onTap: () {
+              downloadCubit.downloadFile(upload.fileUrl!, upload.filename ?? 'file');
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  downloadState is DownloadLoading
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(),
+                        )
+                      : const Icon(
+                          FontAwesomeIcons.fileArrowDown,
+                          color: Colors.white,
+                        ),
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: Text(
+                      upload.filename ?? 'Unsupported file type',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ); // For unsupported file types
     }
   }

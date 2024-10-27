@@ -1,11 +1,14 @@
 class ApiEndPoints {
   static const String baseUrl = 'https://api.genix.social/api';
+
   // register
 
   //log in
   static const String logIn = "$baseUrl/login";
+
   // log out
   static const String logOut = "$baseUrl/logout";
+
   // users
   static const String getUsers = "$baseUrl/accounts/users";
   static const String getBlockedUsers = "$baseUrl/accounts/blocks";
@@ -16,8 +19,10 @@ class ApiEndPoints {
   static const String deleteBlockUser = "$baseUrl/accounts/block";
   static const String updateUser = "$baseUrl/accounts/user";
   static const String deleteUser = "$baseUrl/accounts/user";
+
   // first load
   static const String getFirstLoad = "$baseUrl/firstload";
+
   // tickets
   static const String getAllTickets = "$baseUrl/app/tickets";
   static const String getTicketById = "$baseUrl/app/ticket";
@@ -28,6 +33,7 @@ class ApiEndPoints {
   static const String postTicketComment = "$baseUrl/app/tickets/comment";
   static const String updateTicketComment = "$baseUrl/app/tickets/comment/";
   static const String deleteTicketComment = "$baseUrl/app/tickets/comment/";
+
   // settings
   static const String getMyAccount = "$baseUrl/accounts/me";
   static const String updateMyAccount = "$baseUrl/accounts/me";
@@ -40,28 +46,36 @@ class ApiEndPoints {
   static const String getAllTransactions = "$baseUrl/accounts/me/transactions";
   static const String getAllPayouts = "$baseUrl/accounts/me/payouts";
   static const String postPayout = "$baseUrl/accounts/me/payout";
+
   // get profile
   static const String getProfile = "$baseUrl/accounts/profile";
+
   // friendships
   static const String getFollowers = "$baseUrl/accounts/friendships/followers";
   static const String getFollowings = "$baseUrl/accounts/friendships/following";
   static const String addFriend = "$baseUrl/accounts/friendship";
   static const String updateCloseFriend = "$baseUrl/accounts/friendship";
   static const String removeFriend = "$baseUrl/accounts/friendship";
+
   // notifications
   static const String getNotifications = "$baseUrl/app/notifications";
   static const String updateNotifications = "$baseUrl/app/notifications";
+
   // search
   static const String search = "$baseUrl/app/search";
+
   // lock screen
   static const String getLock = "$baseUrl/auth/lock";
   static const String postLock = "$baseUrl/auth/lock";
   static const String removeLock = "$baseUrl/auth/lock";
+
   // documents
   static const String getDocuments = "$baseUrl/app/documents";
   static const String getDocumentById = "$baseUrl/app/document";
+
   // report
   static const String postReport = "$baseUrl/app/report";
+
   // post
   static const String addPost = "$baseUrl/post";
   static const String getPostById = "$baseUrl/post";
@@ -87,8 +101,8 @@ class ApiEndPoints {
   static const String addDonation = "$baseUrl/posts/donate";
   static const String getLiveChannel = "$baseUrl/posts/live/channel";
   static const String deleteUserPost = "$baseUrl/accounts/user/posts";
-  static const String deleteUserComment =
-      "$baseUrl/accounts/user/posts/comments";
+  static const String deleteUserComment = "$baseUrl/accounts/user/posts/comments";
+
   // shorts
 
   static const String getShorts = baseUrl + "/posts/shorts";
@@ -99,8 +113,10 @@ class ApiEndPoints {
   static const String updateShort = baseUrl + "/posts/short";
   static const String chatRooms = baseUrl + "/chat/rooms";
   static const String chatRoom = baseUrl + "/chat/room/";
+  static const String createChat = baseUrl + "/chat/room";
   static const String chatRoomMessages = baseUrl + "/chat/room/messages/";
   static const String chatRoomMessage = baseUrl + "/chat/room/message/";
+
   // groups
   static const String getGroupsList = "$baseUrl/groups";
   static const String getGroup = "$baseUrl/group";
@@ -118,8 +134,8 @@ class ApiEndPoints {
   static const String updateGroupMember = "$baseUrl/group/member";
   static const String deleteGroupMember = "$baseUrl/group/member";
   static const String deleteGroupMemberPost = "$baseUrl/group/member/posts";
-  static const String deleteGroupMemberComment =
-      "$baseUrl/group/member/posts/comments";
+  static const String deleteGroupMemberComment = "$baseUrl/group/member/posts/comments";
+
   // pages
   static const String getPagesList = "$baseUrl/pages";
   static const String getPage = "$baseUrl/page";
@@ -137,15 +153,13 @@ class ApiEndPoints {
   static const String updatePageMember = "$baseUrl/page/member";
   static const String deletePageMember = "$baseUrl/page/member";
   static const String deletePageMemberPost = "$baseUrl/page/member/posts";
-  static const String deletePageMemberComment =
-      "$baseUrl/page/member/posts/comments";
+  static const String deletePageMemberComment = "$baseUrl/page/member/posts/comments";
+
   // payment
   static const String createStripePayment = "$baseUrl/payments/stripe/create";
   static const String getPromotions = "$baseUrl/payments/promotions";
   static const String postPromotion = "$baseUrl/payments/promotion";
-  static const String getPromotionCpvRate =
-      "$baseUrl/payments/promotion/cpv-rate";
+  static const String getPromotionCpvRate = "$baseUrl/payments/promotion/cpv-rate";
   static const String getPromotionById = "$baseUrl/payments/promotion";
   static const String getGifts = "$baseUrl/payments/gifts";
-
 }

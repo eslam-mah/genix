@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/cubit/handler_cubit/handler_cubit.dart';
-import 'package:genix/core/cubit/user_cubit/user_cubit.dart';
-import 'package:genix/core/services/locator.dart';
 import 'package:genix/features/chat%20screen/models/chat_room.dart';
 import 'package:genix/features/chat%20screen/views/cubit/chat_room_cubit/chat_room_cubit.dart';
 import 'package:genix/features/chat%20screen/views/cubit/file_picker_cubit/file_picker_cubit.dart';
@@ -28,7 +26,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final ChatRoomCubit _chatRoomCubit = ChatRoomCubit();
-  final UserCubit _userCubit = locator<UserCubit>();
   final HandlerCubit<bool> _emojiViewCubit = HandlerCubit(false);
   final FilePickerCubit _filePickerCubit = FilePickerCubit();
 
@@ -36,6 +33,12 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     _chatRoomCubit.getChatRoomMessages(id: widget.chatRoom.id.toString());
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        _chatRoomCubit.fetchNextPage();
+      }
+    });
   }
 
   @override
@@ -126,17 +129,10 @@ class _ChatScreenState extends State<ChatScreen> {
             padding: const EdgeInsets.all(10),
             controller: _scrollController,
             reverse: true,
-            itemCount: stateMessage.messages.length + 1,
+            itemCount: stateMessage.loadingState == true ? stateMessage.messages.length + 1 : stateMessage.messages.length,
             itemBuilder: (context, index) {
-              if (index == stateMessage.messages.length) {
-                return Container(
-                  height: 30,
-                  decoration: const BoxDecoration(
-                    color: Colors.green,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Center(child: CircularProgressIndicator()),
-                );
+              if (stateMessage.loadingState == true && index == stateMessage.messages.length) {
+                return const Center(child: CircularProgressIndicator());
               }
               return ChatBubble(
                 message: stateMessage.messages[index],

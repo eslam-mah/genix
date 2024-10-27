@@ -1,5 +1,6 @@
 import 'package:genix/features/chat%20screen/views/chat_listing_screen.dart';
 import 'package:genix/features/chat%20screen/views/chat_screen.dart';
+import 'package:genix/features/chat%20screen/views/create_new_chat_screen.dart';
 import 'package:genix/features/comments%20section/coments_router.dart';
 import 'package:genix/features/comments%20section/replies.dart';
 import 'package:genix/features/followers%20list%20page/followers_router.dart';
@@ -37,6 +38,7 @@ abstract class Rout {
   static const kChatScreen = '/chat';
 
   static const kLoadingPage = '/custom_loading_page';
+  static const createNewChat = '/create_new_chat';
 
   static final router = GoRouter(routes: [
     GoRoute(
@@ -68,6 +70,10 @@ abstract class Rout {
     GoRoute(
       path: kLoadingPage,
       builder: (context, state) => const CustomLoadingPage(),
+    ),
+    GoRoute(
+      path: createNewChat,
+      builder: (context, state) => NewCreateChatScreen(),
     ),
 
     /// photos
