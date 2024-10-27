@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:genix/features/video%20shorts%20screen/widgets/shorts_comment_bubble.dart';
+import 'package:genix/features/video%20shorts%20screen/views/widgets/shorts_comment_bubble.dart';
 
 class ShortsCommentsList extends StatelessWidget {
   const ShortsCommentsList({

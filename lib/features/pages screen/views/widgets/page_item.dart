@@ -67,18 +67,18 @@ class PageItem extends StatelessWidget {
                     fontFamily: '',
                     fontWeight: FontWeight.normal,
                     text: page.name),
-                Row(
-                  children: [
-                    Icon(Icons.verified,
-                        color: AppColors.kPrimaryColor, size: 15.sp),
-                    CustomTextWidget(
-                        textSize: 15.sp,
-                        fontFamily: '',
-                        fontWeight: FontWeight.normal,
-                        color: AppColors.kPrimaryColor,
-                        text: ' Page followed'),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Icon(Icons.verified,
+                //         color: AppColors.kPrimaryColor, size: 15.sp),
+                //     CustomTextWidget(
+                //         textSize: 15.sp,
+                //         fontFamily: '',
+                //         fontWeight: FontWeight.normal,
+                //         color: AppColors.kPrimaryColor,
+                //         text: ' Page followed'),
+                //   ],
+                // ),
               ],
             )
           ],

@@ -112,6 +112,18 @@ class PostsRepository {
     });
   }
 
+  Future<Either<FailureModel, Map>> removeReact({
+    required int postId,
+    required Map<String, dynamic> data,
+  }) async {
+    return await HttpHelper.handleRequest((token) async {
+      return await HttpHelper.deleteData(
+          linkUrl: ApiEndPoints.reactOnPost + '/$postId',
+          token: token,
+          data: data);
+    });
+  }
+
   Future<Either<FailureModel, Map>> addReact(
       {required Map<String, dynamic> data, required num postId}) async {
     return await HttpHelper.handleRequest((token) async {
@@ -146,18 +158,20 @@ class PostsRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> getNewsFeedPosts() async {
+  Future<Either<FailureModel, Map>> getNewsFeedPosts(
+      {required int page}) async {
     return await HttpHelper.handleRequest((token) async {
       print('Token: $token');
       return await HttpHelper.getData(
-          linkUrl: ApiEndPoints.getPostsInNewsFeed, token: token);
+          linkUrl: ApiEndPoints.getPostsInNewsFeed + '?page=$page',
+          token: token);
     });
   }
 
-  Future<Either<FailureModel, Map>> getStories() async {
+  Future<Either<FailureModel, Map>> getStories({required int page}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(
-          linkUrl: ApiEndPoints.getStories, token: token);
+          linkUrl: ApiEndPoints.getStories + '?page=$page', token: token);
     });
   }
 

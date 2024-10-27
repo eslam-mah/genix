@@ -25,6 +25,7 @@ import 'package:genix/features/support%20tickets%20screen/views/view/support_tic
 import 'package:genix/features/support%20tickets%20screen/views/widgets/custom_support_tickets_h_counter.dart';
 import 'package:genix/features/support%20tickets%20screen/views/widgets/custom_support_tickets_v_counter.dart';
 import 'package:genix/features/support%20tickets%20screen/views/widgets/custom_tickets_item.dart';
+import 'package:genix/features/support%20tickets%20screen/views/widgets/open_ticket_bottom_sheet.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -60,10 +61,22 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
     });
   }
 
-  Future<void> _fetchPage(List<TicketsModel> ticketsList) async {
+  Future<void> _onRefresh() async {
+    _nextPageKey = 1;
+    _pagingController.refresh();
+    await context.read<GetAllTicketsCubit>().getAllTickets();
+  }
+
+  Future<void> _fetchPage(List<TicketsModel> tickets) async {
     try {
-      final newItems = ticketsList;
+      final newItems = tickets;
       print('fetch:: ${newItems.length}');
+
+      // Clear existing items if refreshing the first page
+      if (_nextPageKey == 1) {
+        _pagingController.itemList?.clear();
+      }
+
       final isLastPage = newItems.length < 20;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -173,136 +186,156 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
         ),
         body: isSelected
             ? const GlowingButtonBody()
-            : BlocBuilder<GetAllTicketsCubit, GetAllTicketsState>(
-                builder: (context, state) {
-                  if (state is GetAllTicketsLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.kPrimaryColor,
-                      ),
-                    );
-                  } else if (state is GetAllTicketsSuccess) {
-                    return CustomScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      slivers: [
-                        const SliverToBoxAdapter(
-                          child: CustomHeaderWidget(text: 'Support tickets'),
-                        ),
-                        SliverToBoxAdapter(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 40.h),
-                            child: Row(
-                              children: [
-                                CustomSupportTicketsHCounter(
-                                  number: state.tickets.data.totalCount,
-                                  text: 'TOTAL TICKETS',
-                                ),
-                                SizedBox(
-                                  width: 20.w,
-                                ),
-                                CustomSupportTicketsHCounter(
-                                  number: state.tickets.data.openCount,
-                                  text: 'OPEN ISSUES',
-                                ),
-                                SizedBox(
-                                  width: 20.w,
-                                ),
-                                CustomSupportTicketsHCounter(
-                                  number: state.tickets.data.solvedCount,
-                                  text: 'SOLVED TICKETS',
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SliverToBoxAdapter(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.w),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                CustomSupportTicketsVCounter(
-                                  text:
-                                      'If you would prefer to contact us by email, please send us your inquiry to:',
-                                  icon: FontAwesomeIcons.envelope,
-                                  title: 'Email',
-                                  buttonText: 'Send mail',
-                                  buttonIcon: FontAwesomeIcons.link,
-                                ),
-                                CustomSupportTicketsVCounter(
-                                  text:
-                                      'If you read this line it looks like your issue is really serious.. please let us know more about this, we will help you for sure.',
-                                  icon: FontAwesomeIcons.lifeRing,
-                                  title: 'Support',
-                                  buttonText: 'Open ticket',
-                                  buttonIcon: FontAwesomeIcons.plus,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SliverToBoxAdapter(
-                          child: SizedBox(
-                            height: 20.h,
-                          ),
-                        ),
-                        SliverToBoxAdapter(
-                          child: PagedListView<int, TicketsModel>(
-                            scrollDirection: Axis.vertical,
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            pagingController:
-                                _pagingController, // Assuming this is the controller for tickets
-                            builderDelegate:
-                                PagedChildBuilderDelegate<TicketsModel>(
-                              animateTransitions: true,
-                              firstPageErrorIndicatorBuilder: (_) =>
-                                  FirstPageErrorIndicator(
-                                onTryAgain: () => _pagingController.refresh(),
-                              ),
-                              firstPageProgressIndicatorBuilder: (_) =>
-                                  const FirstPageProgressIndicator(),
-                              newPageProgressIndicatorBuilder: (_) =>
-                                  const Center(
-                                child: NewPageProgressIndicator(),
-                              ),
-                              noItemsFoundIndicatorBuilder: (_) =>
-                                  const SizedBox.shrink(),
-                              itemBuilder: (context, item, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    GoRouter.of(context).push(
-                                        TicketItemPage.route,
-                                        extra: item);
-                                  },
-                                  child: CustomTicketsItem(
-                                    ticket: item,
-                                  ), // Passing the ticket item
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        SliverToBoxAdapter(
-                          child: SizedBox(
-                            height: 20.h,
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Center(
-                      child: CustomTextWidget(
-                        textSize: 18.sp,
-                        fontFamily: '',
-                        fontWeight: FontWeight.normal,
-                        text: 'Error loading Tickets',
-                      ),
-                    );
-                  }
+            : RefreshIndicator(
+                color: AppColors.kPrimaryColor,
+                onRefresh: () {
+                  return _onRefresh();
                 },
+                child: BlocBuilder<GetAllTicketsCubit, GetAllTicketsState>(
+                  builder: (context, state) {
+                    if (state is GetAllTicketsLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.kPrimaryColor,
+                        ),
+                      );
+                    } else if (state is GetAllTicketsSuccess) {
+                      return CustomScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        slivers: [
+                          const SliverToBoxAdapter(
+                            child: CustomHeaderWidget(text: 'Support tickets'),
+                          ),
+                          SliverToBoxAdapter(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w, vertical: 40.h),
+                              child: Row(
+                                children: [
+                                  CustomSupportTicketsHCounter(
+                                    number: state.tickets.data.totalCount,
+                                    text: 'TOTAL TICKETS',
+                                  ),
+                                  SizedBox(
+                                    width: 20.w,
+                                  ),
+                                  CustomSupportTicketsHCounter(
+                                    number: state.tickets.data.openCount,
+                                    text: 'OPEN ISSUES',
+                                  ),
+                                  SizedBox(
+                                    width: 20.w,
+                                  ),
+                                  CustomSupportTicketsHCounter(
+                                    number: state.tickets.data.solvedCount,
+                                    text: 'SOLVED TICKETS',
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SliverToBoxAdapter(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.w),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomSupportTicketsVCounter(
+                                    text:
+                                        'If you would prefer to contact us by email, please send us your inquiry to:',
+                                    icon: FontAwesomeIcons.envelope,
+                                    title: 'Email',
+                                    buttonText: 'Send mail',
+                                    buttonIcon: FontAwesomeIcons.link,
+                                    openTicket: () {},
+                                  ),
+                                  CustomSupportTicketsVCounter(
+                                    text:
+                                        'If you read this line it looks like your issue is really serious.. please let us know more about this, we will help you for sure.',
+                                    icon: FontAwesomeIcons.lifeRing,
+                                    title: 'Support',
+                                    buttonText: 'Open ticket',
+                                    buttonIcon: FontAwesomeIcons.plus,
+                                    openTicket: () {
+                                      openTicketBottomSheet(context,
+                                          refresh: () {
+                                        _onRefresh();
+                                      },
+                                          tickets: state
+                                              .tickets.data.collection.first);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: 20.h,
+                            ),
+                          ),
+                          SliverToBoxAdapter(
+                            child: PagedListView<int, TicketsModel>(
+                              scrollDirection: Axis.vertical,
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              pagingController:
+                                  _pagingController, // Assuming this is the controller for tickets
+                              builderDelegate:
+                                  PagedChildBuilderDelegate<TicketsModel>(
+                                animateTransitions: true,
+                                firstPageErrorIndicatorBuilder: (_) =>
+                                    FirstPageErrorIndicator(
+                                  onTryAgain: () => _pagingController.refresh(),
+                                ),
+                                firstPageProgressIndicatorBuilder: (_) =>
+                                    const FirstPageProgressIndicator(),
+                                newPageProgressIndicatorBuilder: (_) =>
+                                    const Center(
+                                  child: NewPageProgressIndicator(),
+                                ),
+                                noItemsFoundIndicatorBuilder: (_) =>
+                                    const SizedBox.shrink(),
+                                itemBuilder: (context, item, index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      GoRouter.of(context).push(
+                                        TicketItemPage.route,
+                                        extra: {
+                                          'ticket': item,
+                                          'refresh': _onRefresh,
+                                        },
+                                      );
+                                    },
+                                    child: CustomTicketsItem(
+                                      ticket: item,
+                                    ), // Passing the ticket item
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: 20.h,
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Center(
+                        child: CustomTextWidget(
+                          textSize: 18.sp,
+                          fontFamily: '',
+                          fontWeight: FontWeight.normal,
+                          text: 'Error loading Tickets',
+                        ),
+                      );
+                    }
+                  },
+                ),
               ),
       ),
     );

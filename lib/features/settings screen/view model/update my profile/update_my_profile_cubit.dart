@@ -11,10 +11,8 @@ import 'package:genix/features/settings%20screen/data/repos/setting_repository.d
 part 'update_my_profile_state.dart';
 
 class UpdateMyProfileCubit extends Cubit<UpdateMyProfileState> {
-  final SettingRepository profileRepository = SettingRepository();
-
   UpdateMyProfileCubit() : super(UpdateProfileInitial());
-
+  final SettingRepository profileRepository = SettingRepository();
   // Function to update profile image and cover image
   Future<void> updateProfile({File? profileImg, File? coverImg}) async {
     emit(UpdateProfileLoading()); // Emit loading state

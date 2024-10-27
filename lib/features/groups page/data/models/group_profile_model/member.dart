@@ -1,7 +1,6 @@
 import 'package:genix/features/video%20shorts%20screen/data/models/shorts_model.dart';
 
 import 'stats.dart';
-import 'user.dart';
 
 class Member {
   int? id;

@@ -8,9 +8,9 @@ part 'get_all_pages_state.dart';
 class GetAllPagesCubit extends Cubit<GetAllPagesState> {
   GetAllPagesCubit() : super(GetAllPagesInitial());
   final PagesRepository pagesRepository = PagesRepository();
-  Future<void> getAllPages() async {
+  Future<void> getAllPages({required int page}) async {
     emit(GetAllPagesLoading());
-    final result = await pagesRepository.getPagesList();
+    final result = await pagesRepository.getPagesList(page: page);
     result.fold(
       (l) => emit(GetAllPagesError()),
       (r) {

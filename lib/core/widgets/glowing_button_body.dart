@@ -9,7 +9,7 @@ import 'package:genix/features/photos%20page/views/view/my_photos_page.dart';
 import 'package:genix/features/profile%20screen/views/view/my_profile_page.dart';
 import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
 import 'package:genix/features/support%20tickets%20screen/views/view/support_tickets_page.dart';
-import 'package:genix/features/video%20shorts%20screen/views/videoshortsbody.dart';
+import 'package:genix/features/video%20shorts%20screen/views/view/video_shorts_body.dart';
 import 'package:genix/features/videos%20page/views/view/my_videos_page.dart';
 import 'package:go_router/go_router.dart';
 

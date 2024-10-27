@@ -8,3 +8,12 @@ sealed class UpdatePageDetailsState extends Equatable {
 }
 
 final class UpdatePageDetailsInitial extends UpdatePageDetailsState {}
+
+final class UpdatePageDetailsLoading extends UpdatePageDetailsState {}
+
+final class UpdatePageDetailsSuccess extends UpdatePageDetailsState {
+  final Map<String, dynamic> data;
+  const UpdatePageDetailsSuccess({required this.data});
+}
+
+final class UpdatePageDetailsError extends UpdatePageDetailsState {}

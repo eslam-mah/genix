@@ -11,7 +11,6 @@ Future<dynamic> shortsShareBottomSheet(BuildContext context) {
   return showModalBottomSheet(
       isScrollControlled: true,
       showDragHandle: true,
-      backgroundColor: AppColors.kPostColor,
       enableDrag: true,
       context: context,
       builder: (context) {
@@ -47,13 +46,6 @@ Future<dynamic> shortsShareBottomSheet(BuildContext context) {
                               width: 157.w,
                               height: 40.h,
                               decoration: BoxDecoration(
-                                  color: AppColors.kTextFieldColor,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.green.withOpacity(0.5),
-                                      blurRadius: typeSelected == 1 ? 6 : 0,
-                                    )
-                                  ],
                                   border: Border.all(
                                     color: typeSelected == 1
                                         ? Colors.green
@@ -87,18 +79,11 @@ Future<dynamic> shortsShareBottomSheet(BuildContext context) {
                               width: 157.w,
                               height: 40.h,
                               decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.green.withOpacity(0.5),
-                                      blurRadius: typeSelected == 2 ? 6 : 0,
-                                    )
-                                  ],
                                   border: Border.all(
                                     color: typeSelected == 2
                                         ? Colors.green
                                         : Colors.black.withOpacity(0.5),
                                   ),
-                                  color: AppColors.kTextFieldColor,
                                   borderRadius: BorderRadius.circular(12.r)),
                               child: Row(
                                 mainAxisAlignment:
@@ -130,7 +115,6 @@ Future<dynamic> shortsShareBottomSheet(BuildContext context) {
                             Text(
                               'SELECT AN USER',
                               style: TextStyle(
-                                color: Colors.black.withOpacity(0.5),
                                 fontSize: 10.sp,
                               ),
                             ),
@@ -147,18 +131,11 @@ Future<dynamic> shortsShareBottomSheet(BuildContext context) {
                                 width: 157.w,
                                 height: 40.h,
                                 decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.green.withOpacity(0.5),
-                                        blurRadius: isSelected ? 6 : 0,
-                                      )
-                                    ],
                                     border: Border.all(
                                       color: isSelected
                                           ? Colors.green
                                           : Colors.black.withOpacity(0.5),
                                     ),
-                                    color: AppColors.kTextFieldColor,
                                     borderRadius: BorderRadius.circular(12.r)),
                                 child: Row(
                                   mainAxisAlignment:

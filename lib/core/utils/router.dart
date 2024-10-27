@@ -12,6 +12,7 @@ import 'package:genix/features/home%20screen/home_router.dart';
 import 'package:genix/features/lock%20screen/lock_router.dart';
 import 'package:genix/features/login%20screen/login_router.dart';
 import 'package:genix/features/notifications%20screen/notifications_router.dart';
+import 'package:genix/features/pages%20screen/page_followers_router.dart';
 import 'package:genix/features/pages%20screen/page_screen_router.dart';
 import 'package:genix/features/pages%20screen/pages_router.dart';
 import 'package:genix/features/photos%20page/my_photos_router.dart';
@@ -70,6 +71,9 @@ abstract class Rout {
       path: kLoadingPage,
       builder: (context, state) => const CustomLoadingPage(),
     ),
+
+    /// page followers
+    ...PageFollowersRouter.goRoutes,
 
     /// group members
     ...GroupMembersRouter.goRoutes,

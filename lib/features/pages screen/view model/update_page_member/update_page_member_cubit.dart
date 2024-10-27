@@ -8,15 +8,21 @@ part 'update_page_member_state.dart';
 class UpdatePageMemberCubit extends Cubit<UpdatePageMemberState> {
   UpdatePageMemberCubit() : super(UpdatePageMemberInitial());
   final PagesRepository pagesRepository = PagesRepository();
-  Future<void> updatePageMember(
-      {required Map<String, dynamic> data, required int id}) async {
+
+  Future<void> updatePageMember({
+    required Map<String, dynamic> updatePageMemberForm,
+    required int memberId,
+  }) async {
     emit(UpdatePageMemberLoading());
-    final result = await pagesRepository.updatePageMember(data: data, id: id);
+
+    final result = await pagesRepository.updatePageMember(
+        data: updatePageMemberForm, id: memberId);
+
     result.fold(
-      (l) => emit(UpdatePageMemberError()),
-      (r) {
-        final updatePageMember = UpdatePageFollowerForm.fromJson(data);
-        emit(UpdatePageMemberSuccess(follower: updatePageMember));
+      (error) => emit(UpdatePageMemberError(message: error.toString())),
+      (success) {
+        emit(const UpdatePageMemberSuccess(
+            message: 'member updated successfully'));
       },
     );
   }

@@ -16,4 +16,7 @@ final class AddShortSuccess extends AddShortState {
   const AddShortSuccess({required this.short});
 }
 
-final class AddShortError extends AddShortState {}
+final class AddShortError extends AddShortState {
+  final String message;
+  const AddShortError({required this.message});
+}

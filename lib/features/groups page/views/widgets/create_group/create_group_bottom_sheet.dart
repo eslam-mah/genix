@@ -29,7 +29,7 @@ Future<dynamic> createGroupBottomSheet(
       context: context,
       builder: (context) {
         bool isLoading = false;
-
+        bool isPrivate = true;
         return BlocProvider(
           create: (context) => CreateGroupCubit(),
           child: StatefulBuilder(
@@ -259,8 +259,10 @@ Future<dynamic> createGroupBottomSheet(
                           Row(
                             children: [
                               Switch(
-                                  value: true,
-                                  onChanged: (value) {},
+                                  value: isPrivate,
+                                  onChanged: (value) {
+                                    isPrivate = !isPrivate;
+                                  },
                                   activeTrackColor: AppColors.kPrimaryColor2,
                                   activeColor: Colors.white),
                               SizedBox(
@@ -314,30 +316,34 @@ Future<dynamic> createGroupBottomSheet(
                                     await context
                                         .read<CreateGroupCubit>()
                                         .createGroup(
-                                          name: groupNameController.text.trim(),
-                                          category: groupCategoryController.text
-                                              .trim(),
-                                          website: groupWebsiteController.text
-                                              .trim(),
-                                          about:
-                                              groupAboutController.text.trim(),
-                                          facebook:
-                                              facebookController.text.trim(),
-                                          tiktok: tiktokController.text.trim(),
-                                          x: xController.text.trim(),
-                                          instagram:
-                                              instagramController.text.trim(),
-                                          pinterest:
-                                              pinterestController.text.trim(),
-                                          steam: steamController.text.trim(),
-                                          linkedin:
-                                              linkedInController.text.trim(),
-                                          profileImg: File(
-                                              selectedProfilePathNotifier
-                                                  .value!),
-                                          coverImg: File(
-                                              selectedCoverPathNotifier.value!),
-                                        );
+                                            name:
+                                                groupNameController.text.trim(),
+                                            category: groupCategoryController
+                                                .text
+                                                .trim(),
+                                            website: groupWebsiteController.text
+                                                .trim(),
+                                            about: groupAboutController.text
+                                                .trim(),
+                                            facebook:
+                                                facebookController.text.trim(),
+                                            tiktok:
+                                                tiktokController.text.trim(),
+                                            x: xController.text.trim(),
+                                            instagram:
+                                                instagramController.text.trim(),
+                                            pinterest:
+                                                pinterestController.text.trim(),
+                                            steam: steamController.text.trim(),
+                                            linkedin:
+                                                linkedInController.text.trim(),
+                                            profileImg: File(
+                                                selectedProfilePathNotifier
+                                                    .value!),
+                                            coverImg: File(
+                                                selectedCoverPathNotifier
+                                                    .value!),
+                                            isPrivate: !isPrivate);
                                     print('Group submitted successfully');
                                   } catch (e) {
                                     print('Error creating Group: $e');

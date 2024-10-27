@@ -21,14 +21,14 @@ class TicketsModel {
 
   factory TicketsModel.fromJson(Map<String, dynamic> json) {
     return TicketsModel(
-      id: json['id'],
-      user: User.fromJson(json['user']),
-      lastUser: User.fromJson(json['last_user']),
-      title: json['title'],
-      content: json['content'],
-      status: json['status'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      id: json['id'] ?? 0,
+      user: User.fromJson(json['user'] ?? {}),
+      lastUser: User.fromJson(json['last_user'] ?? {}),
+      title: json['title'] ?? '',
+      content: json['content'] ?? '',
+      status: json['status'] ?? 'closed',
+      createdAt: DateTime.parse(json['created_at'] ?? DateTime.now()),
+      updatedAt: DateTime.parse(json['updated_at'] ?? DateTime.now()),
     );
   }
 
@@ -54,7 +54,7 @@ class User {
   String? coverImg;
   List<String> roles;
   bool isVerified;
-  DateTime createdAt;
+  String createdAt;
   bool isActive;
   int? status;
   String? activeAt;
@@ -75,15 +75,15 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
-      username: json['username'],
-      showname: json['showname'],
-      profileImg: json['profile_img'],
-      coverImg: json['cover_img'],
+      id: json['id'] ?? 0,
+      username: json['username'] ?? '',
+      showname: json['showname'] ?? '',
+      profileImg: json['profile_img'] ?? '',
+      coverImg: json['cover_img'] ?? '',
       roles: json['roles'] != null ? List<String>.from(json['roles']) : [],
-      isVerified: json['is_verified'],
-      createdAt: DateTime.parse(json['created_at']),
-      isActive: json['is_active'],
+      isVerified: json['is_verified'] ?? false,
+      createdAt: json['created_at'] ?? '',
+      isActive: json['is_active'] ?? false,
       status: json['status'] ?? 0,
       activeAt: json['active_at'] ?? '',
     );
@@ -98,7 +98,7 @@ class User {
     data['cover_img'] = this.coverImg;
     data['roles'] = this.roles;
     data['is_verified'] = this.isVerified;
-    data['created_at'] = this.createdAt.toIso8601String();
+    data['created_at'] = this.createdAt;
     data['is_active'] = this.isActive;
     data['status'] = this.status;
     data['active_at'] = this.activeAt.toString();

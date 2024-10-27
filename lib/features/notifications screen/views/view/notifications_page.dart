@@ -50,7 +50,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     getNotificationsCubit = BlocProvider.of<GetAllNotificationsCubit>(context);
     _pagingController.addPageRequestListener((page) {
       print('**********PAGEKEY************ $page');
-      getNotificationsCubit.getAllNotifications();
+      getNotificationsCubit.getAllNotifications(page: page);
     });
   }
 
@@ -61,11 +61,15 @@ class _NotificationsPageState extends State<NotificationsPage> {
     CacheData.setData(key: PrefKeys.kDarkMode, value: isNightMode);
   }
 
-  Future<void> _fetchPage(List<NotificationsModel> notifications) async {
+  Future<void> _fetchPage(List<NotificationsModel> items) async {
     try {
-      final newItems = notifications;
-      print('fetch:: ${newItems.length}');
-      final isLastPage = newItems.length < 20;
+      final newItems = items;
+      final isLastPage = newItems.length < 25;
+
+      if (_nextPageKey == 1) {
+        _pagingController.itemList?.clear();
+      }
+
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
@@ -73,7 +77,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
         _pagingController.appendPage(newItems, _nextPageKey);
       }
     } catch (error) {
-      print('Pagination error: ${error.toString()}');
       _pagingController.error = error;
     }
   }

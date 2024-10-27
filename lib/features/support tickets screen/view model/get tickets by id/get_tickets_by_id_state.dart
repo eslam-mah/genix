@@ -13,7 +13,7 @@ final class GetTicketsByIdInitial extends GetTicketsByIdState {}
 final class GetTicketsByIdLoading extends GetTicketsByIdState {}
 
 final class GetTicketsByIdSuccess extends GetTicketsByIdState {
-  final TicketsModel tickets;
+  final TicketItem tickets;
   const GetTicketsByIdSuccess({required this.tickets});
 }
 

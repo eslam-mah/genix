@@ -9,9 +9,10 @@ class GetAllNotificationsCubit extends Cubit<GetAllNotificationsState> {
   GetAllNotificationsCubit() : super(GetAllNotificationsInitial());
   final NotificationsRepository getAllNotificationsRepo =
       NotificationsRepository();
-  Future<void> getAllNotifications() async {
+  Future<void> getAllNotifications({required int page}) async {
     emit(GetAllNotificationsLoading());
-    final result = await getAllNotificationsRepo.getAllNotifications();
+    final result =
+        await getAllNotificationsRepo.getAllNotifications(page: page);
     result.fold((l) => emit(GetAllNotificationsError()), (r) {
       final notifications =
           NotificationsList.fromJson(r as Map<String, dynamic>);

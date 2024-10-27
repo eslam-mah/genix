@@ -13,7 +13,7 @@ final class UpdateTicketCommentInitial extends UpdateTicketCommentState {}
 final class UpdateTicketCommentLoading extends UpdateTicketCommentState {}
 
 final class UpdateTicketCommentSuccess extends UpdateTicketCommentState {
-  final TicketsModel ticketComment;
+  final TicketModel ticketComment;
   const UpdateTicketCommentSuccess({required this.ticketComment});
 }
 

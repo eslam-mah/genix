@@ -9,12 +9,14 @@ import 'package:genix/features/groups%20page/data/models/group_profile_model/gro
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/data/models/report_form.dart';
 import 'package:genix/features/home%20screen/view%20model/post%20report/post_report_cubit.dart';
+import 'package:genix/features/pages%20screen/data/models/page_profile_model/page_profile_model.dart';
 import 'package:go_router/go_router.dart';
 
 Future<dynamic> reportBottomSheet(
   BuildContext context, {
   PostsModel? postModel,
   GroupProfileModel? groupProfileModel,
+  PageProfileModel? pageProfileModel,
 }) {
   TextEditingController reportController = TextEditingController();
 

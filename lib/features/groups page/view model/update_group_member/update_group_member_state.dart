@@ -1,19 +1,30 @@
 part of 'update_group_member_cubit.dart';
 
-sealed class UpdateGroupMemberState extends Equatable {
+abstract class UpdateGroupMemberState extends Equatable {
   const UpdateGroupMemberState();
 
   @override
   List<Object> get props => [];
 }
 
-final class UpdateGroupMemberInitial extends UpdateGroupMemberState {}
+class UpdateGroupMemberInitial extends UpdateGroupMemberState {}
 
-final class UpdateGroupMemberLoading extends UpdateGroupMemberState {}
+class UpdateGroupMemberLoading extends UpdateGroupMemberState {}
 
-final class UpdateGroupMemberSuccess extends UpdateGroupMemberState {
-  final UpdateGroupMemberForm groupMember;
-  const UpdateGroupMemberSuccess({required this.groupMember});
+class UpdateGroupMemberSuccess extends UpdateGroupMemberState {
+  final String message;
+
+  UpdateGroupMemberSuccess(this.message);
+
+  @override
+  List<Object> get props => [message];
 }
 
-final class UpdateGroupMemberError extends UpdateGroupMemberState {}
+class UpdateGroupMemberFailure extends UpdateGroupMemberState {
+  final String errorMessage;
+
+  UpdateGroupMemberFailure(this.errorMessage);
+
+  @override
+  List<Object> get props => [errorMessage];
+}

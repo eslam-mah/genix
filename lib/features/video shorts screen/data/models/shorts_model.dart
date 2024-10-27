@@ -1,3 +1,5 @@
+import 'package:genix/features/home%20screen/data/models/posts_model/summary.dart';
+
 class ShortsModel {
   int id;
   UserModel? user;
@@ -7,7 +9,7 @@ class ShortsModel {
   String? thumbnailUrl;
   String? fileUrl;
   int? viewsUnique;
-  // ReactionsModel? reactions;
+  Reactions? reactions;
   List<CommentsModel>? comments;
   int? commentsCount;
   int? sharesCount;
@@ -26,7 +28,7 @@ class ShortsModel {
     this.thumbnailUrl,
     this.fileUrl,
     this.viewsUnique,
-    // this.reactions,
+    this.reactions,
     this.comments,
     this.commentsCount,
     this.sharesCount,
@@ -46,9 +48,10 @@ class ShortsModel {
         thumbnailUrl = json['thumbnail_url'],
         fileUrl = json['file_url'],
         viewsUnique = json['views_unique'],
-        // reactions = json['reactions'] != null
-        //     ? ReactionsModel.fromJson(json['reactions'])
-        //     : null,
+        reactions = json['reactions'] != null &&
+                json['reactions'] is Map<String, dynamic>
+            ? Reactions.fromJson(json['reactions'] as Map<String, dynamic>)
+            : null,
         comments = json['comments'] != null
             ? (json['comments'] as List)
                 .map((e) => CommentsModel.fromJson(e))
@@ -77,9 +80,9 @@ class ShortsModel {
     data['thumbnail_url'] = thumbnailUrl;
     data['file_url'] = fileUrl;
     data['views_unique'] = viewsUnique;
-    // if (reactions != null) {
-    //   data['reactions'] = reactions!.toJson();
-    // }
+    if (reactions != null) {
+      data['reactions'] = reactions!.toJson();
+    }
     if (comments != null) {
       data['comments'] = comments!.map((e) => e.toJson()).toList();
     }
@@ -157,41 +160,28 @@ class UserModel {
   }
 }
 
-// class ReactionsModel {
-//   SummaryModel? summary;
-//   bool? byMe;
+class Reactions {
+  Summary? summary;
+  bool? byMe;
 
-//   ReactionsModel({this.summary, this.byMe});
+  Reactions({this.summary, this.byMe});
 
-//   ReactionsModel.fromJson(Map<String, dynamic> json)
-//       : summary = json['summary'] != null
-//             ? SummaryModel.fromJson(json['summary'])
-//             : null,
-//         byMe = json['by_me'];
+  Reactions.fromJson(Map<String, dynamic> json)
+      : summary =
+            json['summary'] != null && json['summary'] is Map<String, dynamic>
+                ? Summary.fromJson(json['summary'] as Map<String, dynamic>)
+                : null,
+        byMe = json['by_me'];
 
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = <String, dynamic>{};
-//     if (summary != null) {
-//       data['summary'] = summary!.toJson();
-//     }
-//     data['by_me'] = byMe;
-//     return data;
-//   }
-// }
-
-// class SummaryModel {
-//   int? love;
-
-//   SummaryModel({this.love});
-
-//   SummaryModel.fromJson(Map<String, dynamic> json) : love = json['love'];
-
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = <String, dynamic>{};
-//     data['love'] = love;
-//     return data;
-//   }
-// }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    if (summary != null) {
+      data['summary'] = summary!.toJson();
+    }
+    data['by_me'] = byMe;
+    return data;
+  }
+}
 
 class CommentsModel {
   int id;
@@ -199,7 +189,7 @@ class CommentsModel {
   int? postId;
   int? commentId;
   String? content;
-  // ReactionsModel? reactions;
+  Reactions? reactions;
   String? createdAt;
 
   CommentsModel({
@@ -208,7 +198,7 @@ class CommentsModel {
     this.postId,
     this.commentId,
     this.content,
-    // this.reactions,
+    this.reactions,
     this.createdAt,
   });
 
@@ -218,9 +208,10 @@ class CommentsModel {
         postId = json['post_id'],
         commentId = json['comment_id'],
         content = json['content'],
-        // reactions = json['reactions'] != null
-        //     ? ReactionsModel.fromJson(json['reactions'])
-        //     : null,
+        reactions = json['reactions'] != null &&
+                json['reactions'] is Map<String, dynamic>
+            ? Reactions.fromJson(json['reactions'] as Map<String, dynamic>)
+            : null,
         createdAt = json['created_at'];
 
   Map<String, dynamic> toJson() {
@@ -232,9 +223,9 @@ class CommentsModel {
     data['post_id'] = postId;
     data['comment_id'] = commentId;
     data['content'] = content;
-    // if (reactions != null) {
-    //   data['reactions'] = reactions!.toJson();
-    // }
+    if (reactions != null) {
+      data['reactions'] = reactions!.toJson();
+    }
     data['created_at'] = createdAt;
     return data;
   }

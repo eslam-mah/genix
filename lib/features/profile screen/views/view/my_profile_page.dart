@@ -218,6 +218,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           final profileModel = state.profiles;
                           return RefreshIndicator(
                             onRefresh: _refreshProfile,
+                            color: AppColors.kPrimaryColor,
                             child: CustomScrollView(
                               slivers: [
                                 SliverToBoxAdapter(

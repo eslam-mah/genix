@@ -4,10 +4,11 @@ import 'package:genix/core/services/http_helper.dart';
 import 'package:genix/core/utils/api_end_points.dart';
 
 class NotificationsRepository {
-  Future<Either<FailureModel, Map>> getAllNotifications() async {
+  Future<Either<FailureModel, Map>> getAllNotifications(
+      {required int page}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(
-          linkUrl: ApiEndPoints.getNotifications, token: token);
+          linkUrl: ApiEndPoints.getNotifications + '?page=$page', token: token);
     });
   }
 

@@ -8,9 +8,9 @@ part 'get_followers_state.dart';
 class GetFollowersCubit extends Cubit<GetFollowersState> {
   GetFollowersCubit() : super(GetFollowersInitial());
   final FollowersRepository getFollowersRepo = FollowersRepository();
-  Future<void> getFollowers({required int id}) async {
+  Future<void> getFollowers({required int id, required int page}) async {
     emit(GetFollowersLoading());
-    final result = await getFollowersRepo.getFollowers(id: id);
+    final result = await getFollowersRepo.getFollowers(id: id, page: page);
     result.fold((l) {
       emit(GetFollowersError());
     }, (r) {

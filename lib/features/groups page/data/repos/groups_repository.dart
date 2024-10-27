@@ -7,10 +7,10 @@ import 'package:genix/core/services/http_helper.dart';
 import 'package:genix/core/utils/api_end_points.dart';
 
 class GroupsRepository {
-  Future<Either<FailureModel, Map>> getGroupsList() async {
+  Future<Either<FailureModel, Map>> getGroupsList({required int page}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(
-          linkUrl: ApiEndPoints.getGroupsList, token: token);
+          linkUrl: ApiEndPoints.getGroupsList + '?page=$page', token: token);
     });
   }
 
@@ -31,6 +31,7 @@ class GroupsRepository {
     required String x,
     required String instagram,
     required String pinterest,
+    required bool isPrivate,
     required String steam,
     required String linkedin,
     required File profileImg,
@@ -46,6 +47,7 @@ class GroupsRepository {
           about: about,
           socialFacebook: facebook,
           socialTiktok: tiktok,
+          isPrivate: isPrivate,
           socialInstagram: instagram,
           socialTwitter: x,
           socialSteam: steam,
@@ -69,6 +71,7 @@ class GroupsRepository {
     required String pinterest,
     required String steam,
     required String linkedin,
+    required bool isPrivate,
     required File profileImg,
     required File coverImg,
   }) async {
@@ -79,6 +82,7 @@ class GroupsRepository {
           name: name,
           category: category,
           website: website,
+          isPrivate: isPrivate,
           about: about,
           socialFacebook: facebook,
           socialTiktok: tiktok,
@@ -162,10 +166,12 @@ class GroupsRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> getGroupMembers({required int id}) async {
+  Future<Either<FailureModel, Map>> getGroupMembers(
+      {required int id, required int page}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(
-          linkUrl: ApiEndPoints.getAllMembers + '/$id', token: token);
+          linkUrl: ApiEndPoints.getAllMembers + '/$id?page=$page',
+          token: token);
     });
   }
 

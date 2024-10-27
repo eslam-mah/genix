@@ -44,7 +44,7 @@ class _FollowingsPageState extends State<FollowingsPage> {
     super.initState();
     getFollowingsCubit = BlocProvider.of<GetFollowingsCubit>(context);
     _pagingController.addPageRequestListener((page) {
-      getFollowingsCubit.getFollowings(id: widget.id);
+      getFollowingsCubit.getFollowings(id: widget.id, page: page);
     });
   }
 
@@ -54,10 +54,15 @@ class _FollowingsPageState extends State<FollowingsPage> {
     });
   }
 
-  Future<void> _fetchPage(List<FollowingsModel> followingsList) async {
+  Future<void> _fetchPage(List<FollowingsModel> items) async {
     try {
-      final newItems = followingsList;
-      final isLastPage = newItems.length < 20;
+      final newItems = items;
+      final isLastPage = newItems.length < 20; // Adjust based on your page size
+
+      if (_nextPageKey == 1) {
+        _pagingController.itemList?.clear();
+      }
+
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {

@@ -11,7 +11,7 @@ part 'update_page_profile_state.dart';
 class UpdatePageProfileCubit extends Cubit<UpdatePageProfileState> {
   UpdatePageProfileCubit() : super(UpdatePageProfileInitial());
   final PagesRepository pagesRepository = PagesRepository();
-  Future<void> updateGroupProfile(
+  Future<void> updatePageProfile(
       {File? profileImg, File? coverImg, required int id}) async {
     emit(UpdatePageProfileLoading()); // Emit loading state
 

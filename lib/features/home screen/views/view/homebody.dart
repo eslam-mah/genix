@@ -65,12 +65,13 @@ class _HomePageState extends State<HomePage> {
     isNightModeEnabled = CacheData.getData(key: PrefKeys.kDarkMode) ?? false;
     getPostsCubit = BlocProvider.of<GetNewsFeedPostsCubit>(context);
     getStoriesCubit = BlocProvider.of<GetStoriesCubit>(context);
+    isSelected = false;
     context.read<GetMyAccountDetailsCubit>().getMyAccountDetails();
     _pagingController.addPageRequestListener((page) {
-      getPostsCubit.getNewsFeedPosts();
+      getPostsCubit.getNewsFeedPosts(page: page);
     });
     _storiesPagingController.addPageRequestListener((page) {
-      getStoriesCubit.getStories();
+      getStoriesCubit.getStories(page: page);
     });
   }
 
@@ -88,6 +89,7 @@ class _HomePageState extends State<HomePage> {
         BlocListener<GetNewsFeedPostsCubit, GetNewsFeedPostsState>(
           listener: (context, state) {
             if (state is GetNewsFeedPostsSuccess) {
+              print(state.posts.data.postsModel.length);
               state.posts.data.postsModel
                   .sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
               _fetchPage(state.posts.data.postsModel);
@@ -327,14 +329,19 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _fetchPage(List<PostsModel> postsList) async {
+  Future<void> _fetchPage(List<PostsModel> items) async {
     try {
-      final newItems = postsList;
-      final isLastPage = newItems.length < 20;
+      final newItems = items;
+      final isLastPage = newItems.length < 10; // Page size of 10
+
+      if (_nextPageKey == 1) {
+        _pagingController.itemList?.clear();
+      }
+
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
-        _nextPageKey = _nextPageKey + 1;
+        _nextPageKey += 1;
         _pagingController.appendPage(newItems, _nextPageKey);
       }
     } catch (error) {
@@ -342,10 +349,15 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> _fetchStories(List<StoriesListModel> storiesList) async {
+  Future<void> _fetchStories(List<StoriesListModel> items) async {
     try {
-      final newItems = storiesList;
-      final isLastPage = newItems.length < 20;
+      final newItems = items;
+      final isLastPage = newItems.length < 10; // Adjust based on your page size
+
+      if (_nextPageKey == 1) {
+        _storiesPagingController.itemList?.clear();
+      }
+
       if (isLastPage) {
         _storiesPagingController.appendLastPage(newItems);
       } else {
@@ -353,7 +365,7 @@ class _HomePageState extends State<HomePage> {
         _storiesPagingController.appendPage(newItems, _nextPageKey);
       }
     } catch (error) {
-      _storiesPagingController.error = error;
+      _pagingController.error = error;
     }
   }
 }

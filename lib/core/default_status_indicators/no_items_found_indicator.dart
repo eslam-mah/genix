@@ -8,7 +8,7 @@ class NoItemsFoundIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Center(
         child: Text(
-          "No Data",
+          "Nothing to display...",
           style: TextStyle(
             color: Colors.grey,
             fontSize: 20.sp,

@@ -8,9 +8,9 @@ part 'get_stories_state.dart';
 class GetStoriesCubit extends Cubit<GetStoriesState> {
   GetStoriesCubit() : super(GetStoriesInitial());
   final PostsRepository getStoriesRepo = PostsRepository();
-  Future<void> getStories() async {
+  Future<void> getStories({required int page}) async {
     emit(GetStoriesLoading());
-    final result = await getStoriesRepo.getStories();
+    final result = await getStoriesRepo.getStories(page: page);
     result.fold((l) {
       emit(GetStoriesError());
     }, (r) {

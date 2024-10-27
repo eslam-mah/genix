@@ -14,12 +14,14 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
     required this.title,
     required this.buttonText,
     required this.buttonIcon,
+    required this.openTicket,
   });
   final IconData icon;
   final String title;
   final String text;
   final String buttonText;
   final IconData buttonIcon;
+  final Function() openTicket;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +69,7 @@ class CustomSupportTicketsVCounter extends StatelessWidget {
                     width: 120.w,
                     height: 30.h,
                     color: Colors.grey.withOpacity(0.6),
-                    onTap: () {})
+                    onTap: openTicket)
               ],
             ),
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
+import 'package:genix/core/widgets/confirmation_dialoge.dart';
 import 'package:genix/core/widgets/custom_user_profile_image.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
@@ -10,7 +11,7 @@ import 'package:genix/features/groups%20page/data/models/group_profile_model/mem
 import 'package:genix/features/groups%20page/view%20model/delete_group_member/delete_group_member_cubit.dart';
 import 'package:genix/features/groups%20page/view%20model/delete_group_member_comment/delete_group_member_comment_cubit.dart';
 import 'package:genix/features/groups%20page/view%20model/delete_group_member_post/delete_group_member_post_cubit.dart';
-import 'package:genix/features/home%20screen/view%20model/delete%20user%20post/delete_user_post_cubit.dart';
+import 'package:genix/features/groups%20page/views/widgets/roles_bottom_sheet.dart';
 import 'package:genix/features/profile%20screen/views/view/profile_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -108,7 +109,7 @@ class MemberItem extends StatelessWidget {
                                         DeleteGroupMemberPostCubit(),
                                     child: StatefulBuilder(
                                         builder: (context, setState) {
-                                      return _ConfirmationDialog(
+                                      return ConfirmationDialog(
                                         refresh: refresh,
                                         request: () {
                                           context
@@ -117,7 +118,7 @@ class MemberItem extends StatelessWidget {
                                               .deleteGroupPost(
                                                   id: user.id ?? 0);
                                         },
-                                        function:
+                                        functionName:
                                             'delete all the user\'s posts',
                                       );
                                     }),
@@ -142,7 +143,7 @@ class MemberItem extends StatelessWidget {
                                         DeleteGroupMemberCommentCubit(),
                                     child: StatefulBuilder(
                                         builder: (context, setState) {
-                                      return _ConfirmationDialog(
+                                      return ConfirmationDialog(
                                         refresh: refresh,
                                         request: () {
                                           context
@@ -151,7 +152,7 @@ class MemberItem extends StatelessWidget {
                                               .deleteGroupMemberComment(
                                                   id: user.id ?? 0);
                                         },
-                                        function:
+                                        functionName:
                                             'delete all the user\'s comments',
                                       );
                                     }),
@@ -175,7 +176,10 @@ class MemberItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              rolesBottomSheet(
+                                  context, groupProfileModel, user, refresh);
+                            },
                             style: ButtonStyle(
                                 foregroundColor: WidgetStateProperty.all(
                                     AppColors.kPrimaryColor)),
@@ -194,7 +198,7 @@ class MemberItem extends StatelessWidget {
                                           DeleteGroupMemberCubit(),
                                       child: StatefulBuilder(
                                           builder: (context, setState) {
-                                        return _ConfirmationDialog(
+                                        return ConfirmationDialog(
                                           refresh: refresh,
                                           request: () {
                                             context
@@ -202,7 +206,7 @@ class MemberItem extends StatelessWidget {
                                                 .deleteGroupMember(
                                                     id: user.id ?? 0);
                                           },
-                                          function: 'remove this user',
+                                          functionName: 'remove this user',
                                         );
                                       }),
                                     );
@@ -226,58 +230,5 @@ class MemberItem extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class _ConfirmationDialog extends StatelessWidget {
-  final Function() refresh;
-  final Function() request;
-  final String function;
-  const _ConfirmationDialog(
-      {required this.refresh, required this.request, required this.function});
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-        content: SizedBox(
-      height: 100.h,
-      width: 300.w,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(
-            'Are you sure you want to $function',
-            style: TextStyle(fontSize: 17.sp),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CustomButton(
-                  color: AppColors.kPrimaryColor,
-                  buttonText: 'Yes',
-                  height: 30.h,
-                  borderRadius: 30.r,
-                  width: 80.w,
-                  onTap: () async {
-                    await request();
-
-                    // ignore: use_build_context_synchronously
-                    GoRouter.of(context).pop();
-                    refresh();
-                  }),
-              CustomButton(
-                  color: Colors.red,
-                  buttonText: 'no',
-                  height: 30.h,
-                  borderRadius: 30.r,
-                  width: 80.w,
-                  onTap: () {
-                    GoRouter.of(context).pop();
-                  })
-            ],
-          )
-        ],
-      ),
-    ));
   }
 }

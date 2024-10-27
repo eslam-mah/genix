@@ -11,8 +11,7 @@ class TicketsRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> getTicketByIdRepo(
-      {required String id}) async {
+  Future<Either<FailureModel, Map>> getTicketByIdRepo({required int id}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(
           linkUrl: ApiEndPoints.getTicketById + "/$id", token: token);
@@ -20,10 +19,10 @@ class TicketsRepository {
   }
 
   Future<Either<FailureModel, Map>> postTicket(
-      {required int id, required Map<String, dynamic> data}) async {
+      {required Map<String, dynamic> data}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.postData(
-          linkUrl: ApiEndPoints.postTicket + "/$id", data: data, token: token);
+          linkUrl: ApiEndPoints.postTicket, data: data, token: token);
     });
   }
 
@@ -80,7 +79,7 @@ class TicketsRepository {
   }
 
   Future<Either<FailureModel, Map>> deleteTicketComment({
-    required String id,
+    required int id,
   }) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.deleteData(

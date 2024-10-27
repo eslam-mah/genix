@@ -9,10 +9,10 @@ class GetShortsCubit extends Cubit<GetShortsState> {
   GetShortsCubit() : super(GetShortsInitial());
   final ShortsRepository getShortsRepo = ShortsRepository();
 
-  Future<void> getShorts() async {
+  Future<void> getShorts({required int page}) async {
     emit(GetShortsLoading());
     // result
-    final result = await getShortsRepo.getShorts();
+    final result = await getShortsRepo.getShorts(page: page);
     result.fold(
         // error state
         (l) => emit(GetShortsError()),

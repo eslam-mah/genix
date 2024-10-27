@@ -15,12 +15,23 @@ import 'package:genix/core/widgets/custom_user_profile_image.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
 
-class CustomDrawerWidget extends StatelessWidget {
+class CustomDrawerWidget extends StatefulWidget {
   final bool isNightMode;
   const CustomDrawerWidget({
     super.key,
     required this.isNightMode,
   });
+
+  @override
+  State<CustomDrawerWidget> createState() => _CustomDrawerWidgetState();
+}
+
+class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<GetMyAccountDetailsCubit>().getMyAccountDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,8 +103,11 @@ class CustomDrawerWidget extends StatelessWidget {
                         )
                       ],
                     );
-                  } else {
+                  } else if (state is GetMyAccountDetailsLoading) {
                     return const DrawerProfileShimmer();
+                  } else {
+                    print(state);
+                    return const SizedBox.shrink();
                   }
                 },
               ),

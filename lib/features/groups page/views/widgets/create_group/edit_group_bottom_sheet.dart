@@ -30,6 +30,7 @@ Future<dynamic> editGroupBottomSheet(
     context: context,
     builder: (context) {
       bool isLoading = false;
+      bool isPrivate = true;
       return MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -54,7 +55,8 @@ Future<dynamic> editGroupBottomSheet(
                   TextEditingController(text: state.group.data?.group?.about);
               TextEditingController facebookController = TextEditingController(
                   text: state.group.data?.group?.socialFacebook);
-              TextEditingController xController = TextEditingController();
+              TextEditingController xController = TextEditingController(
+                  text: state.group.data?.group?.socialTwitter);
               TextEditingController instagramController = TextEditingController(
                   text: state.group.data?.group?.socialInstagram);
               TextEditingController tiktokController = TextEditingController(
@@ -235,8 +237,12 @@ Future<dynamic> editGroupBottomSheet(
                                 Row(
                                   children: [
                                     Switch(
-                                        value: true,
-                                        onChanged: (value) {},
+                                        value: isPrivate,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            isPrivate = !isPrivate;
+                                          });
+                                        },
                                         activeTrackColor:
                                             AppColors.kPrimaryColor2,
                                         activeColor: Colors.white),
@@ -297,6 +303,7 @@ Future<dynamic> editGroupBottomSheet(
                                           await context
                                               .read<UpdateGroupDetailsCubit>()
                                               .updateGroup(
+                                                isPrivate: !isPrivate,
                                                 id: state.group.data?.group
                                                         ?.id ??
                                                     0,

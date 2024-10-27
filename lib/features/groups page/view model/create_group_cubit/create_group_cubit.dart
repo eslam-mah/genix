@@ -23,6 +23,7 @@ class CreateGroupCubit extends Cubit<CreateGroupState> {
     required String pinterest,
     required String steam,
     required String linkedin,
+    required bool isPrivate,
     required File profileImg,
     required File coverImg,
   }) async {
@@ -30,6 +31,7 @@ class CreateGroupCubit extends Cubit<CreateGroupState> {
     final Either<FailureModel, Map> result = await createGroupRepo.createGroup(
         name: name,
         category: category,
+        isPrivate: isPrivate,
         website: website,
         about: about,
         facebook: facebook,

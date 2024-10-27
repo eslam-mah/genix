@@ -24,6 +24,10 @@ import 'package:genix/features/home%20screen/data/models/posts_model/posts_model
 import 'package:genix/features/home%20screen/views/widgets/post%20types/post_item.dart';
 import 'package:genix/features/pages%20screen/view%20model/get_page_by_id/get_page_by_id_cubit.dart';
 import 'package:genix/features/pages%20screen/views/widgets/add%20post%20bottom%20sheet/add_page_post_bottom_sheet.dart';
+import 'package:genix/features/pages%20screen/views/widgets/edit_page_cover_bottom_sheet.dart';
+import 'package:genix/features/pages%20screen/views/widgets/edit_page_profile_bottom_sheet.dart';
+import 'package:genix/features/pages%20screen/views/widgets/follow_page_button.dart';
+import 'package:genix/features/pages%20screen/views/widgets/show_page_tab_bar.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class PagesScreen extends StatefulWidget {
@@ -54,7 +58,9 @@ class _PagesScreenState extends State<PagesScreen> {
     context.read<GetPageByIdCubit>().getPageById(id: widget.id);
     _pagingController.addPageRequestListener((page) {
       print('**********PAGEKEY************ $page');
-      getPageByIdCubit.getPageById(id: widget.id);
+      getPageByIdCubit.getPageById(
+        id: widget.id,
+      );
     });
   }
 
@@ -64,17 +70,15 @@ class _PagesScreenState extends State<PagesScreen> {
     });
   }
 
-  Future<void> _fetchPage(List<PostsModel> posts) async {
+  Future<void> _fetchPage(List<PostsModel> items) async {
     try {
-      final newItems = posts;
-      print('fetch:: ${newItems.length}');
+      final newItems = items;
+      final isLastPage = newItems.length < 20; // Adjust based on your page size
 
-      // Clear existing items if refreshing the first page
       if (_nextPageKey == 1) {
         _pagingController.itemList?.clear();
       }
 
-      final isLastPage = newItems.length < 20;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
@@ -82,7 +86,6 @@ class _PagesScreenState extends State<PagesScreen> {
         _pagingController.appendPage(newItems, _nextPageKey);
       }
     } catch (error) {
-      print('Pagination error: ${error.toString()}');
       _pagingController.error = error;
     }
   }
@@ -224,32 +227,106 @@ class _PagesScreenState extends State<PagesScreen> {
                                   Positioned(
                                     bottom: 15.h,
                                     left: 10.w,
-                                    child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(400.r),
-                                      child: Container(
-                                        width: 80.w,
-                                        height: 80.w,
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(400.r),
+                                          child: Container(
+                                            width: 80.w,
+                                            height: 80.w,
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: CachedNetworkImage(
+                                              imageUrl: state.page.data?.page
+                                                      ?.profileImg ??
+                                                  '',
+                                              fit: BoxFit.fill,
+                                              errorWidget:
+                                                  (context, error, stackTrace) {
+                                                return Image.asset(
+                                                  AppImages.kLogo,
+                                                  width: 70.w,
+                                                  height: 70.w,
+                                                );
+                                              },
+                                            ),
+                                          ),
                                         ),
-                                        child: CachedNetworkImage(
-                                          imageUrl: state.page.data?.page
-                                                  ?.profileImg ??
-                                              '',
-                                          fit: BoxFit.fill,
-                                          errorWidget:
-                                              (context, error, stackTrace) {
-                                            return Image.asset(
-                                              AppImages.kLogo,
-                                              width: 70.w,
-                                              height: 70.w,
-                                            );
-                                          },
-                                        ),
-                                      ),
+                                        state.page.data?.page?.me?.manager ??
+                                                false
+                                            ? Positioned(
+                                                bottom: 2.h,
+                                                right: 0.w,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    editPageProfileBottomSheet(
+                                                        context, () async {
+                                                      await context
+                                                          .read<
+                                                              GetPageByIdCubit>()
+                                                          .getPageById(
+                                                            id: widget.id,
+                                                          );
+                                                    },
+                                                        state.page.data?.page
+                                                                ?.id ??
+                                                            0);
+                                                  },
+                                                  child: CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.grey,
+                                                    radius: 12.r,
+                                                    child: Center(
+                                                      child: Icon(
+                                                        FontAwesomeIcons.pen,
+                                                        color: Colors.white,
+                                                        size: 12.sp,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ))
+                                            : const SizedBox.shrink()
+                                      ],
                                     ),
                                   ),
+                                  state.page.data?.page?.me?.manager ?? false
+                                      ? Positioned(
+                                          right: 18.w,
+                                          bottom: 70.h,
+                                          child: InkWell(
+                                            onTap: () {
+                                              editPageCoverBottomSheet(context,
+                                                  () async {
+                                                await context
+                                                    .read<GetPageByIdCubit>()
+                                                    .getPageById(id: widget.id);
+                                              },
+                                                  state.page.data?.page?.id ??
+                                                      0);
+                                            },
+                                            child: CircleAvatar(
+                                              backgroundColor: Colors.grey,
+                                              radius: 12.r,
+                                              child: Center(
+                                                child: Icon(
+                                                  FontAwesomeIcons.pen,
+                                                  color: Colors.white,
+                                                  size: 12.sp,
+                                                ),
+                                              ),
+                                            ),
+                                          ))
+                                      : const SizedBox.shrink(),
+                                  state.page.data?.page?.me?.manager ?? false
+                                      ? const SizedBox.shrink()
+                                      : Positioned(
+                                          right: 18.w,
+                                          bottom: 350.h,
+                                          child: FollowPageButton(
+                                            pageProfileModel: state.page,
+                                          )),
                                   Positioned(
                                       left: 100.w,
                                       bottom: 14.w,
@@ -266,21 +343,59 @@ class _PagesScreenState extends State<PagesScreen> {
                                                       ''),
                                           Row(
                                             children: [
-                                              for (int i = 0;
-                                                  i <= (average - 1).floor();
-                                                  i++) ...[
-                                                Icon(
-                                                  Icons.star,
-                                                  color: Colors.yellow,
-                                                  size: 15.r,
-                                                )
-                                              ],
-                                              CustomTextWidget(
-                                                  textSize: 15.sp,
-                                                  fontFamily: '',
-                                                  fontWeight: FontWeight.normal,
-                                                  text:
-                                                      ' ${state.page.data?.page?.rating?.average ?? ''}'),
+                                              SizedBox(
+                                                width: 200.w,
+                                                child: Row(
+                                                  children: [
+                                                    for (int i = 0;
+                                                        i <=
+                                                            (average - 1)
+                                                                .floor();
+                                                        i++) ...[
+                                                      Icon(
+                                                        Icons.star,
+                                                        color: Colors.yellow,
+                                                        size: 15.r,
+                                                      )
+                                                    ],
+                                                    CustomTextWidget(
+                                                        textSize: 15.sp,
+                                                        fontFamily: '',
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        text:
+                                                            ' ${state.page.data?.page?.rating?.average ?? ''}'),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.r)),
+                                                width: 40.w,
+                                                height: 30.w,
+                                                child: Center(
+                                                  child: IconButton(
+                                                      onPressed: () async {
+                                                        await showPageTabBar(
+                                                            context, state.page,
+                                                            () {
+                                                          context
+                                                              .read<
+                                                                  GetPageByIdCubit>()
+                                                              .getPageById(
+                                                                id: widget.id,
+                                                              );
+                                                        });
+                                                      },
+                                                      icon: Icon(
+                                                          FontAwesomeIcons
+                                                              .ellipsis,
+                                                          size: 18.r)),
+                                                ),
+                                              ),
                                             ],
                                           )
                                         ],

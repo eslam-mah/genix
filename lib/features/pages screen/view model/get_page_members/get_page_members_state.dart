@@ -12,8 +12,8 @@ final class GetPageMembersInitial extends GetPageMembersState {}
 final class GetPageMembersLoading extends GetPageMembersState {}
 
 final class GetPageMembersSuccess extends GetPageMembersState {
-  final PageProfileModel page;
-  const GetPageMembersSuccess({required this.page});
+  final MembersList member;
+  const GetPageMembersSuccess({required this.member});
 }
 
 final class GetPageMembersError extends GetPageMembersState {}

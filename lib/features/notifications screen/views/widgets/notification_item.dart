@@ -31,7 +31,10 @@ class NotificationItem extends StatelessWidget {
       child: Row(
         children: [
           _CustomUserProfileImage(
-              image: notification.data.thumbnail, isActive: false),
+            image: notification.data.thumbnail,
+            isActive: false,
+            showname: notification.data.content,
+          ),
           SizedBox(
             width: 10.w,
           ),
@@ -67,10 +70,12 @@ class _CustomUserProfileImage extends StatelessWidget {
     super.key,
     required this.image,
     required this.isActive,
+    required this.showname,
   });
 
   final String image;
   final bool isActive;
+  final String showname;
 
   @override
   Widget build(BuildContext context) {
@@ -87,11 +92,11 @@ class _CustomUserProfileImage extends StatelessWidget {
               fit: BoxFit.cover,
               errorWidget: (context, error, stackTrace) {
                 return Container(
-                  color: Colors.white,
+                  color: Colors.purple,
                   alignment: Alignment.center,
-                  child: Image.asset(
-                    AppImages.kLogo,
-                    width: 120.w, // Increased width of the fallback image
+                  child: Text(
+                    showname.split('').take(2).join().toUpperCase(),
+                    style: TextStyle(fontSize: 19.sp),
                   ),
                 );
               },

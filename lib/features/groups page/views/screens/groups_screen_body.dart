@@ -71,17 +71,15 @@ class _GroupsScreenState extends State<GroupsScreen> {
     });
   }
 
-  Future<void> _fetchPage(List<PostsModel> posts) async {
+  Future<void> _fetchPage(List<PostsModel> items) async {
     try {
-      final newItems = posts;
-      print('fetch:: ${newItems.length}');
+      final newItems = items;
+      final isLastPage = newItems.length < 10; // Adjust based on your page size
 
-      // Clear existing items if refreshing the first page
       if (_nextPageKey == 1) {
         _pagingController.itemList?.clear();
       }
 
-      final isLastPage = newItems.length < 20;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
@@ -89,7 +87,6 @@ class _GroupsScreenState extends State<GroupsScreen> {
         _pagingController.appendPage(newItems, _nextPageKey);
       }
     } catch (error) {
-      print('Pagination error: ${error.toString()}');
       _pagingController.error = error;
     }
   }
@@ -307,7 +304,8 @@ class _GroupsScreenState extends State<GroupsScreen> {
                                                           .read<
                                                               GetGroupByIdCubit>()
                                                           .getGroupById(
-                                                              id: widget.id);
+                                                            id: widget.id,
+                                                          );
                                                     },
                                                         state.group.data?.group
                                                                 ?.id ??
@@ -393,8 +391,8 @@ class _GroupsScreenState extends State<GroupsScreen> {
                                                               .read<
                                                                   GetGroupByIdCubit>()
                                                               .getGroupById(
-                                                                  id: widget
-                                                                      .id);
+                                                                id: widget.id,
+                                                              );
                                                         });
                                                       },
                                                       icon: Icon(

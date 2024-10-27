@@ -253,6 +253,44 @@ class HttpFileHelper {
     return await http.Response.fromStream(response);
   }
 
+  static Future<http.Response> postShort({
+    required String url,
+    required String token,
+    String? content,
+    required File file, // The file parameter, required for upload
+  }) async {
+    // Create multipart request
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+
+    // Set headers
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept'] = 'application/json';
+    request.headers['Content-Type'] = 'multipart/form-data';
+
+    // Add optional content field
+    if (content != null) {
+      request.fields['content'] = content;
+    }
+
+    // Add file if it exists and is of the correct type
+    if (await file.exists()) {
+      final mimeType = lookupMimeType(file.path) ?? 'application/octet-stream';
+      final mimeTypeData = mimeType.split('/');
+
+      request.files.add(await http.MultipartFile.fromPath(
+        'file', // Set to 'file' as per your parameter requirement
+        file.path,
+        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]),
+      ));
+    } else {
+      throw Exception("File not found or invalid file type.");
+    }
+
+    // Send request and handle response
+    final response = await request.send();
+    return await http.Response.fromStream(response);
+  }
+
   static Future<http.Response> createGroupOrPage({
     required String url,
     String? token,
@@ -260,6 +298,7 @@ class HttpFileHelper {
     String? category,
     File? profileImg,
     File? coverImg,
+    bool? isPrivate,
     String? website,
     String? about,
     String? socialFacebook,
@@ -283,6 +322,8 @@ class HttpFileHelper {
     if (name != null) request.fields['name'] = name;
     if (category != null) request.fields['category'] = category;
     if (website != null) request.fields['website'] = website;
+    if (isPrivate != null) request.fields['is_private'] = isPrivate.toString();
+
     if (about != null) request.fields['about'] = about;
     if (socialFacebook != null) {
       request.fields['social_facebook'] = socialFacebook;
@@ -340,6 +381,7 @@ class HttpFileHelper {
     File? coverImg,
     String? website,
     String? about,
+    bool? isPrivate,
     String? socialFacebook,
     String? socialTiktok,
     String? socialInstagram,
@@ -367,6 +409,7 @@ class HttpFileHelper {
     if (category != null) request.fields['category'] = category;
     if (website != null) request.fields['website'] = website;
     if (about != null) request.fields['about'] = about;
+    if (isPrivate != null) request.fields['is_private'] = isPrivate.toString();
     if (socialFacebook != null) {
       request.fields['social_facebook'] = socialFacebook;
     }

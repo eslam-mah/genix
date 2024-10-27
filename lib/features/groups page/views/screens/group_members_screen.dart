@@ -48,7 +48,7 @@ class _GroupMembersScreenState extends State<GroupMembersScreen> {
     getGroupMembersCubit = BlocProvider.of<GetGroupMembersCubit>(context);
     _membersPagingController.addPageRequestListener((page) {
       getGroupMembersCubit.getGroupMembers(
-          id: widget.group.data?.group?.id ?? 0);
+          id: widget.group.data?.group?.id ?? 0, page: page);
     });
   }
 
@@ -60,10 +60,15 @@ class _GroupMembersScreenState extends State<GroupMembersScreen> {
   }
 
   // Fetch users page
-  Future<void> _fetchPage(List<Member> usersList) async {
+  Future<void> _fetchPage(List<Member> items) async {
     try {
-      final newItems = usersList;
-      final isLastPage = newItems.length < 20;
+      final newItems = items;
+      final isLastPage = newItems.length < 20; // Adjust based on your page size
+
+      if (_nextPageKey == 1) {
+        _membersPagingController.itemList?.clear();
+      }
+
       if (isLastPage) {
         _membersPagingController.appendLastPage(newItems);
       } else {

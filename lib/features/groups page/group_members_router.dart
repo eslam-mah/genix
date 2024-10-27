@@ -8,6 +8,7 @@ import 'package:genix/features/groups%20page/view%20model/post_group_invitation/
 import 'package:genix/features/groups%20page/view%20model/update_group_invitation/update_group_invitation_cubit.dart';
 import 'package:genix/features/groups%20page/view%20model/update_group_member/update_group_member_cubit.dart';
 import 'package:genix/features/groups%20page/views/screens/group_members_screen.dart';
+import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class GroupMembersRouter {
@@ -16,6 +17,7 @@ abstract class GroupMembersRouter {
   static final deleteGroupMemberPostCubit = DeleteGroupMemberPostCubit();
   static final getGroupMembersCubit = GetGroupMembersCubit();
   static final postGroupInvitationCubit = PostGroupInvitationCubit();
+  static final getAccountDetails = GetMyAccountDetailsCubit();
 
   static final updateGroupInvitationCubit = UpdateGroupInvitationCubit();
   static final updateGroupMemberCubit = UpdateGroupMemberCubit();
@@ -28,6 +30,9 @@ abstract class GroupMembersRouter {
             providers: [
               BlocProvider.value(
                 value: deleteGroupMemberCubit,
+              ),
+              BlocProvider.value(
+                value: getAccountDetails,
               ),
               BlocProvider.value(
                 value: deleteGroupMemberCommentCubit,

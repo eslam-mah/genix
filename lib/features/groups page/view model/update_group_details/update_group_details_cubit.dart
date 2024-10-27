@@ -19,6 +19,7 @@ class UpdateGroupDetailsCubit extends Cubit<UpdateGroupDetailsState> {
     required String facebook,
     required String tiktok,
     required String x,
+    required bool isPrivate,
     required String instagram,
     required String pinterest,
     required String steam,
@@ -30,6 +31,7 @@ class UpdateGroupDetailsCubit extends Cubit<UpdateGroupDetailsState> {
     emit(UpdateGroupDetailsLoading());
     final Either<FailureModel, Map> result =
         await updateGroupDetails.updateGroupDetails(
+            isPrivate: isPrivate,
             name: name,
             category: category,
             website: website,

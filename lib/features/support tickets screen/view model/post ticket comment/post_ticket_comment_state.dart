@@ -13,7 +13,7 @@ final class PostTicketCommentInitial extends PostTicketCommentState {}
 final class PostTicketCommentLoading extends PostTicketCommentState {}
 
 final class PostTicketCommentSuccess extends PostTicketCommentState {
-  final TicketsModel ticketComment;
+  final TicketModel ticketComment;
   const PostTicketCommentSuccess({required this.ticketComment});
 }
 

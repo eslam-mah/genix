@@ -9,9 +9,9 @@ part 'get_group_members_state.dart';
 class GetGroupMembersCubit extends Cubit<GetGroupMembersState> {
   GetGroupMembersCubit() : super(GetGroupMembersInitial());
   final GroupsRepository groupsRepository = GroupsRepository();
-  Future<void> getGroupMembers({required int id}) async {
+  Future<void> getGroupMembers({required int id, required int page}) async {
     emit(GetGroupMembersLoading());
-    final result = await groupsRepository.getGroupMembers(id: id);
+    final result = await groupsRepository.getGroupMembers(id: id, page: page);
     result.fold(
       (l) => emit(GetGroupMembersError()),
       (r) {

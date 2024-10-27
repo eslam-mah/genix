@@ -18,6 +18,7 @@ import 'package:genix/core/widgets/customheaderwidget2.dart';
 import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/pages%20screen/data/models/pages_model.dart';
 import 'package:genix/features/pages%20screen/view%20model/get_all_pages/get_all_pages_cubit.dart';
+import 'package:genix/features/pages%20screen/views/widgets/create_page/create_page_bottom_sheet.dart';
 import 'package:genix/features/pages%20screen/views/widgets/page_item.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -43,7 +44,7 @@ class _PagesListBodyState extends State<PagesListBody> {
     super.initState();
     getPagesCubit = BlocProvider.of<GetAllPagesCubit>(context);
     _pagingController.addPageRequestListener((page) {
-      getPagesCubit.getAllPages();
+      getPagesCubit.getAllPages(page: page);
     });
   }
 
@@ -53,10 +54,15 @@ class _PagesListBodyState extends State<PagesListBody> {
     });
   }
 
-  Future<void> _fetchPage(List<PagesModel> pagesList) async {
+  Future<void> _fetchPage(List<PagesModel> items) async {
     try {
-      final newItems = pagesList;
-      final isLastPage = newItems.length < 20;
+      final newItems = items;
+      final isLastPage = newItems.length < 20; // Adjust based on your page size
+
+      if (_nextPageKey == 1) {
+        _pagingController.itemList?.clear();
+      }
+
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
@@ -179,7 +185,11 @@ class _PagesListBodyState extends State<PagesListBody> {
                             height: 40.h,
                             borderRadius: 10.r,
                             color: AppColors.kPrimaryColor,
-                            onTap: () {},
+                            onTap: () {
+                              createPageBottomSheet(context, () {
+                                _pagingController.refresh();
+                              });
+                            },
                             icon: Icon(
                               Icons.add,
                               color: Colors.white,

@@ -2,14 +2,18 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:genix/core/services/failure_model.dart';
+import 'package:genix/core/services/http_file_helper.dart';
 import 'package:genix/core/services/http_helper.dart';
 import 'package:genix/core/utils/api_end_points.dart';
 
 class ShortsRepository {
-  Future<Either<FailureModel, Map>> getShorts() async {
+  Future<Either<FailureModel, Map>> getShorts({required int page}) async {
     return await HttpHelper.handleRequest((token) async {
+      final linkWithPage = '${ApiEndPoints.getShorts}?page=$page';
       return await HttpHelper.getData(
-          linkUrl: ApiEndPoints.getShorts, token: token);
+        linkUrl: linkWithPage,
+        token: token,
+      );
     });
   }
 
@@ -35,13 +39,13 @@ class ShortsRepository {
   }
 
   Future<Either<FailureModel, Map>> addShort(
-      {required File short, required String name}) async {
-    return await HttpHelper.handleRequest((token) async {
-      return await HttpHelper.postFile(
-          linkUrl: ApiEndPoints.addShort,
-          file: short,
-          name: name,
-          token: token);
+      {required File file, required String content}) async {
+    return await HttpFileHelper.handleRequest((token) async {
+      return await HttpFileHelper.postShort(
+          url: ApiEndPoints.addShort,
+          token: token,
+          file: file,
+          content: content);
     });
   }
 

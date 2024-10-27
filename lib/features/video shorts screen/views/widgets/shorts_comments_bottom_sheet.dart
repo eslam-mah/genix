@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
-import 'package:genix/features/video%20shorts%20screen/widgets/shorts_comments_list.dart';
+import 'package:genix/features/video%20shorts%20screen/views/widgets/shorts_comments_list.dart';
 
 Future<dynamic> shortsCommentBottomSheet(
     BuildContext context, StateSetter setState) {
@@ -22,7 +22,6 @@ Future<dynamic> shortsCommentBottomSheet(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      backgroundColor: AppColors.kPostColor,
       enableDrag: true,
       builder: (context) {
         return StatefulBuilder(builder: (context, setState) {
@@ -84,21 +83,18 @@ Future<dynamic> shortsCommentBottomSheet(
                                 )),
                             hintText: 'Reply to Name post',
                             border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.black.withOpacity(0.5)),
+                              borderSide: BorderSide(),
                               gapPadding: 0,
                               borderRadius: BorderRadius.circular(15.r),
                             ),
                             enabledBorder: OutlineInputBorder(
                               gapPadding: 0,
-                              borderSide: BorderSide(
-                                  color: Colors.black.withOpacity(0.5)),
+                              borderSide: BorderSide(),
                               borderRadius: BorderRadius.circular(15.r),
                             ),
                             disabledBorder: OutlineInputBorder(
                               gapPadding: 0,
-                              borderSide: BorderSide(
-                                  color: Colors.black.withOpacity(0.5)),
+                              borderSide: BorderSide(),
                               borderRadius: BorderRadius.circular(15.r),
                             ),
                             suffixIcon: IconButton(

@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
 
 Future<dynamic> donationBottomSheet(BuildContext context) {
   return showModalBottomSheet(
       //isScrollControlled: true,
       showDragHandle: true,
-      backgroundColor: AppColors.kPostColor,
       enableDrag: true,
       context: context,
       builder: (context) {
@@ -40,7 +38,8 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                             Text(
                               'Help the short creator.',
                               style: TextStyle(
-                                  fontSize: 13.sp, color: Colors.grey),
+                                fontSize: 13.sp,
+                              ),
                             ),
                           ],
                         ),
@@ -169,10 +168,7 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                               child: Container(
                                 alignment: Alignment.bottomLeft,
                                 height: 22.h,
-                                decoration: BoxDecoration(
-                                    color: AppColors.kPostColor,
-                                    border: Border.all(
-                                        color: Colors.black.withOpacity(0.2))),
+                                decoration: BoxDecoration(border: Border.all()),
                                 child: Padding(
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 8.w),
@@ -182,7 +178,6 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                                     children: [
                                       Icon(
                                         FontAwesomeIcons.arrowsUpDown,
-                                        color: Colors.black,
                                         size: 15.sp,
                                       ),
                                       SizedBox(
@@ -200,10 +195,7 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                             Container(
                               alignment: Alignment.bottomLeft,
                               height: 22.h,
-                              decoration: BoxDecoration(
-                                  color: AppColors.kPostColor,
-                                  border: Border.all(
-                                      color: Colors.black.withOpacity(0.2))),
+                              decoration: BoxDecoration(border: Border.all()),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
                                 child: Row(

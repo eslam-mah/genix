@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custom_user_profile_image.dart';
 
 class ShortsCommentBubble extends StatelessWidget {
@@ -20,9 +19,7 @@ class ShortsCommentBubble extends StatelessWidget {
             SizedBox(width: 15.w),
             Flexible(
               child: Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.kAppBar2Color,
-                ),
+                decoration: const BoxDecoration(),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(

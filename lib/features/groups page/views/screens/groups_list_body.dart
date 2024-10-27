@@ -44,7 +44,7 @@ class _GroupsListBodyState extends State<GroupsListBody> {
     super.initState();
     getGroupsCubit = BlocProvider.of<GetAllGroupsCubit>(context);
     _pagingController.addPageRequestListener((page) {
-      getGroupsCubit.getAllGroups();
+      getGroupsCubit.getAllGroups(page: page);
     });
   }
 
@@ -54,10 +54,15 @@ class _GroupsListBodyState extends State<GroupsListBody> {
     });
   }
 
-  Future<void> _fetchPage(List<GroupsModel> groupsList) async {
+  Future<void> _fetchPage(List<GroupsModel> items) async {
     try {
-      final newItems = groupsList;
-      final isLastPage = newItems.length < 20;
+      final newItems = items;
+      final isLastPage = newItems.length < 20; // Adjust based on your page size
+
+      if (_nextPageKey == 1) {
+        _pagingController.itemList?.clear();
+      }
+
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {

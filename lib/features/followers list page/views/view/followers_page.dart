@@ -43,7 +43,7 @@ class _FollowersPageState extends State<FollowersPage> {
     super.initState();
     getFollowersCubit = BlocProvider.of<GetFollowersCubit>(context);
     _pagingController.addPageRequestListener((page) {
-      getFollowersCubit.getFollowers(id: widget.id);
+      getFollowersCubit.getFollowers(id: widget.id, page: page);
     });
   }
 
@@ -53,10 +53,15 @@ class _FollowersPageState extends State<FollowersPage> {
     });
   }
 
-  Future<void> _fetchPage(List<FollowersModel> groupsList) async {
+  Future<void> _fetchPage(List<FollowersModel> items) async {
     try {
-      final newItems = groupsList;
-      final isLastPage = newItems.length < 20;
+      final newItems = items;
+      final isLastPage = newItems.length < 20; // Adjust based on your page size
+
+      if (_nextPageKey == 1) {
+        _pagingController.itemList?.clear();
+      }
+
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {

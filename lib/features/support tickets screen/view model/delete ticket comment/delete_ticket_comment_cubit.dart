@@ -8,7 +8,7 @@ part 'delete_ticket_comment_state.dart';
 class DeleteTicketCommentCubit extends Cubit<DeleteTicketCommentState> {
   DeleteTicketCommentCubit() : super(DeleteTicketCommentInitial());
   final TicketsRepository deleteTicketCommentRepo = TicketsRepository();
-  Future<void> deleteTicketComment({required String id}) async {
+  Future<void> deleteTicketComment({required int id}) async {
     emit(DeleteTicketCommentLoading());
     final result = await deleteTicketCommentRepo.deleteTicketComment(id: id);
     result.fold((l) => emit(DeleteTicketCommentError()), (r) {

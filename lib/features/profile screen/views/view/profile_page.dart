@@ -75,6 +75,9 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _onRefresh() async {
+    // Reset the page key and refresh the PagingController
+    _nextPageKey = 1;
+    _pagingController.refresh(); // Clears existing data and triggers a reload
     await context
         .read<GetProfileCubit>()
         .getProfile(profileName: widget.userName);
@@ -84,16 +87,19 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _fetchPage(List<PostsModel> posts) async {
     try {
       final newItems = posts;
-      print('fetch:: ${newItems.length}');
       final isLastPage = newItems.length < 20;
-      if (isLastPage) {
-        _pagingController.appendLastPage(newItems);
+      if (_nextPageKey == 1) {
+        // First page, replace the list entirely
+        _pagingController.appendPage(newItems, 1);
       } else {
-        _nextPageKey = _nextPageKey + 1;
-        _pagingController.appendPage(newItems, _nextPageKey);
+        if (isLastPage) {
+          _pagingController.appendLastPage(newItems);
+        } else {
+          _nextPageKey = _nextPageKey + 1;
+          _pagingController.appendPage(newItems, _nextPageKey);
+        }
       }
     } catch (error) {
-      print('Pagination error: ${error.toString()}');
       _pagingController.error = error;
     }
   }

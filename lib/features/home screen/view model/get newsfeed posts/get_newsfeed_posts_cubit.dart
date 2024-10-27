@@ -8,9 +8,9 @@ part 'get_newsfeed_posts_state.dart';
 class GetNewsFeedPostsCubit extends Cubit<GetNewsFeedPostsState> {
   GetNewsFeedPostsCubit() : super(GetNewsfeedPostsInitial());
   final PostsRepository getNewsFeedPostsRepo = PostsRepository();
-  Future<void> getNewsFeedPosts() async {
+  Future<void> getNewsFeedPosts({required int page}) async {
     emit(GetNewsFeedPostsLoading());
-    final result = await getNewsFeedPostsRepo.getNewsFeedPosts();
+    final result = await getNewsFeedPostsRepo.getNewsFeedPosts(page: page);
     result.fold((l) {
       emit(GetNewsFeedPostsError());
     }, (r) {

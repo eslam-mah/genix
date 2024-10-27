@@ -12,9 +12,13 @@ final class UpdatePageMemberInitial extends UpdatePageMemberState {}
 final class UpdatePageMemberLoading extends UpdatePageMemberState {}
 
 final class UpdatePageMemberSuccess extends UpdatePageMemberState {
-  final UpdatePageFollowerForm follower;
+  final String message;
 
-  const UpdatePageMemberSuccess({required this.follower});
+  const UpdatePageMemberSuccess({required this.message});
 }
 
-final class UpdatePageMemberError extends UpdatePageMemberState {}
+final class UpdatePageMemberError extends UpdatePageMemberState {
+  final String message;
+
+  const UpdatePageMemberError({required this.message});
+}

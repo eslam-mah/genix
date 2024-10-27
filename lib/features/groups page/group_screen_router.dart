@@ -20,6 +20,7 @@ import 'package:genix/features/groups%20page/view%20model/update_group_member/up
 import 'package:genix/features/groups%20page/view%20model/update_group_profile/update_group_profile_cubit.dart';
 import 'package:genix/features/groups%20page/views/screens/groups_screen_body.dart';
 import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_cubit.dart';
+import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class GroupsScreenRouter {
@@ -29,6 +30,8 @@ abstract class GroupsScreenRouter {
   static final deleteGroupMemberCommentCubit = DeleteGroupMemberCommentCubit();
   static final deleteGroupMemberPostCubit = DeleteGroupMemberPostCubit();
   static final getAllGroupsCubit = GetAllGroupsCubit();
+  static final getAccountDetails = GetMyAccountDetailsCubit();
+
   static final getGroupByIdCubit = GetGroupByIdCubit();
   static final getGroupMembersCubit = GetGroupMembersCubit();
   static final getGroupPhotosCubit = GetGroupPhotosCubit();
@@ -53,6 +56,9 @@ abstract class GroupsScreenRouter {
               ),
               BlocProvider.value(
                 value: deleteGroupCubit,
+              ),
+              BlocProvider.value(
+                value: getAccountDetails,
               ),
               BlocProvider.value(
                 value: deleteGroupMemberCubit,

@@ -1,9 +1,10 @@
+import 'package:genix/features/video%20shorts%20screen/data/models/shorts_model.dart';
+
 import 'stats.dart';
-import 'user.dart';
 
 class Member {
   int? id;
-  User? user;
+  UserModel? user;
   List<dynamic>? roles;
   List<dynamic>? permissions;
   Stats? stats;
@@ -22,7 +23,7 @@ class Member {
         id: json['id'] as int?,
         user: json['user'] == null
             ? null
-            : User.fromJson(json['user'] as Map<String, dynamic>),
+            : UserModel.fromJson(json['user'] as Map<String, dynamic>),
         roles: json['roles'] as List<dynamic>?,
         permissions: json['permissions'] as List<dynamic>?,
         stats: json['stats'] == null

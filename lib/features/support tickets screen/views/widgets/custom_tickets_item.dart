@@ -34,7 +34,9 @@ class CustomTicketsItem extends StatelessWidget {
                   Row(
                     children: [
                       Icon(
-                        FontAwesomeIcons.lock,
+                        ticket.status == 'closed'
+                            ? FontAwesomeIcons.lock
+                            : FontAwesomeIcons.lockOpen,
                         size: 12.r,
                       ),
                       SizedBox(

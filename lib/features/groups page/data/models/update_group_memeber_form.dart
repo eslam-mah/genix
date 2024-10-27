@@ -1,15 +1,19 @@
 class UpdateGroupMemberForm {
-  RolesModel roles;
+  List<RolesModel>? roles;
   List<PermissionsModel>? permissions;
 
   UpdateGroupMemberForm({
-    required this.roles,
+    this.roles,
     this.permissions,
   });
 
   factory UpdateGroupMemberForm.fromJson(Map<String, dynamic> json) {
     return UpdateGroupMemberForm(
-      roles: RolesModel.fromJson(json['roles']),
+      roles: json['roles'] != null
+          ? (json['roles'] as List<dynamic>)
+              .map((item) => RolesModel.fromJson(item as Map<String, dynamic>))
+              .toList()
+          : null,
       permissions: json['permissions'] != null
           ? (json['permissions'] as List<dynamic>)
               .map((item) =>
@@ -21,7 +25,9 @@ class UpdateGroupMemberForm {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['roles'] = this.roles.toJson();
+    if (this.roles != null) {
+      data['roles'] = this.roles!.map((item) => item.toJson()).toList();
+    }
     if (this.permissions != null) {
       data['permissions'] =
           this.permissions!.map((item) => item.toJson()).toList();
@@ -32,17 +38,17 @@ class UpdateGroupMemberForm {
 
 class PermissionsModel {
   String permissionName;
-  String permissionDescription;
+  String? permissionDescription;
 
   PermissionsModel({
     required this.permissionName,
-    required this.permissionDescription,
+    this.permissionDescription,
   });
 
   factory PermissionsModel.fromJson(Map<String, dynamic> json) {
     return PermissionsModel(
-      permissionName: json['permission_name'],
-      permissionDescription: json['permission_description'],
+      permissionName: json['permission_name'] as String,
+      permissionDescription: json['permission_description'] as String?,
     );
   }
 
@@ -56,17 +62,17 @@ class PermissionsModel {
 
 class RolesModel {
   String roleName;
-  String roleDescription;
+  String? roleDescription;
 
   RolesModel({
     required this.roleName,
-    required this.roleDescription,
+    this.roleDescription,
   });
 
   factory RolesModel.fromJson(Map<String, dynamic> json) {
     return RolesModel(
-      roleName: json['role_name'],
-      roleDescription: json['role_description'],
+      roleName: json['role_name'] as String,
+      roleDescription: json['role_description'] as String?,
     );
   }
 

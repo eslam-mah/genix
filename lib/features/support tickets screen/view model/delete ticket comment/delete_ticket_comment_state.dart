@@ -13,7 +13,7 @@ final class DeleteTicketCommentInitial extends DeleteTicketCommentState {}
 final class DeleteTicketCommentLoading extends DeleteTicketCommentState {}
 
 final class DeleteTicketCommentSuccess extends DeleteTicketCommentState {
-  final String ticketCommentId;
+  final int ticketCommentId;
   const DeleteTicketCommentSuccess({required this.ticketCommentId});
 }
 

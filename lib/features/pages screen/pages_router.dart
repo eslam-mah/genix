@@ -17,6 +17,7 @@ import 'package:genix/features/pages%20screen/view%20model/update_page_invitatio
 import 'package:genix/features/pages%20screen/view%20model/update_page_member/update_page_member_cubit.dart';
 import 'package:genix/features/pages%20screen/view%20model/update_page_profile/update_page_profile_cubit.dart';
 import 'package:genix/features/pages%20screen/views/screens/pages_list_body.dart';
+import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class PagesRouter {
@@ -26,6 +27,8 @@ abstract class PagesRouter {
   static final deletePageMemberCommentCubit = DeletePageMemberCommentCubit();
   static final deletePageMemberPostCubit = DeletePageMemberPostCubit();
   static final getAllPagesCubit = GetAllPagesCubit();
+  static final getAccountDetails = GetMyAccountDetailsCubit();
+
   static final getPageByIdCubit = GetPageByIdCubit();
   static final getPageMembersCubit = GetPageMembersCubit();
   static final getPagePhotosCubit = GetPagePhotosCubit();
@@ -46,6 +49,9 @@ abstract class PagesRouter {
             providers: [
               BlocProvider.value(
                 value: createPageCubit,
+              ),
+              BlocProvider.value(
+                value: getAccountDetails,
               ),
               BlocProvider.value(
                 value: deletePageCubit,

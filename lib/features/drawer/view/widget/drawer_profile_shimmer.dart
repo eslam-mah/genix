@@ -20,12 +20,12 @@ class DrawerProfileShimmer extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Profile Picture
             Container(
-              width: 20.w,
-              height: 20.h,
+              width: 40.w,
+              height: 40.h,
               decoration: BoxDecoration(
                 color: ThemeCubit().state == ThemeState.dark
                     ? Colors.grey[700]
@@ -38,6 +38,7 @@ class DrawerProfileShimmer extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Notification text placeholder
                   Container(

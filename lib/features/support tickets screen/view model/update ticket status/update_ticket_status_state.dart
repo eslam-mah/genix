@@ -13,7 +13,7 @@ final class UpdateTicketStatusInitial extends UpdateTicketStatusState {}
 final class UpdateTicketStatusLoading extends UpdateTicketStatusState {}
 
 final class UpdateTicketStatusSuccess extends UpdateTicketStatusState {
-  final TicketsModel ticket;
+  final TicketModel ticket;
   const UpdateTicketStatusSuccess({required this.ticket});
 }
 
