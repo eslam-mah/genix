@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:genix/core/utils/router.dart';
+import 'package:genix/core/widgets/custom_user_profile_image.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/features/drawer/view%20model/log_out_cubit/log_out_cubit.dart';
+import 'package:genix/features/drawer/view/widget/drawer_profile_shimmer.dart';
 import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
+import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customlisttile.dart';
-import 'package:genix/core/widgets/customuserprofileimage.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
 

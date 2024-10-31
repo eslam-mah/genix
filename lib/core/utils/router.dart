@@ -17,7 +17,6 @@ import 'package:genix/features/notifications%20screen/notifications_router.dart'
 import 'package:genix/features/pages%20screen/page_followers_router.dart';
 import 'package:genix/features/pages%20screen/page_screen_router.dart';
 import 'package:genix/features/pages%20screen/pages_router.dart';
-import 'package:genix/features/payments/payment_router.dart';
 import 'package:genix/features/photos%20page/my_photos_router.dart';
 import 'package:genix/features/photos%20page/photos_router.dart';
 import 'package:genix/features/profile%20screen/My_profile_router.dart';
@@ -82,9 +81,6 @@ abstract class Rout {
 
     /// register
     ...RegisterRouter.goRoutes,
-
-    /// payment screen
-    ...PaymentRouter.goRoutes,
 
     /// story
     ...StoryRouter.goRoutes,
