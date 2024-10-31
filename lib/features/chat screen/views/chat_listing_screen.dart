@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:genix/core/utils/router.dart';
 import 'package:genix/features/chat%20screen/views/cubit/chat_cubit/chat_cubit.dart';
 import 'package:genix/features/chat%20screen/views/widgets/chat_room_tile.dart';
 import 'package:go_router/go_router.dart';
@@ -23,6 +25,15 @@ class _ChatListingScreenState extends State<ChatListingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.push(Rout.createNewChat);
+        },
+        child: const Icon(
+          FontAwesomeIcons.add,
+        ),
+        backgroundColor: Colors.green,
+      ),
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {

@@ -404,3 +404,27 @@ class Pagination {
         "total": total,
       };
 }
+
+class CreateChatRoomResponse {
+  bool success;
+  ChatRoom data;
+  dynamic message;
+
+  CreateChatRoomResponse({
+    required this.success,
+    required this.data,
+    required this.message,
+  });
+
+  factory CreateChatRoomResponse.fromJson(Map<String, dynamic> json) => CreateChatRoomResponse(
+    success: json["success"],
+    data: ChatRoom.fromJson(json["data"]),
+    message: json["message"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "success": success,
+    "data": data.toJson(),
+    "message": message,
+  };
+}

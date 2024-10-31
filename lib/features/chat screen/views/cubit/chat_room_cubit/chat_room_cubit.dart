@@ -16,13 +16,30 @@ class ChatRoomCubit extends Cubit<ChatRoomState> {
   final UserCubit _userCubit = locator<UserCubit>();
 
   void getChatRoomMessages({required String id}) async {
-    emit(ChatRoomLoading());
+    emit(ChatRoomLoading(
+      loadingState: true,
+      message: [],
+      page: 1,
+      limit: 100,
+      roomId: id,
+    ));
 
-    final result = await chatRepository.getChatRoomMessagesById(id: id);
+    final result = await chatRepository.getChatRoomMessagesById(id: id, page: 1, limit: 10);
     print("result: $result");
     result.fold((l) => emit(ChatRoomError("Something went wrong")), (r) {
       ChatRoomMessagesResponse chatRoomMessagesResponse = ChatRoomMessagesResponse.fromJson(r as Map<String, dynamic>);
-      emit(ChatRoomSuccess(chatRoomMessagesResponse.data?.messages ?? []));
+      emit(ChatRoomSuccess(chatRoomMessagesResponse.data?.messages ?? [], page: 1, limit: 100, roomId: id));
+    });
+  }
+
+  void fetchNextPage() async {
+    emit(state.copyWith(page: state.page! + 1, limit: 10, loadingState: true));
+    final result = await chatRepository.getChatRoomMessagesById(id: state.roomId ?? "", page: state.page, limit: state.limit);
+    result.fold((l) => emit(state.copyWith(loadingState: false)), (r) {
+      ChatRoomMessagesResponse chatRoomMessagesResponse = ChatRoomMessagesResponse.fromJson(r as Map<String, dynamic>);
+      List<Message> messages = state.messages;
+      List<Message> newMessages = List.from(messages)..addAll(chatRoomMessagesResponse.data?.messages ?? []);
+      emit(state.copyWith(messages: newMessages, page: state.page, limit: 100, loadingState: false));
     });
   }
 
@@ -61,11 +78,22 @@ class ChatRoomCubit extends Cubit<ChatRoomState> {
   }
 
   void silentChatRoomMessages({required String id}) async {
-    final result = await chatRepository.getChatRoomMessagesById(id: id);
+    final result = await chatRepository.getChatRoomMessagesById(id: id, page: state.page, limit: state.limit);
     print("result: $result");
-    result.fold((l) => emit(ChatRoomError("Something went wrong")), (r) {
+    result.fold(
+        (l) => emit(ChatRoomError(
+              "Something went wrong",
+              page: state.page,
+              limit: state.limit,
+            )), (r) {
       ChatRoomMessagesResponse chatRoomMessagesResponse = ChatRoomMessagesResponse.fromJson(r as Map<String, dynamic>);
-      emit(ChatRoomSuccess(chatRoomMessagesResponse.data?.messages ?? []));
+      emit(
+        ChatRoomSuccess(
+          chatRoomMessagesResponse.data?.messages ?? [],
+          page: state.page,
+          limit: state.limit,
+        ),
+      );
     });
   }
 }
