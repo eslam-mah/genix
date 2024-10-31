@@ -4,24 +4,37 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/router.dart';
-import 'package:genix/core/widgets/custom_user_profile_image.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/features/drawer/view%20model/log_out_cubit/log_out_cubit.dart';
 import 'package:genix/features/drawer/view/widget/drawer_profile_shimmer.dart';
+import 'package:genix/features/lock%20screen/view%20model/post%20lock/post_lock_cubit.dart';
+import 'package:genix/features/lock%20screen/views/lock_page.dart';
 import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customlisttile.dart';
+import 'package:genix/core/widgets/custom_user_profile_image.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
 
-class CustomDrawerWidget extends StatelessWidget {
+class CustomDrawerWidget extends StatefulWidget {
   final bool isNightMode;
   const CustomDrawerWidget({
     super.key,
     required this.isNightMode,
   });
+
+  @override
+  State<CustomDrawerWidget> createState() => _CustomDrawerWidgetState();
+}
+
+class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
+  @override
+  void initState() {
+    super.initState();
+    // context.read<GetMyAccountDetailsCubit>().getMyAccountDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,13 +119,15 @@ class CustomDrawerWidget extends StatelessWidget {
                 icon: FontAwesomeIcons.gear,
                 text: 'Settings',
                 onTap: () {
-                  GoRouter.of(context).push(SettingsPage.route);
+                  GoRouter.of(context).push(SettingsPage.route, extra: 0);
                 },
               ),
               CustomListTile(
                 icon: FontAwesomeIcons.coins,
                 text: 'Get coins',
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).push(SettingsPage.route, extra: 4);
+                },
               ),
               // CustomListTile(
               //   icon: FontAwesomeIcons.fileShield,
@@ -122,19 +137,24 @@ class CustomDrawerWidget extends StatelessWidget {
               CustomListTile(
                 icon: FontAwesomeIcons.arrowUp,
                 text: 'Promotions',
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).push(Rout.kPromotionsScreen);
+                },
               ),
               CustomListTile(
-                icon: FontAwesomeIcons.message,
+                icon: Icons.chat_bubble,
                 text: 'Chat',
-                onTap: () {
+                onTap: () async {
                   context.push(Rout.kChatsListing);
                 },
               ),
               CustomListTile(
                 icon: FontAwesomeIcons.key,
                 text: 'Lock screen',
-                onTap: () {},
+                onTap: () async {
+                  await context.read<PostLockCubit>().postLock();
+                  GoRouter.of(context).go(LockPage.route);
+                },
               ),
               CustomListTile(
                 icon: FontAwesomeIcons.rightFromBracket,
