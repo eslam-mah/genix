@@ -16,4 +16,7 @@ final class GetNewsFeedPostsSuccess extends GetNewsFeedPostsState {
   const GetNewsFeedPostsSuccess({required this.posts});
 }
 
-final class GetNewsFeedPostsError extends GetNewsFeedPostsState {}
+final class GetNewsFeedPostsError extends GetNewsFeedPostsState {
+  final String message;
+  const GetNewsFeedPostsError({required this.message});
+}

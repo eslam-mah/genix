@@ -97,7 +97,7 @@ class GlowingButtonBody extends StatelessWidget {
                 image: AppImages.kSettings,
                 text: 'Settings',
                 onTap: () {
-                  GoRouter.of(context).push(SettingsPage.route);
+                  GoRouter.of(context).push(SettingsPage.route, extra: 0);
                 },
                 duration: 800,
               ),

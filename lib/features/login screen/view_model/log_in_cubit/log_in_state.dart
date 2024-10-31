@@ -18,4 +18,8 @@ final class LogInSuccess extends LogInState {
   const LogInSuccess({required this.data});
 }
 
-final class LogInError extends LogInState {}
+final class LogInError extends LogInState {
+  final String message;
+
+  const LogInError({required this.message});
+}

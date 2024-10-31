@@ -8,13 +8,13 @@ class CustomBillingWidget extends StatelessWidget {
     super.key,
     required this.isSelected,
     required this.numberSelected,
-    required this.coins,
+    required this.amount,
     required this.isNightModeEnabled,
   });
 
   final int isSelected;
   final int numberSelected;
-  final int coins;
+  final num amount;
   final bool isNightModeEnabled;
   @override
   Widget build(BuildContext context) {
@@ -47,11 +47,11 @@ class CustomBillingWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                '$coins Coins',
+                '$amount Coins',
                 style: TextStyle(fontSize: 15.sp),
               ),
               Text(
-                '${(1 / 100 * coins)} EUR',
+                '${(1 / 100 * amount)} EUR',
                 style: TextStyle(fontSize: 12.sp),
               )
             ],

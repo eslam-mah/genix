@@ -6,6 +6,8 @@ class ApiEndPoints {
   static const String logIn = "$baseUrl/login";
   // log out
   static const String logOut = "$baseUrl/logout";
+  // verification link
+  static const String verifyEmail = "$baseUrl/auth/verify-email";
   // users
   static const String getUsers = "$baseUrl/accounts/users";
   static const String getBlockedUsers = "$baseUrl/accounts/blocks";

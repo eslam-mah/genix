@@ -22,7 +22,8 @@ class LogInCubit extends Cubit<LogInState> {
         await logInRepository.logIn(email: email, password: password);
 
     result.fold(
-      (failure) => emit(LogInError()), // Error state
+      (failure) =>
+          emit(LogInError(message: failure.message ?? '')), // Error state
       (response) {
         _loginResponse = LoginResponse.fromJson(response);
 

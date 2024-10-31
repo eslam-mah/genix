@@ -6,6 +6,7 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customappbar.dart';
 
 import 'package:genix/core/widgets/custombottomappbar.dart';
+import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 
 import 'package:genix/core/widgets/customglowingbutton.dart';
@@ -74,7 +75,18 @@ class _PromotionsScreenBodyState extends State<PromotionsScreenBody> {
       ),
       body: isSelected
           ? const GlowingButtonBody()
-          : const Center(child: Text('hommeeeeee')),
+          : Column(
+              children: [
+                const CustomHeaderWidget(text: 'Promotions'),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Text(
+                  'Nothing to display...',
+                  style: TextStyle(fontSize: 25.sp),
+                )
+              ],
+            ),
     );
   }
 }

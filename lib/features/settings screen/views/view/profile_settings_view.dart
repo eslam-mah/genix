@@ -45,10 +45,9 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
   late TextEditingController linkedinController;
 
   late String selectedCountry;
+  bool isCountrySelected = false;
   late String gender;
   bool isLoading = false; // To control loading state
-
-  bool isCountrySelected = false;
 
   @override
   void initState() {

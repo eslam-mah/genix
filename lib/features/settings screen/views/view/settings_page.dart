@@ -26,8 +26,9 @@ import 'package:genix/features/settings%20screen/views/view/security_setting_vie
 import 'package:genix/features/settings%20screen/views/widgets/settings_shimmer.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({super.key, required this.initialIndex});
   static const route = '/settings';
+  final int initialIndex;
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
@@ -104,6 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
         body: isSelected
             ? const GlowingButtonBody()
             : DefaultTabController(
+                initialIndex: widget.initialIndex,
                 length: 5,
                 child: Scaffold(
                   body: Column(

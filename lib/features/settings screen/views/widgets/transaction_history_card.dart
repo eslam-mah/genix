@@ -1,61 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:genix/core/utils/colors.dart';
+import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
+import 'package:genix/features/settings%20screen/data/models/transactions_model.dart';
+import 'package:intl/intl.dart';
 
 class TransactionHistoryCard extends StatelessWidget {
+  final bool isNightMode;
+  final TransactionModel transactionsModel;
   const TransactionHistoryCard({
     super.key,
+    required this.isNightMode,
+    required this.transactionsModel,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'TXN ID',
-              style: TextStyle(fontSize: 12.sp),
-            ),
-            Text(
-                style: TextStyle(
-                  fontSize: 11.sp,
-                ),
-                '#38'),
-          ],
-        ),
-        const Icon(
-          Icons.arrow_upward,
-          color: Colors.green,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Stripe(10 coins for 0.1 eur)',
-              style: TextStyle(fontSize: 12.sp),
-            ),
-            Text(
-                style: TextStyle(
-                  fontSize: 11.sp,
-                ),
-                'march 30'),
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'STATU',
-              style: TextStyle(fontSize: 12.sp),
-            ),
-            Text(
-                style: TextStyle(fontSize: 12.sp, color: Colors.blue),
-                'initiat'),
-          ],
-        )
-      ],
+    return Container(
+      color: ThemeCubit().state == ThemeState.dark
+          ? DarkModeColors.kItemColorDark
+          : AppColors.kAppBar2Color,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'TXN ID',
+                style: TextStyle(fontSize: 12.sp),
+              ),
+              Text(
+                  style: TextStyle(
+                    fontSize: 11.sp,
+                  ),
+                  '#${transactionsModel.id}'),
+            ],
+          ),
+          const Icon(
+            Icons.arrow_upward,
+            color: Colors.green,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                transactionsModel.name,
+                style: TextStyle(fontSize: 12.sp),
+              ),
+              Text(
+                  style: TextStyle(
+                    fontSize: 11.sp,
+                  ),
+                  DateFormat('MMMM').format(transactionsModel.createdAt)),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'STATU',
+                style: TextStyle(fontSize: 12.sp),
+              ),
+              Text(
+                  style: TextStyle(fontSize: 12.sp, color: Colors.blue),
+                  transactionsModel.status),
+              Text(
+                '+ ${transactionsModel.newCoins}',
+                style:
+                    TextStyle(fontSize: 12.sp, color: AppColors.kPrimaryColor),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

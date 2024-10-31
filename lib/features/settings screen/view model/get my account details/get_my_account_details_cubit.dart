@@ -16,7 +16,8 @@ class GetMyAccountDetailsCubit extends Cubit<GetMyAccountDetailsState> {
   Future<void> getMyAccountDetails() async {
     emit(GetMyAccountDetailsLoading());
     final result = await getMyAccountRepo.getMyAccountDetails();
-    result.fold((l) => emit(GetMyAccountDetailsError()), (r) {
+    result.fold((l) => emit(GetMyAccountDetailsError(message: l.message ?? "")),
+        (r) {
       final account = SettingsModel.fromJson(r as Map<String, dynamic>);
       User user = User.fromJson(r["data"]);
       locator<UserCubit>().setUser(user);

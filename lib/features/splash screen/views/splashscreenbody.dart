@@ -6,8 +6,13 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/utils/pref_keys.dart';
 import 'package:genix/core/utils/router.dart';
+import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts/get_newsfeed_posts_cubit.dart';
 import 'package:genix/features/home%20screen/views/view/homebody.dart';
+import 'package:genix/features/lock%20screen/view%20model/get%20lock/get_lock_cubit.dart';
+import 'package:genix/features/lock%20screen/views/lock_page.dart';
 import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
+import 'package:genix/features/register%20screen/views/verification_screen.dart';
+import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 import 'package:go_router/go_router.dart';
 
@@ -32,6 +37,7 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
 
   void _checkAuthStatus() {
     context.read<FirstLoadCubit>().firstLoad();
+    context.read<GetLockCubit>().getLock();
   }
 
   @override
@@ -39,24 +45,48 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
     return Scaffold(
       backgroundColor: AppColors.kPrimaryColor,
       body: Center(
-        child: BlocListener<FirstLoadCubit, FirstLoadState>(
-          listener: (context, state) {
-            if (state is FirstLoadSuccess &&
-                CacheData.getData(key: PrefKeys.kToken) != null) {
-              context.go(
-                HomePage.routeName,
-              );
-            } else if (state is FirstLoadSuccess &&
-                CacheData.getData(key: PrefKeys.kToken) == null) {
-              GoRouter.of(context)
-                  .push(LoginScreen.route, extra: const LogInScreenArgs());
-            } else if (state is FirstLoadError) {
-              GoRouter.of(context)
-                  .push(LoginScreen.route, extra: const LogInScreenArgs());
-            } else {
-              GoRouter.of(context).push(Rout.kLoadingPage);
-            }
-          },
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<FirstLoadCubit, FirstLoadState>(
+              listener: (context, state) {
+                if (state is FirstLoadSuccess) {
+                  final lockState = context.read<GetLockCubit>().state;
+                  final token = CacheData.getData(key: PrefKeys.kToken);
+                  final homeState =
+                      context.read<GetMyAccountDetailsCubit>().state;
+                  print(
+                      '________________________${state.firstLoad.data.user?.verified}');
+                  if (lockState is GetLockSuccess &&
+                      lockState.data.data == true) {
+                    GoRouter.of(context).go(LockPage.route);
+                  } else if (token != null &&
+                      state.firstLoad.data.user?.verified == false) {
+                    GoRouter.of(context).go(VerificationScreen.routeName);
+                  } else if (token != null &&
+                      state.firstLoad.data.user?.verified == true) {
+                    GoRouter.of(context).go(HomePage.routeName);
+                  } else {
+                    GoRouter.of(context)
+                        .go(LoginScreen.route, extra: const LogInScreenArgs());
+                  }
+                } else if (state is FirstLoadError) {
+                  GoRouter.of(context)
+                      .push(LoginScreen.route, extra: const LogInScreenArgs());
+                } else {
+                  GoRouter.of(context).push(Rout.kLoadingPage);
+                }
+              },
+            ),
+            BlocListener<GetLockCubit, GetLockState>(
+              listener: (context, lockState) {
+                // This listener becomes a backup to handle direct lock state changes.
+                if (lockState is GetLockSuccess &&
+                    lockState.data.data == true) {
+                  GoRouter.of(context).go(LockPage.route);
+                }
+              },
+            ),
+          ],
           child: SizedBox(
             width: 110.w,
             height: 110.h,

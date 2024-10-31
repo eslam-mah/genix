@@ -12,7 +12,7 @@ final class GetAllTransactionsInitial extends GetAllTransactionsState {}
 final class GetAllTransactionsLoading extends GetAllTransactionsState {}
 
 final class GetAllTransactionsSuccess extends GetAllTransactionsState {
-  final TransactionsList transactions;
+  final TransactionList transactions;
   const GetAllTransactionsSuccess({required this.transactions});
 }
 

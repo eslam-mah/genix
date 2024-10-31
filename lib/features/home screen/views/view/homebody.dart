@@ -15,7 +15,11 @@ import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts
 import 'package:genix/features/home%20screen/view%20model/get%20stories/get_stories_cubit.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_story_widget.dart';
 import 'package:genix/features/home%20screen/views/widgets/post_shimmer_effect.dart';
+import 'package:genix/features/home%20screen/views/widgets/story_shimmer.dart';
+import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
+import 'package:genix/features/register%20screen/views/verification_screen.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -65,8 +69,9 @@ class _HomePageState extends State<HomePage> {
     isNightModeEnabled = CacheData.getData(key: PrefKeys.kDarkMode) ?? false;
     getPostsCubit = BlocProvider.of<GetNewsFeedPostsCubit>(context);
     getStoriesCubit = BlocProvider.of<GetStoriesCubit>(context);
-    isSelected = false;
     context.read<GetMyAccountDetailsCubit>().getMyAccountDetails();
+    context.read<GetStoriesCubit>().getStories(page: 1);
+
     _pagingController.addPageRequestListener((page) {
       getPostsCubit.getNewsFeedPosts(page: page);
     });
@@ -86,12 +91,28 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
+        BlocListener<GetMyAccountDetailsCubit, GetMyAccountDetailsState>(
+          listener: (context, state) {
+            if (state is GetMyAccountDetailsError) {
+              print('Error: ${state.message}');
+              if (state.message == "Your email address is not verified.") {
+                GoRouter.of(context).go(VerificationScreen.routeName);
+              } else if (state.message == "Unauthenticated.") {
+                GoRouter.of(context)
+                    .go(LoginScreen.route, extra: const LogInScreenArgs());
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Something went wrong')),
+                );
+              }
+            }
+          },
+        ),
         BlocListener<GetNewsFeedPostsCubit, GetNewsFeedPostsState>(
           listener: (context, state) {
             if (state is GetNewsFeedPostsSuccess) {
               print(state.posts.data.postsModel.length);
-              state.posts.data.postsModel
-                  .sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+
               _fetchPage(state.posts.data.postsModel);
             }
           },
@@ -127,11 +148,6 @@ class _HomePageState extends State<HomePage> {
               _pagingController.itemList = items;
               setState(() {});
             }
-          },
-        ),
-        BlocListener<AddReactCubit, AddReactState>(
-          listener: (context, state) {
-            if (state is AddReactSuccess) {}
           },
         ),
         BlocListener<ThemeCubit, ThemeState>(
@@ -233,6 +249,7 @@ class _HomePageState extends State<HomePage> {
                         builder: (context, state) {
                           final hasStories = state is GetStoriesSuccess &&
                               state.stories.data.stories.isNotEmpty;
+
                           return Column(
                             children: [
                               const CustomHeaderWidget(
@@ -242,33 +259,69 @@ class _HomePageState extends State<HomePage> {
                                 width: double.infinity,
                                 height: hasStories ? 90.h : 0,
                                 child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: PagedListView<int, StoriesListModel>(
-                                    scrollDirection: Axis.horizontal,
-                                    pagingController: _storiesPagingController,
-                                    builderDelegate: PagedChildBuilderDelegate<
-                                        StoriesListModel>(
-                                      animateTransitions: true,
-                                      firstPageErrorIndicatorBuilder: (_) =>
-                                          FirstPageErrorIndicator(
-                                        onTryAgain: () =>
-                                            _storiesPagingController.refresh(),
+                                    alignment: Alignment.topLeft,
+                                    child: PagedListView<int, StoriesListModel>(
+                                      scrollDirection: Axis.horizontal,
+                                      pagingController:
+                                          _storiesPagingController,
+                                      builderDelegate:
+                                          PagedChildBuilderDelegate<
+                                              StoriesListModel>(
+                                        animateTransitions: true,
+                                        firstPageErrorIndicatorBuilder: (_) =>
+                                            FirstPageErrorIndicator(
+                                          onTryAgain: () =>
+                                              _storiesPagingController
+                                                  .refresh(),
+                                        ),
+                                        firstPageProgressIndicatorBuilder: (_) =>
+                                            const FirstPageProgressIndicator(),
+                                        newPageProgressIndicatorBuilder: (_) =>
+                                            const Center(
+                                                child:
+                                                    NewPageProgressIndicator()),
+                                        noItemsFoundIndicatorBuilder: (_) =>
+                                            const SizedBox.shrink(),
+                                        itemBuilder:
+                                            (context, item, storyListIndex) {
+                                          return BlocBuilder<GetStoriesCubit,
+                                              GetStoriesState>(
+                                            builder: (context, state) {
+                                              if (state is GetStoriesSuccess) {
+                                                return SizedBox(
+                                                  width: 80
+                                                      .w, // Adjust width as needed for each story item
+                                                  child: ListView.builder(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemCount: item.collection
+                                                            ?.length ??
+                                                        0,
+                                                    itemBuilder:
+                                                        (context, storyIndex) {
+                                                      return CustomStoryWidget(
+                                                        storyModel: item,
+                                                        storyList:
+                                                            state.stories,
+                                                        storyListIndex:
+                                                            storyListIndex,
+                                                        storyIndex:
+                                                            storyIndex, // Pass the index for each story
+                                                      );
+                                                    },
+                                                  ),
+                                                );
+                                              } else {
+                                                return StoryShimmer(
+                                                  isNightModeEnabled:
+                                                      isNightModeEnabled,
+                                                );
+                                              }
+                                            },
+                                          );
+                                        },
                                       ),
-                                      firstPageProgressIndicatorBuilder: (_) =>
-                                          const FirstPageProgressIndicator(),
-                                      newPageProgressIndicatorBuilder: (_) =>
-                                          const Center(
-                                              child:
-                                                  NewPageProgressIndicator()),
-                                      noItemsFoundIndicatorBuilder: (_) =>
-                                          const SizedBox.shrink(),
-                                      itemBuilder: (context, item, index) {
-                                        return CustomStoryWidget(
-                                            storyModel: item);
-                                      },
-                                    ),
-                                  ),
-                                ),
+                                    )),
                               ),
                             ],
                           );

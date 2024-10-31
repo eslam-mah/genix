@@ -26,6 +26,79 @@ class HttpHelper {
     return prefs.getString(PrefKeys.kToken);
   }
 
+  static Future<Either<FailureModel, Map>> register({
+    required String linkUrl,
+    required String showName,
+    required String username,
+    required String email,
+    required String password,
+    required String passwordConfirmation,
+    required String country,
+    required String locale,
+    required String dateOfBirth,
+  }) async {
+    // Ensure validation conditions are met locally before sending the request
+    if (showName.length > 32 ||
+        username.length > 32 ||
+        email.length > 255 ||
+        country.length < 2) {
+      return Left(FailureModel(
+        responseStatus: HttpResponseStatus.invalidData,
+        message:
+            'One or more fields do not meet the required length constraints.',
+      ));
+    }
+
+    // Build request body
+    final data = {
+      'showname': showName,
+      'username': username,
+      'email': email,
+      'password': password,
+      'password_confirmation': passwordConfirmation,
+      'country': country,
+      'locale': locale,
+      'date_of_birth': dateOfBirth,
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(linkUrl),
+        body: json.encode(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 201) {
+        // Assuming 201 for successful creation
+        final responseBody = jsonDecode(response.body);
+        if (responseBody['success']) {
+          final token = responseBody['data']['token'];
+          await _saveToken(token); // Save token
+          print('Token stored successfully');
+          return Right(responseBody);
+        } else {
+          return Left(FailureModel(
+            responseStatus: HttpResponseStatus.invalidData,
+            message: responseBody['message'],
+          ));
+        }
+      } else {
+        return Left(FailureModel(
+          responseStatus: HttpResponseStatus.failure,
+          message: '${response.reasonPhrase}',
+        ));
+      }
+    } catch (e) {
+      return Left(FailureModel(
+        responseStatus: HttpResponseStatus.failure,
+        message: e.toString(),
+      ));
+    }
+  }
+
   // Function to handle login and store token
   static Future<Either<FailureModel, Map>> login({
     required String linkUrl,
@@ -68,7 +141,11 @@ class HttpHelper {
     }
   }
 
-  static Future<http.Response> postData({required String linkUrl, required Map data, String? token, Map<String, String>? header}) async {
+  static Future<http.Response> postData(
+      {required String linkUrl,
+      required Map data,
+      String? token,
+      Map<String, String>? header}) async {
     token ??= await _getToken(); // Get token if not provided
     var headers = {
       'Authorization': 'Bearer $token',
@@ -293,7 +370,8 @@ class HttpHelper {
       }
     } catch (e) {
       print('Exception occurred: $e');
-      return Left(FailureModel(responseStatus: HttpResponseStatus.failure, message: e.toString()));
+      return Left(FailureModel(
+          responseStatus: HttpResponseStatus.failure, message: e.toString()));
     }
   }
 
@@ -325,11 +403,13 @@ class HttpHelper {
           ));
         }
       } else {
-        return Left(FailureModel(responseStatus: HttpResponseStatus.noInternet));
+        return Left(
+            FailureModel(responseStatus: HttpResponseStatus.noInternet));
       }
     } catch (e) {
       print('Exception occurred: $e');
-      return Left(FailureModel(responseStatus: HttpResponseStatus.failure, message: e.toString()));
+      return Left(FailureModel(
+          responseStatus: HttpResponseStatus.failure, message: e.toString()));
     }
   }
 }

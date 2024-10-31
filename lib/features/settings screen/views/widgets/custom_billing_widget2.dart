@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 
-// ignore: must_be_immutable
 class CustomBillingWidget2 extends StatefulWidget {
   CustomBillingWidget2({
     super.key,
     required this.isSelected,
     required this.numberSelected,
-    required this.coins,
     required this.isNightModeEnabled,
+    required this.onAmountChanged,
   });
 
   int isSelected;
   final int numberSelected;
-  final int coins;
   final bool isNightModeEnabled;
+  final Function(int) onAmountChanged; // Callback for passing amount to parent
+
   @override
   State<CustomBillingWidget2> createState() => _CustomBillingWidget2State();
 }
 
 class _CustomBillingWidget2State extends State<CustomBillingWidget2> {
   TextEditingController textEditingController = TextEditingController();
-  double views = 0.00;
+  int coins = 0;
 
   @override
   void initState() {
@@ -42,14 +41,16 @@ class _CustomBillingWidget2State extends State<CustomBillingWidget2> {
 
   void coinsToViews() {
     if (textEditingController.text.isNotEmpty) {
-      double coins = double.tryParse(textEditingController.text) ?? 0;
+      int inputAmount = int.tryParse(textEditingController.text) ?? 0;
       setState(() {
-        views = (coins / 100).toDouble();
+        coins = inputAmount ~/ 100; // Integer division to get whole number
       });
+      widget.onAmountChanged(coins); // Pass the converted amount to parent
     } else {
       setState(() {
-        views = 0.0;
+        coins = 0;
       });
+      widget.onAmountChanged(coins); // Reset to 0 if empty
     }
   }
 
@@ -59,25 +60,26 @@ class _CustomBillingWidget2State extends State<CustomBillingWidget2> {
       width: 150.w,
       height: 50.h,
       decoration: BoxDecoration(
-          border: Border.all(
-            color: widget.isSelected == widget.numberSelected
-                ? const Color.fromARGB(255, 0, 111, 4)
-                : Colors.black.withOpacity(0.5),
-          ),
-          borderRadius: BorderRadius.circular(3.r),
+        border: Border.all(
           color: widget.isSelected == widget.numberSelected
-              ? widget.isNightModeEnabled
-                  ? AppColors.kPrimaryColor
-                  : AppColors.kPromoteColor
-              : widget.isNightModeEnabled
-                  ? DarkModeColors.kItemColorDark3
-                  : AppColors.kTextFieldColor),
+              ? const Color.fromARGB(255, 0, 111, 4)
+              : Colors.black.withOpacity(0.5),
+        ),
+        borderRadius: BorderRadius.circular(3.r),
+        color: widget.isSelected == widget.numberSelected
+            ? widget.isNightModeEnabled
+                ? AppColors.kPrimaryColor
+                : AppColors.kPromoteColor
+            : widget.isNightModeEnabled
+                ? DarkModeColors.kItemColorDark3
+                : AppColors.kTextFieldColor,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Icon(
             FontAwesomeIcons.coins,
-            color: Color.fromARGB(255, 233, 211, 13),
+            color: const Color.fromARGB(255, 233, 211, 13),
             size: 30.sp,
           ),
           Column(
@@ -98,11 +100,10 @@ class _CustomBillingWidget2State extends State<CustomBillingWidget2> {
                       });
                     },
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(top: 5.h),
                       hintText: 'Custom amount',
                       border: InputBorder.none,
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 0), // Reduce padding
                     ),
                     style: TextStyle(fontSize: 13.sp),
                   ),
@@ -114,14 +115,14 @@ class _CustomBillingWidget2State extends State<CustomBillingWidget2> {
               SizedBox(
                 width: 100.w,
                 child: Text(
-                  '$views EUR',
+                  '$coins EUR', // Display the integer result
                   style: TextStyle(fontSize: 12.sp),
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

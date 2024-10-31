@@ -12,7 +12,7 @@ final class GetLockInitial extends GetLockState {}
 final class GetLockLoading extends GetLockState {}
 
 final class GetLockSuccess extends GetLockState {
-  final Map<dynamic, dynamic> data;
+  final LockModel data;
   const GetLockSuccess({required this.data});
 }
 

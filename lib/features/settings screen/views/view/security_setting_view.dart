@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
+import 'package:genix/core/utils/pref_keys.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 import 'package:genix/core/widgets/customtextfield2.dart';
@@ -353,6 +355,7 @@ class _DeleteMyAccountDialog extends StatelessWidget {
                             // ignore: use_build_context_synchronously
                             GoRouter.of(context).go(LoginScreen.route,
                                 extra: const LogInScreenArgs());
+                            CacheData.deleteData(key: PrefKeys.kToken);
                           }),
                       CustomButton(
                           color: Colors.red,

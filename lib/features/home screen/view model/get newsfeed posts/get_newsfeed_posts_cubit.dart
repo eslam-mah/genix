@@ -12,7 +12,7 @@ class GetNewsFeedPostsCubit extends Cubit<GetNewsFeedPostsState> {
     emit(GetNewsFeedPostsLoading());
     final result = await getNewsFeedPostsRepo.getNewsFeedPosts(page: page);
     result.fold((l) {
-      emit(GetNewsFeedPostsError());
+      emit(GetNewsFeedPostsError(message: l.message ?? ""));
     }, (r) {
       final posts = PostsList.fromJson(r as Map<String, dynamic>);
       emit(GetNewsFeedPostsSuccess(posts: posts));

@@ -16,4 +16,8 @@ final class GetMyAccountDetailsSuccess extends GetMyAccountDetailsState {
   const GetMyAccountDetailsSuccess({required this.account});
 }
 
-final class GetMyAccountDetailsError extends GetMyAccountDetailsState {}
+final class GetMyAccountDetailsError extends GetMyAccountDetailsState {
+  final String message;
+
+  const GetMyAccountDetailsError({required this.message});
+}

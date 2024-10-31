@@ -815,7 +815,8 @@ Future<dynamic> addPostModalBottomSheet(
                                     // Submit the post with poll details
                                     await addPostCubit
                                         .addPost(
-                                      content: contentText,
+                                      content:
+                                          isPost == 1 ? contentText : 'story',
                                       pageId: '',
                                       groupId: '',
                                       postingIn:

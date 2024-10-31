@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:genix/core/utils/router.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/features/drawer/view%20model/log_out_cubit/log_out_cubit.dart';
 import 'package:genix/features/drawer/view/widget/drawer_profile_shimmer.dart';
+import 'package:genix/features/lock%20screen/view%20model/post%20lock/post_lock_cubit.dart';
+import 'package:genix/features/lock%20screen/views/lock_page.dart';
 import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:go_router/go_router.dart';
@@ -30,7 +33,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
   @override
   void initState() {
     super.initState();
-    context.read<GetMyAccountDetailsCubit>().getMyAccountDetails();
+    // context.read<GetMyAccountDetailsCubit>().getMyAccountDetails();
   }
 
   @override
@@ -116,13 +119,15 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                 icon: FontAwesomeIcons.gear,
                 text: 'Settings',
                 onTap: () {
-                  GoRouter.of(context).push(SettingsPage.route);
+                  GoRouter.of(context).push(SettingsPage.route, extra: 0);
                 },
               ),
               CustomListTile(
                 icon: FontAwesomeIcons.coins,
                 text: 'Get coins',
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).push(SettingsPage.route, extra: 4);
+                },
               ),
               // CustomListTile(
               //   icon: FontAwesomeIcons.fileShield,
@@ -132,12 +137,17 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
               CustomListTile(
                 icon: FontAwesomeIcons.arrowUp,
                 text: 'Promotions',
-                onTap: () {},
+                onTap: () {
+                  GoRouter.of(context).push(Rout.kPromotionsScreen);
+                },
               ),
               CustomListTile(
                 icon: FontAwesomeIcons.key,
                 text: 'Lock screen',
-                onTap: () {},
+                onTap: () async {
+                  await context.read<PostLockCubit>().postLock();
+                  GoRouter.of(context).go(LockPage.route);
+                },
               ),
               CustomListTile(
                 icon: FontAwesomeIcons.rightFromBracket,

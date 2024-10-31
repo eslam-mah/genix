@@ -1,18 +1,20 @@
+import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genix/features/payments/data/repos/payment_repository.dart';
+import 'package:genix/features/payments/data/models/stripe_form.dart';
+import 'package:genix/features/payments/data/repos/stripe_repo.dart';
 
 part 'create_stripe_state.dart';
 
 class CreateStripeCubit extends Cubit<CreateStripeState> {
   CreateStripeCubit() : super(CreateStripeInitial());
-  final PaymentRepository paymentRepository = PaymentRepository();
-  Future<void> createStripe() async {
+  final StripeRepo paymentRepository = StripeRepo();
+  Future<void> createStripe({required StripeForm data}) async {
     emit(CreateStripeLoading());
-    final result = await paymentRepository.createStripe(data: {});
+    final result = await paymentRepository.createStripe(data: data.toJson());
+
     result.fold(
-      (l) => emit(CreateStripeError()),
-      (r) => emit(CreateStripeSuccess(message: 'created successfully')),
+      (failure) => emit(CreateStripeError(error: failure.message ?? 'error')),
+      (clientSecret) => emit(CreateStripeSuccess(clientSecret: clientSecret)),
     );
   }
 }

@@ -41,6 +41,7 @@ class AppGifs {
   static const kLikeReact = 'assets/images/resources/like.gif';
   static const kHeartReact = 'assets/images/resources/love.gif';
   static const kVerified = 'assets/images/resources/verified.gif';
+  static const lockBackground = 'assets/images/resources/lifeline.gif';
 }
 
 class AppLottie {

@@ -11,19 +11,22 @@ import 'package:genix/features/groups%20page/groups_router.dart';
 import 'package:genix/features/home%20screen/home_router.dart';
 import 'package:genix/features/lock%20screen/lock_router.dart';
 import 'package:genix/features/login%20screen/login_router.dart';
+import 'package:genix/features/my%20promotions%20screen/views/promotionsscreenbody.dart';
 import 'package:genix/features/notifications%20screen/notifications_router.dart';
 import 'package:genix/features/pages%20screen/page_followers_router.dart';
 import 'package:genix/features/pages%20screen/page_screen_router.dart';
 import 'package:genix/features/pages%20screen/pages_router.dart';
+import 'package:genix/features/payments/payment_router.dart';
 import 'package:genix/features/photos%20page/my_photos_router.dart';
 import 'package:genix/features/photos%20page/photos_router.dart';
 import 'package:genix/features/profile%20screen/My_profile_router.dart';
 import 'package:genix/features/profile%20screen/profile_router.dart';
-import 'package:genix/features/register%20screen/register.dart';
+import 'package:genix/features/register%20screen/register_router.dart';
 import 'package:genix/features/search%20page/search_router.dart';
 import 'package:genix/features/settings%20screen/setting_router.dart';
 import 'package:genix/features/splash%20screen/splashscreen.dart';
 import 'package:genix/features/splash%20screen/views/custom_loading_page.dart';
+import 'package:genix/features/story%20screen/story_router.dart';
 import 'package:genix/features/support%20tickets%20screen/support_tickets_router.dart';
 import 'package:genix/features/video%20shorts%20screen/video_shorts_router.dart';
 import 'package:genix/features/videos%20page/my_videos_router.dart';
@@ -31,11 +34,10 @@ import 'package:genix/features/videos%20page/videos_router.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class Rout {
-  static const kRegister = '/register';
   static const kGlb = '/glb';
   static const kReplies = '/replies';
   static const kChatsListing = '/chat-listing';
-
+  static const kPromotionsScreen = '/promotions_screen';
   static const kChatScreen = '/chat';
 
   static const kLoadingPage = '/custom_loading_page';
@@ -45,15 +47,15 @@ abstract class Rout {
       path: '/',
       builder: (context, state) => const SplashScreen(),
     ),
-    GoRoute(
-      path: kRegister,
-      builder: (context, state) => const Register(),
-    ),
+
     GoRoute(
       path: kReplies,
       builder: (context, state) => const Replies(),
     ),
-
+    GoRoute(
+      path: kPromotionsScreen,
+      builder: (context, state) => const PromotionsScreenBody(),
+    ),
     GoRoute(
       path: kChatsListing,
       builder: (context, state) => const ChatListingScreen(),
@@ -71,6 +73,15 @@ abstract class Rout {
       path: kLoadingPage,
       builder: (context, state) => const CustomLoadingPage(),
     ),
+
+    /// register
+    ...RegisterRouter.goRoutes,
+
+    /// payment screen
+    ...PaymentRouter.goRoutes,
+
+    /// story
+    ...StoryRouter.goRoutes,
 
     /// page followers
     ...PageFollowersRouter.goRoutes,

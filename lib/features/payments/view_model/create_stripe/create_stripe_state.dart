@@ -1,20 +1,30 @@
 part of 'create_stripe_cubit.dart';
 
-sealed class CreateStripeState extends Equatable {
+abstract class CreateStripeState extends Equatable {
   const CreateStripeState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class CreateStripeInitial extends CreateStripeState {}
+class CreateStripeInitial extends CreateStripeState {}
 
-final class CreateStripeLoading extends CreateStripeState {}
+class CreateStripeLoading extends CreateStripeState {}
 
-final class CreateStripeSuccess extends CreateStripeState {
-  final String message;
+class CreateStripeSuccess extends CreateStripeState {
+  final String clientSecret;
 
-  const CreateStripeSuccess({required this.message});
+  const CreateStripeSuccess({required this.clientSecret});
+
+  @override
+  List<Object?> get props => [clientSecret];
 }
 
-final class CreateStripeError extends CreateStripeState {}
+class CreateStripeError extends CreateStripeState {
+  final String error;
+
+  const CreateStripeError({required this.error});
+
+  @override
+  List<Object?> get props => [error];
+}

@@ -4,13 +4,14 @@ import 'package:genix/features/lock%20screen/view%20model/post%20lock/post_lock_
 import 'package:genix/features/lock%20screen/view%20model/remove%20lock/remove_lock_cubit.dart';
 import 'package:genix/features/lock%20screen/views/lock_page.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
+import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class LockRouter {
   static final getLockCubit = GetLockCubit();
   static final postLockCubit = PostLockCubit();
   static final removeLockCubit = RemoveLockCubit();
-  static final getAccountDetails = GetMyAccountDetailsCubit();
+  static final getAccountDetails = FirstLoadCubit();
 
   static final List<GoRoute> goRoutes = [
     GoRoute(
@@ -31,7 +32,7 @@ abstract class LockRouter {
                 value: removeLockCubit,
               ),
             ],
-            child: LockPage(args: state.extra as LockPageArgs),
+            child: LockPage(),
           );
         }),
   ];

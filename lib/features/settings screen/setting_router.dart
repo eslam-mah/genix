@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:genix/features/payments/view_model/create_stripe/create_stripe_cubit.dart';
 import 'package:genix/features/settings%20screen/view%20model/delete%20my%20account/delete_my_account_cubit.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20all%20payouts/get_all_payouts_cubit.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20all%20transactions/get_all_transactions_cubit.dart';
@@ -11,6 +12,7 @@ import 'package:genix/features/settings%20screen/view%20model/update%20my%20pass
 import 'package:genix/features/settings%20screen/view%20model/update%20my%20profile/update_my_profile_cubit.dart';
 import 'package:genix/features/settings%20screen/view%20model/update%20status/update_status_cubit.dart';
 import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
+import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class SettingRouter {
@@ -25,6 +27,9 @@ abstract class SettingRouter {
   static final updateStatusCubit = UpdateStatusCubit();
   static final postPayoutCubit = PostPayoutCubit();
   static final deleteAccountCubit = DeleteMyAccountCubit();
+  static final createStripe = CreateStripeCubit();
+  static final firstLoad = FirstLoadCubit();
+
   static final List<GoRoute> goRoutes = [
     GoRoute(
         path: SettingsPage.route,
@@ -33,6 +38,12 @@ abstract class SettingRouter {
             providers: [
               BlocProvider.value(
                 value: getMyAccountDetailsCubit,
+              ),
+              BlocProvider.value(
+                value: firstLoad,
+              ),
+              BlocProvider.value(
+                value: createStripe,
               ),
               BlocProvider.value(
                 value: getAllPayouts,
@@ -65,7 +76,9 @@ abstract class SettingRouter {
                 value: deleteAccountCubit,
               ),
             ],
-            child: SettingsPage(),
+            child: SettingsPage(
+              initialIndex: state.extra as int,
+            ),
           );
         }),
   ];

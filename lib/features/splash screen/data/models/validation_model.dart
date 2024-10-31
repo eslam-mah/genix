@@ -1,48 +1,75 @@
 class ValidationModel {
-  Settings? settings;
-  User? user;
-  List<CustomEmoji>? customEmoji;
+  final bool success;
+  final DataModel data;
+  final String? message;
 
-  ValidationModel({this.settings, this.user, this.customEmoji});
+  ValidationModel({
+    required this.success,
+    required this.data,
+    this.message,
+  });
 
-  ValidationModel.fromJson(Map<String, dynamic> json) {
-    settings =
-        json['settings'] != null ? Settings.fromJson(json['settings']) : null;
-    user = json['user'] != null ? User.fromJson(json['user']) : null;
-    if (json['custom_emoji'] != null) {
-      customEmoji = <CustomEmoji>[];
-      json['custom_emoji'].forEach((v) {
-        customEmoji!.add(CustomEmoji.fromJson(v));
-      });
-    }
+  factory ValidationModel.fromJson(Map<String, dynamic> json) {
+    return ValidationModel(
+      success: json['success'] ?? false,
+      data: DataModel.fromJson(json['data'] ?? {}),
+      message: json['message'] ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    if (settings != null) {
-      data['settings'] = settings!.toJson();
-    }
-    if (user != null) {
-      data['user'] = user!.toJson();
-    }
-    if (customEmoji != null) {
-      data['custom_emoji'] = customEmoji!.map((v) => v.toJson()).toList();
-    }
-    return data;
+    return {
+      'success': success,
+      'data': data.toJson(),
+      'message': message,
+    };
   }
 }
 
-class Settings {
-  String? realCurrency;
-  String? realCurrencyCode;
-  List<int>? stripeDefaultCoinsValues;
-  String? coinsCurrencyRate;
-  String? payoutFeeRate;
-  int? payoutMinLimit;
-  List<int>? promotionDefaultCoinsValues;
-  bool? maintenanceEnabled;
+class DataModel {
+  final SettingsModel? settings;
+  final UserModel? user;
+  final List<CustomEmoji>? customEmoji;
 
-  Settings({
+  DataModel({
+    this.settings,
+    this.user,
+    this.customEmoji,
+  });
+
+  factory DataModel.fromJson(Map<String, dynamic> json) {
+    return DataModel(
+      settings: json['settings'] != null
+          ? SettingsModel.fromJson(json['settings'])
+          : null,
+      user: json['user'] != null ? UserModel.fromJson(json['user']) : null,
+      customEmoji: (json['custom_emoji'] as List?)
+              ?.map((e) => CustomEmoji.fromJson(e))
+              .toList() ??
+          [],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'settings': settings?.toJson(),
+      'user': user?.toJson(),
+      'custom_emoji': customEmoji?.map((e) => e.toJson()).toList(),
+    };
+  }
+}
+
+class SettingsModel {
+  final String? realCurrency;
+  final String? realCurrencyCode;
+  final List<int>? stripeDefaultCoinsValues;
+  final String? coinsCurrencyRate;
+  final String? payoutFeeRate;
+  final int? payoutMinLimit;
+  final List<int>? promotionDefaultCoinsValues;
+  final bool maintenanceEnabled;
+
+  SettingsModel({
     this.realCurrency,
     this.realCurrencyCode,
     this.stripeDefaultCoinsValues,
@@ -50,76 +77,74 @@ class Settings {
     this.payoutFeeRate,
     this.payoutMinLimit,
     this.promotionDefaultCoinsValues,
-    this.maintenanceEnabled,
+    required this.maintenanceEnabled,
   });
 
-  Settings.fromJson(Map<String, dynamic> json) {
-    realCurrency = json['real_currency'];
-    realCurrencyCode = json['real_currency_code'];
-    stripeDefaultCoinsValues =
-        List<int>.from(json['stripe_default_coins_values']);
-    coinsCurrencyRate = json['coins_currency_rate'];
-    payoutFeeRate = json['payout_fee_rate'];
-    payoutMinLimit = json['payout_min_limit'];
-    promotionDefaultCoinsValues =
-        List<int>.from(json['promotion_default_coins_values']);
-    maintenanceEnabled = json['maintenance_enabled'];
+  factory SettingsModel.fromJson(Map<String, dynamic> json) {
+    return SettingsModel(
+      realCurrency: json['real_currency'] ?? '',
+      realCurrencyCode: json['real_currency_code'] ?? '',
+      stripeDefaultCoinsValues:
+          List<int>.from(json['stripe_default_coins_values'] ?? []),
+      coinsCurrencyRate: json['coins_currency_rate'] ?? '',
+      payoutFeeRate: json['payout_fee_rate'] ?? '',
+      payoutMinLimit: json['payout_min_limit'] ?? 0,
+      promotionDefaultCoinsValues:
+          List<int>.from(json['promotion_default_coins_values'] ?? []),
+      maintenanceEnabled: json['maintenance_enabled'] ?? false,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['real_currency'] = realCurrency;
-    data['real_currency_code'] = realCurrencyCode;
-    data['stripe_default_coins_values'] = stripeDefaultCoinsValues;
-    data['coins_currency_rate'] = coinsCurrencyRate;
-    data['payout_fee_rate'] = payoutFeeRate;
-    data['payout_min_limit'] = payoutMinLimit;
-    data['promotion_default_coins_values'] = promotionDefaultCoinsValues;
-    data['maintenance_enabled'] = maintenanceEnabled;
-    return data;
+    return {
+      'real_currency': realCurrency,
+      'real_currency_code': realCurrencyCode,
+      'stripe_default_coins_values': stripeDefaultCoinsValues,
+      'coins_currency_rate': coinsCurrencyRate,
+      'payout_fee_rate': payoutFeeRate,
+      'payout_min_limit': payoutMinLimit,
+      'promotion_default_coins_values': promotionDefaultCoinsValues,
+      'maintenance_enabled': maintenanceEnabled,
+    };
   }
 }
 
-class User {
-  int? id;
-  String? username;
-  String? showname;
-  String? email;
-  int? coins;
-  int? revenueCoins;
-  double? revenue;
-  bool? allowFollowers;
-  bool? allowNotifications;
-  bool? allowTags;
-  bool? allowSearchEngines;
-  bool? allowEmails;
-  String? dateOfBirth;
-  String? paypalEmail;
-  String? profileImg;
-  String? coverImg;
-  String? gender;
-  String? bio;
-  String? country;
-  String? city;
-  String? age;
-  String? socialFacebook;
-  String? socialTiktok;
-  String? socialInstagram;
-  String? socialTwitter;
-  String? socialSteam;
-  String? socialPinterest;
-  String? socialLinkedin;
-  List<String>? roles;
-  List<String>? permissions;
-  bool? verified;
-  bool? tfaEnabled;
-  bool? isVerified;
-  String? createdAt;
-  bool? isActive;
-  int? status;
-  String? activeAt;
+class UserModel {
+  final int? id;
+  final String? username;
+  final String? showname;
+  final String? email;
+  final int? coins;
+  final int? revenueCoins;
+  final int? revenue;
+  final bool allowFollowers;
+  final bool allowNotifications;
+  final bool allowTags;
+  final bool allowSearchEngines;
+  final bool allowEmails;
+  final bool hideGender;
+  final bool hideAge;
+  final bool hideLocation;
+  final String? dateOfBirth;
+  final String? paypalEmail;
+  final String? profileImg;
+  final String? coverImg;
+  final String? gender;
+  final String? bio;
+  final String? country;
+  final String? city;
+  final int? age;
+  final List<String>? roles;
+  final List<String>? permissions;
+  final bool verified;
+  final bool tfaEnabled;
+  final bool isVerified;
+  final String? createdAt;
+  final bool isActive;
+  final int? status;
+  final String? locale;
 
-  User({
+  UserModel({
     this.id,
     this.username,
     this.showname,
@@ -127,11 +152,14 @@ class User {
     this.coins,
     this.revenueCoins,
     this.revenue,
-    this.allowFollowers,
-    this.allowNotifications,
-    this.allowTags,
-    this.allowSearchEngines,
-    this.allowEmails,
+    required this.allowFollowers,
+    required this.allowNotifications,
+    required this.allowTags,
+    required this.allowSearchEngines,
+    required this.allowEmails,
+    required this.hideGender,
+    required this.hideAge,
+    required this.hideLocation,
     this.dateOfBirth,
     this.paypalEmail,
     this.profileImg,
@@ -141,122 +169,114 @@ class User {
     this.country,
     this.city,
     this.age,
-    this.socialFacebook,
-    this.socialTiktok,
-    this.socialInstagram,
-    this.socialTwitter,
-    this.socialSteam,
-    this.socialPinterest,
-    this.socialLinkedin,
     this.roles,
     this.permissions,
-    this.verified,
-    this.tfaEnabled,
-    this.isVerified,
+    required this.verified,
+    required this.tfaEnabled,
+    required this.isVerified,
     this.createdAt,
-    this.isActive,
+    required this.isActive,
     this.status,
-    this.activeAt,
+    this.locale,
   });
 
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    username = json['username'];
-    showname = json['showname'];
-    email = json['email'];
-    coins = json['coins'];
-    revenueCoins = json['revenue_coins'];
-    revenue = json['revenue'];
-    allowFollowers = json['allow_followers'];
-    allowNotifications = json['allow_notifications'];
-    allowTags = json['allow_tags'];
-    allowSearchEngines = json['allow_search_engines'];
-    allowEmails = json['allow_emails'];
-    dateOfBirth = json['date_of_birth'];
-    paypalEmail = json['paypal_email'];
-    profileImg = json['profile_img'];
-    coverImg = json['cover_img'];
-    gender = json['gender'];
-    bio = json['bio'];
-    country = json['country'];
-    city = json['city'];
-    age = json['age'];
-    socialFacebook = json['social_facebook'];
-    socialTiktok = json['social_tiktok'];
-    socialInstagram = json['social_instagram'];
-    socialTwitter = json['social_twitter'];
-    socialSteam = json['social_steam'];
-    socialPinterest = json['social_pinterest'];
-    socialLinkedin = json['social_linkedin'];
-    roles = List<String>.from(json['roles']);
-    permissions = List<String>.from(json['permissions']);
-    verified = json['verified'];
-    tfaEnabled = json['tfa_enabled'];
-    isVerified = json['is_verified'];
-    createdAt = json['created_at'];
-    isActive = json['is_active'];
-    status = json['status'];
-    activeAt = json['active_at'];
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'],
+      username: json['username'] ?? '',
+      showname: json['showname'] ?? '',
+      email: json['email'] ?? '',
+      coins: json['coins'] ?? 0,
+      revenueCoins: json['revenue_coins'] ?? 0,
+      revenue: json['revenue'] ?? 0,
+      allowFollowers: json['allow_followers'] ?? false,
+      allowNotifications: json['allow_notifications'] ?? false,
+      allowTags: json['allow_tags'] ?? false,
+      allowSearchEngines: json['allow_search_engines'] ?? false,
+      allowEmails: json['allow_emails'] ?? false,
+      hideGender: json['hide_gender'] ?? false,
+      hideAge: json['hide_age'] ?? false,
+      hideLocation: json['hide_location'] ?? false,
+      dateOfBirth: json['date_of_birth'] ?? '',
+      paypalEmail: json['paypal_email'],
+      profileImg: json['profile_img'] ?? '',
+      coverImg: json['cover_img'],
+      gender: json['gender'] ?? '',
+      bio: json['bio'] ?? '',
+      country: json['country'] ?? '',
+      city: json['city'] ?? '',
+      age: json['age'] ?? 0,
+      roles: List<String>.from(json['roles'] ?? []),
+      permissions: List<String>.from(json['permissions'] ?? []),
+      verified: json['verified'] ?? false,
+      tfaEnabled: json['tfa_enabled'] ?? false,
+      isVerified: json['is_verified'] ?? false,
+      createdAt: json['created_at'] ?? '',
+      isActive: json['is_active'] ?? false,
+      status: json['status'] ?? 0,
+      locale: json['locale'] ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = id;
-    data['username'] = username;
-    data['showname'] = showname;
-    data['email'] = email;
-    data['coins'] = coins;
-    data['revenue_coins'] = revenueCoins;
-    data['revenue'] = revenue;
-    data['allow_followers'] = allowFollowers;
-    data['allow_notifications'] = allowNotifications;
-    data['allow_tags'] = allowTags;
-    data['allow_search_engines'] = allowSearchEngines;
-    data['allow_emails'] = allowEmails;
-    data['date_of_birth'] = dateOfBirth;
-    data['paypal_email'] = paypalEmail;
-    data['profile_img'] = profileImg;
-    data['cover_img'] = coverImg;
-    data['gender'] = gender;
-    data['bio'] = bio;
-    data['country'] = country;
-    data['city'] = city;
-    data['age'] = age;
-    data['social_facebook'] = socialFacebook;
-    data['social_tiktok'] = socialTiktok;
-    data['social_instagram'] = socialInstagram;
-    data['social_twitter'] = socialTwitter;
-    data['social_steam'] = socialSteam;
-    data['social_pinterest'] = socialPinterest;
-    data['social_linkedin'] = socialLinkedin;
-    data['roles'] = roles;
-    data['permissions'] = permissions;
-    data['verified'] = verified;
-    data['tfa_enabled'] = tfaEnabled;
-    data['is_verified'] = isVerified;
-    data['created_at'] = createdAt;
-    data['is_active'] = isActive;
-    data['status'] = status;
-    data['active_at'] = activeAt;
-    return data;
+    return {
+      'id': id,
+      'username': username,
+      'showname': showname,
+      'email': email,
+      'coins': coins,
+      'revenue_coins': revenueCoins,
+      'revenue': revenue,
+      'allow_followers': allowFollowers,
+      'allow_notifications': allowNotifications,
+      'allow_tags': allowTags,
+      'allow_search_engines': allowSearchEngines,
+      'allow_emails': allowEmails,
+      'hide_gender': hideGender,
+      'hide_age': hideAge,
+      'hide_location': hideLocation,
+      'date_of_birth': dateOfBirth,
+      'paypal_email': paypalEmail,
+      'profile_img': profileImg,
+      'cover_img': coverImg,
+      'gender': gender,
+      'bio': bio,
+      'country': country,
+      'city': city,
+      'age': age,
+      'roles': roles,
+      'permissions': permissions,
+      'verified': verified,
+      'tfa_enabled': tfaEnabled,
+      'is_verified': isVerified,
+      'created_at': createdAt,
+      'is_active': isActive,
+      'status': status,
+      'locale': locale,
+    };
   }
 }
 
 class CustomEmoji {
-  String? filename;
-  String? fileUrl;
+  final String? filename;
+  final String? fileUrl;
 
-  CustomEmoji({this.filename, this.fileUrl});
+  CustomEmoji({
+    this.filename,
+    this.fileUrl,
+  });
 
-  CustomEmoji.fromJson(Map<String, dynamic> json) {
-    filename = json['filename'];
-    fileUrl = json['file_url'];
+  factory CustomEmoji.fromJson(Map<String, dynamic> json) {
+    return CustomEmoji(
+      filename: json['filename'] ?? '',
+      fileUrl: json['file_url'] ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['filename'] = filename;
-    data['file_url'] = fileUrl;
-    return data;
+    return {
+      'filename': filename,
+      'file_url': fileUrl,
+    };
   }
 }

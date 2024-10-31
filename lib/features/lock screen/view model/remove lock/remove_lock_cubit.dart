@@ -11,7 +11,7 @@ class RemoveLockCubit extends Cubit<RemoveLockState> {
     emit(RemoveLockLoading());
     final result = await removeLockRepo.removeLockAccount(password: password);
     result.fold((l) => emit(RemoveLockError()), (r) {
-      const RemoveLockSuccess(lock: 'lock removed successfully');
+      emit(const RemoveLockSuccess(lock: 'lock removed successfully'));
     });
   }
 }

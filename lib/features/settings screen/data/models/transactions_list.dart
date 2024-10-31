@@ -1,70 +1,96 @@
 import 'package:genix/features/settings%20screen/data/models/transactions_model.dart';
 
-class TransactionsList {
-  String status;
-  Data data;
+class TransactionList {
+  bool success;
+  TransactionData data;
+  String? message;
 
-  TransactionsList({required this.status, required this.data});
+  TransactionList({
+    required this.success,
+    required this.data,
+    this.message,
+  });
 
-  factory TransactionsList.fromJson(Map<String, dynamic> json) {
-    return TransactionsList(
-      status: json['status'],
-      data: Data.fromJson(json['data']),
+  factory TransactionList.fromJson(Map<String, dynamic> json) {
+    return TransactionList(
+      success: json['success'],
+      data: TransactionData.fromJson(json['data']),
+      message: json['message'],
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = this.status;
+    data['success'] = this.success;
     data['data'] = this.data.toJson();
+    data['message'] = this.message;
     return data;
   }
 }
 
-class Data {
-  List<TransactionsModel> transactions;
+class TransactionData {
+  List<TransactionModel> collection;
+  Pagination pagination;
 
-  Data({required this.transactions});
+  TransactionData({
+    required this.collection,
+    required this.pagination,
+  });
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    var transactionsJson = json['collection'] as List;
-    List<TransactionsModel> transactionsList =
-        transactionsJson.map((i) => TransactionsModel.fromJson(i)).toList();
-
-    return Data(
-      transactions: transactionsList,
+  factory TransactionData.fromJson(Map<String, dynamic> json) {
+    return TransactionData(
+      collection: (json['collection'] as List<dynamic>)
+          .map(
+              (item) => TransactionModel.fromJson(item as Map<String, dynamic>))
+          .toList(),
+      pagination: Pagination.fromJson(json['pagination']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['collection'] = this
-        .transactions
-        .map((TransactionsModel) => TransactionsModel.toJson())
-        .toList();
+    data['collection'] = this.collection.map((item) => item.toJson()).toList();
+    data['pagination'] = this.pagination.toJson();
     return data;
   }
+}
 
-  void addUser({required TransactionsModel user}) {
-    this.transactions.add(user);
+class Pagination {
+  int currentPage;
+  int from;
+  int lastPage;
+  int perPage;
+  int to;
+  int total;
+
+  Pagination({
+    required this.currentPage,
+    required this.from,
+    required this.lastPage,
+    required this.perPage,
+    required this.to,
+    required this.total,
+  });
+
+  factory Pagination.fromJson(Map<String, dynamic> json) {
+    return Pagination(
+      currentPage: json['current_page'] ?? 0,
+      from: json['from'] ?? 0,
+      lastPage: json['last_page'] ?? 0,
+      perPage: json['per_page'] ?? 0,
+      to: json['to'] ?? 0,
+      total: json['total'] ?? 0,
+    );
   }
 
-  void updateUser({required TransactionsModel newUser}) {
-    final updatedUserIndex = this
-        .transactions
-        .first
-        .collection
-        .indexWhere((u) => u.id == newUser.collection.first.id);
-    if (updatedUserIndex != -1) {
-      this.transactions[updatedUserIndex] = newUser;
-    }
-  }
-
-  void deleteUser(int userId) {
-    final removedUserIndex =
-        this.transactions.first.collection.indexWhere((u) => u.id == userId);
-    if (removedUserIndex != -1) {
-      this.transactions.removeAt(removedUserIndex);
-    }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = this.currentPage;
+    data['from'] = this.from;
+    data['last_page'] = this.lastPage;
+    data['per_page'] = this.perPage;
+    data['to'] = this.to;
+    data['total'] = this.total;
+    return data;
   }
 }

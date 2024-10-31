@@ -16,6 +16,7 @@ class CustomTextField extends StatelessWidget {
   final Function() onTap;
   final TextEditingController controller;
   final bool isObscure;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -32,6 +33,12 @@ class CustomTextField extends StatelessWidget {
             borderSide: BorderSide(color: AppColors.kPrimaryColor),
           ),
         ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return '$hintText cannot be empty';
+          }
+          return null;
+        },
       ),
     );
   }

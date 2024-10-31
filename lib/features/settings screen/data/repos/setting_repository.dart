@@ -14,10 +14,30 @@ class SettingRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> getAllTransactions() async {
+  Future<Either<FailureModel, Map>> getAllTransactions(
+      {required int page}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(
-          linkUrl: ApiEndPoints.getAllTransactions, token: token);
+          linkUrl: '${ApiEndPoints.getAllTransactions}?page=$page',
+          token: token);
+    });
+  }
+
+  Future<Either<FailureModel, Map>> getTransactionsById(
+      {required int page, required String query}) async {
+    return await HttpHelper.handleRequest((token) async {
+      return await HttpHelper.getData(
+          linkUrl: '${ApiEndPoints.getAllTransactions}?by=id&query=$query',
+          token: token);
+    });
+  }
+
+  Future<Either<FailureModel, Map>> getTransactionsByName(
+      {required int page, required String query}) async {
+    return await HttpHelper.handleRequest((token) async {
+      return await HttpHelper.getData(
+          linkUrl: '${ApiEndPoints.getAllTransactions}?by=name&query=$query',
+          token: token);
     });
   }
 

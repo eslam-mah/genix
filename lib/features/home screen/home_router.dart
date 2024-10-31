@@ -17,7 +17,9 @@ import 'package:genix/features/home%20screen/view%20model/share%20post/share_pos
 import 'package:genix/features/home%20screen/view%20model/update%20post%20by%20id/update_post_by_id_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/view%20post/view_post_cubit.dart';
 import 'package:genix/features/home%20screen/views/view/homebody.dart';
+import 'package:genix/features/lock%20screen/view%20model/post%20lock/post_lock_cubit.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
+import 'package:genix/features/story%20screen/view%20model/see_story/see_story_cubit.dart';
 import 'package:genix/features/users/view%20model/delete%20user/delete_user_cubit.dart';
 import 'package:go_router/go_router.dart';
 
@@ -41,6 +43,9 @@ abstract class HomeRouter {
   static final viewPostCubit = ViewPostCubit();
   static final getAccountDetails = GetMyAccountDetailsCubit();
   static final addCommentCubit = AddCommentCubit();
+  static final postLockCubit = PostLockCubit();
+  static final seeStoryCubit = SeeStoryCubit();
+
   static final List<GoRoute> goRoutes = [
     GoRoute(
         path: HomePage.routeName,
@@ -103,6 +108,12 @@ abstract class HomeRouter {
               ),
               BlocProvider.value(
                 value: addCommentCubit,
+              ),
+              BlocProvider.value(
+                value: postLockCubit,
+              ),
+              BlocProvider.value(
+                value: seeStoryCubit,
               ),
             ],
             child: HomePage(),
