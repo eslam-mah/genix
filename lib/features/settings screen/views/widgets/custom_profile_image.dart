@@ -31,7 +31,7 @@ class CustomProfileImage extends StatelessWidget {
               color: Colors.purple,
               alignment: Alignment.center,
               child: Text(showname.split('').take(2).join().toUpperCase(),
-                  style: TextStyle(fontSize: 15.sp)),
+                  style: TextStyle(fontSize: 15.sp, color: Colors.white)),
             );
           },
         ),

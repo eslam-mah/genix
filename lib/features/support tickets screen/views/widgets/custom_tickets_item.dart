@@ -80,7 +80,8 @@ class CustomTicketsItem extends StatelessWidget {
                               .take(2)
                               .join()
                               .toUpperCase(),
-                          style: TextStyle(fontSize: 10.sp),
+                          style:
+                              TextStyle(fontSize: 10.sp, color: Colors.white),
                         ),
                         image: ticket.lastUser.profileImg,
                         isActive: ticket.lastUser.isActive,

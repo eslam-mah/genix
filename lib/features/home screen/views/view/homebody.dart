@@ -5,6 +5,7 @@ import 'package:genix/core/default_status_indicators/first_page_error_indicator.
 import 'package:genix/core/default_status_indicators/first_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/new_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/no_items_found_indicator.dart';
+import 'package:genix/core/widgets/customappbaricon.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/data/models/stories_list_model.dart';
@@ -13,6 +14,7 @@ import 'package:genix/features/home%20screen/view%20model/add%20react/add_react_
 import 'package:genix/features/home%20screen/view%20model/delete%20post/delete_post_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts/get_newsfeed_posts_cubit.dart';
 import 'package:genix/features/home%20screen/view%20model/get%20stories/get_stories_cubit.dart';
+import 'package:genix/features/home%20screen/views/widgets/add%20post%20bottom%20sheet/addpostbottomsheet.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_story_widget.dart';
 import 'package:genix/features/home%20screen/views/widgets/post_shimmer_effect.dart';
 import 'package:genix/features/home%20screen/views/widgets/story_shimmer.dart';
@@ -182,49 +184,25 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         appBar: AppBar(
-          toolbarHeight: 45.h,
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-              icon: Icon(
-                FontAwesomeIcons.barsStaggered,
-                size: 18.sp,
+            toolbarHeight: 45.h,
+            automaticallyImplyLeading: false,
+            actions: [
+              IconButton(
+                icon: Icon(
+                  FontAwesomeIcons.barsStaggered,
+                  size: 18.sp,
+                ),
+                onPressed: () {
+                  _scaffoldKey.currentState?.openEndDrawer();
+                },
               ),
-              onPressed: () {
-                _scaffoldKey.currentState?.openEndDrawer();
+            ],
+            elevation: 0,
+            title: CustomHomeAppBar(
+              refresh: () {
+                _pagingController.refresh();
               },
-            ),
-          ],
-          elevation: 0,
-          title: BlocBuilder<GetNewsFeedPostsCubit, GetNewsFeedPostsState>(
-            builder: (context, state) {
-              if (state is GetNewsFeedPostsSuccess) {
-                return CustomHomeAppBar(
-                  postsModel: state.posts.data.postsModel.first,
-                  refresh: () {
-                    _pagingController.refresh();
-                  },
-                );
-              } else {
-                return Shimmer.fromColors(
-                  baseColor: isNightModeEnabled
-                      ? DarkModeColors.kItemColorDark3
-                      : Colors.grey[100]!,
-                  highlightColor: isNightModeEnabled
-                      ? DarkModeColors.kItemColorDark3
-                      : Colors.grey[100]!,
-                  child: Container(
-                    width: double.infinity,
-                    height: 30.h,
-                    color: isNightModeEnabled
-                        ? DarkModeColors.kItemColorDark3
-                        : Colors.grey[100]!,
-                  ),
-                );
-              }
-            },
-          ),
-        ),
+            )),
         endDrawer: CustomDrawerWidget(
           isNightMode: isNightModeEnabled,
         ),
@@ -344,8 +322,25 @@ class _HomePageState extends State<HomePage> {
                         ),
                         newPageProgressIndicatorBuilder: (_) =>
                             const NewPageProgressIndicator(),
-                        noItemsFoundIndicatorBuilder: (_) =>
+                        noItemsFoundIndicatorBuilder: (_) => Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
                             const NoItemsFoundIndicator(),
+                            Text(
+                              'Create your first post',
+                              style: TextStyle(
+                                  color: Colors.grey, fontSize: 15.sp),
+                            ),
+                            CustomAppBarIcon(
+                              icon: Icons.post_add_outlined,
+                              onTap: () async {
+                                await addPostModalBottomSheet(
+                                    context, _pagingController.refresh);
+                              },
+                              size: 25.sp,
+                            )
+                          ],
+                        ),
                         itemBuilder: (context, item, index) {
                           // Your actual post item implementation
                           return Column(
