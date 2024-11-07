@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/cubit/handler_cubit/handler_cubit.dart';
+import 'package:genix/core/utils/colors.dart';
 import 'package:genix/features/chat%20screen/models/chat_room.dart';
 import 'package:genix/features/chat%20screen/views/cubit/chat_room_cubit/chat_room_cubit.dart';
 import 'package:genix/features/chat%20screen/views/cubit/file_picker_cubit/file_picker_cubit.dart';
@@ -35,7 +36,8 @@ class _ChatScreenState extends State<ChatScreen> {
     _chatRoomCubit.getChatRoomMessages(id: widget.chatRoom.id.toString());
 
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         _chatRoomCubit.fetchNextPage();
       }
     });
@@ -68,7 +70,11 @@ class _ChatScreenState extends State<ChatScreen> {
                       checkPlatformCompatibility: true,
                       viewOrderConfig: const ViewOrderConfig(),
                       emojiViewConfig: EmojiViewConfig(
-                        emojiSizeMax: 28 * (foundation.defaultTargetPlatform == TargetPlatform.iOS ? 1.2 : 1.0),
+                        emojiSizeMax: 28 *
+                            (foundation.defaultTargetPlatform ==
+                                    TargetPlatform.iOS
+                                ? 1.2
+                                : 1.0),
                       ),
                       skinToneConfig: const SkinToneConfig(),
                       categoryViewConfig: const CategoryViewConfig(),
@@ -86,7 +92,9 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
             _buildFilePreview(_filePickerCubit), // Add file preview here
-            _buildMessageInput(chatRoomCubit: _chatRoomCubit, filePickerCubit: _filePickerCubit),
+            _buildMessageInput(
+                chatRoomCubit: _chatRoomCubit,
+                filePickerCubit: _filePickerCubit),
           ],
         ),
       ),
@@ -105,13 +113,19 @@ class _ChatScreenState extends State<ChatScreen> {
               children: [
                 const Icon(Icons.group, color: Colors.white, size: 40),
                 const SizedBox(width: 10),
-                Text(chatRoom.name ?? "", style: const TextStyle(color: Colors.white)),
+                Text(chatRoom.name ?? "",
+                    style: const TextStyle(color: Colors.white)),
               ],
             )
-          : Text(chatRoom.user?.showname ?? "", style: const TextStyle(color: Colors.white)),
+          : Text(chatRoom.user?.showname ?? "",
+              style: const TextStyle(color: Colors.white)),
       actions: [
-        IconButton(icon: const Icon(Icons.call, color: Colors.white), onPressed: () {}),
-        IconButton(icon: const Icon(Icons.videocam_rounded, color: Colors.white), onPressed: () {}),
+        IconButton(
+            icon: const Icon(Icons.call, color: Colors.white),
+            onPressed: () {}),
+        IconButton(
+            icon: const Icon(Icons.videocam_rounded, color: Colors.white),
+            onPressed: () {}),
       ],
     );
   }
@@ -121,7 +135,10 @@ class _ChatScreenState extends State<ChatScreen> {
       bloc: _chatRoomCubit,
       builder: (context, stateMessage) {
         if (stateMessage is ChatRoomLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+              child: CircularProgressIndicator(
+            color: AppColors.kPrimaryColor,
+          ));
         } else if (stateMessage is ChatRoomError) {
           return Center(child: Text(stateMessage.error));
         } else if (stateMessage is ChatRoomSuccess) {
@@ -129,9 +146,12 @@ class _ChatScreenState extends State<ChatScreen> {
             padding: const EdgeInsets.all(10),
             controller: _scrollController,
             reverse: true,
-            itemCount: stateMessage.loadingState == true ? stateMessage.messages.length + 1 : stateMessage.messages.length,
+            itemCount: stateMessage.loadingState == true
+                ? stateMessage.messages.length + 1
+                : stateMessage.messages.length,
             itemBuilder: (context, index) {
-              if (stateMessage.loadingState == true && index == stateMessage.messages.length) {
+              if (stateMessage.loadingState == true &&
+                  index == stateMessage.messages.length) {
                 return const Center(child: CircularProgressIndicator());
               }
               return ChatBubble(
@@ -146,7 +166,9 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _buildMessageInput({required ChatRoomCubit chatRoomCubit, required FilePickerCubit filePickerCubit}) {
+  Widget _buildMessageInput(
+      {required ChatRoomCubit chatRoomCubit,
+      required FilePickerCubit filePickerCubit}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Row(
@@ -195,9 +217,9 @@ class _ChatScreenState extends State<ChatScreen> {
             icon: const Icon(Icons.send_rounded, size: 30),
             onPressed: () {
               chatRoomCubit.sendMessage(
-                roomId: widget.chatRoom.id.toString(),
-                message: _messageController.text,
-                files: filePickerCubit.state.files ?? [],
+                roomId: widget.chatRoom.id ?? 0,
+                message: _messageController.text.trim(),
+                files: filePickerCubit.files,
               );
               _messageController.clear();
             },
@@ -218,7 +240,7 @@ class _ChatScreenState extends State<ChatScreen> {
               scrollDirection: Axis.horizontal,
               itemCount: state.files.length,
               itemBuilder: (context, index) {
-                PlatformFile file = state.files[index];
+                File file = state.files[index];
                 return Container(
                   margin: const EdgeInsets.only(right: 10),
                   child: Stack(
@@ -241,9 +263,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                 height: 5,
                               ),
                               Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
                                   child: Text(
-                                    file.name,
+                                    file.toString(),
                                     maxLines: 1,
                                     style: const TextStyle(
                                       fontSize: 10,
@@ -257,7 +280,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
-                          child: const Icon(Icons.cancel, color: Colors.black, size: 20),
+                          child: const Icon(Icons.cancel,
+                              color: Colors.black, size: 20),
                           onTap: () {
                             filePickerCubit.removeFile(index);
                           },
@@ -275,14 +299,18 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _getFilePreviewWidget(PlatformFile file) {
-    final extension = file.extension ?? '';
+  Widget _getFilePreviewWidget(File file) {
+    String getFileExtension(File file) {
+      return file.path.split('.').last.toLowerCase();
+    }
+
+    final extension = getFileExtension(file);
     if (['jpg', 'png', 'jpeg'].contains(extension)) {
       // Display image preview
       return ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Image.file(
-          File(file.path!), // Ensure you have 'import 'dart:io';'
+          File(file.path), // Ensure you have 'import 'dart:io';'
           height: 100,
           width: 150,
           fit: BoxFit.fill,

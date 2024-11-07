@@ -16,4 +16,7 @@ final class RemoveLockSuccess extends RemoveLockState {
   const RemoveLockSuccess({required this.lock});
 }
 
-final class RemoveLockError extends RemoveLockState {}
+final class RemoveLockError extends RemoveLockState {
+  final String error;
+  const RemoveLockError({required this.error});
+}

@@ -9,7 +9,6 @@ import 'package:genix/core/default_status_indicators/no_items_found_indicator.da
 import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/pref_keys.dart';
-import 'package:genix/core/widgets/blockeduserslistview.dart';
 import 'package:genix/core/widgets/customappbar.dart';
 import 'package:genix/core/widgets/custombottomappbar.dart';
 import 'package:genix/core/widgets/glowing_button_body.dart';
@@ -17,9 +16,7 @@ import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit
 import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
-import 'package:genix/core/widgets/followingslistview.dart';
 import 'package:genix/features/photos%20page/views/view/photos_page.dart';
-import 'package:genix/features/profile%20screen/view%20model/add%20friend/add_friend_cubit.dart';
 import 'package:genix/features/profile%20screen/views/widgets/saved_shorts.dart';
 import 'package:genix/features/profile%20screen/views/widgets/shorts_list_view.dart';
 import 'package:genix/features/followers%20list%20page/views/view/followers_page.dart';
@@ -87,19 +84,22 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _fetchPage(List<PostsModel> posts) async {
     try {
       final newItems = posts;
-      final isLastPage = newItems.length < 20;
+      print('fetch:: ${newItems.length}');
+
+      // Clear existing items if refreshing the first page
       if (_nextPageKey == 1) {
-        // First page, replace the list entirely
-        _pagingController.appendPage(newItems, 1);
+        _pagingController.itemList?.clear();
+      }
+
+      final isLastPage = newItems.length < 20;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
       } else {
-        if (isLastPage) {
-          _pagingController.appendLastPage(newItems);
-        } else {
-          _nextPageKey = _nextPageKey + 1;
-          _pagingController.appendPage(newItems, _nextPageKey);
-        }
+        _nextPageKey = _nextPageKey + 1;
+        _pagingController.appendPage(newItems, _nextPageKey);
       }
     } catch (error) {
+      print('Pagination error: ${error.toString()}');
       _pagingController.error = error;
     }
   }

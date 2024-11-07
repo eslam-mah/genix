@@ -48,8 +48,10 @@ class _LockPageState extends State<LockPage> {
             if (state is RemoveLockSuccess) {
               GoRouter.of(context).push(HomePage.routeName);
             } else if (state is RemoveLockError) {
+              print(
+                  '______________++++++++++++++++++++++++++++++++++++==${state.error}');
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Failed to remove lock')),
+                SnackBar(content: Text(state.error)),
               );
             }
           },
@@ -117,7 +119,8 @@ class _LockPageState extends State<LockPage> {
                     onTap: () async {
                       await context
                           .read<RemoveLockCubit>()
-                          .removeLock(password: passwordController.text.trim());
+                          .removeLock(password: passwordController.text);
+                      print('+++++++++++++++++++++=${passwordController.text}');
                     },
                   ),
                 ),

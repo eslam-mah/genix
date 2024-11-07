@@ -21,7 +21,8 @@ class ChatRoomResponse {
     required this.message,
   });
 
-  factory ChatRoomResponse.fromJson(Map<String, dynamic> json) => ChatRoomResponse(
+  factory ChatRoomResponse.fromJson(Map<String, dynamic> json) =>
+      ChatRoomResponse(
         success: json["success"],
         data: Data.fromJson(json["data"]),
         message: json["message"],
@@ -44,7 +45,8 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        chatRooms: List<ChatRoom>.from(json["collection"].map((x) => ChatRoom.fromJson(x))),
+        chatRooms: List<ChatRoom>.from(
+            json["collection"].map((x) => ChatRoom.fromJson(x))),
         pagination: Pagination.fromJson(json["pagination"]),
       );
 
@@ -122,13 +124,20 @@ class ChatRoom {
       name: json["name"],
       profileImg: json["profile_img"],
       coverImg: json["cover_img"],
-      participants:
-          json["participants"] == null ? [] : List<ChatRoomParticipant>.from(json["participants"].map((x) => ChatRoomParticipant.fromJson(x))),
-      lastMessage: json["last_message"] != null && json["last_message"].isNotEmpty ? ChatRoomLastMessage.fromJson(json["last_message"]) : null,
+      participants: json["participants"] == null
+          ? []
+          : List<ChatRoomParticipant>.from(
+              json["participants"].map((x) => ChatRoomParticipant.fromJson(x))),
+      lastMessage:
+          json["last_message"] != null && json["last_message"].isNotEmpty
+              ? ChatRoomLastMessage.fromJson(json["last_message"])
+              : null,
       isGroup: json["is_group"],
       isStarred: json["is_starred"],
       isUnread: json["is_unread"],
-      updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+      updatedAt: json["updated_at"] == null
+          ? null
+          : DateTime.parse(json["updated_at"]),
     );
   }
 
@@ -139,7 +148,9 @@ class ChatRoom {
         "name": name,
         "profile_img": profileImg,
         "cover_img": coverImg,
-        "participants": participants == null ? [] : List<dynamic>.from(participants!.map((x) => x.toJson())),
+        "participants": participants == null
+            ? []
+            : List<dynamic>.from(participants!.map((x) => x.toJson())),
         "last_message": lastMessage?.toJson(),
         "is_group": isGroup,
         "is_starred": isStarred,
@@ -147,7 +158,8 @@ class ChatRoom {
         "updated_at": updatedAt?.toIso8601String(),
       };
 
-  static List<ChatRoom> dummyData = List<ChatRoom>.from(chatRoomDummyData.map((e) => ChatRoom.fromJson(e)));
+  static List<ChatRoom> dummyData =
+      List<ChatRoom>.from(chatRoomDummyData.map((e) => ChatRoom.fromJson(e)));
 }
 
 class ChatRoomLastMessage {
@@ -196,17 +208,24 @@ class ChatRoomLastMessage {
         createdAt: createdAt ?? this.createdAt,
       );
 
-  factory ChatRoomLastMessage.fromJson(Map<String, dynamic> json) => ChatRoomLastMessage(
+  factory ChatRoomLastMessage.fromJson(Map<String, dynamic> json) =>
+      ChatRoomLastMessage(
         id: json["id"],
         roomId: json["room_id"],
         user: json["user"] == null ? null : ChatRoomUser.fromJson(json["user"]),
         content: json["content"],
-        uploads: json["uploads"] == null ? [] : List<dynamic>.from(json["uploads"]!.map((x) => x)),
-        readReceipts:
-            json["read_receipts"] == null ? [] : List<ChatRoomReadReceipt>.from(json["read_receipts"]!.map((x) => ChatRoomReadReceipt.fromJson(x))),
+        uploads: json["uploads"] == null
+            ? []
+            : List<dynamic>.from(json["uploads"]!.map((x) => x)),
+        readReceipts: json["read_receipts"] == null
+            ? []
+            : List<ChatRoomReadReceipt>.from(json["read_receipts"]!
+                .map((x) => ChatRoomReadReceipt.fromJson(x))),
         isProcessing: json["is_processing"],
         isNotification: json["is_notification"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -214,8 +233,11 @@ class ChatRoomLastMessage {
         "room_id": roomId,
         "user": user?.toJson(),
         "content": content,
-        "uploads": uploads == null ? [] : List<dynamic>.from(uploads!.map((x) => x)),
-        "read_receipts": readReceipts == null ? [] : List<dynamic>.from(readReceipts!.map((x) => x.toJson())),
+        "uploads":
+            uploads == null ? [] : List<dynamic>.from(uploads!.map((x) => x)),
+        "read_receipts": readReceipts == null
+            ? []
+            : List<dynamic>.from(readReceipts!.map((x) => x.toJson())),
         "is_processing": isProcessing,
         "is_notification": isNotification,
         "created_at": createdAt?.toIso8601String(),
@@ -248,7 +270,8 @@ class ChatRoomReadReceipt {
         profileImg: profileImg ?? this.profileImg,
       );
 
-  factory ChatRoomReadReceipt.fromJson(Map<String, dynamic> json) => ChatRoomReadReceipt(
+  factory ChatRoomReadReceipt.fromJson(Map<String, dynamic> json) =>
+      ChatRoomReadReceipt(
         id: json["id"],
         showname: json["showname"],
         username: json["username"],
@@ -312,7 +335,9 @@ class ChatRoomUser {
         profileImg: json["profile_img"],
         coverImg: json["cover_img"],
         isVerified: json["is_verified"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
         isActive: json["is_active"],
       );
 
@@ -354,11 +379,14 @@ class ChatRoomParticipant {
         updatedAt: updatedAt ?? this.updatedAt,
       );
 
-  factory ChatRoomParticipant.fromJson(Map<String, dynamic> json) => ChatRoomParticipant(
+  factory ChatRoomParticipant.fromJson(Map<String, dynamic> json) =>
+      ChatRoomParticipant(
         id: json["id"],
         user: json["user"] == null ? null : ChatRoomUser.fromJson(json["user"]),
         roomId: json["room_id"],
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -387,12 +415,12 @@ class Pagination {
   });
 
   factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
-        currentPage: json["current_page"],
-        from: json["from"],
-        lastPage: json["last_page"],
-        perPage: json["per_page"],
-        to: json["to"],
-        total: json["total"],
+        currentPage: json["current_page"] ?? 0,
+        from: json["from"] ?? 0,
+        lastPage: json["last_page"] ?? 0,
+        perPage: json["per_page"] ?? 0,
+        to: json["to"] ?? 0,
+        total: json["total"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -416,15 +444,16 @@ class CreateChatRoomResponse {
     required this.message,
   });
 
-  factory CreateChatRoomResponse.fromJson(Map<String, dynamic> json) => CreateChatRoomResponse(
-    success: json["success"],
-    data: ChatRoom.fromJson(json["data"]),
-    message: json["message"],
-  );
+  factory CreateChatRoomResponse.fromJson(Map<String, dynamic> json) =>
+      CreateChatRoomResponse(
+        success: json["success"],
+        data: ChatRoom.fromJson(json["data"]),
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "data": data.toJson(),
-    "message": message,
-  };
+        "success": success,
+        "data": data.toJson(),
+        "message": message,
+      };
 }

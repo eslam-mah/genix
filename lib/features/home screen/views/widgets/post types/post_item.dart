@@ -492,7 +492,8 @@ class _PostItemState extends State<PostItem> {
                           isNightMode: widget.isNightModeEnabled,
                           text: 'Share',
                           onTap: () {
-                            shareBottomSheet(context);
+                            shareBottomSheet(context,
+                                postModel: widget.postsModel);
                           },
                         ),
                       ],

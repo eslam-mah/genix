@@ -18,6 +18,7 @@ import 'package:genix/features/home%20screen/views/widgets/add%20post%20bottom%2
 import 'package:genix/features/home%20screen/views/widgets/custom_story_widget.dart';
 import 'package:genix/features/home%20screen/views/widgets/post_shimmer_effect.dart';
 import 'package:genix/features/home%20screen/views/widgets/story_shimmer.dart';
+import 'package:genix/features/lock%20screen/views/lock_page.dart';
 import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
 import 'package:genix/features/register%20screen/views/verification_screen.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
@@ -102,6 +103,8 @@ class _HomePageState extends State<HomePage> {
               } else if (state.message == "Unauthenticated.") {
                 GoRouter.of(context)
                     .go(LoginScreen.route, extra: const LogInScreenArgs());
+              } else if (state.message == "Your screen is locked.") {
+                GoRouter.of(context).go(LockPage.route);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Something went wrong')),

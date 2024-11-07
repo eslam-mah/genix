@@ -151,10 +151,12 @@ class PostsRepository {
     });
   }
 
-  Future<Either<FailureModel, Map>> getTimelinePosts({required num uid}) async {
+  Future<Either<FailureModel, Map>> getTimelinePosts(
+      {required int uid, required int page}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.getData(
-          linkUrl: ApiEndPoints.getPostsInTimeLineById + '/$uid', token: token);
+          linkUrl: ApiEndPoints.getPostsInTimeLineById + '/$uid?page=$page',
+          token: token);
     });
   }
 

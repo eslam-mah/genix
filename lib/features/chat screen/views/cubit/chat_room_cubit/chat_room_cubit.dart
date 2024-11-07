@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
@@ -24,29 +25,40 @@ class ChatRoomCubit extends Cubit<ChatRoomState> {
       roomId: id,
     ));
 
-    final result = await chatRepository.getChatRoomMessagesById(id: id, page: 1, limit: 10);
+    final result = await chatRepository.getChatRoomMessagesById(
+        id: id, page: 1, limit: 10);
     print("result: $result");
     result.fold((l) => emit(ChatRoomError("Something went wrong")), (r) {
-      ChatRoomMessagesResponse chatRoomMessagesResponse = ChatRoomMessagesResponse.fromJson(r as Map<String, dynamic>);
-      emit(ChatRoomSuccess(chatRoomMessagesResponse.data?.messages ?? [], page: 1, limit: 100, roomId: id));
+      ChatRoomMessagesResponse chatRoomMessagesResponse =
+          ChatRoomMessagesResponse.fromJson(r as Map<String, dynamic>);
+      emit(ChatRoomSuccess(chatRoomMessagesResponse.data?.messages ?? [],
+          page: 1, limit: 100, roomId: id));
     });
   }
 
   void fetchNextPage() async {
     emit(state.copyWith(page: state.page! + 1, limit: 10, loadingState: true));
-    final result = await chatRepository.getChatRoomMessagesById(id: state.roomId ?? "", page: state.page, limit: state.limit);
+    final result = await chatRepository.getChatRoomMessagesById(
+        id: state.roomId ?? "", page: state.page, limit: state.limit);
     result.fold((l) => emit(state.copyWith(loadingState: false)), (r) {
-      ChatRoomMessagesResponse chatRoomMessagesResponse = ChatRoomMessagesResponse.fromJson(r as Map<String, dynamic>);
+      ChatRoomMessagesResponse chatRoomMessagesResponse =
+          ChatRoomMessagesResponse.fromJson(r as Map<String, dynamic>);
       List<Message> messages = state.messages;
-      List<Message> newMessages = List.from(messages)..addAll(chatRoomMessagesResponse.data?.messages ?? []);
-      emit(state.copyWith(messages: newMessages, page: state.page, limit: 100, loadingState: false));
+      List<Message> newMessages = List.from(messages)
+        ..addAll(chatRoomMessagesResponse.data?.messages ?? []);
+      emit(state.copyWith(
+          messages: newMessages,
+          page: state.page,
+          limit: 100,
+          loadingState: false));
     });
   }
 
-  void sendMessage({required String roomId, required String message, List<PlatformFile>? files}) async {
+  void sendMessage(
+      {required int roomId, required String message, List<File>? files}) async {
     Message newMessage = Message(
       id: Random().nextInt(1000),
-      roomId: int.parse(roomId),
+      roomId: roomId,
       user: _userCubit.state,
       content: message,
       uploads: null,
@@ -61,8 +73,8 @@ class ChatRoomCubit extends Cubit<ChatRoomState> {
     print("state.messages: ${state.messages.length}");
     final result = await chatRepository.sendMessage(
       id: roomId,
-      message: message,
-      files: files,
+      content: message,
+      files: files!,
     );
     result.fold((l) async {
       // silentChatRoomMessages(id: roomId);
@@ -78,7 +90,8 @@ class ChatRoomCubit extends Cubit<ChatRoomState> {
   }
 
   void silentChatRoomMessages({required String id}) async {
-    final result = await chatRepository.getChatRoomMessagesById(id: id, page: state.page, limit: state.limit);
+    final result = await chatRepository.getChatRoomMessagesById(
+        id: id, page: state.page, limit: state.limit);
     print("result: $result");
     result.fold(
         (l) => emit(ChatRoomError(
@@ -86,7 +99,8 @@ class ChatRoomCubit extends Cubit<ChatRoomState> {
               page: state.page,
               limit: state.limit,
             )), (r) {
-      ChatRoomMessagesResponse chatRoomMessagesResponse = ChatRoomMessagesResponse.fromJson(r as Map<String, dynamic>);
+      ChatRoomMessagesResponse chatRoomMessagesResponse =
+          ChatRoomMessagesResponse.fromJson(r as Map<String, dynamic>);
       emit(
         ChatRoomSuccess(
           chatRoomMessagesResponse.data?.messages ?? [],
