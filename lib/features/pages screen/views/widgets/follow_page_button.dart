@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custombutton.dart';
@@ -8,6 +9,8 @@ import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit
 import 'package:genix/features/pages%20screen/data/models/page_profile_model/page_profile_model.dart';
 import 'package:genix/features/pages%20screen/view%20model/follow_page/follow_page_cubit.dart';
 import 'package:genix/features/pages%20screen/view%20model/remove_follow_page/remove_follow_page_cubit.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class FollowPageButton extends StatefulWidget {
   final PageProfileModel pageProfileModel;
@@ -44,7 +47,7 @@ class _FollowPageButtonState extends State<FollowPageButton> {
       builder: (context, isJoined, _) {
         return isJoined
             ? CustomButton(
-                buttonText: 'Page Followed',
+                buttonText: '${AppStrings.pagefollowed.getString(context)}',
                 icon: const Icon(
                   Icons.verified,
                   color: Colors.white,
@@ -63,7 +66,7 @@ class _FollowPageButtonState extends State<FollowPageButton> {
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Page leaved successfully',
+                        content: Text('${AppStrings.pageleavedsuccessfully.getString(context)}',
                             style: TextStyle(fontSize: 13.sp)),
                         backgroundColor: ThemeCubit().state == ThemeState.dark
                             ? Colors.white
@@ -74,7 +77,7 @@ class _FollowPageButtonState extends State<FollowPageButton> {
                   });
                 })
             : CustomButton(
-                buttonText: 'Join Page',
+                buttonText: '${AppStrings.joinpage.getString(context)}',
                 height: 20.h,
                 width: 100.w,
                 color: AppColors.kPrimaryColor2,
@@ -89,7 +92,7 @@ class _FollowPageButtonState extends State<FollowPageButton> {
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Page joined successfully',
+                        content: Text('${AppStrings.pagejoinedsuccessfully.getString(context)}',
                             style: TextStyle(fontSize: 13.sp)),
                         backgroundColor: ThemeCubit().state == ThemeState.dark
                             ? Colors.white

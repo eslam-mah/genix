@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,6 +20,8 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 enum Reaction { cry, cute, angry, laugh, love, sad, surprise, wink, none }
 
@@ -230,7 +233,7 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(fontSize: 11.sp))),
                       SizedBox(width: 9.w),
-                      Text('Comments', style: TextStyle(fontSize: 11.sp)),
+                      Text( AppStrings.comments.getString(context), style: TextStyle(fontSize: 11.sp)),
                       SizedBox(width: 9.w),
                       Icon(FontAwesomeIcons.share, size: 11.sp),
                       SizedBox(width: 9.w),
@@ -240,7 +243,7 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(fontSize: 11.sp))),
                       SizedBox(width: 9.w),
-                      Text('Shares', style: TextStyle(fontSize: 11.sp)),
+                      Text( AppStrings.shares.getString(context), style: TextStyle(fontSize: 11.sp)),
                     ],
                   ),
                   SizedBox(height: 20.h),
@@ -277,7 +280,7 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                       CustomPostComponents(
                         icon: FontAwesomeIcons.solidComment,
                         width: 90.w,
-                        text: 'Comment',
+                        text:  AppStrings.comment.getString(context),
                         isNightMode: widget.isNightModeEnabled,
                         onTap: () {
                           GoRouter.of(context).push(CommentsBody.routeName,
@@ -287,7 +290,7 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                       CustomPostComponents(
                         icon: FontAwesomeIcons.share,
                         width: 90.w,
-                        text: 'Share',
+                        text:  AppStrings.share.getString(context),
                         isNightMode: widget.isNightModeEnabled,
                         onTap: () {
                           shareBottomSheet(context);

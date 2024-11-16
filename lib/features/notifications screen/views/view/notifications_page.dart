@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,6 +25,8 @@ import 'package:genix/features/notifications%20screen/view%20model/get%20all%20n
 import 'package:genix/features/notifications%20screen/views/widgets/notification_item.dart';
 import 'package:genix/features/notifications%20screen/views/widgets/notification_shimmer_item.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({
@@ -201,7 +204,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             ? const GlowingButtonBody()
             : Column(
                 children: [
-                  const CustomHeaderWidget(text: 'Notifications'),
+                   CustomHeaderWidget(text:'${AppStrings.notifications.getString(context)}'),
                   Expanded(
                       child: Padding(
                     padding:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -35,6 +36,8 @@ import 'package:intl/intl.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../../core/localization/all_app_strings.dart';
 
 enum Reaction { angry, laugh, love, sad, surprise, like, none }
 
@@ -179,7 +182,7 @@ class _PostItemState extends State<PostItem> {
           isNightMode: widget.isNightModeEnabled,
         );
       case PostType.short:
-        return const Text('short');
+        return  Text('${AppStrings.short.getString(context)}');
       case PostType.shared:
         return SharedPost(postsModel: widget.postsModel.sharedPost!);
       case PostType.content:
@@ -447,7 +450,7 @@ class _PostItemState extends State<PostItem> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(fontSize: 11.sp))),
                         SizedBox(width: 9.w),
-                        Text('Comments', style: TextStyle(fontSize: 11.sp)),
+                        Text('${AppStrings.comments.getString(context)}', style: TextStyle(fontSize: 11.sp)),
                         SizedBox(width: 9.w),
                         Icon(FontAwesomeIcons.share, size: 11.sp),
                         SizedBox(width: 9.w),
@@ -457,7 +460,7 @@ class _PostItemState extends State<PostItem> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(fontSize: 11.sp))),
                         SizedBox(width: 9.w),
-                        Text('Shares', style: TextStyle(fontSize: 11.sp)),
+                        Text('${AppStrings.shares.getString(context)}', style: TextStyle(fontSize: 11.sp)),
                       ],
                     ),
                     SizedBox(height: 20.h),
@@ -477,7 +480,7 @@ class _PostItemState extends State<PostItem> {
                         CustomPostComponents(
                           icon: FontAwesomeIcons.solidComment,
                           width: 100.w,
-                          text: 'Comment',
+                          text: '${AppStrings.comment.getString(context)}',
                           onTap: () {
                             setState(() {
                               isComment = !isComment;
@@ -490,7 +493,7 @@ class _PostItemState extends State<PostItem> {
                           icon: FontAwesomeIcons.share,
                           width: 100.w,
                           isNightMode: widget.isNightModeEnabled,
-                          text: 'Share',
+                          text: '${AppStrings.share.getString(context)}',
                           onTap: () {
                             shareBottomSheet(context);
                           },
@@ -550,8 +553,8 @@ class _PostItemState extends State<PostItem> {
                                   fontFamily: '',
                                   fontWeight: FontWeight.normal,
                                   text: viewMoreComments
-                                      ? 'Hide comments'
-                                      : 'View more comments'),
+                                      ? '${AppStrings.hidecomments.getString(context)}'
+                                      :'${AppStrings.viewmorecomments.getString(context)}'),
                             ),
                           )
                         ],

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
+
+import '../../../../../core/localization/all_app_strings.dart';
 
 class PollPost extends StatefulWidget {
   final PostsModel postsModel;
@@ -100,7 +103,7 @@ class _PollPostState extends State<PollPost> {
                                 fontWeight: FontWeight.normal,
                                 color: Colors.black,
                                 text:
-                                    '${option.votesFromUsers?.length ?? 0} votes',
+                                    '${option.votesFromUsers?.length ?? 0}' '${AppStrings.votes.getString(context)}',
                               ),
                             ),
                           ],

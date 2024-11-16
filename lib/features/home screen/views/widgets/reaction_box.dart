@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
@@ -8,6 +9,7 @@ import 'package:genix/core/utils/images.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 
+import '../../../../core/localization/all_app_strings.dart';
 import 'post types/post_item.dart';
 
 // ignore: must_be_immutable
@@ -62,11 +64,11 @@ class _ReactionBoxState extends State<ReactionBox> {
       );
     } else {
       // Default fallback
-      return const Row(
+      return  Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Icon(FontAwesomeIcons.solidHeart),
-          Text('Like'),
+          Text('${AppStrings.like.getString(context)}'),
         ],
       );
     }

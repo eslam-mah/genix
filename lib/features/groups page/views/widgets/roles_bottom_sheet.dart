@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -12,6 +13,7 @@ import 'package:genix/features/groups%20page/view%20model/get_group_members/get_
 import 'package:genix/features/groups%20page/view%20model/update_group_member/update_group_member_cubit.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/all_app_strings.dart';
 import '../../data/models/group_profile_model/member.dart';
 
 Future<dynamic> rolesBottomSheet(
@@ -63,20 +65,19 @@ Future<dynamic> rolesBottomSheet(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'EDIT MEMBER DETAILS',
+                              Text('${AppStrings.editmemberdetails.getString(context)}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 23.sp),
                               ),
                               SizedBox(height: 20.h),
-                              Text('Available roles',
+                              Text('${AppStrings.availableroles.getString(context)}',
                                   style: TextStyle(fontSize: 16.sp)),
                               SizedBox(height: 15.h),
 
                               // Radio Button for Group Manager role
                               _RadioButtonRow(
-                                title: 'Group manager',
+                                title: '${AppStrings.groupmanger.getString(context)}',
                                 value: 'group manager',
                                 groupValue: selectedRole,
                                 onChanged: (String? value) {
@@ -84,14 +85,14 @@ Future<dynamic> rolesBottomSheet(
                                     selectedRole = value!;
                                   });
                                 },
-                                description:
-                                    'alter group details, alter group members, alter group posts, alter group posts comments',
+                                description:'${AppStrings.groupmangerdescription.getString(context)}'
+
                               ),
                               SizedBox(height: 20.h),
 
                               // Radio Button for Group Moderator role
                               _RadioButtonRow(
-                                title: 'Group moderator',
+                                title: '${AppStrings.groupmoderatord.getString(context)}',
                                 value: 'group moderator',
                                 groupValue: selectedRole,
                                 onChanged: (String? value) {
@@ -99,14 +100,13 @@ Future<dynamic> rolesBottomSheet(
                                     selectedRole = value!;
                                   });
                                 },
-                                description:
-                                    'alter group posts, alter group posts comments',
+                                description:'${AppStrings.groupmoderatorddescription.getString(context)}',
                               ),
                               SizedBox(height: 20.h),
 
                               // Radio Button for None (no role)
                               _RadioButtonRow(
-                                title: 'None',
+                                title: '${AppStrings.none.getString(context)}',
                                 value: 'None',
                                 groupValue: selectedRole,
                                 onChanged: (String? value) {
@@ -118,13 +118,13 @@ Future<dynamic> rolesBottomSheet(
                               ),
                               SizedBox(height: 20.h),
 
-                              Text('Available permissions',
+                              Text('${AppStrings.availablepermission.getString(context)}',
                                   style: TextStyle(fontSize: 16.sp)),
                               SizedBox(height: 15.h),
 
                               // Checkboxes for Permissions
                               _CheckboxRow(
-                                title: 'alter group details',
+                                title: '${AppStrings.altergroupdetails.getString(context)}',
                                 value: 'alter group details',
                                 selectedPermissions: selectedPermissions,
                                 onChanged: (bool value) {
@@ -142,7 +142,7 @@ Future<dynamic> rolesBottomSheet(
                               SizedBox(height: 10.h),
 
                               _CheckboxRow(
-                                title: 'alter group members',
+                                title: '${AppStrings.altergroupmembers.getString(context)}',
                                 value: 'alter group members',
                                 selectedPermissions: selectedPermissions,
                                 onChanged: (bool value) {
@@ -160,7 +160,7 @@ Future<dynamic> rolesBottomSheet(
                               SizedBox(height: 10.h),
 
                               _CheckboxRow(
-                                title: 'alter group posts',
+                                title: '${AppStrings.altergroupposts.getString(context)}',
                                 value: 'alter group posts',
                                 selectedPermissions: selectedPermissions,
                                 onChanged: (bool value) {
@@ -178,7 +178,7 @@ Future<dynamic> rolesBottomSheet(
                               SizedBox(height: 10.h),
 
                               _CheckboxRow(
-                                title: 'alter group posts comments',
+                                title: '${AppStrings.altergrouppostscomments.getString(context)}',
                                 value: 'alter group posts comments',
                                 selectedPermissions: selectedPermissions,
                                 onChanged: (bool value) {
@@ -197,7 +197,7 @@ Future<dynamic> rolesBottomSheet(
                               SizedBox(height: 20.h),
                               CustomButton(
                                 color: AppColors.kPrimaryColor,
-                                buttonText: 'Update User',
+                                buttonText: '${AppStrings.updateuser.getString(context)}',
                                 width: double.infinity,
                                 height: 40.h,
                                 borderRadius: 12.r,

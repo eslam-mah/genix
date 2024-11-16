@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -11,6 +12,8 @@ import 'package:genix/features/home%20screen/data/models/report_form.dart';
 import 'package:genix/features/home%20screen/view%20model/post%20report/post_report_cubit.dart';
 import 'package:genix/features/pages%20screen/data/models/page_profile_model/page_profile_model.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> reportBottomSheet(
   BuildContext context, {
@@ -43,20 +46,20 @@ Future<dynamic> reportBottomSheet(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'SUBMIT A NEW REPORT',
+                        '${AppStrings.submitanewpost.getString(context)}',
                         style: TextStyle(fontSize: 11.sp),
                       ),
-                      const Text(
-                        'Report post',
+                       Text(
+                        '${AppStrings.replypost.getString(context)}',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 23),
                       ),
                       SizedBox(
                         height: 20.h,
                       ),
-                      Text('Content', style: TextStyle(fontSize: 11.sp)),
+                      Text('${AppStrings.content.getString(context)}', style: TextStyle(fontSize: 11.sp)),
                       Text(
-                          'Feed this report with a comprehensive content. please include as many details as you can, in all the possible forms to get a proper resolution.',
+                          '${AppStrings.submitanewpostdescription.getString(context)}',
                           style: TextStyle(fontSize: 11.sp)),
                       SizedBox(
                         height: 10.h,
@@ -74,7 +77,7 @@ Future<dynamic> reportBottomSheet(
                               expands: true,
                               maxLines: null,
                               decoration: InputDecoration(
-                                hintText: ' Write something...',
+                                hintText:'${AppStrings.writesomething.getString(context)}',
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.r),
                                     borderSide: const BorderSide(
@@ -100,7 +103,7 @@ Future<dynamic> reportBottomSheet(
                       ),
                       CustomButton(
                           color: AppColors.kPrimaryColor,
-                          buttonText: 'Report now',
+                          buttonText: '${AppStrings.reportnow.getString(context)}',
                           width: double.infinity,
                           height: 40.h,
                           borderRadius: 12.r,

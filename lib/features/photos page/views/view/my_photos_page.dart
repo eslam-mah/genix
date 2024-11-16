@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,6 +26,8 @@ import 'package:genix/features/photos%20page/views/widgets/photo_item.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class MyPhotosPage extends StatefulWidget {
   const MyPhotosPage({super.key});
@@ -168,15 +171,15 @@ class _MyPhotosPageState extends State<MyPhotosPage> {
                       _getPhotosList(id);
                       return CustomScrollView(
                         slivers: [
-                          const SliverToBoxAdapter(
-                            child: CustomHeaderWidget(text: 'My photos'),
+                           SliverToBoxAdapter(
+                            child: CustomHeaderWidget(text: AppStrings.myphotos.getString(context)),
                           ),
                           SliverToBoxAdapter(
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   vertical: 15.h, horizontal: 15.w),
-                              child: const CustomHeaderWidget2(
-                                  text: 'Recent photos'),
+                              child:  CustomHeaderWidget2(
+                                  text: AppStrings.recentphotos.getString(context)),
                             ),
                           ),
                           _photosPaginationList()
@@ -191,7 +194,7 @@ class _MyPhotosPageState extends State<MyPhotosPage> {
                     } else {
                       return Center(
                         child: Text(
-                          'error loading page',
+                          AppStrings.errorloadingpage.getString(context),
                           style: TextStyle(fontSize: 24.sp),
                         ),
                       );

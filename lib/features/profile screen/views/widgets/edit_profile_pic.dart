@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -9,6 +10,8 @@ import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/features/profile%20screen/data/profile_model/update_profile_form.dart';
 import 'package:genix/features/settings%20screen/view%20model/update%20my%20profile/update_my_profile_cubit.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> editProfilePicBottomSheet(
     BuildContext context, Function()? refresh) {
@@ -65,8 +68,7 @@ Future<dynamic> editProfilePicBottomSheet(
                       SizedBox(
                         height: 20.h,
                       ),
-                      Text(
-                        'First of all, select an image',
+                      Text( AppStrings.firstofallselectanimage.getString(context),
                         style: TextStyle(
                             fontSize: 15.sp, fontWeight: FontWeight.w500),
                       ),
@@ -75,7 +77,7 @@ Future<dynamic> editProfilePicBottomSheet(
                       ),
                       CustomButton(
                           color: AppColors.kPrimaryColor2,
-                          buttonText: 'Browse on device',
+                          buttonText:  AppStrings.browseondevice.getString(context),
                           width: 160.w,
                           height: 40.h,
                           borderRadius: 7.r,

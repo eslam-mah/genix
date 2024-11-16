@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custombutton.dart';
@@ -12,6 +13,8 @@ import 'package:genix/features/pages%20screen/views/screens/page_followers_scree
 import 'package:genix/features/pages%20screen/views/screens/pages_list_body.dart';
 import 'package:genix/features/pages%20screen/views/widgets/create_page/edit_page_bottom_sheet.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> showPageTabBar(
   BuildContext context,
@@ -39,7 +42,7 @@ Future<dynamic> showPageTabBar(
                             textSize: 15.sp,
                             fontFamily: '',
                             fontWeight: FontWeight.normal,
-                            text: 'Edit page'),
+                            text: '${AppStrings.editpage.getString(context)}'),
                       ),
                     ),
                     InkWell(
@@ -58,7 +61,7 @@ Future<dynamic> showPageTabBar(
                             textSize: 15.sp,
                             fontFamily: '',
                             fontWeight: FontWeight.normal,
-                            text: 'Delete page'),
+                            text: '${AppStrings.deletepage.getString(context)}'),
                       ),
                     ),
                     InkWell(
@@ -71,7 +74,7 @@ Future<dynamic> showPageTabBar(
                             textSize: 15.sp,
                             fontFamily: '',
                             fontWeight: FontWeight.normal,
-                            text: 'page members'),
+                            text:'${AppStrings.pagemembers.getString(context)}'),
                       ),
                     ),
                   ],
@@ -87,7 +90,7 @@ Future<dynamic> showPageTabBar(
                           textSize: 15.sp,
                           fontFamily: '',
                           fontWeight: FontWeight.normal,
-                          text: 'Report'),
+                          text: '${AppStrings.report.getString(context)}'),
                     ),
                   ),
                 ],
@@ -124,8 +127,7 @@ class _DeletePageDialog extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    'Are you sure you want to Delete this page?',
+                  Text('${AppStrings.areyousureyouwanttodeletepage.getString(context)}',
                     style: TextStyle(fontSize: 17.sp),
                   ),
                   Row(
@@ -133,7 +135,7 @@ class _DeletePageDialog extends StatelessWidget {
                     children: [
                       CustomButton(
                           color: AppColors.kPrimaryColor,
-                          buttonText: 'Yes',
+                          buttonText: '${AppStrings.yes.getString(context)}',
                           height: 30.h,
                           borderRadius: 30.r,
                           width: 80.w,
@@ -147,7 +149,7 @@ class _DeletePageDialog extends StatelessWidget {
                           }),
                       CustomButton(
                           color: Colors.red,
-                          buttonText: 'no',
+                          buttonText: '${AppStrings.no.getString(context)}',
                           height: 30.h,
                           borderRadius: 30.r,
                           width: 80.w,

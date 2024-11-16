@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,6 +8,8 @@ import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/custompromotewidget.dart';
 import 'package:genix/core/widgets/custompromotewidget2.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> promoteBottomSheet(BuildContext context) {
   int isSelected = 0;
@@ -30,14 +33,14 @@ Future<dynamic> promoteBottomSheet(BuildContext context) {
                   Row(
                     children: [
                       Text(
-                        'Promote',
+                        '${AppStrings.promote.getString(context)}',
                         style: TextStyle(fontSize: 18.sp),
                       ),
                       SizedBox(
                         width: 15.w,
                       ),
                       Text(
-                        'Increase your popularity',
+                        '${AppStrings.increaseyourpopularity.getString(context)}',
                         style: TextStyle(fontSize: 10.sp),
                       )
                     ],
@@ -156,7 +159,7 @@ Future<dynamic> promoteBottomSheet(BuildContext context) {
                   ),
                   CustomButton(
                       color: AppColors.kPrimaryColor,
-                      buttonText: 'Allocate coins for promotion',
+                      buttonText: '${AppStrings.allocatecoinsforpromotions.getString(context)}',
                       width: double.infinity,
                       height: 40.h,
                       borderRadius: 12.r,

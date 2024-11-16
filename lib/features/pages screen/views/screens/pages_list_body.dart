@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
@@ -21,6 +22,8 @@ import 'package:genix/features/pages%20screen/view%20model/get_all_pages/get_all
 import 'package:genix/features/pages%20screen/views/widgets/create_page/create_page_bottom_sheet.dart';
 import 'package:genix/features/pages%20screen/views/widgets/page_item.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class PagesListBody extends StatefulWidget {
   static const String route = "/pages_list";
@@ -173,15 +176,15 @@ class _PagesListBodyState extends State<PagesListBody> {
                   ),
                   child: CustomScrollView(
                     slivers: [
-                      const SliverToBoxAdapter(
-                        child: CustomHeaderWidget(text: 'Pages'),
+                       SliverToBoxAdapter(
+                        child: CustomHeaderWidget(text: '${AppStrings.pages.getString(context)}'),
                       ),
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: EdgeInsets.only(
                               top: 10.h, left: 20.w, right: 20.w),
                           child: CustomButton(
-                            buttonText: 'CREATE NEW PAGE',
+                            buttonText: '${AppStrings.createnewpage.getString(context)}',
                             height: 40.h,
                             borderRadius: 10.r,
                             color: AppColors.kPrimaryColor,
@@ -202,7 +205,7 @@ class _PagesListBodyState extends State<PagesListBody> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: 15.h, horizontal: 15.w),
-                          child: const CustomHeaderWidget2(text: 'Pages'),
+                          child:  CustomHeaderWidget2(text: '${AppStrings.pages.getString(context)}'),
                         ),
                       ),
                       _pagesPaginationList()

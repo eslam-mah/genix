@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
 import 'package:genix/core/default_status_indicators/first_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/new_page_progress_indicator.dart';
@@ -39,6 +40,8 @@ import 'package:genix/features/home%20screen/views/widgets/custom_home_appbar.da
 
 import 'package:genix/features/home%20screen/views/widgets/post%20types/post_item.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = '/home_body_page';
@@ -95,14 +98,14 @@ class _HomePageState extends State<HomePage> {
           listener: (context, state) {
             if (state is GetMyAccountDetailsError) {
               print('Error: ${state.message}');
-              if (state.message == "Your email address is not verified.") {
+              if (state.message == '${AppStrings.youremailisnotverified.getString(context)}') {
                 GoRouter.of(context).go(VerificationScreen.routeName);
-              } else if (state.message == "Unauthenticated.") {
+              } else if (state.message == "'${AppStrings.unauthenticated.getString(context)}'") {
                 GoRouter.of(context)
                     .go(LoginScreen.route, extra: const LogInScreenArgs());
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Something went wrong')),
+                   SnackBar(content: Text('${AppStrings.somethingwentwrong.getString(context)}')),
                 );
               }
             }
@@ -128,14 +131,14 @@ class _HomePageState extends State<HomePage> {
           listener: (context, state) {
             if (state is DeletePostSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Post deleted successfully.')),
+                 SnackBar(content: Text('${AppStrings.postdeletedsuccessfully.getString(context)}')),
               );
             } else if (state is DeletePostError) {
               final currentItems = _pagingController.itemList ?? [];
               final updatedItems = [...currentItems];
               _pagingController.itemList = updatedItems;
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Failed to delete post.')),
+                 SnackBar(content: Text('${AppStrings.failedtodeletepost.getString(context)}')),
               );
             }
           },
@@ -144,7 +147,7 @@ class _HomePageState extends State<HomePage> {
           listener: (context, state) {
             if (state is AddPostSuccess) {
               List<PostsModel> items = _pagingController.itemList ?? [];
-              items.add(PostsModel(content: 'adding a post'));
+              items.add(PostsModel(content: '${AppStrings.addingapost.getString(context)}'));
               _pagingController.itemList = items;
               setState(() {});
             }
@@ -252,8 +255,8 @@ class _HomePageState extends State<HomePage> {
 
                           return Column(
                             children: [
-                              const CustomHeaderWidget(
-                                text: 'Newsfeed',
+                               CustomHeaderWidget(
+                                text: '${AppStrings.newsfeed.getString(context)}',
                               ),
                               SizedBox(
                                 width: double.infinity,

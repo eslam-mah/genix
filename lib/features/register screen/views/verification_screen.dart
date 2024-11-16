@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
@@ -7,6 +8,8 @@ import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/features/login%20screen/views/view/log_in_screen.dart';
 import 'package:genix/features/register%20screen/view%20model/verification_cubit/verification_cubit.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/localization/all_app_strings.dart';
 
 class VerificationScreen extends StatelessWidget {
   static const String routeName = '/verification_screen';
@@ -24,8 +27,8 @@ class VerificationScreen extends StatelessWidget {
           );
         } else if (state is VerificationError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Something went wrong'),
+             SnackBar(
+              content: Text( AppStrings.somethingwentwrong.getString(context)),
             ),
           );
         }
@@ -45,21 +48,20 @@ class VerificationScreen extends StatelessWidget {
                 height: 10.h,
               ),
               Text(
-                'Verify Your Account',
+                AppStrings.verifyyouraccount.getString(context),
                 style: TextStyle(fontSize: 40.sp),
               ),
               SizedBox(
                 height: 10.h,
               ),
-              Text(
-                'if you have\'t received a link please click here',
+              Text( AppStrings.ifyouhavetreceivedalinkpleaseclickhere.getString(context),
                 style: TextStyle(fontSize: 15.sp),
               ),
               SizedBox(
                 height: 10.h,
               ),
               CustomButton(
-                  buttonText: 'Send Verification Link',
+                  buttonText:AppStrings.sendverificationlink.getString(context),
                   height: 40.h,
                   width: 180.w,
                   color: AppColors.kPrimaryColor,
@@ -70,15 +72,14 @@ class VerificationScreen extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
-              Text(
-                'if you have already received a link or if you have an account , log in now',
+              Text( AppStrings.ifyouhavealreadyreceivedalinkorifyouhaveanaccountloginnow.getString(context),
                 style: TextStyle(fontSize: 15.sp),
               ),
               SizedBox(
                 height: 10.h,
               ),
               CustomButton(
-                  buttonText: 'Log In',
+                  buttonText: AppStrings.login.getString(context),
                   height: 40.h,
                   width: 100.w,
                   color: AppColors.kPrimaryColor,

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:genix/features/chat%20screen/views/cubit/chat_cubit/chat_cubit.dart';
 import 'package:genix/features/chat%20screen/views/widgets/chat_room_tile.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/localization/all_app_strings.dart';
 
 class ChatListingScreen extends StatefulWidget {
   const ChatListingScreen({super.key});
@@ -32,18 +35,18 @@ class _ChatListingScreenState extends State<ChatListingScreen> {
               Icons.arrow_back_ios,
               color: Colors.white,
             )),
-        title: const Text('Chat', style: TextStyle(color: Colors.white)),
+        title:   Text('${AppStrings.chat.getString(context)}', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.green,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: TextButton(
-              child: const Row(
+              child:  Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(Icons.error_outline, size: 22, color: Colors.white),
                   SizedBox(width: 8),
-                  Text("Spam", style: TextStyle(fontSize: 16, color: Colors.white)),
+                  Text('${AppStrings.spam.getString(context)}', style: TextStyle(fontSize: 16, color: Colors.white)),
                 ],
               ),
               onPressed: () {},
@@ -67,7 +70,7 @@ class _ChatListingScreenState extends State<ChatListingScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: TextField(
                       decoration: InputDecoration(
-                        hintText: 'Type here the user name',
+                        hintText: '${AppStrings.typeheretheusername.getString(context)}',
                         prefixIcon: const Icon(Icons.search, color: Colors.grey),
                         filled: true,
                         fillColor: Colors.white,
@@ -93,7 +96,7 @@ class _ChatListingScreenState extends State<ChatListingScreen> {
               ),
             );
           } else if (state is ChatFailureState) {
-            return const Center(child: Text("Failed to load chat rooms"));
+            return  Center(child: Text('${AppStrings.failedtoloadthechatrroms.getString(context)}'));
           } else {
             return const SizedBox();
           }

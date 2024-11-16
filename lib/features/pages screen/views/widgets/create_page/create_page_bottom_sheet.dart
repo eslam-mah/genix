@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -17,6 +18,8 @@ import 'package:genix/features/pages%20screen/views/widgets/create_page/page_cat
 import 'package:genix/features/pages%20screen/views/widgets/create_page/select_image_widget_page.dart';
 import 'package:genix/features/pages%20screen/views/widgets/create_page/social_link_widget_page.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> createPageBottomSheet(
   BuildContext context,
@@ -107,21 +110,21 @@ Future<dynamic> createPageBottomSheet(
                                 textSize: 18.sp,
                                 fontFamily: '',
                                 fontWeight: FontWeight.bold,
-                                text: 'Page name',
+                                text:'${AppStrings.pagename.getString(context)}',
                               ),
                               CustomTextWidget(
                                 textSize: 12.sp,
                                 fontFamily: '',
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,
-                                text: '  required',
+                                text: '${AppStrings.required.getString(context)}',
                               ),
                             ],
                           ),
                           spacerSmall,
                           CustomTextField2(
                               readOnly: false,
-                              hintText: 'Page name',
+                              hintText: '${AppStrings.pagename.getString(context)}',
                               controller: pageNameController,
                               icon: const Text('')),
                           spacer,
@@ -131,14 +134,14 @@ Future<dynamic> createPageBottomSheet(
                                 textSize: 18.sp,
                                 fontFamily: '',
                                 fontWeight: FontWeight.bold,
-                                text: 'Category',
+                                text: '${AppStrings.category.getString(context)}',
                               ),
                               CustomTextWidget(
                                 textSize: 12.sp,
                                 fontFamily: '',
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,
-                                text: '  required',
+                                text: '${AppStrings.required.getString(context)}',
                               ),
                             ],
                           ),
@@ -160,21 +163,21 @@ Future<dynamic> createPageBottomSheet(
                                 textSize: 18.sp,
                                 fontFamily: '',
                                 fontWeight: FontWeight.bold,
-                                text: 'Website',
+                                text: '${AppStrings.website.getString(context)}',
                               ),
                               CustomTextWidget(
                                 textSize: 12.sp,
                                 fontFamily: '',
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,
-                                text: '  required',
+                                text: '${AppStrings.required.getString(context)}',
                               ),
                             ],
                           ),
                           spacerSmall,
                           CustomTextField2(
                               readOnly: false,
-                              hintText: 'Valid Website Url',
+                              hintText:'${AppStrings.validwebsiteurl.getString(context)}',
                               controller: pageWebsiteController,
                               icon: const Text('')),
                           spacer,
@@ -184,68 +187,68 @@ Future<dynamic> createPageBottomSheet(
                                 textSize: 18.sp,
                                 fontFamily: '',
                                 fontWeight: FontWeight.bold,
-                                text: 'About this page',
+                                text: '${AppStrings.aboutthispage.getString(context)}',
                               ),
                               CustomTextWidget(
                                 textSize: 12.sp,
                                 fontFamily: '',
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,
-                                text: '  required',
+                                text: '${AppStrings.required.getString(context)}',
                               ),
                             ],
                           ),
                           spacerSmall,
                           BigTextField(
-                              hintText: 'Write more about this page',
+                              hintText: '${AppStrings.writemoreaboutthispage.getString(context)}',
                               controller: pageAboutController),
                           spacer,
                           CustomTextWidget(
                             textSize: 18.sp,
                             fontFamily: '',
                             fontWeight: FontWeight.bold,
-                            text: 'Social links',
+                            text: '${AppStrings.sociallinks.getString(context)}',
                           ),
                           spacerSmall,
                           SocialLinksPageWidget(
                             icon: FontAwesomeIcons.facebook,
-                            hintText: 'Facebook profile link',
+                            hintText:'${AppStrings.facebookprofilelink.getString(context)}',
                             controller: facebookController,
                           ),
                           spacerSmall,
                           SocialLinksPageWidget(
                             icon: FontAwesomeIcons.xTwitter,
-                            hintText: 'X profile link',
+                            hintText: '${AppStrings.xprofilelink.getString(context)}',
                             controller: xController,
                           ),
                           spacerSmall,
                           SocialLinksPageWidget(
                             icon: FontAwesomeIcons.instagram,
-                            hintText: 'Instagram profile link',
+                            hintText: '${AppStrings.instagramprofilelink.getString(context)}',
                             controller: instagramController,
                           ),
                           spacerSmall,
                           SocialLinksPageWidget(
                             icon: FontAwesomeIcons.tiktok,
-                            hintText: 'TikTok profile link',
+                            hintText: '${AppStrings.tiktokprofilelink.getString(context)}',
                             controller: tiktokController,
                           ),
                           spacerSmall,
                           SocialLinksPageWidget(
                               icon: FontAwesomeIcons.pinterest,
-                              hintText: 'Pinterest profile link',
+                              hintText: '${AppStrings.pinterestprofilelink.getString(context)}',
                               controller: pinterestController),
 
                           spacerSmall,
                           SocialLinksPageWidget(
                             icon: FontAwesomeIcons.steam,
-                            hintText: 'Steam profile link',
+                            hintText: '${AppStrings.steamprofilelink.getString(context)}',
                             controller: steamController,
                           ),
                           spacerSmall,
                           SocialLinksPageWidget(
                             icon: FontAwesomeIcons.linkedin,
-                            hintText: 'LinkedIn profile link',
+                            hintText: '${AppStrings.linkedInprofilelink.getString(context)}',
                             controller: linkedInController,
                           ),
                           spacer,
@@ -253,7 +256,7 @@ Future<dynamic> createPageBottomSheet(
                             textSize: 18.sp,
                             fontFamily: '',
                             fontWeight: FontWeight.bold,
-                            text: 'Select Privacy',
+                            text:'${AppStrings.selectprivacy.getString(context)}',
                           ),
                           spacerSmall,
                           Row(
@@ -272,13 +275,13 @@ Future<dynamic> createPageBottomSheet(
                                 textSize: 18.sp,
                                 fontFamily: '',
                                 fontWeight: FontWeight.bold,
-                                text: 'Page will be public',
+                                text: '${AppStrings.pagewillbepublic.getString(context)}',
                               ),
                             ],
                           ),
                           spacer,
                           CustomButton(
-                              buttonText: 'Submit Page',
+                              buttonText: '${AppStrings.submitpage.getString(context)}',
                               height: 40.h,
                               color: AppColors.kPrimaryColor,
                               borderRadius: 10.r,
@@ -294,8 +297,7 @@ Future<dynamic> createPageBottomSheet(
                                   GoRouter.of(context).pop();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(
-                                        'All required fields should be filled',
+                                      content: Text('${AppStrings.allrequiredfieldsshouldbefilled.getString(context)}',
                                         style: TextStyle(fontSize: 13.sp),
                                       ),
                                       backgroundColor:

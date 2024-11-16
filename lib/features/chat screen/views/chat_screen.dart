@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/cubit/handler_cubit/handler_cubit.dart';
 import 'package:genix/core/cubit/user_cubit/user_cubit.dart';
@@ -14,6 +15,8 @@ import 'package:genix/features/chat%20screen/views/cubit/chat_room_cubit/chat_ro
 import 'package:genix/features/chat%20screen/views/cubit/file_picker_cubit/file_picker_cubit.dart';
 import 'package:genix/features/chat%20screen/views/widgets/chat_message_buble.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/localization/all_app_strings.dart';
 
 class ChatScreen extends StatefulWidget {
   final ChatRoom chatRoom;
@@ -144,7 +147,7 @@ class _ChatScreenState extends State<ChatScreen> {
             },
           );
         } else {
-          return const Center(child: Text("No messages found"));
+          return  Center(child: Text('${AppStrings.nomessagesfound.getString(context)}'));
         }
       },
     );
@@ -173,8 +176,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   Expanded(
                     child: TextField(
                       controller: _messageController,
-                      decoration: const InputDecoration(
-                        hintText: 'Type a message',
+                      decoration:  InputDecoration(
+                        hintText: '${AppStrings.typeamessage.getString(context)}',
                         border: InputBorder.none,
                       ),
                     ),

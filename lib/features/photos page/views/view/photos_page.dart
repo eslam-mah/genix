@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,6 +22,8 @@ import 'package:genix/features/photos%20page/view%20model/get%20photo%20posts/ge
 import 'package:genix/features/photos%20page/view%20model/get%20photo%20posts/get_photo_posts_state.dart';
 import 'package:genix/features/photos%20page/views/widgets/photo_item.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class PhotosPage extends StatefulWidget {
   const PhotosPage({super.key, required this.id});
@@ -156,14 +159,14 @@ class _PhotosPageState extends State<PhotosPage> {
               ? const GlowingButtonBody()
               : CustomScrollView(
                   slivers: [
-                    const SliverToBoxAdapter(
-                      child: CustomHeaderWidget(text: 'photos'),
+                     SliverToBoxAdapter(
+                      child: CustomHeaderWidget(text: AppStrings.photos.getString(context)),
                     ),
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: 15.h, horizontal: 15.w),
-                        child: const CustomHeaderWidget2(text: 'Recent photos'),
+                        child:  CustomHeaderWidget2(text: AppStrings.recentphotos.getString(context)),
                       ),
                     ),
                     _photosPaginationList()

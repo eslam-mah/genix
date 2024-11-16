@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -11,6 +12,8 @@ import 'package:genix/features/pages%20screen/data/models/page_profile_model/pag
 import 'package:genix/features/pages%20screen/view%20model/get_page_members/get_page_members_cubit.dart';
 import 'package:genix/features/pages%20screen/view%20model/update_page_member/update_page_member_cubit.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> followerRolesBottomSheet(
     BuildContext context,
@@ -62,18 +65,18 @@ Future<dynamic> followerRolesBottomSheet(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'EDIT MEMBER DETAILS',
+                                '${AppStrings.editmemberdetails.getString(context)}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 23.sp),
                               ),
                               SizedBox(height: 20.h),
-                              Text('Available roles',
+                              Text('${AppStrings.availableroles.getString(context)}',
                                   style: TextStyle(fontSize: 16.sp)),
                               SizedBox(height: 15.h),
 
                               _RadioButtonRow(
-                                title: 'Page manager',
+                                title:'${AppStrings.pagemanger.getString(context)}',
                                 value: 'page manager',
                                 pageValue: selectedRole,
                                 onChanged: (String? value) {
@@ -82,12 +85,11 @@ Future<dynamic> followerRolesBottomSheet(
                                   });
                                 },
                                 description:
-                                    'alter page details, alter page members, alter page posts, alter page posts comments',
-                              ),
+                                '${AppStrings.pagemangerdescription.getString(context)}'  ),
                               SizedBox(height: 20.h),
 
                               _RadioButtonRow(
-                                title: 'Page moderator',
+                                title: '${AppStrings.pagemoderatord.getString(context)}',
                                 value: 'page moderator',
                                 pageValue: selectedRole,
                                 onChanged: (String? value) {
@@ -95,14 +97,13 @@ Future<dynamic> followerRolesBottomSheet(
                                     selectedRole = value!;
                                   });
                                 },
-                                description:
-                                    'alter page posts, alter page posts comments',
+                                description:'${AppStrings.pagemoderatorddescription.getString(context)}',
                               ),
                               SizedBox(height: 20.h),
 
                               // Radio Button for None (no role)
                               _RadioButtonRow(
-                                title: 'None',
+                                title: '${AppStrings.none.getString(context)}',
                                 value: 'None',
                                 pageValue: selectedRole,
                                 onChanged: (String? value) {
@@ -114,13 +115,13 @@ Future<dynamic> followerRolesBottomSheet(
                               ),
                               SizedBox(height: 20.h),
 
-                              Text('Available permissions',
+                              Text('${AppStrings.availablepermission.getString(context)}',
                                   style: TextStyle(fontSize: 16.sp)),
                               SizedBox(height: 15.h),
 
                               // Checkboxes for Permissions
                               _CheckboxRow(
-                                title: 'alter page details',
+                                title: '${AppStrings.alterpagedetails.getString(context)}',
                                 value: 'alter page details',
                                 selectedPermissions: selectedPermissions,
                                 onChanged: (bool value) {
@@ -138,7 +139,7 @@ Future<dynamic> followerRolesBottomSheet(
                               SizedBox(height: 10.h),
 
                               _CheckboxRow(
-                                title: 'alter page members',
+                                title: '${AppStrings.alterpagemembers.getString(context)}',
                                 value: 'alter page members',
                                 selectedPermissions: selectedPermissions,
                                 onChanged: (bool value) {
@@ -156,7 +157,7 @@ Future<dynamic> followerRolesBottomSheet(
                               SizedBox(height: 10.h),
 
                               _CheckboxRow(
-                                title: 'alter page posts',
+                                title: '${AppStrings.alterpageposts.getString(context)}',
                                 value: 'alter page posts',
                                 selectedPermissions: selectedPermissions,
                                 onChanged: (bool value) {
@@ -174,7 +175,7 @@ Future<dynamic> followerRolesBottomSheet(
                               SizedBox(height: 10.h),
 
                               _CheckboxRow(
-                                title: 'alter page posts comments',
+                                title: '${AppStrings.alterpagepostscomments.getString(context)}',
                                 value: 'alter page posts comments',
                                 selectedPermissions: selectedPermissions,
                                 onChanged: (bool value) {
@@ -193,7 +194,7 @@ Future<dynamic> followerRolesBottomSheet(
                               SizedBox(height: 20.h),
                               CustomButton(
                                 color: AppColors.kPrimaryColor,
-                                buttonText: 'Update User',
+                                buttonText: '${AppStrings.updateuser.getString(context)}',
                                 width: double.infinity,
                                 height: 40.h,
                                 borderRadius: 12.r,

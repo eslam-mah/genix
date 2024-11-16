@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -12,6 +13,8 @@ import 'package:genix/features/profile%20screen/view%20model/remove%20friend/rem
 import 'package:genix/features/profile%20screen/views/widgets/custom_icon_counter.dart';
 import 'package:genix/features/profile%20screen/views/widgets/edit_background_pic.dart';
 import 'package:genix/features/profile%20screen/views/widgets/edit_profile_pic.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class CustomProfileHeader extends StatefulWidget {
   CustomProfileHeader({
@@ -143,7 +146,7 @@ class _CustomProfileHeaderState extends State<CustomProfileHeader> {
                                               .showSnackBar(
                                             SnackBar(
                                               content: Text(
-                                                  'Follow removed successfully',
+                                                  AppStrings.followremovedsuccessfully.getString(context),
                                                   style: TextStyle(
                                                       fontSize: 13.sp)),
                                               backgroundColor:
@@ -182,7 +185,7 @@ class _CustomProfileHeaderState extends State<CustomProfileHeader> {
                                               .showSnackBar(
                                             SnackBar(
                                               content: Text(
-                                                  'Follow added successfully',
+                                                  AppStrings.followaddedsuccessfully.getString(context),
                                                   style: TextStyle(
                                                       fontSize: 13.sp)),
                                               backgroundColor:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/confirmation_dialoge.dart';
@@ -15,6 +16,8 @@ import 'package:genix/features/pages%20screen/views/widgets/follower_roles_botto
 
 import 'package:genix/features/profile%20screen/views/view/profile_page.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class FollowerItem extends StatelessWidget {
   final Member user;
@@ -119,7 +122,7 @@ class FollowerItem extends StatelessWidget {
                                                   id: user.id ?? 0);
                                         },
                                         functionName:
-                                            'delete all the user\'s posts',
+                                        '${AppStrings.deleteallusersposts.getString(context)}',
                                       );
                                     }),
                                   );
@@ -129,7 +132,7 @@ class FollowerItem extends StatelessWidget {
                               foregroundColor: WidgetStateProperty.all(
                                   AppColors.kPrimaryColor)),
                           child: Text(
-                            'Delete posts',
+                            '${AppStrings.deleteposts.getString(context)}',
                             style: TextStyle(fontSize: 12.sp),
                           ),
                         ),
@@ -152,8 +155,7 @@ class FollowerItem extends StatelessWidget {
                                               .deletePageMemberComment(
                                                   id: user.id ?? 0);
                                         },
-                                        functionName:
-                                            'delete all the user\'s comments',
+                                        functionName:'${AppStrings.deletealluserscomments.getString(context)}',
                                       );
                                     }),
                                   );
@@ -163,7 +165,7 @@ class FollowerItem extends StatelessWidget {
                               foregroundColor: WidgetStateProperty.all(
                                   AppColors.kPrimaryColor)),
                           child: Text(
-                            'Delete comments',
+                            '${AppStrings.deletecomments.getString(context)}',
                             style: TextStyle(fontSize: 12.sp),
                           ),
                         )
@@ -183,7 +185,7 @@ class FollowerItem extends StatelessWidget {
                                 foregroundColor: WidgetStateProperty.all(
                                     AppColors.kPrimaryColor)),
                             child: Text(
-                              'Edit',
+                              '${AppStrings.edit.getString(context)}',
                               style: TextStyle(fontSize: 12.sp),
                             ),
                           ),
@@ -205,7 +207,7 @@ class FollowerItem extends StatelessWidget {
                                                 .deletePageMember(
                                                     id: user.id ?? 0);
                                           },
-                                          functionName: 'remove this user',
+                                          functionName: '${AppStrings.removethisuser.getString(context)}',
                                         );
                                       }),
                                     );
@@ -215,7 +217,7 @@ class FollowerItem extends StatelessWidget {
                                 foregroundColor: WidgetStateProperty.all(
                                     AppColors.kPrimaryColor)),
                             child: Text(
-                              'Delete',
+                              '${AppStrings.delete.getString(context)}',
                               style: TextStyle(fontSize: 12.sp),
                             ),
                           ),

@@ -1,7 +1,10 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
+
+import '../../../core/localization/all_app_strings.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final String videoUrl;
@@ -86,10 +89,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Video'),
+        title:  Text('${AppStrings.video.getString(context)}'),
       ),
       body: hasError
-          ? const Center(child: Text("Error loading video"))
+          ?  Center(child: Text('${AppStrings.errorloadingvideo.getString(context)}'))
           : isInitialized
               ? FlickVideoPlayer(
                   flickManager: flickManager!,

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:genix/features/home%20screen/views/widgets/event_widget.dart';
+
+import '../../../../../core/localization/all_app_strings.dart';
 
 class EventPost extends StatelessWidget {
   final PostsModel postsModel;
@@ -18,13 +21,13 @@ class EventPost extends StatelessWidget {
         children: [
           EventWidget(
             icon: FontAwesomeIcons.calendar,
-            text: 'Location',
+            text: '${AppStrings.location.getString(context)}',
             eventText: postsModel.misc?.checkin ?? '',
             isNightMode: isNightMode ?? false,
           ),
           EventWidget(
             icon: FontAwesomeIcons.clock,
-            text: 'Timestamp',
+            text: '${AppStrings.timestamp.getString(context)}',
             eventText: postsModel.misc?.timestamp ?? '',
             isNightMode: isNightMode ?? false,
           ),

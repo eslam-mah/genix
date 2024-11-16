@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/features/support%20tickets%20screen/data/models/ticket_model.dart';
@@ -26,6 +27,8 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
 import 'package:genix/features/support%20tickets%20screen/view%20model/update%20ticket%20status/update_ticket_status_cubit.dart';
 import 'package:genix/features/support%20tickets%20screen/views/widgets/edit_ticket_bottom_sheet.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class TicketItemPage extends StatefulWidget {
   const TicketItemPage(
@@ -139,8 +142,8 @@ class _TicketItemPageState extends State<TicketItemPage> {
                       return CustomScrollView(
                         physics: const AlwaysScrollableScrollPhysics(),
                         slivers: [
-                          const SliverToBoxAdapter(
-                            child: CustomHeaderWidget(text: 'Support tickets'),
+                           SliverToBoxAdapter(
+                            child: CustomHeaderWidget(text: AppStrings.supportTickets.getString(context)),
                           ),
                           SliverToBoxAdapter(
                             child: Padding(
@@ -166,13 +169,13 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                                 textSize: 18.sp,
                                                 fontFamily: '',
                                                 fontWeight: FontWeight.normal,
-                                                text: 'Ticket summary',
+                                                text: AppStrings.ticketsummary.getString(context),
                                               ),
                                               CustomTextWidget(
                                                 textSize: 18.sp,
                                                 fontFamily: '',
                                                 fontWeight: FontWeight.normal,
-                                                text: 'Available actions',
+                                                text: AppStrings.availableactions.getString(context),
                                               )
                                             ],
                                           ),
@@ -185,14 +188,14 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   _TextRow(
-                                                    titleText: 'Title',
+                                                    titleText: AppStrings.title.getString(context),
                                                     theText: state.tickets.data
                                                             ?.title ??
                                                         '',
                                                     isGreen: false,
                                                   ),
                                                   _TextRow(
-                                                    titleText: 'Created at',
+                                                    titleText:AppStrings.createdat.getString(context),
                                                     theText: DateFormat(
                                                             'MMMM d, yyyy')
                                                         .format(state
@@ -203,14 +206,14 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                                     isGreen: false,
                                                   ),
                                                   _TextRow(
-                                                    titleText: 'Last Reply by',
+                                                    titleText: AppStrings.lastreplyby.getString(context),
                                                     theText: widget.ticket
                                                         .lastUser.showname,
                                                     isGreen: true,
                                                   ),
                                                   _TextRow(
                                                     titleText:
-                                                        'Replies in total',
+                                                    AppStrings.repliesintotal.getString(context),
                                                     theText: state.tickets.data
                                                             ?.comments?.length
                                                             .toString() ??
@@ -223,15 +226,15 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                                       builder: (context,
                                                           isClosed, _) {
                                                         return _TextRow(
-                                                          titleText: 'Status',
+                                                          titleText: AppStrings.status.getString(context),
                                                           theText: state
                                                                           .tickets
                                                                           .data
                                                                           ?.status ==
                                                                       'open' &&
                                                                   !isClosed
-                                                              ? 'Open'
-                                                              : 'Closed',
+                                                              ? AppStrings.open.getString(context)
+                                                              : AppStrings.closed.getString(context),
                                                           isGreen: true,
                                                           isClosedNotifier:
                                                               isClosedNotifier,
@@ -258,7 +261,7 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                                   CustomButton(
                                                       color: AppColors
                                                           .kPrimaryColor,
-                                                      buttonText: 'Edit Ticket',
+                                                      buttonText: AppStrings.edittickets.getString(context),
                                                       width: 100.w,
                                                       height: 27.h,
                                                       borderRadius: 10.r,
@@ -297,7 +300,7 @@ class _TicketItemPageState extends State<TicketItemPage> {
                                                   size: 20.r,
                                                 ),
                                                 color: AppColors.kPrimaryColor,
-                                                buttonText: 'Post a reply',
+                                                buttonText: AppStrings.postareply.getString(context),
                                                 height: 40.h,
                                                 borderRadius: 15.r,
                                                 onTap: () {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:genix/core/localization/all_app_strings.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/payments/data/models/stripe_form.dart';
@@ -36,7 +38,7 @@ class _PaymentStripeScreenState extends State<PaymentStripeScreen> {
 
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Payment completed successfully!')),
+         SnackBar(content: Text(AppStrings.paymentcompletedsuccessfully.getString(context))),
       );
     } catch (e) {
       // ignore: use_build_context_synchronously
@@ -61,7 +63,7 @@ class _PaymentStripeScreenState extends State<PaymentStripeScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.kPrimaryColor,
         title: Text(
-          'Stripe Payment',
+          AppStrings.stripepayment.getString(context),
           style: TextStyle(color: Colors.white, fontSize: 18.sp),
         ),
       ),

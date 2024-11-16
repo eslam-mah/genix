@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -6,6 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 
 import 'package:genix/core/widgets/custom_user_profile_image.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> commentsBottomSheet(BuildContext context) {
   final TextEditingController textEditingController = TextEditingController();
@@ -65,7 +68,7 @@ Future<dynamic> commentsBottomSheet(BuildContext context) {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'Comments',
+                            '${AppStrings.comments.getString(context)}',
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 19.sp,
@@ -99,7 +102,7 @@ Future<dynamic> commentsBottomSheet(BuildContext context) {
                                 maxLines: null,
                                 keyboardType: TextInputType.multiline,
                                 decoration: InputDecoration(
-                                  hintText: 'Reply to Name post',
+                                  hintText: '${AppStrings.replytonamepost.getString(context)}',
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.black.withOpacity(0.5)),
@@ -181,12 +184,12 @@ Iterable<Widget> customCommentMethod(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Row(
+                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text('Name'),
-                                      Text('1 day ago'),
+                                      Text('${AppStrings.name.getString(context)}'),
+                                      Text('${AppStrings.onedayago.getString(context)}'),
                                     ],
                                   ),
                                   Text(
@@ -234,7 +237,7 @@ Iterable<Widget> customCommentMethod(
                                                   TextInputType.multiline,
                                               decoration: InputDecoration(
                                                 hintText:
-                                                    'Reply to Name comment',
+                                                '${AppStrings.replytonamecomment.getString(context)}',
                                                 border: OutlineInputBorder(
                                                   gapPadding: 0,
                                                   borderRadius:
@@ -271,7 +274,7 @@ Iterable<Widget> customCommentMethod(
                                     );
                                   });
                             },
-                            child: const Text('Reply')),
+                            child:  Text('${AppStrings.reply.getString(context)}')),
                       ],
                     ),
                     ...commentReplies[comment]
@@ -326,11 +329,11 @@ Widget commentReplyWidget(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Name'),
-                          Text('1 day ago'),
+                          Text('${AppStrings.name.getString(context)}'),
+                          Text('${AppStrings.onedayago.getString(context)}'),
                         ],
                       ),
                       Text(
@@ -375,7 +378,7 @@ Widget commentReplyWidget(
                                     maxLines: null,
                                     keyboardType: TextInputType.multiline,
                                     decoration: InputDecoration(
-                                      hintText: 'Reply to Name comment',
+                                      hintText: '${AppStrings.replytonamecomment.getString(context)}',
                                       border: OutlineInputBorder(
                                         gapPadding: 0,
                                         borderRadius:
@@ -421,7 +424,7 @@ Widget commentReplyWidget(
                           );
                         });
                   },
-                  child: const Text('Reply')),
+                  child:  Text('${AppStrings.reply.getString(context)}')),
             ],
           ),
         ),

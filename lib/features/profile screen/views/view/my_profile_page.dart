@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
@@ -37,6 +38,8 @@ import 'package:genix/features/videos%20page/views/view/my_videos_page.dart';
 import 'package:genix/features/videos%20page/views/widgets/videos_list_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({
@@ -250,16 +253,16 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                           children: [
                                             Row(
                                               children: [
-                                                const Expanded(
+                                                 Expanded(
                                                     child: CustomHeaderWidget2(
-                                                        text: 'Photos')),
+                                                        text: AppStrings.photos.getString(context))),
                                                 InkWell(
                                                     onTap: () {
                                                       GoRouter.of(context).push(
                                                           MyPhotosPage.route);
                                                     },
-                                                    child: const Text(
-                                                      'See all',
+                                                    child:  Text(
+                                                      AppStrings.seeall.getString(context),
                                                       style: TextStyle(
                                                           color: Colors.green),
                                                     ))
@@ -274,16 +277,16 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                           children: [
                                             Row(
                                               children: [
-                                                const Expanded(
+                                                 Expanded(
                                                     child: CustomHeaderWidget2(
-                                                        text: 'Videos')),
+                                                        text: AppStrings.video.getString(context))),
                                                 InkWell(
                                                     onTap: () {
                                                       GoRouter.of(context).push(
                                                           MyVideosPage.route);
                                                     },
-                                                    child: const Text(
-                                                      'See all',
+                                                    child:  Text(
+                                                      AppStrings.seeall.getString(context),
                                                       style: TextStyle(
                                                           color: Colors.green),
                                                     ))
@@ -298,13 +301,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                           children: [
                                             Row(
                                               children: [
-                                                const Expanded(
+                                                 Expanded(
                                                     child: CustomHeaderWidget2(
-                                                        text: 'Shorts')),
+                                                        text: AppStrings.short.getString(context))),
                                                 InkWell(
                                                     onTap: () {},
-                                                    child: const Text(
-                                                      'See all',
+                                                    child:  Text(
+                                                      AppStrings.seeall.getString(context),
                                                       style: TextStyle(
                                                           color: Colors.green),
                                                     ))
@@ -318,13 +321,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                           children: [
                                             Row(
                                               children: [
-                                                const Expanded(
+                                                 Expanded(
                                                     child: CustomHeaderWidget2(
-                                                        text: 'Saved shorts')),
+                                                        text: AppStrings.savedshorts.getString(context))),
                                                 InkWell(
                                                     onTap: () {},
-                                                    child: const Text(
-                                                      'See all',
+                                                    child:  Text(
+                                                      AppStrings.seeall.getString(context),
                                                       style: TextStyle(
                                                           color: Colors.green),
                                                     ))
@@ -359,17 +362,17 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                           children: [
                                             Row(
                                               children: [
-                                                const Expanded(
+                                                 Expanded(
                                                     child: CustomHeaderWidget2(
-                                                        text: 'Followers')),
+                                                        text: AppStrings.followers.getString(context))),
                                                 InkWell(
                                                     onTap: () {
                                                       GoRouter.of(context).push(
                                                           MyFollowersPage
                                                               .route);
                                                     },
-                                                    child: const Text(
-                                                      'See all',
+                                                    child:  Text(
+                                                      AppStrings.seeall.getString(context),
                                                       style: TextStyle(
                                                           color: Colors.green),
                                                     ))
@@ -383,9 +386,9 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                           children: [
                                             Row(
                                               children: [
-                                                const Expanded(
+                                                 Expanded(
                                                     child: CustomHeaderWidget2(
-                                                        text: 'Following')),
+                                                        text: AppStrings.followings.getString(context))),
                                                 InkWell(
                                                     onTap: () {
                                                       GoRouter.of(context).push(
@@ -397,8 +400,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                                                   ?.id ??
                                                               0);
                                                     },
-                                                    child: const Text(
-                                                      'See all',
+                                                    child:  Text(
+                                                      AppStrings.seeall.getString(context),
                                                       style: TextStyle(
                                                           color: Colors.green),
                                                     ))
@@ -433,13 +436,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                           children: [
                                             Row(
                                               children: [
-                                                const Expanded(
+                                                 Expanded(
                                                     child: CustomHeaderWidget2(
-                                                        text: 'Groups')),
+                                                        text: AppStrings.groups.getString(context))),
                                                 InkWell(
                                                     onTap: () {},
-                                                    child: const Text(
-                                                      'See all',
+                                                    child:  Text(
+                                                      AppStrings.seeall.getString(context),
                                                       style: TextStyle(
                                                           color: Colors.green),
                                                     ))
@@ -477,8 +480,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
                                         // ),
                                         Column(
                                           children: [
-                                            const CustomHeaderWidget2(
-                                                text: 'Recent posts'),
+                                             CustomHeaderWidget2(
+                                                text: AppStrings.recentposts.getString(context)),
                                             SizedBox(
                                               height: 8.h,
                                             ),
@@ -493,16 +496,16 @@ class _MyProfilePageState extends State<MyProfilePage> {
                             ),
                           );
                         } else if (state is GetProfileError) {
-                          return const Center(
-                              child: Text('Error loading profile'));
+                          return  Center(
+                              child: Text(AppStrings.errorloadingprofile.getString(context)));
                         } else {
                           return const Center(child: ProfileShimmer());
                         }
                       },
                     );
                   } else if (state is GetMyAccountDetailsError) {
-                    return const Center(
-                        child: Text('Error loading account details'));
+                    return  Center(
+                        child: Text(AppStrings.errorloadingaccountdetails.getString(context)));
                   } else {
                     return const Center(child: ProfileShimmer());
                   }
