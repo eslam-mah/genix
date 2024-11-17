@@ -360,7 +360,7 @@ class _HomePageState extends State<HomePage> {
                                       refresh: () {
                                         _pagingController.refresh();
                                       },
-                                      pagingController: _pagingController,
+                                      pagingController: _pagingController, settingsModel: state.account,
                                     );
                                   } else {
                                     return PostShimmerEffect(

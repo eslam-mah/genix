@@ -94,13 +94,11 @@ class PostsRepository {
   }
 
   Future<Either<FailureModel, Map>> addPollPost(
-      {required Map<String, dynamic> data,
-      required num postId,
-      required num option}) async {
+      {required num postId, required num option}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.postData(
-          linkUrl: ApiEndPoints.addPollPost + '/$postId?option=$option',
-          data: data,
+          linkUrl: ApiEndPoints.addPollPost + '/$postId',
+          data: {'option': option},
           token: token);
     });
   }
