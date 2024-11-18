@@ -13,6 +13,8 @@ import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit
 import 'package:genix/features/home%20screen/view%20model/get%20newsfeed%20posts/get_newsfeed_posts_cubit.dart';
 import 'package:genix/features/lock%20screen/view%20model/get%20lock/get_lock_cubit.dart';
 import 'package:genix/features/login%20screen/view_model/log_in_cubit/log_in_cubit.dart';
+import 'package:genix/features/notifications%20screen/data/services/notification_services.dart';
+import 'package:genix/features/notifications%20screen/view%20model/pusher_bloc/pusher_bloc.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 
@@ -22,6 +24,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
   await CacheData.cacheInitialization();
+  NotificationService.initialize();
+
   Stripe.publishableKey = Constant.stripePublishableKey;
 
   SystemChrome.setPreferredOrientations([
@@ -51,6 +55,9 @@ class Genix extends StatelessWidget {
             BlocProvider(create: (context) => GetLockCubit()),
             BlocProvider(create: (context) => LogInCubit()),
             BlocProvider(create: (context) => GetNewsFeedPostsCubit()),
+            BlocProvider(
+              create: (context) => PusherBloc()..add(PusherConnect()),
+            ),
           ],
           child: BlocBuilder<ThemeCubit, ThemeState>(
             builder: (context, themeState) {
