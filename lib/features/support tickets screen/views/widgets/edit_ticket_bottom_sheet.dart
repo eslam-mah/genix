@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -14,6 +15,8 @@ import 'package:genix/features/support%20tickets%20screen/data/models/tickets_mo
 import 'package:genix/features/support%20tickets%20screen/view%20model/get%20all%20tickets/get_all_tickets_cubit.dart';
 import 'package:genix/features/support%20tickets%20screen/view%20model/update%20ticket/update_ticket_cubit.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> editTicketBottomSheet(BuildContext context,
     {required Function() refresh, required TicketItem ticket}) {
@@ -57,37 +60,34 @@ Future<dynamic> editTicketBottomSheet(BuildContext context,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Create a new support ticket',
+                      Text(AppStrings.createanewsupportticket.getString(context),
                         style: TextStyle(fontSize: 11.sp),
                       ),
-                      const Text(
-                        'New intervention',
-                        style: TextStyle(
+                       Text(
+                        AppStrings.newintervention.getString(context),
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 23),
                       ),
                       SizedBox(
                         height: 20.h,
                       ),
-                      Text('Intervention title',
+                      Text(AppStrings.interventiontitle.getString(context),
                           style: TextStyle(fontSize: 11.sp)),
                       Text(
-                          'Feed this intervention with a comprehensive content. please include as many details as you can, in all the possible forms to get a proper resolution.',
-                          style: TextStyle(fontSize: 11.sp)),
+                          AppStrings.completeinterventiontitle.getString(context), style: TextStyle(fontSize: 11.sp)),
                       SizedBox(
                         height: 10.h,
                       ),
                       CustomTextField2(
                           readOnly: false,
-                          hintText: 'Type here the title',
+                          hintText: AppStrings.typeherethetitle.getString(context),
                           controller: titleController,
                           icon: const Text('')),
                       SizedBox(
                         height: 20.h,
                       ),
-                      Text('Content', style: TextStyle(fontSize: 11.sp)),
-                      Text(
-                          'Feed this report with a comprehensive content. please include as many details as you can, in all the possible forms to get a proper resolution.',
+                      Text(AppStrings.content.getString(context), style: TextStyle(fontSize: 11.sp)),
+                      Text( AppStrings.completeinterventioncontent.getString(context),
                           style: TextStyle(fontSize: 11.sp)),
                       SizedBox(
                         height: 10.h,
@@ -105,7 +105,7 @@ Future<dynamic> editTicketBottomSheet(BuildContext context,
                               expands: true,
                               maxLines: null,
                               decoration: InputDecoration(
-                                hintText: ' Write something...',
+                                hintText:AppStrings.writesomething.getString(context),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.r),
                                     borderSide: const BorderSide(
@@ -131,7 +131,7 @@ Future<dynamic> editTicketBottomSheet(BuildContext context,
                       ),
                       CustomButton(
                           color: AppColors.kPrimaryColor,
-                          buttonText: 'Submit ticket',
+                          buttonText: AppStrings.submitticket.getString(context),
                           width: double.infinity,
                           height: 40.h,
                           borderRadius: 12.r,
@@ -150,7 +150,7 @@ Future<dynamic> editTicketBottomSheet(BuildContext context,
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'content must not be less than 10 characters',
+                                    AppStrings.contentmustnotbelessthentencharacters.getString(context),
                                     style: TextStyle(fontSize: 13.sp),
                                   ),
                                   backgroundColor:

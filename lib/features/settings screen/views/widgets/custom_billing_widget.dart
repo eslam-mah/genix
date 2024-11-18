@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class CustomBillingWidget extends StatelessWidget {
   const CustomBillingWidget({
@@ -47,7 +50,7 @@ class CustomBillingWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                '$amount Coins',
+                '$amount' '${AppStrings.coins.getString(context)}',
                 style: TextStyle(fontSize: 15.sp),
               ),
               Text(

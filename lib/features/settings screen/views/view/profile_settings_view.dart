@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:country_picker/country_picker.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,6 +20,12 @@ import 'package:genix/features/settings%20screen/data/models/settings_model.dart
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/settings%20screen/view%20model/update%20my%20account/update_my_account_cubit.dart';
 import 'package:genix/features/settings%20screen/views/widgets/custom_profile_image.dart';
+import 'package:genix/features/splash%20screen/splashscreen.dart';
+import 'package:genix/main.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class ProfileSettingsBody extends StatefulWidget {
   final SettingsModel setting;
@@ -52,7 +62,8 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
   @override
   void initState() {
     super.initState();
-
+    _loadSavedLanguage();
+    _initSharedPreferences();
     showNameController =
         TextEditingController(text: widget.setting.data?.showname);
     userNameController =
@@ -81,6 +92,89 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
     selectedCountry = widget.setting.data?.country ?? '';
   }
 
+  final FlutterLocalization localization = FlutterLocalization.instance;
+  late SharedPreferences prefs;
+
+  final List<Map<String, String>> languages = [
+    {'code': 'en', 'name': 'English'},
+    {'code': 'es', 'name': 'Español'},
+    {'code': 'de', 'name': 'Deutsch'},
+    {'code': 'fr', 'name': 'Français'},
+    {'code': 'it', 'name': 'Italiano'},
+    {'code': 'hu', 'name': 'Magyar'},
+    {'code': 'nl', 'name': 'Nederlands'},
+    {'code': 'pl', 'name': 'Polski'},
+    {'code': 'pt', 'name': 'Português'},
+    {'code': 'ro', 'name': 'Română'},
+    {'code': 'sl', 'name': 'Slovenščina'},
+    {'code': 'tr', 'name': 'Türkçe'},
+    {'code': 'cs', 'name': 'Čeština'},
+    {'code': 'uk', 'name': 'Українська'},
+  ];
+  final GoRouter _router = GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const SplashScreen(),
+      ),
+      // Add other routes here if needed
+    ],
+  );
+
+  String selectedLanguageCode = 'en';
+  bool isLanguageDropdownOpen = false;
+  void _onLanguageSelected(String newValue) async {
+    // Show Cupertino loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => CupertinoAlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CupertinoActivityIndicator(color: AppColors.kPrimaryColor,animating: true,),
+            SizedBox(height: 12.h),
+            Text(AppStrings.changinglanguage.getString(context)),
+          ],
+        ),
+      ),
+    );
+
+    await Future.delayed(const Duration(seconds: 3));
+    await _saveLanguagePreference(newValue);
+    FlutterLocalization.instance.translate(newValue);
+    Navigator.pop(context);
+    if (context.mounted) {
+      Navigator.pop(context);
+      Phoenix.rebirth(context); // This one line will restart the app
+    }
+    // Navigator.push(context, CupertinoPageRoute(builder: (_)
+    // => const SplashScreen()));
+  }
+
+  Future<void> _initSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedLanguageCode = prefs.getString('language_code') ?? 'en';
+    });
+  }
+
+  _loadSavedLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    String savedLanguageCode = prefs.getString('language_code') ?? 'en';
+    setState(() {
+      selectedLanguageCode = savedLanguageCode;
+    });
+    // Update localization based on saved language
+    FlutterLocalization.instance.translate(savedLanguageCode);
+  }
+
+  // Save selected language code to SharedPreferences
+  _saveLanguagePreference(String languageCode) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('language_code', languageCode);
+  }
+
   Future<void> _refreshData() async {
     // Call the cubit method to refresh account details
     await context.read<GetMyAccountDetailsCubit>().getMyAccountDetails();
@@ -99,7 +193,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Settings Saved',
+            AppStrings.settingssaved.getString(context),
             style: TextStyle(fontSize: 13.sp),
           ),
           backgroundColor: Theme.of(context).brightness == Brightness.dark
@@ -113,7 +207,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Failed to save settings',
+            AppStrings.failedtosavesettigns.getString(context),
             style: TextStyle(fontSize: 13.sp),
           ),
           backgroundColor: Colors.red,
@@ -139,15 +233,17 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
             SizedBox(
               height: 20.h,
             ),
-            const CustomHeaderWidget2(text: 'Profile'),
+            CustomHeaderWidget2(text: AppStrings.profilecap.getString(context)),
             SizedBox(
               height: 20.h,
             ),
-            Text('EDIT PROFILE',
+            Text(AppStrings.editprofilecap.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
-            Text('People on Genix will get to know you with the info below',
+            Text(
+                AppStrings.peopleongenixwillgettoknowbybelowinfo
+                    .getString(context),
                 style: TextStyle(
                   fontSize: 12.sp,
                 )),
@@ -171,7 +267,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                     editProfilePicBottomSheet(
                         context, Function(String) onImageSelected) {}
                   },
-                  child: Text('CHANGE',
+                  child: Text(AppStrings.changecap.getString(context),
                       style: TextStyle(
                           color: AppColors.kPrimaryColor2, fontSize: 12.sp)),
                 ),
@@ -180,7 +276,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
             SizedBox(
               height: 10.h,
             ),
-            Text('DISPLAY NAME',
+            Text(AppStrings.displaynamecap.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
@@ -189,13 +285,13 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
             ),
             CustomTextField2(
                 readOnly: false,
-                hintText: 'Showing name',
+                hintText: AppStrings.showingname.getString(context),
                 controller: showNameController,
                 icon: const SizedBox.shrink()),
             SizedBox(
               height: 10.h,
             ),
-            Text('USERNAME',
+            Text(AppStrings.usernamecap.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
@@ -222,7 +318,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
             SizedBox(
               height: 10.h,
             ),
-            Text('EMAIL ADDRESS',
+            Text(AppStrings.emailaddressecap.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
@@ -231,13 +327,13 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
             ),
             CustomTextField2(
                 readOnly: false,
-                hintText: 'Your email address',
+                hintText: AppStrings.youremailaddress.getString(context),
                 controller: emailAddressController,
                 icon: const SizedBox.shrink()),
             SizedBox(
               height: 10.h,
             ),
-            Text('GENDER',
+            Text(AppStrings.gendercap.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
@@ -261,7 +357,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                   SizedBox(
                     width: 8.w,
                   ),
-                  const Text('Male')
+                  Text(AppStrings.male.getString(context))
                 ],
               ),
             ),
@@ -285,14 +381,14 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                   SizedBox(
                     width: 8.w,
                   ),
-                  const Text('Female')
+                  Text(AppStrings.female.getString(context))
                 ],
               ),
             ),
             SizedBox(
               height: 10.h,
             ),
-            Text('Bio',
+            Text(AppStrings.bio.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
@@ -300,13 +396,13 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
               width: 8.w,
             ),
             BigTextField(
-              hintText: 'Tell us more about you',
+              hintText: AppStrings.tellusmoreaboutyou.getString(context),
               controller: bioController,
             ),
             SizedBox(
               height: 10.h,
             ),
-            Text('CITY',
+            Text(AppStrings.citycap.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
@@ -315,13 +411,61 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
             ),
             CustomTextField2(
                 readOnly: false,
-                hintText: 'Your city',
+                hintText: AppStrings.yourcity.getString(context),
                 controller: cityController,
                 icon: const SizedBox.shrink()),
             SizedBox(
               height: 10.h,
             ),
-            Text('COUNTRY',
+            /////languages
+
+            Text(AppStrings.languagecap.getString(context),
+                style: TextStyle(
+                  fontSize: 14.sp,
+                )),
+            SizedBox(
+              width: 8.w,
+            ),
+            Container(
+              height: 50.h,
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(13.r),
+                border: Border.all(
+                  color: isLanguageDropdownOpen
+                      ? Colors.blue
+                      : Colors.grey.withOpacity(0.4),
+                  width: 2,
+                ),
+              ),
+              child: DropdownButton<String>(
+                value: selectedLanguageCode,
+                isExpanded: true,
+                underline: Container(),
+                hint: Text(AppStrings.selectlanguage.getString(context)),
+                items: languages.map((language) {
+                  return DropdownMenuItem<String>(
+                    value: language['code'],
+                    child: Text(language['name']!),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    setState(() {
+                      selectedLanguageCode = newValue;
+                    });
+                    _onLanguageSelected(newValue);
+                  }
+                },
+              ),
+            ),
+
+            SizedBox(
+              height: 10.h,
+            ),
+            //////languages
+            Text(AppStrings.countrycap.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
@@ -374,7 +518,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
             SizedBox(
               height: 10.h,
             ),
-            Text('PAYPAL E-MAIL ADDRESS',
+            Text(AppStrings.paypalemailaddress.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
@@ -383,13 +527,14 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
             ),
             CustomTextField2(
                 readOnly: false,
-                hintText: 'Enter your PayPal e-mail address',
+                hintText:
+                    AppStrings.enteryourpaypalemailaddress.getString(context),
                 controller: payPalEmailController,
                 icon: const SizedBox.shrink()),
             SizedBox(
               height: 10.h,
             ),
-            Text('SOCIAL PROFILES',
+            Text(AppStrings.socialprofilelinks.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
@@ -408,7 +553,8 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                 Expanded(
                     child: CustomTextField2(
                         readOnly: false,
-                        hintText: 'Facebook profile link',
+                        hintText:
+                            AppStrings.facebookprofilelink.getString(context),
                         controller: facebookController,
                         icon: const SizedBox.shrink()))
               ],
@@ -428,7 +574,8 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                 Expanded(
                     child: CustomTextField2(
                         readOnly: false,
-                        hintText: 'Tiktok profile link',
+                        hintText:
+                            AppStrings.tiktokprofilelink.getString(context),
                         controller: tiktokController,
                         icon: const SizedBox.shrink()))
               ],
@@ -448,7 +595,8 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                 Expanded(
                     child: CustomTextField2(
                         readOnly: false,
-                        hintText: 'Instagram profile link',
+                        hintText:
+                            AppStrings.instagramprofilelink.getString(context),
                         controller: instagramController,
                         icon: const SizedBox.shrink()))
               ],
@@ -468,7 +616,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                 Expanded(
                     child: CustomTextField2(
                         readOnly: false,
-                        hintText: 'X profile link',
+                        hintText: AppStrings.xprofilelink.getString(context),
                         controller: xController,
                         icon: const SizedBox.shrink()))
               ],
@@ -488,7 +636,8 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                 Expanded(
                     child: CustomTextField2(
                         readOnly: false,
-                        hintText: 'Pinterest profile link',
+                        hintText:
+                            AppStrings.pinterestprofilelink.getString(context),
                         controller: pinterestController,
                         icon: const SizedBox.shrink()))
               ],
@@ -508,7 +657,8 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                 Expanded(
                     child: CustomTextField2(
                         readOnly: false,
-                        hintText: 'Steam profile link',
+                        hintText:
+                            AppStrings.steamprofilelink.getString(context),
                         controller: steamController,
                         icon: const SizedBox.shrink()))
               ],
@@ -528,7 +678,8 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                 Expanded(
                     child: CustomTextField2(
                         readOnly: false,
-                        hintText: 'Linkidin profile link',
+                        hintText:
+                            AppStrings.linkedInprofilelink.getString(context),
                         controller: linkedinController,
                         icon: const SizedBox.shrink()))
               ],
@@ -544,7 +695,7 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                   )
                 : CustomButton(
                     color: AppColors.kPrimaryColor2,
-                    buttonText: 'Save preferences',
+                    buttonText: AppStrings.savepreferences.getString(context),
                     width: 150.w,
                     height: 40.h,
                     borderRadius: 30.r,

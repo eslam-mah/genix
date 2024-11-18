@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class BalanceAndRevenueCard extends StatefulWidget {
   const BalanceAndRevenueCard({
@@ -40,7 +43,7 @@ class _BalanceAndRevenueCardState extends State<BalanceAndRevenueCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('CURRENT BALANCE',
+                      Text(AppStrings.currentbalancecap.getString(context),
                           style: TextStyle(fontSize: 13.sp)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -72,7 +75,7 @@ class _BalanceAndRevenueCardState extends State<BalanceAndRevenueCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('REVENUE FROM SHORTS',
+                      Text(AppStrings.revenuefromshortscap.getString(context),
                           style: TextStyle(fontSize: 15.sp)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -100,7 +103,7 @@ class _BalanceAndRevenueCardState extends State<BalanceAndRevenueCard> {
                                 borderRadius: BorderRadius.circular(5.r),
                                 color: Colors.grey),
                             child: Text(
-                              'WITHDRAW',
+                              AppStrings.withdrawcap.getString(context),
                               style: TextStyle(fontSize: 10.sp),
                               textAlign: TextAlign.center,
                             ),

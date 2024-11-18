@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -15,6 +16,8 @@ import 'package:genix/features/settings%20screen/view%20model/delete%20my%20acco
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/settings%20screen/view%20model/update%20my%20account/update_my_account_cubit.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class SecuritySettingsBody extends StatefulWidget {
   final SettingsModel setting;
@@ -73,7 +76,7 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Settings Saved',
+            AppStrings.settingssaved.getString(context),
             style: TextStyle(fontSize: 13.sp),
           ),
           backgroundColor: Theme.of(context).brightness == Brightness.dark
@@ -87,7 +90,7 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Failed to save settings',
+            AppStrings.failedtosavesettigns.getString(context),
             style: TextStyle(fontSize: 13.sp),
           ),
           backgroundColor: Colors.red,
@@ -113,22 +116,22 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
             SizedBox(
               height: 20.h,
             ),
-            const CustomHeaderWidget2(text: 'Security'),
+             CustomHeaderWidget2(text: AppStrings.security.getString(context)),
             SizedBox(
               height: 20.h,
             ),
-            Text('ACCOUNT PASSWORD',
+            Text(AppStrings.accountpasswordcap.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
-            Text('Change your password and alter other security options',
+            Text(AppStrings.changeyourpasswordandalterothersecurityoptions.getString(context),
                 style: TextStyle(
                   fontSize: 12.sp,
                 )),
             SizedBox(
               height: 20.h,
             ),
-            Text('CURRENT PASSWORD',
+            Text(AppStrings.currentpasswordcap.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
@@ -137,13 +140,13 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
             ),
             CustomTextField2(
                 readOnly: false,
-                hintText: 'Current password',
+                hintText:AppStrings.currentpassword.getString(context),
                 controller: currentPasswordController,
                 icon: const SizedBox.shrink()),
             SizedBox(
               height: 10.h,
             ),
-            Text('MIN 8 CHARACTERS',
+            Text(AppStrings.mineightcharacters.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
@@ -152,13 +155,13 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
             ),
             CustomTextField2(
                 readOnly: false,
-                hintText: 'New password',
+                hintText: AppStrings.newpassword.getString(context),
                 controller: newPasswordController,
                 icon: const SizedBox.shrink()),
             SizedBox(
               height: 10.h,
             ),
-            Text('REPEAT NEW PASSWORD',
+            Text(AppStrings.repeatnewpassword.getString(context),
                 style: TextStyle(
                   fontSize: 14.sp,
                 )),
@@ -167,7 +170,7 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
             ),
             CustomTextField2(
                 readOnly: false,
-                hintText: 'Confirm password',
+                hintText: AppStrings.confirmpassword.getString(context),
                 controller: TextEditingController(),
                 icon: const SizedBox.shrink()),
             SizedBox(
@@ -184,7 +187,7 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
                         )
                       : CustomButton(
                           color: AppColors.kPrimaryColor2,
-                          buttonText: 'Save preferences',
+                          buttonText:AppStrings.savepreferences.getString(context),
                           width: 150.w,
                           height: 40.h,
                           borderRadius: 30.r,
@@ -221,18 +224,18 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('TWO FACTOR AUTHENTICATION',
+                    Text(AppStrings.twofactorauthenticationcap.getString(context),
                         style: TextStyle(
                           fontSize: 14.sp,
                         )),
                     Row(
                       children: [
-                        Text('Enable',
+                        Text(AppStrings.enable.getString(context),
                             style: TextStyle(
                               fontSize: 12.sp,
                             )),
                         Text(
-                          ' Two factor authentication',
+                          AppStrings.twofactorauthentication.getString(context),
                           style: TextStyle(
                             color: AppColors.kPrimaryColor2,
                             fontSize: 12.sp,
@@ -248,7 +251,7 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
                 Expanded(
                   child: CustomButton(
                       color: AppColors.kPrimaryColor2,
-                      buttonText: 'ENABLE',
+                      buttonText: AppStrings.enablecap.getString(context),
                       width: 150.w,
                       height: 40.h,
                       borderRadius: 30.r,
@@ -264,11 +267,11 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('ACCOUNT CLOSURE',
+                    Text(AppStrings.accountclosure.getString(context),
                         style: TextStyle(
                           fontSize: 14.sp,
                         )),
-                    Text('Delete your account and data',
+                    Text(AppStrings.deleteyouraccountanddata.getString(context),
                         style: TextStyle(
                           fontSize: 12.sp,
                         )),
@@ -280,7 +283,7 @@ class _SecuritySettingsBodyState extends State<SecuritySettingsBody> {
                 Expanded(
                   child: CustomButton(
                       color: Colors.red,
-                      buttonText: 'DELETE',
+                      buttonText: AppStrings.deletecap.getString(context),
                       width: 150.w,
                       height: 40.h,
                       borderRadius: 30.r,
@@ -335,7 +338,7 @@ class _DeleteMyAccountDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Are you sure you want to delete your account?',
+                    AppStrings.areyousureyouwanttodeleteyouraccount.getString(context),
                     style: TextStyle(fontSize: 17.sp),
                   ),
                   Row(
@@ -343,7 +346,7 @@ class _DeleteMyAccountDialog extends StatelessWidget {
                     children: [
                       CustomButton(
                           color: AppColors.kPrimaryColor,
-                          buttonText: 'Yes',
+                          buttonText: AppStrings.yes.getString(context),
                           height: 30.h,
                           borderRadius: 30.r,
                           width: 80.w,
@@ -359,7 +362,7 @@ class _DeleteMyAccountDialog extends StatelessWidget {
                           }),
                       CustomButton(
                           color: Colors.red,
-                          buttonText: 'no',
+                          buttonText: AppStrings.no.getString(context),
                           height: 30.h,
                           borderRadius: 30.r,
                           width: 80.w,

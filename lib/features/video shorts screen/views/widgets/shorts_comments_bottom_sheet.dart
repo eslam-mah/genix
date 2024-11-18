@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/features/video%20shorts%20screen/views/widgets/shorts_comments_list.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> shortsCommentBottomSheet(
     BuildContext context, StateSetter setState) {
@@ -41,7 +44,7 @@ Future<dynamic> shortsCommentBottomSheet(
                           Row(
                             children: [
                               Text(
-                                'Comments',
+                                AppStrings.comments.getString(context),
                                 style: TextStyle(fontSize: 19.sp),
                               ),
                               SizedBox(
@@ -81,7 +84,7 @@ Future<dynamic> shortsCommentBottomSheet(
                                   style: BorderStyle.solid,
                                   color: AppColors.kPrimaryColor2,
                                 )),
-                            hintText: 'Reply to Name post',
+                            hintText: AppStrings.replytonamepost.getString(context),
                             border: OutlineInputBorder(
                               borderSide: BorderSide(),
                               gapPadding: 0,

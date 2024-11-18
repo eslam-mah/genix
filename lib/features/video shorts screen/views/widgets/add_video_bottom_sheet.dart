@@ -2,6 +2,7 @@ import 'dart:io'; // Import dart:io for File handling
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -9,6 +10,8 @@ import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customtextfield2.dart';
 import 'package:genix/features/video%20shorts%20screen/view%20model/cubit/add_short_cubit.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> addVideoBottomSheet(BuildContext context) {
   // Variable to store the picked file
@@ -44,7 +47,7 @@ Future<dynamic> addVideoBottomSheet(BuildContext context) {
                                 ),
                                 SizedBox(height: 20.h),
                                 Text(
-                                  'First of all, select a video',
+                                  AppStrings.firstofallselectvideo.getString(context),
                                   style: TextStyle(
                                     fontSize: 15.sp,
                                     fontWeight: FontWeight.w500,
@@ -53,7 +56,7 @@ Future<dynamic> addVideoBottomSheet(BuildContext context) {
                                 SizedBox(height: 20.h),
                                 CustomButton(
                                   color: AppColors.kPrimaryColor2,
-                                  buttonText: 'Browse on device',
+                                  buttonText: AppStrings.browseondevice.getString(context),
                                   width: 160.w,
                                   height: 40.h,
                                   borderRadius: 7.r,
@@ -84,7 +87,7 @@ Future<dynamic> addVideoBottomSheet(BuildContext context) {
                                 ),
                                 SizedBox(height: 10.h),
                                 Text(
-                                  'Video selected!',
+                                  AppStrings.videoselected.getString(context),
                                   style: TextStyle(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600,
@@ -107,7 +110,7 @@ Future<dynamic> addVideoBottomSheet(BuildContext context) {
                         padding: EdgeInsets.symmetric(horizontal: 13.w),
                         child: CustomTextField2(
                           readOnly: false,
-                          hintText: 'short description, #tags',
+                          hintText:   AppStrings.shortdescriprtiontags.getString(context),
                           controller: contentController,
                           icon: const SizedBox.shrink(),
                         ),
@@ -117,7 +120,7 @@ Future<dynamic> addVideoBottomSheet(BuildContext context) {
                         padding: EdgeInsets.symmetric(horizontal: 13.w),
                         child: CustomButton(
                           color: AppColors.kPrimaryColor,
-                          buttonText: '↑ Post short',
+                          buttonText: AppStrings.postshort.getString(context),
                           width: double.infinity,
                           height: 37.h,
                           borderRadius: 10.r,
@@ -132,9 +135,9 @@ Future<dynamic> addVideoBottomSheet(BuildContext context) {
                               GoRouter.of(context).pop();
 
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
+                                 SnackBar(
                                     content:
-                                        Text("Please select a video file.")),
+                                        Text(AppStrings.pleaseselectavideofile.getString(context))),
                               );
                             }
                           },

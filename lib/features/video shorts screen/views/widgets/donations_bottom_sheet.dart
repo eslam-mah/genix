@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/images.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> donationBottomSheet(BuildContext context) {
   return showModalBottomSheet(
@@ -28,7 +31,7 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                         Row(
                           children: [
                             Text(
-                              'Donations',
+                              AppStrings.donations.getString(context),
                               style: TextStyle(
                                   fontSize: 19.sp, fontWeight: FontWeight.bold),
                             ),
@@ -36,7 +39,7 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                               width: 20.w,
                             ),
                             Text(
-                              'Help the short creator.',
+                              AppStrings.helptheshortcreator.getString(context),
                               style: TextStyle(
                                 fontSize: 13.sp,
                               ),
@@ -133,7 +136,7 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                                                         SizedBox(
                                                           width: 10.w,
                                                         ),
-                                                        const Text('Donate')
+                                                         Text(AppStrings.donate.getString(context))
                                                       ],
                                                     ),
                                                   ),
@@ -152,8 +155,8 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                                                         SizedBox(
                                                           width: 10.w,
                                                         ),
-                                                        const Text(
-                                                            'Top donations')
+                                                         Text(
+                                                            AppStrings.topdonations.getString(context))
                                                       ],
                                                     ),
                                                   ),
@@ -184,7 +187,7 @@ Future<dynamic> donationBottomSheet(BuildContext context) {
                                         width: 5.w,
                                       ),
                                       Text(
-                                        'Donate',
+                                        AppStrings.donate.getString(context),
                                         style: TextStyle(fontSize: 13.sp),
                                       )
                                     ],

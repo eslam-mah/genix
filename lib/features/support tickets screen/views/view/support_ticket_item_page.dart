@@ -454,7 +454,7 @@ class _CloseTicketButtonState extends State<_CloseTicketButton> {
           return isClosed
               ? CustomButton(
                   color: AppColors.kPrimaryColor,
-                  buttonText: 'Reopen Ticket',
+                  buttonText: AppStrings.reopenticket.getString(context),
                   width: 100.w,
                   height: 27.h,
                   borderRadius: 10.r,
@@ -466,7 +466,7 @@ class _CloseTicketButtonState extends State<_CloseTicketButton> {
                   })
               : CustomButton(
                   color: AppColors.kPrimaryColor,
-                  buttonText: 'Close Ticket',
+                  buttonText: AppStrings.closeticket.getString(context),
                   width: 100.w,
                   height: 27.h,
                   borderRadius: 10.r,

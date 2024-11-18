@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/cubit/handler_cubit/handler_cubit.dart';
+import 'package:genix/core/localization/all_app_strings.dart';
 import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/pref_keys.dart';
@@ -109,13 +111,12 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                       SizedBox(
                         height: 20.h,
                       ),
-                      const CustomHeaderWidget2(text: 'Billing area'),
+                       CustomHeaderWidget2(text: AppStrings.billingarea.getString(context)),
                       SizedBox(
                         height: 20.h,
                       ),
-                      Text('BILLING AREA', style: TextStyle(fontSize: 13.sp)),
-                      Text(
-                          'Browse transactions and add more coins to your account',
+                      Text(AppStrings.billingareacap.getString(context), style: TextStyle(fontSize: 13.sp)),
+                      Text(AppStrings.browsetransactionsandaddmorecoinstoyouraccount.getString(context),
                           style: TextStyle(fontSize: 10.sp)),
                       SizedBox(
                         height: 10.h,
@@ -124,8 +125,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                       SizedBox(
                         height: 10.h,
                       ),
-                      Text(
-                        'TOP UP',
+                      Text(AppStrings.topup.getString(context),
                         style: TextStyle(
                             fontSize: 20.sp, fontWeight: FontWeight.bold),
                       ),
@@ -283,7 +283,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                       ),
                       CustomButton(
                           color: AppColors.kPrimaryColor2,
-                          buttonText: 'Go to payment',
+                          buttonText:AppStrings.gotopayment.getString(context),
                           width: double.infinity,
                           height: 35.h,
                           borderRadius: 10.r,
@@ -306,14 +306,13 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
 
                                 // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          'Payment completed successfully!')),
+                                   SnackBar(
+                                      content: Text(AppStrings.paymentcompletedsuccessfully.getString(context))),
                                 );
                               } catch (e) {
                                 // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Payment failed: ')),
+                                  SnackBar(content: Text(AppStrings.paymentfailed.getString(context))),
                                 );
                               }
                             }
@@ -334,8 +333,8 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                               print(selectedAmount);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Please select an amount')),
+                                 SnackBar(
+                                    content: Text(AppStrings.pleaseselectanamount.getString(context))),
                               );
                               setState(() {
                                 isLoading = false;
@@ -379,7 +378,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                             width: 10.w,
                           ),
                           Text(
-                            'SHOW LATEST TRANSACTIONS',
+                            AppStrings.showlatesttransactionscap.getString(context),
                             style: TextStyle(
                               fontSize: 16.sp, // Adjust size as needed
                             ),
@@ -396,14 +395,14 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'TRANSACTIONS',
+                          AppStrings.transactionscap.getString(context),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20.sp,
                           ),
                         ),
                         Text(
-                          'Track and view inbound or outbound transactions and get ready for your next achievements.',
+                          AppStrings.transactionnote.getString(context),
                           style: TextStyle(fontSize: 12.sp),
                         ),
                         SizedBox(height: 10.h),
@@ -420,14 +419,14 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                                     child: Column(
                                       children: [
                                         Text(
-                                          'Search Transaction by',
+                                          AppStrings.searchtransactionsby.getString(context),
                                           style: TextStyle(fontSize: 20.sp),
                                         ),
                                         Divider(
                                             color:
                                                 Colors.black.withOpacity(0.1)),
                                         ListTile(
-                                          title: const Text('all transactions'),
+                                          title:  Text(AppStrings.alltransactions.getString(context)),
                                           trailing: _buildRadioCircle(1),
                                           onTap: () {
                                             updateTransactionType(
@@ -437,7 +436,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                                         ),
                                         ListTile(
                                           title:
-                                              const Text('transactions name'),
+                                               Text(AppStrings.transactionname.getString(context)),
                                           trailing: _buildRadioCircle(2),
                                           onTap: () {
                                             updateTransactionType(
@@ -446,7 +445,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                                           },
                                         ),
                                         ListTile(
-                                          title: const Text('transactions id'),
+                                          title:  Text(AppStrings.transactionid.getString(context)),
                                           trailing: _buildRadioCircle(3),
                                           onTap: () {
                                             updateTransactionType(
@@ -466,7 +465,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
                         SizedBox(height: 10.h),
                         CustomButton(
                           color: AppColors.kPrimaryColor2,
-                          buttonText: 'Search transactions',
+                          buttonText: AppStrings.searchtransactions.getString(context),
                           width: double.infinity,
                           height: 37.h,
                           borderRadius: 10.r,
@@ -548,7 +547,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
         Expanded(
           child: CustomTextField2(
             readOnly: false,
-            hintText: 'Query to be executed',
+            hintText: AppStrings.querytobeexecuted.getString(context),
             controller: queryController,
             icon: const SizedBox.shrink(),
           ),
@@ -569,7 +568,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
       await Stripe.instance.presentPaymentSheet();
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Payment completed successfully!')),
+         SnackBar(content: Text(AppStrings.paymentcompletedsuccessfully.getString(context))),
       );
       // ignore: use_build_context_synchronously
       context.read<FirstLoadCubit>().firstLoad();
@@ -577,7 +576,7 @@ class _BillingAreaSettingsState extends State<BillingAreaSettings> {
       print(e);
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Payment failed: $e')),
+        SnackBar(content: Text('${AppStrings.paymentfailed.getString(context)}:' '$e')),
       );
     }
   }

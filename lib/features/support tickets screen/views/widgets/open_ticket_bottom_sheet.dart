@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -11,6 +12,8 @@ import 'package:genix/features/support%20tickets%20screen/data/models/ticket_for
 import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
 import 'package:genix/features/support%20tickets%20screen/view%20model/post%20ticket/post_ticket_cubit.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> openTicketBottomSheet(
   BuildContext context, {
@@ -42,37 +45,36 @@ Future<dynamic> openTicketBottomSheet(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Create a new support ticket',
+                      Text(AppStrings.createanewsupportticket.getString(context),
                         style: TextStyle(fontSize: 11.sp),
                       ),
-                      const Text(
-                        'New intervention',
+                       Text(
+                        AppStrings.newintervention.getString(context),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 23),
                       ),
                       SizedBox(
                         height: 20.h,
                       ),
-                      Text('Intervention title',
+                      Text(AppStrings.interventiontitle.getString(context),
                           style: TextStyle(fontSize: 11.sp)),
                       Text(
-                          'Feed this intervention with a comprehensive content. please include as many details as you can, in all the possible forms to get a proper resolution.',
+                          AppStrings.completeinterventioncontent.getString(context),
                           style: TextStyle(fontSize: 11.sp)),
                       SizedBox(
                         height: 10.h,
                       ),
                       CustomTextField2(
                           readOnly: false,
-                          hintText: 'Type here the title',
+                          hintText: AppStrings.typeherethetitle.getString(context),
                           controller: titleController,
                           icon: const Text('')),
                       SizedBox(
                         height: 20.h,
                       ),
-                      Text('Content', style: TextStyle(fontSize: 11.sp)),
+                      Text(AppStrings.content.getString(context), style: TextStyle(fontSize: 11.sp)),
                       Text(
-                          'Feed this report with a comprehensive content. please include as many details as you can, in all the possible forms to get a proper resolution.',
+                          AppStrings.interventiontitle.getString(context),
                           style: TextStyle(fontSize: 11.sp)),
                       SizedBox(
                         height: 10.h,
@@ -90,7 +92,7 @@ Future<dynamic> openTicketBottomSheet(
                               expands: true,
                               maxLines: null,
                               decoration: InputDecoration(
-                                hintText: ' Write something...',
+                                hintText: AppStrings.writesomething.getString(context),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.r),
                                     borderSide: const BorderSide(
@@ -116,7 +118,7 @@ Future<dynamic> openTicketBottomSheet(
                       ),
                       CustomButton(
                           color: AppColors.kPrimaryColor,
-                          buttonText: 'Submit ticket',
+                          buttonText:AppStrings.submitticket.getString(context),
                           width: double.infinity,
                           height: 40.h,
                           borderRadius: 12.r,
@@ -134,7 +136,7 @@ Future<dynamic> openTicketBottomSheet(
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'content must not be less than 10 characters',
+                                    AppStrings.contentmustnotbelessthentencharacters.getString(context),
                                     style: TextStyle(fontSize: 13.sp),
                                   ),
                                   backgroundColor:
@@ -149,7 +151,7 @@ Future<dynamic> openTicketBottomSheet(
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'There is an open intervention, please close it first',
+                                    AppStrings.thereisopeninterventionticketcloseitfirst.getString(context),
                                     style: TextStyle(fontSize: 13.sp),
                                   ),
                                   backgroundColor:
