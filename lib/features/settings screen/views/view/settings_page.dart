@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,6 +25,8 @@ import 'package:genix/features/settings%20screen/views/view/general_settings_vie
 import 'package:genix/features/settings%20screen/views/view/profile_settings_view.dart';
 import 'package:genix/features/settings%20screen/views/view/security_setting_view.dart';
 import 'package:genix/features/settings%20screen/views/widgets/settings_shimmer.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.initialIndex});
@@ -110,19 +113,19 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Scaffold(
                   body: Column(
                     children: [
-                      const CustomHeaderWidget(text: 'Settings'),
-                      const TabBar(
+                       CustomHeaderWidget(text: AppStrings.settingscap.getString(context)),
+                       TabBar(
                         labelColor: Colors.green,
                         tabAlignment: TabAlignment.start,
                         isScrollable: true,
                         tabs: [
                           Tab(
-                            text: 'General',
+                            text: AppStrings.general.getString(context),
                           ),
-                          Tab(text: 'Profile'),
-                          Tab(text: 'Security'),
-                          Tab(text: 'Emails'),
-                          Tab(text: 'Billing'),
+                          Tab(text: AppStrings.profile.getString(context)),
+                          Tab(text: AppStrings.security.getString(context)),
+                          Tab(text: AppStrings.emails.getString(context)),
+                          Tab(text: AppStrings.billings.getString(context)),
                         ],
                         indicatorColor: Colors.green,
                       ),

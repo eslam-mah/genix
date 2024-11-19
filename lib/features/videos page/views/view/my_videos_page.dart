@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,6 +8,7 @@ import 'package:genix/core/default_status_indicators/first_page_error_indicator.
 import 'package:genix/core/default_status_indicators/first_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/new_page_progress_indicator.dart';
 import 'package:genix/core/default_status_indicators/no_items_found_indicator.dart';
+import 'package:genix/core/localization/all_app_strings.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customappbar.dart';
 
@@ -168,15 +170,15 @@ class _MyVideosPageState extends State<MyVideosPage> {
                       _getVideosList(id);
                       return CustomScrollView(
                         slivers: [
-                          const SliverToBoxAdapter(
-                            child: CustomHeaderWidget(text: 'videos'),
+                           SliverToBoxAdapter(
+                            child: CustomHeaderWidget(text: AppStrings.video.getString(context)),
                           ),
                           SliverToBoxAdapter(
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   vertical: 15.h, horizontal: 15.w),
-                              child: const CustomHeaderWidget2(
-                                  text: 'Recent videos'),
+                              child:  CustomHeaderWidget2(
+                                  text: AppStrings.recentvideos.getString(context)),
                             ),
                           ),
                           _videosPaginationList()
@@ -191,7 +193,7 @@ class _MyVideosPageState extends State<MyVideosPage> {
                     } else {
                       return Center(
                         child: Text(
-                          'error loading page',
+                          AppStrings.errorloadingpage.getString(context),
                           style: TextStyle(fontSize: 24.sp),
                         ),
                       );

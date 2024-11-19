@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
+import 'package:genix/core/localization/all_app_strings.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
@@ -60,8 +63,7 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
       // After successful request:
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            'Settings Saved',
+          content: Text(AppStrings.settingssaved.getString(context),
             style: TextStyle(fontSize: 13.sp),
           ),
           backgroundColor: Theme.of(context).brightness == Brightness.dark
@@ -75,7 +77,7 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Failed to save settings',
+            AppStrings.failedtosavesettigns.getString(context),
             style: TextStyle(fontSize: 13.sp),
           ),
           backgroundColor: Colors.red,
@@ -103,7 +105,7 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20.h),
-              const CustomHeaderWidget2(text: 'General'),
+               CustomHeaderWidget2(text: AppStrings.general.getString(context)),
               SizedBox(height: 10.h),
 
               // Follow Me Switch
@@ -114,11 +116,10 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'ENABLE FOLLOW ME',
+                        AppStrings.enablefollowmecap.getString(context),
                         style: TextStyle(fontSize: 14.sp),
                       ),
-                      Text(
-                        'Enable this if you want people to follow you.',
+                      Text(AppStrings.enablethisifyouwantpeopletofollowyou.getString(context),
                         style: TextStyle(fontSize: 12.sp),
                       ),
                     ],
@@ -146,15 +147,15 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'SEND ME NOTIFICATIONS',
+                        AppStrings.sendmenotificationscap.getString(context),
                         style: TextStyle(fontSize: 14.sp),
                       ),
                       Text(
-                        'Send me notifications about my friends, like,',
+                        AppStrings.sendmenotificationaboutmyfriendlike.getString(context),
                         style: TextStyle(fontSize: 12.sp),
                       ),
                       Text(
-                        'share or message me.',
+                        AppStrings.shareormessageme.getString(context),
                         style: TextStyle(fontSize: 12.sp),
                       ),
                     ],
@@ -182,11 +183,11 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'SEARCH PRIVACY',
+                        AppStrings.searchprivacycap.getString(context),
                         style: TextStyle(fontSize: 14.sp),
                       ),
                       Text(
-                        'Hide your profile from search engine.',
+                        AppStrings.hideyourprofilefromsearchengine.getString(context),
                         style: TextStyle(fontSize: 12.sp),
                       ),
                     ],
@@ -211,7 +212,7 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'HIDE GENDER',
+                        AppStrings.hidegendercap.getString(context),
                         style: TextStyle(fontSize: 14.sp),
                       ),
                     ],
@@ -236,7 +237,7 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'HIDE AGE',
+                        AppStrings.hideagecap.getString(context),
                         style: TextStyle(fontSize: 14.sp),
                       ),
                     ],
@@ -261,7 +262,7 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'HIDE LOCATION',
+                        AppStrings.hidelocationcap.getString(context),
                         style: TextStyle(fontSize: 14.sp),
                       ),
                     ],
@@ -288,7 +289,7 @@ class _GeneralSettingsBodyState extends State<GeneralSettingsBody> {
                     )
                   : CustomButton(
                       color: AppColors.kPrimaryColor2,
-                      buttonText: 'Save preferences',
+                      buttonText: AppStrings.savepreferences.getString(context),
                       width: 150.w,
                       height: 40.h,
                       borderRadius: 30.r,

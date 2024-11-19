@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -8,6 +9,8 @@ import 'package:genix/core/widgets/customheaderwidget2.dart';
 import 'package:genix/features/settings%20screen/data/models/settings_model.dart';
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/settings%20screen/view%20model/update%20my%20emails/update_my_emails_cubit.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class EmailsSettingBody extends StatefulWidget {
   final SettingsModel setting;
@@ -54,7 +57,7 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Settings Saved',
+            AppStrings.settingssaved.getString(context),
             style: TextStyle(fontSize: 13.sp),
           ),
           backgroundColor: Theme.of(context).brightness == Brightness.dark
@@ -68,7 +71,7 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Failed to save settings',
+            AppStrings.failedtosavesettigns.getString(context),
             style: TextStyle(fontSize: 13.sp),
           ),
           backgroundColor: Colors.red,
@@ -93,14 +96,14 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 20.h),
-            const CustomHeaderWidget2(text: 'Emails preferences'),
+             CustomHeaderWidget2(text: AppStrings.emailpreferences.getString(context)),
             SizedBox(height: 20.h),
             Text(
-              'EMAIL NOTIFICATIONS',
+              AppStrings.emailnotificationscap.getString(context),
               style: TextStyle(fontSize: 14.sp),
             ),
-            Text(
-              'Select push and email notifications you\'d like to receive',
+            Text(AppStrings.selectpushandemailnotificationyouliketorecieve.getString(context)
+             ,
               style: TextStyle(fontSize: 12.sp),
             ),
             SizedBox(height: 10.h),
@@ -121,8 +124,8 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
                         : Colors.grey.withOpacity(0.4),
                   ),
                   SizedBox(width: 8.w),
-                  Text(
-                    'Send me emails about my entire activity',
+                  Text(AppStrings.sendmeemailsaboutmyentireactivity.getString(context)
+                    ,
                     style: TextStyle(fontSize: 15.sp),
                   )
                 ],
@@ -147,8 +150,8 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
                         : Colors.grey.withOpacity(0.4),
                   ),
                   SizedBox(width: 8.w),
-                  Text(
-                    'Only send me required emails',
+                  Text(AppStrings.onlysendmerequiredemails.getString(context)
+                    ,
                     style: TextStyle(fontSize: 15.sp),
                   )
                 ],
@@ -157,8 +160,8 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
 
             SizedBox(height: 10.h),
 
-            Text(
-              'Note: You will always get notifications for individual account changes.',
+            Text(AppStrings.noteYouwillalwaysgetnotificationsforindividualaccountchanges.getString(context)
+             ,
               style: TextStyle(fontSize: 10.sp),
             ),
             SizedBox(height: 10.h),
@@ -175,7 +178,7 @@ class _EmailsSettingBodyState extends State<EmailsSettingBody> {
                         )
                       : CustomButton(
                           color: AppColors.kPrimaryColor2,
-                          buttonText: 'Save preferences',
+                          buttonText: AppStrings.savepreferences.getString(context),
                           width: 150.w,
                           height: 40.h,
                           borderRadius: 30.r,

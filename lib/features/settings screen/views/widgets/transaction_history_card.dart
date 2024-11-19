@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/settings%20screen/data/models/transactions_model.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class TransactionHistoryCard extends StatelessWidget {
   final bool isNightMode;
@@ -59,7 +62,7 @@ class TransactionHistoryCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'STATU',
+                AppStrings.status.getString(context),
                 style: TextStyle(fontSize: 12.sp),
               ),
               Text(
