@@ -233,7 +233,8 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(fontSize: 11.sp))),
                       SizedBox(width: 9.w),
-                      Text( AppStrings.comments.getString(context), style: TextStyle(fontSize: 11.sp)),
+                      Text(AppStrings.comments.getString(context),
+                          style: TextStyle(fontSize: 11.sp)),
                       SizedBox(width: 9.w),
                       Icon(FontAwesomeIcons.share, size: 11.sp),
                       SizedBox(width: 9.w),
@@ -243,7 +244,8 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(fontSize: 11.sp))),
                       SizedBox(width: 9.w),
-                      Text( AppStrings.shares.getString(context), style: TextStyle(fontSize: 11.sp)),
+                      Text(AppStrings.shares.getString(context),
+                          style: TextStyle(fontSize: 11.sp)),
                     ],
                   ),
                   SizedBox(height: 20.h),
@@ -280,7 +282,7 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                       CustomPostComponents(
                         icon: FontAwesomeIcons.solidComment,
                         width: 90.w,
-                        text:  AppStrings.comment.getString(context),
+                        text: AppStrings.comment.getString(context),
                         isNightMode: widget.isNightModeEnabled,
                         onTap: () {
                           GoRouter.of(context).push(CommentsBody.routeName,
@@ -290,10 +292,10 @@ class _LinkPostItemProfileState extends State<LinkPostItemProfile> {
                       CustomPostComponents(
                         icon: FontAwesomeIcons.share,
                         width: 90.w,
-                        text:  AppStrings.share.getString(context),
+                        text: AppStrings.share.getString(context),
                         isNightMode: widget.isNightModeEnabled,
                         onTap: () {
-                          shareBottomSheet(context);
+                          // shareBottomSheet(context);
                         },
                       ),
                     ],
