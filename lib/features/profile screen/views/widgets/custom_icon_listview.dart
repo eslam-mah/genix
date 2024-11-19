@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/features/followers%20list%20page/views/view/my_followers_page.dart';
 import 'package:genix/features/followings%20list%20page/views/view/followings_page.dart';
 import 'package:genix/features/profile%20screen/views/widgets/custom_icon_profile_button.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class CustomIconButtonListView extends StatelessWidget {
   const CustomIconButtonListView({
@@ -20,52 +23,52 @@ class CustomIconButtonListView extends StatelessWidget {
         children: [
           CustomIconProfileButton(
             icon: FontAwesomeIcons.solidUser,
-            text: 'About',
+            text:  AppStrings.about.getString(context),
             onTap: () {},
           ),
           CustomIconProfileButton(
             icon: FontAwesomeIcons.keyboard,
-            text: 'Timeline',
+            text:  AppStrings.timeline.getString(context),
             onTap: () {},
           ),
           CustomIconProfileButton(
             icon: FontAwesomeIcons.users,
-            text: 'Followers',
+            text:  AppStrings.followers.getString(context),
             onTap: () {},
           ),
           CustomIconProfileButton(
             icon: FontAwesomeIcons.userPlus,
-            text: 'Following',
+            text:  AppStrings.followings.getString(context),
             onTap: () {},
           ),
           CustomIconProfileButton(
             icon: FontAwesomeIcons.userSlash,
-            text: 'Blocked',
+            text:  AppStrings.blocked.getString(context),
             onTap: () {},
           ),
           CustomIconProfileButton(
             icon: FontAwesomeIcons.prescription,
-            text: 'Restricted',
+            text:  AppStrings.restricted.getString(context),
             onTap: () {},
           ),
           CustomIconProfileButton(
             icon: FontAwesomeIcons.image,
-            text: 'Photos',
+            text:  AppStrings.photos.getString(context),
             onTap: () {},
           ),
           CustomIconProfileButton(
             icon: FontAwesomeIcons.video,
-            text: 'Video',
+            text:  AppStrings.video.getString(context),
             onTap: () {},
           ),
           CustomIconProfileButton(
             icon: FontAwesomeIcons.solidCirclePlay,
-            text: 'Shorts',
+            text:  AppStrings.short.getString(context),
             onTap: () {},
           ),
           CustomIconProfileButton(
             icon: FontAwesomeIcons.solidBookmark,
-            text: 'Saved',
+            text:  AppStrings.saved.getString(context),
             onTap: () {},
           ),
         ],

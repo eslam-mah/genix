@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,6 +30,8 @@ import 'package:genix/features/pages%20screen/views/widgets/edit_page_profile_bo
 import 'package:genix/features/pages%20screen/views/widgets/follow_page_button.dart';
 import 'package:genix/features/pages%20screen/views/widgets/show_page_tab_bar.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class PagesScreen extends StatefulWidget {
   static const String route = "/pages_screen";
@@ -409,7 +412,7 @@ class _PagesScreenState extends State<PagesScreen> {
                                 children: [
                                   _DetailsRow(
                                     icon: FontAwesomeIcons.users,
-                                    title: 'MEMBERS',
+                                    title: '${AppStrings.members.getString(context)}',
                                     isGreen: true,
                                     isInvite: false,
                                     detail:
@@ -417,7 +420,7 @@ class _PagesScreenState extends State<PagesScreen> {
                                   ),
                                   _DetailsRow(
                                     icon: FontAwesomeIcons.userTie,
-                                    title: 'CREATOR',
+                                    title: '${AppStrings.creators.getString(context)}',
                                     isGreen: true,
                                     isInvite: false,
                                     detail: state.page.data?.page?.creatorUser
@@ -426,7 +429,7 @@ class _PagesScreenState extends State<PagesScreen> {
                                   ),
                                   _DetailsRow(
                                     icon: FontAwesomeIcons.solidSun,
-                                    title: 'CATEGORY',
+                                    title: '${AppStrings.category.getString(context)}',
                                     isGreen: false,
                                     isInvite: false,
                                     detail:
@@ -434,25 +437,25 @@ class _PagesScreenState extends State<PagesScreen> {
                                   ),
                                   _DetailsRow(
                                     icon: FontAwesomeIcons.earthEurope,
-                                    title: 'page',
+                                    title: '${AppStrings.page.getString(context)}',
                                     isGreen: false,
                                     isInvite: false,
                                     detail:
                                         state.page.data?.page?.isPrivate == true
-                                            ? 'private'
-                                            : 'public',
+                                            ? '${AppStrings.private.getString(context)}'
+                                            : '${AppStrings.public.getString(context)}',
                                   ),
                                   _DetailsRow(
                                     icon: FontAwesomeIcons.link,
-                                    title: 'WEBSITE',
+                                    title: '${AppStrings.website.getString(context)}',
                                     isGreen: true,
                                     isInvite: false,
                                     detail:
                                         state.page.data?.page?.website ?? '',
                                   ),
-                                  const _DetailsRow(
+                                   _DetailsRow(
                                     icon: FontAwesomeIcons.userPlus,
-                                    title: 'INVITE',
+                                    title: '${AppStrings.invite.getString(context)}',
                                     isGreen: false,
                                     isInvite: true,
                                     detail: '',
@@ -465,7 +468,7 @@ class _PagesScreenState extends State<PagesScreen> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       CustomButton(
-                                        buttonText: 'ABOUT',
+                                        buttonText: '${AppStrings.about.getString(context)}',
                                         height: 30.h,
                                         borderRadius: 20.r,
                                         onTap: () {},
@@ -473,7 +476,7 @@ class _PagesScreenState extends State<PagesScreen> {
                                         color: AppColors.kPrimaryColor,
                                       ),
                                       CustomButton(
-                                        buttonText: 'PHOTOS',
+                                        buttonText: '${AppStrings.photos.getString(context)}',
                                         height: 30.h,
                                         borderRadius: 20.r,
                                         onTap: () {},
@@ -481,7 +484,7 @@ class _PagesScreenState extends State<PagesScreen> {
                                         color: AppColors.kPrimaryColor,
                                       ),
                                       CustomButton(
-                                        buttonText: 'EVENTS',
+                                        buttonText: '${AppStrings.events.getString(context)}',
                                         height: 30.h,
                                         borderRadius: 20.r,
                                         onTap: () {},
@@ -494,7 +497,7 @@ class _PagesScreenState extends State<PagesScreen> {
                                     height: 30.h,
                                   ),
                                   CustomButton(
-                                    buttonText: 'CREATE NEW POST',
+                                    buttonText: '${AppStrings.createpost.getString(context)}',
                                     height: 40.h,
                                     borderRadius: 5.r,
                                     onTap: () {
@@ -526,7 +529,7 @@ class _PagesScreenState extends State<PagesScreen> {
                       );
                     } else if (state is GetPageByIdError) {
                       return Text(
-                        'Error Loading Page',
+                        '${AppStrings.errorloadingpage.getString(context)}',
                         style: TextStyle(fontSize: 25.sp),
                       );
                     } else {

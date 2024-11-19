@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
@@ -28,6 +29,8 @@ import 'package:genix/features/support%20tickets%20screen/views/widgets/custom_t
 import 'package:genix/features/support%20tickets%20screen/views/widgets/open_ticket_bottom_sheet.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class SupportTicketsPage extends StatefulWidget {
   const SupportTicketsPage({
@@ -203,8 +206,8 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                       return CustomScrollView(
                         physics: const AlwaysScrollableScrollPhysics(),
                         slivers: [
-                          const SliverToBoxAdapter(
-                            child: CustomHeaderWidget(text: 'Support tickets'),
+                           SliverToBoxAdapter(
+                            child: CustomHeaderWidget(text: AppStrings.supportTickets.getString(context)),
                           ),
                           SliverToBoxAdapter(
                             child: Padding(
@@ -214,21 +217,21 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                                 children: [
                                   CustomSupportTicketsHCounter(
                                     number: state.tickets.data.totalCount,
-                                    text: 'TOTAL TICKETS',
+                                    text: AppStrings.totalticket.getString(context),
                                   ),
                                   SizedBox(
                                     width: 20.w,
                                   ),
                                   CustomSupportTicketsHCounter(
                                     number: state.tickets.data.openCount,
-                                    text: 'OPEN ISSUES',
+                                    text:AppStrings.openedissues.getString(context),
                                   ),
                                   SizedBox(
                                     width: 20.w,
                                   ),
                                   CustomSupportTicketsHCounter(
                                     number: state.tickets.data.solvedCount,
-                                    text: 'SOLVED TICKETS',
+                                    text: AppStrings.solvedticket.getString(context),
                                   ),
                                 ],
                               ),
@@ -243,19 +246,19 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                                 children: [
                                   CustomSupportTicketsVCounter(
                                     text:
-                                        'If you would prefer to contact us by email, please send us your inquiry to:',
+                                    AppStrings.ifyouwouldprefertocontactusbyemailpleasesendusyourinquiryto.getString(context),
                                     icon: FontAwesomeIcons.envelope,
-                                    title: 'Email',
-                                    buttonText: 'Send mail',
+                                    title: AppStrings.email.getString(context),
+                                    buttonText: AppStrings.sendemail.getString(context),
                                     buttonIcon: FontAwesomeIcons.link,
                                     openTicket: () {},
                                   ),
                                   CustomSupportTicketsVCounter(
                                     text:
-                                        'If you read this line it looks like your issue is really serious.. please let us know more about this, we will help you for sure.',
+                                    AppStrings.ifyoureadthislineitlookslikeyourissueisreallyseriouspleaseletusknowmoreaboutthiswewillhelpyouforsure.getString(context),
                                     icon: FontAwesomeIcons.lifeRing,
-                                    title: 'Support',
-                                    buttonText: 'Open ticket',
+                                    title: AppStrings.support.getString(context),
+                                    buttonText: AppStrings.openticket.getString(context),
                                     buttonIcon: FontAwesomeIcons.plus,
                                     openTicket: () {
                                       openTicketBottomSheet(context,
@@ -330,7 +333,7 @@ class _SupportTicketsPageState extends State<SupportTicketsPage> {
                           textSize: 18.sp,
                           fontFamily: '',
                           fontWeight: FontWeight.normal,
-                          text: 'Error loading Tickets',
+                          text: AppStrings.errorloadingtickets.getString(context),
                         ),
                       );
                     }

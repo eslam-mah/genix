@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/widgets/custom_small_user_profile_image.dart';
@@ -6,6 +7,8 @@ import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/core/widgets/custom_user_profile_image.dart';
 import 'package:genix/features/support%20tickets%20screen/data/models/tickets_model.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class CustomTicketsItem extends StatelessWidget {
   const CustomTicketsItem({
@@ -69,7 +72,7 @@ class CustomTicketsItem extends StatelessWidget {
                     textSize: 12.sp,
                     fontFamily: '',
                     fontWeight: FontWeight.w400,
-                    text: 'Last reply by',
+                    text: AppStrings.lastreplyby.getString(context),
                   ),
                   Row(
                     children: [

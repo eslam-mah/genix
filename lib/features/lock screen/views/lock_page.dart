@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
@@ -13,6 +14,8 @@ import 'package:genix/features/lock%20screen/view%20model/remove%20lock/remove_l
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+import '../../../core/localization/all_app_strings.dart';
 
 class LockPage extends StatefulWidget {
   const LockPage({super.key});
@@ -48,10 +51,8 @@ class _LockPageState extends State<LockPage> {
             if (state is RemoveLockSuccess) {
               GoRouter.of(context).push(HomePage.routeName);
             } else if (state is RemoveLockError) {
-              print(
-                  '______________++++++++++++++++++++++++++++++++++++==${state.error}');
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.error)),
+                 SnackBar(content: Text('${AppStrings.failedtoremovelock.getString(context)}')),
               );
             }
           },
@@ -102,7 +103,7 @@ class _LockPageState extends State<LockPage> {
                 }),
                 SizedBox(height: 20.h),
                 CustomTextField(
-                  hintText: 'Password',
+                  hintText: '${AppStrings.password.getString(context)}',
                   readOnly: false,
                   onTap: () {},
                   controller: passwordController,
@@ -112,15 +113,14 @@ class _LockPageState extends State<LockPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30.w),
                   child: CustomButton(
-                    buttonText: 'Unlock',
+                    buttonText: '${AppStrings.unlock.getString(context)}',
                     height: 40.h,
                     borderRadius: 10.r,
                     color: const Color.fromARGB(255, 106, 28, 22),
                     onTap: () async {
                       await context
                           .read<RemoveLockCubit>()
-                          .removeLock(password: passwordController.text);
-                      print('+++++++++++++++++++++=${passwordController.text}');
+                          .removeLock(password: passwordController.text.trim());
                     },
                   ),
                 ),

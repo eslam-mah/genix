@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custombutton.dart';
@@ -12,6 +13,8 @@ import 'package:genix/features/groups%20page/views/widgets/create_group/edit_gro
 
 import 'package:genix/features/home%20screen/views/widgets/show_report_bottom_sheet.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> showGroupTabBar(
   BuildContext context,
@@ -39,7 +42,7 @@ Future<dynamic> showGroupTabBar(
                             textSize: 15.sp,
                             fontFamily: '',
                             fontWeight: FontWeight.normal,
-                            text: 'Edit group'),
+                            text: '${AppStrings.editgroup.getString(context)}'),
                       ),
                     ),
                     InkWell(
@@ -58,7 +61,7 @@ Future<dynamic> showGroupTabBar(
                             textSize: 15.sp,
                             fontFamily: '',
                             fontWeight: FontWeight.normal,
-                            text: 'Delete group'),
+                            text: '${AppStrings.deletegroup.getString(context)}'),
                       ),
                     ),
                     InkWell(
@@ -71,7 +74,7 @@ Future<dynamic> showGroupTabBar(
                             textSize: 15.sp,
                             fontFamily: '',
                             fontWeight: FontWeight.normal,
-                            text: 'Group members'),
+                            text: '${AppStrings.groupmembers.getString(context)}'),
                       ),
                     ),
                   ],
@@ -87,7 +90,7 @@ Future<dynamic> showGroupTabBar(
                           textSize: 15.sp,
                           fontFamily: '',
                           fontWeight: FontWeight.normal,
-                          text: 'Report'),
+                          text: '${AppStrings.report.getString(context)}'),
                     ),
                   ),
                 ],
@@ -125,7 +128,7 @@ class _DeleteGroupDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Are you sure you want to Delete this group?',
+                    '${AppStrings.areyousureyouwanttodeletegroup.getString(context)}',
                     style: TextStyle(fontSize: 17.sp),
                   ),
                   Row(
@@ -133,7 +136,7 @@ class _DeleteGroupDialog extends StatelessWidget {
                     children: [
                       CustomButton(
                           color: AppColors.kPrimaryColor,
-                          buttonText: 'Yes',
+                          buttonText: '${AppStrings.yes.getString(context)}',
                           height: 30.h,
                           borderRadius: 30.r,
                           width: 80.w,
@@ -146,7 +149,7 @@ class _DeleteGroupDialog extends StatelessWidget {
                           }),
                       CustomButton(
                           color: Colors.red,
-                          buttonText: 'no',
+                          buttonText: '${AppStrings.no.getString(context)}',
                           height: 30.h,
                           borderRadius: 30.r,
                           width: 80.w,

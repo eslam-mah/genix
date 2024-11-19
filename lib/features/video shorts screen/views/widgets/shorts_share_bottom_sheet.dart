@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/custombutton.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> shortsShareBottomSheet(BuildContext context) {
   int typeSelected = 0;
@@ -28,7 +31,7 @@ Future<dynamic> shortsShareBottomSheet(BuildContext context) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Share this post to',
+                        AppStrings.sharethispostto.getString(context),
                         style: TextStyle(fontSize: 15.sp),
                       ),
                       SizedBox(
@@ -59,7 +62,7 @@ Future<dynamic> shortsShareBottomSheet(BuildContext context) {
                                   const Icon(FontAwesomeIcons.userGroup,
                                       color: Colors.green),
                                   Text(
-                                    'Followings',
+                                    AppStrings.followings.getString(context),
                                     style: TextStyle(fontSize: 15.sp),
                                   )
                                 ],
@@ -92,7 +95,7 @@ Future<dynamic> shortsShareBottomSheet(BuildContext context) {
                                   const Icon(FontAwesomeIcons.solidClipboard,
                                       color: Colors.green),
                                   Text(
-                                    'Copy link',
+                                    AppStrings.copylink.getString(context),
                                     style: TextStyle(fontSize: 15.sp),
                                   )
                                 ],
@@ -113,7 +116,7 @@ Future<dynamic> shortsShareBottomSheet(BuildContext context) {
                               height: 10.h,
                             ),
                             Text(
-                              'SELECT AN USER',
+                              AppStrings.selectanuser.getString(context),
                               style: TextStyle(
                                 fontSize: 10.sp,
                               ),
@@ -146,7 +149,7 @@ Future<dynamic> shortsShareBottomSheet(BuildContext context) {
                                       child: Image.asset(AppImages.kLogo),
                                     ),
                                     Text(
-                                      'User111',
+                                      AppStrings.user111.getString(context),
                                       style: TextStyle(fontSize: 15.sp),
                                     )
                                   ],
@@ -161,7 +164,7 @@ Future<dynamic> shortsShareBottomSheet(BuildContext context) {
                       ),
                       CustomButton(
                           color: AppColors.kPrimaryColor,
-                          buttonText: 'Share now',
+                          buttonText: AppStrings.sharenow.getString(context),
                           width: double.infinity,
                           height: 40.h,
                           borderRadius: 12.r,

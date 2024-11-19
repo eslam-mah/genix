@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
+import 'package:genix/core/localization/all_app_strings.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custombutton.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
@@ -46,13 +49,13 @@ class _SearchPageState extends State<SearchPage> {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: const CustomHeaderWidget2(text: 'Search by'),
+              child:  CustomHeaderWidget2(text:AppStrings.searchby.getString(context)),
             ),
             SizedBox(height: 30.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: CustomTextField2(
-                hintText: 'Search people, groups or pages',
+                hintText: AppStrings.searchpeoplegrouporpage.getString(context),
                 readOnly: false,
                 controller: _searchController,
                 icon: Icon(
@@ -65,7 +68,7 @@ class _SearchPageState extends State<SearchPage> {
             // Radio button rows with updated groupValue and onChanged logic
             _RadioButtonRow(
               icon: FontAwesomeIcons.userGroup,
-              title: 'Users',
+              title: AppStrings.users.getString(context),
               value: '1',
               groupValue: _selectedValue,
               onChanged: (value) {
@@ -77,7 +80,7 @@ class _SearchPageState extends State<SearchPage> {
             SizedBox(height: 6.h),
             _RadioButtonRow(
               icon: FontAwesomeIcons.peopleGroup,
-              title: 'Groups',
+              title: AppStrings.groups.getString(context),
               value: '2',
               groupValue: _selectedValue,
               onChanged: (value) {
@@ -89,7 +92,7 @@ class _SearchPageState extends State<SearchPage> {
             SizedBox(height: 6.h),
             _RadioButtonRow(
               icon: Icons.text_snippet,
-              title: 'Pages',
+              title: AppStrings.pages.getString(context),
               value: '3',
               groupValue: _selectedValue,
               onChanged: (value) {
@@ -100,7 +103,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
             SizedBox(height: 25.h),
             CustomButton(
-                buttonText: 'Find',
+                buttonText: AppStrings.find.getString(context),
                 height: 40.h,
                 width: 330.w,
                 borderRadius: 20.r,

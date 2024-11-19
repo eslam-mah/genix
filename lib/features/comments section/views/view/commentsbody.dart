@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -11,6 +12,8 @@ import 'package:genix/features/comments%20section/views/widgets/comment_bubble.d
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class CommentsBody extends StatefulWidget {
   const CommentsBody({super.key, required this.postsModel});
@@ -129,7 +132,7 @@ class _CommentsBodyState extends State<CommentsBody> {
         child: Scaffold(
           appBar: AppBar(
             toolbarHeight: 45.h,
-            title: const Text('Comments'),
+            title:  Text('${AppStrings.comments.getString(context)}'),
           ),
           body: Stack(
             children: [
@@ -146,7 +149,7 @@ class _CommentsBodyState extends State<CommentsBody> {
                                 fontFamily: '',
                                 fontWeight: FontWeight.normal,
                                 // color: Colors.black.withOpacity(0.4),
-                                text: 'No comments yet',
+                                text:'${AppStrings.nocommentsyet.getString(context)}',
                               ),
                             )
                           : ListView.builder(
@@ -220,7 +223,7 @@ class _CommentsBodyState extends State<CommentsBody> {
                             ),
                           ),
                           hintText:
-                              'Reply to ${widget.postsModel.user?.showname} post',
+                          '${AppStrings.replyto.getString(context)}' '${widget.postsModel.user?.showname}' '${AppStrings.post.getString(context)}',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Colors.black.withOpacity(0.5)),

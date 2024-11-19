@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:genix/core/localization/all_app_strings.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/utils/images.dart';
 import 'package:genix/core/widgets/bigtextfield.dart';
@@ -200,7 +202,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Create post', style: TextStyle(fontSize: 20.sp)),
+                        Text('${AppStrings.createpost.getString(context)}', style: TextStyle(fontSize: 20.sp)),
                         if (result != null && result!.files.isNotEmpty) ...[
                           SizedBox(
                             height: 15.h,
@@ -263,7 +265,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                         Visibility(
                           visible: isPost == 3 || isPost == 1,
                           child: BigTextField(
-                            hintText: ' Write something...',
+                            hintText: '${AppStrings.writesomething.getString(context)}',
                             controller: contentController,
                           ),
                         ),
@@ -367,7 +369,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                               )),
                                         ),
                                         Text(
-                                          'Create a poll',
+                                          '${AppStrings.createapoll.getString(context)}',
                                           style: TextStyle(
                                             fontSize: 15.sp,
                                             color: isPoll
@@ -389,7 +391,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                 child: Column(
                                   children: [
                                     CustomTextField2(
-                                      hintText: 'Poll Question',
+                                      hintText: '${AppStrings.createpost.getString(context)}',
                                       controller: pollQuestionController,
                                       readOnly: false,
                                       icon: const Text(''),
@@ -406,7 +408,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                               BorderRadius.circular(13.r),
                                         ),
                                         child: CustomTextField2(
-                                          hintText: 'Poll option ${i + 1}',
+                                          hintText: '${AppStrings.polloption.getString(context)}' '${i + 1}',
                                           controller: pollOptionsControllers[i],
                                           readOnly: false,
                                           icon: const Text(''),
@@ -418,7 +420,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                       children: [
                                         CustomButton(
                                           color: AppColors.kPrimaryColor,
-                                          buttonText: '+ Add Option',
+                                          buttonText: '${AppStrings.addoption.getString(context)}',
                                           width: 150.w,
                                           height: 40.h,
                                           onTap: () {
@@ -492,7 +494,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                               )),
                                         ),
                                         Text(
-                                          'Check in',
+                                          '${AppStrings.checkin.getString(context)}',
                                           style: TextStyle(
                                             fontSize: 15.sp,
                                             color: isCheckIn
@@ -530,7 +532,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                             size: 13.sp,
                                           ),
                                           Text(
-                                            'Current',
+                                            '${AppStrings.current.getString(context)}',
                                             style: TextStyle(fontSize: 13.sp),
                                           ),
                                         ],
@@ -547,7 +549,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                               BorderRadius.circular(13.r)),
                                       child: CustomTextField2(
                                           readOnly: false,
-                                          hintText: 'Custom location',
+                                          hintText: '${AppStrings.customLocation.getString(context)}',
                                           controller: currentLocationController,
                                           icon: const SizedBox.shrink()),
                                     ),
@@ -586,8 +588,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                   SizedBox(
                                     width: 30.w,
                                   ),
-                                  Text(
-                                    'Only for close friends?',
+                                  Text('${AppStrings.onlyforclosefriend.getString(context)}',
                                     style: TextStyle(fontSize: 14.sp),
                                   )
                                 ],
@@ -626,8 +627,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                 SizedBox(
                                   width: 30.w,
                                 ),
-                                Text(
-                                  'News feed',
+                                Text('${AppStrings.newsfeed.getString(context)}',
                                   style: TextStyle(fontSize: 14.sp),
                                 )
                               ],
@@ -665,8 +665,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                 SizedBox(
                                   width: 30.w,
                                 ),
-                                Text(
-                                  'Story',
+                                Text('${AppStrings.story.getString(context)}',
                                   style: TextStyle(fontSize: 14.sp),
                                 )
                               ],
@@ -676,7 +675,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                             ),
                             CustomButton(
                               color: AppColors.kPrimaryColor,
-                              buttonText: 'Create post',
+                              buttonText: '${AppStrings.createpost.getString(context)}',
                               width: double.infinity,
                               height: 37.h,
                               borderRadius: 8.r,
@@ -692,8 +691,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                   GoRouter.of(context).pop();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(
-                                        'Content must be filled',
+                                      content: Text('${AppStrings.contentmustbefilled.getString(context)}',
                                         style: TextStyle(fontSize: 13.sp),
                                       ),
                                       backgroundColor:
@@ -719,7 +717,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
 
                                     // Debugging: Print poll question and options
                                     print(
-                                        'Poll Question: ${pollQuestionController.text}');
+                                        '${AppStrings.polloptions.getString(context)}' '${pollQuestionController.text}');
                                     print('Poll Options: $pollOptions');
 
                                     // Poll validation: Ensure question and at least two options are provided
@@ -732,9 +730,8 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
-                                          content: Text(
-                                            'Poll must have a question and at least two options',
-                                            style: TextStyle(fontSize: 13.sp),
+                                          content: Text('${AppStrings.pollmusthaveaquestionandatleasttwooptions.getString(context)}'
+                                           , style: TextStyle(fontSize: 13.sp),
                                           ),
                                           backgroundColor: ThemeCubit().state ==
                                                   ThemeState.dark
@@ -756,7 +753,7 @@ Future<dynamic> addGroupPostModalBottomSheet(
                                       pageId: '',
                                       groupId: groupID.toString(),
                                       postingIn:
-                                          isPost == 1 ? 'newsfeed' : 'story',
+                                          isPost == 1 ? '${AppStrings.newsfeed.getString(context)}' : '${AppStrings.story.getString(context)}',
                                       files: selectedFiles,
                                       checkInLocation: isCheckIn
                                           ? currentLocationController.text

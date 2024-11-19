@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/services/http_reponse_status.dart';
@@ -18,6 +19,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../../core/localization/all_app_strings.dart';
 import '../../../../core/widgets/customtextfield.dart';
 
 class LogInScreenArgs {
@@ -86,7 +88,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
               isLoading = false;
             });
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('These credentials do not match')),
+               SnackBar(content: Text('${AppStrings.thesecredentialsdonotmatch.getString(context)}')),
             );
           } else if (state is LogInSuccess) {
             setState(() {
@@ -132,7 +134,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                       Icon(FontAwesomeIcons.key, size: 30.sp),
                       SizedBox(width: 10.w),
                       Text(
-                        'Login',
+                        '${AppStrings.login.getString(context)}',
                         style: TextStyle(
                             fontSize: 24.sp, fontWeight: FontWeight.w400),
                       ),
@@ -142,7 +144,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   CustomTextField(
                     isObscure: false,
                     onTap: () {},
-                    hintText: 'E-mail',
+                    hintText: '${AppStrings.email.getString(context)}',
                     readOnly: false,
                     controller: emailController,
                   ),
@@ -150,7 +152,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   CustomTextField(
                     isObscure: true,
                     onTap: () {},
-                    hintText: 'Password',
+                    hintText: '${AppStrings.password.getString(context)}',
                     readOnly: false,
                     controller: passwordController,
                   ),
@@ -158,7 +160,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   Row(
                     children: [
                       SizedBox(width: 30.w),
-                      Text('Remember me', style: TextStyle(fontSize: 14.sp)),
+                      Text('${AppStrings.rememberme.getString(context)}', style: TextStyle(fontSize: 14.sp)),
                       const Spacer(),
                       Switch(
                         value: true,
@@ -174,7 +176,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                     color: AppColors.kPrimaryColor2,
                     width: 320.w,
                     height: 40.w,
-                    buttonText: 'Login',
+                    buttonText: '${AppStrings.login.getString(context)}',
                     borderRadius: 50.r,
                   ),
                   SizedBox(height: 20.h),
@@ -183,7 +185,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                       // Handle forgot password action
                     },
                     child: Text(
-                      'Forgot password?',
+                      '${AppStrings.forgetpassword.getString(context)}',
                       style: TextStyle(fontSize: 16.sp),
                     ),
                   ),
@@ -197,7 +199,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                         height: 33.h,
                         icon: FontAwesomeIcons.key,
                         borderRadius: 50.r,
-                        buttonText: 'Sign in',
+                        buttonText:'${AppStrings.signin.getString(context)}',
                         color: AppColors.kPrimaryColor2,
                       ),
                       SizedBox(width: 18.w),
@@ -209,7 +211,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                         height: 33.h,
                         icon: FontAwesomeIcons.penRuler,
                         borderRadius: 50.r,
-                        buttonText: 'Sign up',
+                        buttonText: '${AppStrings.signup.getString(context)}',
                         color: Colors.black,
                       ),
                     ],

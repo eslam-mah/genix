@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class CommentingTextField extends StatelessWidget {
   final PostsModel postsModel;
@@ -31,7 +34,7 @@ class CommentingTextField extends StatelessWidget {
               color: AppColors.kPrimaryColor2,
             ),
           ),
-          hintText: 'Reply to ${postsModel.user?.showname} post',
+          hintText: '${AppStrings.replyto.getString(context)}' '${postsModel.user?.showname}' '${AppStrings.post.getString(context)}',
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
             gapPadding: 0,

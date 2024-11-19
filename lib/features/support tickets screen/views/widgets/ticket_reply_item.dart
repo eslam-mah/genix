@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/confirmation_dialoge.dart';
@@ -11,6 +12,8 @@ import 'package:genix/features/support%20tickets%20screen/view%20model/update%20
 import 'package:genix/features/support%20tickets%20screen/views/widgets/edit_ticket_reply_bottom_sheet.dart';
 import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class ReplyItem extends StatelessWidget {
   const ReplyItem({
@@ -115,7 +118,7 @@ class ReplyItem extends StatelessWidget {
                       );
                     },
                     child: Text(
-                      'Edit',
+                      AppStrings.edit.getString(context),
                       style: TextStyle(fontSize: 12.sp),
                     ),
                   ),
@@ -134,7 +137,9 @@ class ReplyItem extends StatelessWidget {
                                     .read<DeleteTicketCommentCubit>()
                                     .deleteTicketComment(id: comment.id ?? 0),
                                 functionName:
-                                    'delete ${comment.user?.showname} comment',
+                                    '${AppStrings.delete.getString(context)}'
+                                    '${comment.user?.showname}'
+                                    '${AppStrings.comment.getString(context)}',
                               );
                             }),
                           );
@@ -142,7 +147,7 @@ class ReplyItem extends StatelessWidget {
                       );
                     },
                     child: Text(
-                      'Delete',
+                      AppStrings.delete.getString(context),
                       style: TextStyle(fontSize: 12.sp),
                     ),
                   ),

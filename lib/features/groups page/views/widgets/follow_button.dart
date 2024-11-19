@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/custombutton.dart';
@@ -7,6 +8,8 @@ import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit
 import 'package:genix/features/groups%20page/data/models/group_profile_model/group_profile_model.dart';
 import 'package:genix/features/groups%20page/view%20model/join_group_cubit/join_group_cubit.dart';
 import 'package:genix/features/groups%20page/view%20model/remove_join_group/remove_join_group_cubit.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class FollowButton extends StatefulWidget {
   final GroupProfileModel groupProfileModel;
@@ -43,7 +46,7 @@ class _FollowButtonState extends State<FollowButton> {
       builder: (context, isJoined, _) {
         return isJoined
             ? CustomButton(
-                buttonText: 'Group joined',
+                buttonText: '${AppStrings.joinedgroup.getString(context)}',
                 icon: const Icon(
                   Icons.verified,
                   color: Colors.white,
@@ -62,7 +65,7 @@ class _FollowButtonState extends State<FollowButton> {
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Group leaved successfully',
+                        content: Text('${AppStrings.leavegroupsuccessfully.getString(context)}',
                             style: TextStyle(fontSize: 13.sp)),
                         backgroundColor: ThemeCubit().state == ThemeState.dark
                             ? Colors.white
@@ -73,7 +76,7 @@ class _FollowButtonState extends State<FollowButton> {
                   });
                 })
             : CustomButton(
-                buttonText: 'Join Group',
+                buttonText: '${AppStrings.joingroup.getString(context)}',
                 height: 20.h,
                 width: 100.w,
                 color: AppColors.kPrimaryColor2,
@@ -88,7 +91,7 @@ class _FollowButtonState extends State<FollowButton> {
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Group joined successfully',
+                        content: Text('${AppStrings.groupjoinedsuccessfully.getString(context)}',
                             style: TextStyle(fontSize: 13.sp)),
                         backgroundColor: ThemeCubit().state == ThemeState.dark
                             ? Colors.white

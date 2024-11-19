@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:genix/core/utils/colors.dart';
-import 'package:genix/core/utils/router.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:genix/features/chat%20screen/views/cubit/chat_cubit/chat_cubit.dart';
 import 'package:genix/features/chat%20screen/views/widgets/chat_room_tile.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/localization/all_app_strings.dart';
 
 class ChatListingScreen extends StatefulWidget {
   const ChatListingScreen({super.key});
@@ -27,44 +26,32 @@ class _ChatListingScreenState extends State<ChatListingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.push(Rout.createNewChat);
-        },
-        backgroundColor: AppColors.kPrimaryColor,
-        child: Icon(
-          FontAwesomeIcons.add,
-          color: Colors.white,
-          size: 20.r,
-        ),
-      ),
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {
-            GoRouter.of(context).pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-        ),
-        title: const Text('Chat', style: TextStyle(color: Colors.white)),
-        backgroundColor: AppColors.kPrimaryColor,
+            onPressed: () {
+              GoRouter.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            )),
+        title:   Text('${AppStrings.chat.getString(context)}', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.green,
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 20.w),
+            padding: const EdgeInsets.only(right: 20.0),
             child: TextButton(
-              onPressed: () {},
-              child: Row(
+              child:  Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.error_outline, size: 22.r, color: Colors.white),
-                  SizedBox(width: 8.w),
-                  Text("Spam",
-                      style: TextStyle(fontSize: 16.sp, color: Colors.white)),
+                  Icon(Icons.error_outline, size: 22, color: Colors.white),
+                  SizedBox(width: 8),
+                  Text('${AppStrings.spam.getString(context)}', style: TextStyle(fontSize: 16, color: Colors.white)),
                 ],
               ),
+              onPressed: () {},
             ),
-          ),
+          )
         ],
       ),
       body: BlocConsumer<ChatCubit, ChatState>(
@@ -72,39 +59,34 @@ class _ChatListingScreenState extends State<ChatListingScreen> {
         listener: (context, state) {},
         builder: (context, state) {
           if (state is ChatLoadingState) {
-            return const Center(
-                child: CircularProgressIndicator(
-              color: AppColors.kPrimaryColor,
-            ));
+            return Container(child: const Center(child: CircularProgressIndicator()));
           } else if (state is ChatSuccessState) {
-            return RefreshIndicator(
-              onRefresh: () => chatCubit.getChatRooms(),
-              color: AppColors.kPrimaryColor,
-              child: ListView(
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 16.h),
+                  const SizedBox(height: 16),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: TextField(
                       decoration: InputDecoration(
-                        hintText: 'Type here the user name',
-                        prefixIcon:
-                            const Icon(Icons.search, color: Colors.grey),
+                        hintText: '${AppStrings.typeheretheusername.getString(context)}',
+                        prefixIcon: const Icon(Icons.search, color: Colors.grey),
                         filled: true,
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 20.w),
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.r),
+                          borderRadius: BorderRadius.circular(30.0),
                           borderSide: BorderSide.none,
                         ),
                         hintStyle: const TextStyle(color: Colors.grey),
                       ),
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.symmetric(vertical: 10.h),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     itemCount: state.chatRooms.length,
                     itemBuilder: (context, index) {
                       return ChatRoomTile(item: state.chatRooms[index]);
@@ -114,7 +96,7 @@ class _ChatListingScreenState extends State<ChatListingScreen> {
               ),
             );
           } else if (state is ChatFailureState) {
-            return const Center(child: Text("Failed to load chat rooms"));
+            return  Center(child: Text('${AppStrings.failedtoloadthechatrroms.getString(context)}'));
           } else {
             return const SizedBox();
           }

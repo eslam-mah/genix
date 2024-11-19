@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -10,6 +11,8 @@ import 'package:genix/features/home%20screen/view%20model/post%20report/post_rep
 import 'package:genix/features/support%20tickets%20screen/data/models/ticket_comment_form.dart';
 import 'package:genix/features/support%20tickets%20screen/view%20model/post%20ticket%20comment/post_ticket_comment_cubit.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> postReplyBottomSheet(
     BuildContext context, Function() refresh, int id) {
@@ -38,21 +41,20 @@ Future<dynamic> postReplyBottomSheet(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Add new comment',
+                        AppStrings.addanewcomment.getString(context),
                         style: TextStyle(fontSize: 11.sp),
                       ),
-                      const Text(
-                        'Post a reply',
+                       Text(
+                        AppStrings.postareply.getString(context),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 23),
                       ),
                       SizedBox(
                         height: 20.h,
                       ),
-                      Text('Content', style: TextStyle(fontSize: 11.sp)),
+                      Text(AppStrings.content.getString(context), style: TextStyle(fontSize: 11.sp)),
                       Text(
-                          'Feed this reply with a comprehensive content. please include as many details as you can, in all the possible forms to get a proper resolution.',
-                          style: TextStyle(fontSize: 11.sp)),
+                          AppStrings.commentcontent.getString(context), style: TextStyle(fontSize: 11.sp)),
                       SizedBox(
                         height: 10.h,
                       ),
@@ -69,7 +71,7 @@ Future<dynamic> postReplyBottomSheet(
                               expands: true,
                               maxLines: null,
                               decoration: InputDecoration(
-                                hintText: ' Write something...',
+                                hintText:AppStrings.writesomething.getString(context),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.r),
                                     borderSide: const BorderSide(
@@ -95,7 +97,7 @@ Future<dynamic> postReplyBottomSheet(
                       ),
                       CustomButton(
                           color: AppColors.kPrimaryColor,
-                          buttonText: 'Submit Comment',
+                          buttonText: AppStrings.submitcomment.getString(context),
                           width: double.infinity,
                           height: 40.h,
                           borderRadius: 12.r,

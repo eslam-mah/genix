@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -11,6 +12,8 @@ import 'package:genix/features/support%20tickets%20screen/data/models/ticket_mod
 import 'package:genix/features/support%20tickets%20screen/view%20model/update%20ticket%20comment/update_ticket_comment_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:html/parser.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> editTicketReplyBottomSheet(
     BuildContext context, Function() refresh, int id, Comment comment) {
@@ -45,20 +48,20 @@ Future<dynamic> editTicketReplyBottomSheet(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Update comment',
+                        AppStrings.updatecomment.getString(context),
                         style: TextStyle(fontSize: 11.sp),
                       ),
-                      const Text(
-                        'Update the reply',
+                       Text(
+                        AppStrings.updatethereply.getString(context),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 23),
                       ),
                       SizedBox(
                         height: 20.h,
                       ),
-                      Text('Content', style: TextStyle(fontSize: 11.sp)),
+                      Text(AppStrings.content.getString(context), style: TextStyle(fontSize: 11.sp)),
                       Text(
-                          'Feed this reply with a comprehensive content. please include as many details as you can, in all the possible forms to get a proper resolution.',
+                          AppStrings.commentcontent.getString(context),
                           style: TextStyle(fontSize: 11.sp)),
                       SizedBox(
                         height: 10.h,
@@ -76,7 +79,7 @@ Future<dynamic> editTicketReplyBottomSheet(
                               expands: true,
                               maxLines: null,
                               decoration: InputDecoration(
-                                hintText: ' Write something...',
+                                hintText:AppStrings.writesomething.getString(context),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.r),
                                     borderSide: const BorderSide(
@@ -102,7 +105,7 @@ Future<dynamic> editTicketReplyBottomSheet(
                       ),
                       CustomButton(
                           color: AppColors.kPrimaryColor,
-                          buttonText: 'Submit Comment',
+                          buttonText: AppStrings.submitcomment.getString(context),
                           width: double.infinity,
                           height: 40.h,
                           borderRadius: 12.r,

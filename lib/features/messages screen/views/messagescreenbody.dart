@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +12,8 @@ import 'package:genix/features/drawer/view/custom_drawer_widget.dart';
 import 'package:genix/core/widgets/customglowingbutton.dart';
 
 import 'package:genix/core/widgets/glowing_button_body.dart';
+
+import '../../../core/localization/all_app_strings.dart';
 
 class MessageScreenBody extends StatefulWidget {
   const MessageScreenBody({super.key});
@@ -74,7 +77,7 @@ class _MessageScreenBodyState extends State<MessageScreenBody> {
       ),
       body: isSelected
           ? const GlowingButtonBody()
-          : const Center(child: Text('hommeeeeee')),
+          :  Center(child: Text('${AppStrings.hommeeeeee.getString(context)}')),
     );
   }
 }

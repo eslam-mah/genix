@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,6 +13,8 @@ import 'package:genix/core/widgets/customheaderwidget.dart';
 import 'package:genix/core/widgets/customheaderwidget2.dart';
 
 import 'package:genix/core/widgets/glowing_button_body.dart';
+
+import '../../../core/localization/all_app_strings.dart';
 
 class PagesScreenBody extends StatefulWidget {
   const PagesScreenBody({super.key});
@@ -78,14 +81,14 @@ class _PagesScreenBodyState extends State<PagesScreenBody> {
             ? const GlowingButtonBody()
             : CustomScrollView(
                 slivers: [
-                  const SliverToBoxAdapter(
-                    child: CustomHeaderWidget(text: 'Pages'),
+                   SliverToBoxAdapter(
+                    child: CustomHeaderWidget(text: '${AppStrings.pages.getString(context)}'),
                   ),
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: 15.h, horizontal: 15.w),
-                      child: const CustomHeaderWidget2(text: 'user\'s Pages'),
+                      child:  CustomHeaderWidget2(text: '${AppStrings.userspage.getString(context)}'),
                     ),
                   )
                 ],

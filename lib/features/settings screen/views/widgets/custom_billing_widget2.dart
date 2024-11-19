@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class CustomBillingWidget2 extends StatefulWidget {
   CustomBillingWidget2({
@@ -102,7 +105,7 @@ class _CustomBillingWidget2State extends State<CustomBillingWidget2> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(top: 5.h),
-                      hintText: 'Custom amount',
+                      hintText: AppStrings.customamount.getString(context),
                       border: InputBorder.none,
                     ),
                     style: TextStyle(fontSize: 13.sp),

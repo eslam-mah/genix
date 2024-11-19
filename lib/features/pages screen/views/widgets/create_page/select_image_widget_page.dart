@@ -1,9 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
+
+import '../../../../../core/localization/all_app_strings.dart';
 
 class SelectImagePage extends StatelessWidget {
   final Function() onSelectProfile;
@@ -34,14 +37,14 @@ class SelectImagePage extends StatelessWidget {
               textSize: 16.sp,
               fontFamily: '',
               fontWeight: FontWeight.bold,
-              text: 'Group profile picture',
+              text: '${AppStrings.groupprofilepicture.getString(context)}',
             ),
             CustomTextWidget(
               textSize: 12.sp,
               fontFamily: '',
               color: Colors.red,
               fontWeight: FontWeight.bold,
-              text: '  required',
+              text: '${AppStrings.required.getString(context)}',
             ),
             spacerSmall,
             InkWell(
@@ -78,7 +81,7 @@ class SelectImagePage extends StatelessWidget {
                                   textSize: 16.sp,
                                   fontFamily: '',
                                   fontWeight: FontWeight.bold,
-                                  text: 'Select an image'),
+                                  text: '${AppStrings.selectaimage.getString(context)}'),
                             ],
                           );
                   },
@@ -93,14 +96,14 @@ class SelectImagePage extends StatelessWidget {
               textSize: 16.sp,
               fontFamily: '',
               fontWeight: FontWeight.bold,
-              text: 'Group cover picture',
+              text: '${AppStrings.groupcoverpicture.getString(context)}',
             ),
             CustomTextWidget(
               textSize: 12.sp,
               fontFamily: '',
               color: Colors.red,
               fontWeight: FontWeight.bold,
-              text: '  required',
+              text: '${AppStrings.required.getString(context)}',
             ),
             spacerSmall,
             InkWell(
@@ -137,7 +140,7 @@ class SelectImagePage extends StatelessWidget {
                                   textSize: 16.sp,
                                   fontFamily: '',
                                   fontWeight: FontWeight.bold,
-                                  text: 'Select an image'),
+                                  text: '${AppStrings.selectaimage.getString(context)}'),
                             ],
                           );
                   },

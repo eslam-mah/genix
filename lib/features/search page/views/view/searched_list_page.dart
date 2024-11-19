@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
@@ -23,6 +24,8 @@ import 'package:genix/features/search%20page/view%20model/search/search_cubit.da
 import 'package:genix/features/search%20page/views/widgets/user_item.dart';
 import 'package:genix/features/users/data/models/user_model.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class SearchedListPage extends StatefulWidget {
   static const String route = '/search_list';
@@ -280,8 +283,8 @@ class _SearchedListPageState extends State<SearchedListPage> {
             ? const GlowingButtonBody()
             : CustomScrollView(
                 slivers: [
-                  const SliverToBoxAdapter(
-                    child: CustomHeaderWidget(text: 'Search results'),
+                   SliverToBoxAdapter(
+                    child: CustomHeaderWidget(text: AppStrings.searchresults.getString(context)),
                   ),
                   searchResults()
                 ],

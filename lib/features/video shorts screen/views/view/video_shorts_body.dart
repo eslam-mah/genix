@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
@@ -26,6 +27,8 @@ import 'package:genix/features/video%20shorts%20screen/views/widgets/video_short
 import 'package:html/parser.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class VideoShortsBody extends StatefulWidget {
   const VideoShortsBody({super.key});
@@ -238,7 +241,7 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                             ),
                             CustomShortsButton(
                               icon: FontAwesomeIcons.share,
-                              text: 'Share',
+                              text: AppStrings.share.getString(context),
                               color: Colors.white,
                               onTap: () {
                                 shortsShareBottomSheet(context);
@@ -262,7 +265,7 @@ class _VideoShortsBodyState extends State<VideoShortsBody> {
                             ),
                             CustomShortsButton(
                               icon: FontAwesomeIcons.sackDollar,
-                              text: 'Donate',
+                              text: AppStrings.donate.getString(context),
                               color: Colors.white,
                               onTap: () {
                                 donationBottomSheet(context);

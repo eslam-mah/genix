@@ -31,6 +31,7 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
   }
 
   void _initAuthCheck() async {
+
     await Future.delayed(const Duration(seconds: 3));
     _checkAuthStatus();
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/default_status_indicators/first_page_error_indicator.dart';
@@ -21,6 +22,8 @@ import 'package:genix/features/pages%20screen/data/models/page_profile_model/pag
 import 'package:genix/features/pages%20screen/view%20model/get_page_members/get_page_members_cubit.dart';
 import 'package:genix/features/pages%20screen/views/widgets/follower_item.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class PageFollowersScreen extends StatefulWidget {
   static const String route = '/page_followers';
@@ -170,8 +173,8 @@ class _PageFollowersScreenState extends State<PageFollowersScreen> {
             ? const GlowingButtonBody()
             : CustomScrollView(
                 slivers: [
-                  const SliverToBoxAdapter(
-                    child: CustomHeaderWidget(text: 'Followers'),
+                   SliverToBoxAdapter(
+                    child: CustomHeaderWidget(text: '${AppStrings.followers.getString(context)}'),
                   ),
                   _memberPaginationList()
                 ],

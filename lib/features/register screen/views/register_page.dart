@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -15,6 +16,8 @@ import 'package:genix/features/register%20screen/views/verification_screen.dart'
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+import '../../../core/localization/all_app_strings.dart';
 
 class RegisterBody extends StatefulWidget {
   static const String route = '/register_screen';
@@ -63,14 +66,13 @@ class _RegisterBodyState extends State<RegisterBody> {
               });
               if (state.message == "Unprocessable Content") {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text(
-                          'These credentials do not match or user already exists.')),
+                   SnackBar(
+                      content: Text( AppStrings.pleaseverifyyuouremail.getString(context))),
                 );
                 print(state.message);
               } else if (state.message == "Accepted") {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('Please Verify Your Email'),
+                ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+                  content: Text( AppStrings.seeall.getString(context)),
                   backgroundColor: Colors.red,
                 ));
                 print(state.message);
@@ -110,7 +112,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                         width: 10.w,
                       ),
                       Text(
-                        'Register',
+                        AppStrings.register.getString(context),
                         style: TextStyle(
                             fontSize: 24.sp, fontWeight: FontWeight.w400),
                       )
@@ -121,7 +123,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                   ),
                   CustomTextField(
                       isObscure: false,
-                      hintText: 'Your name',
+                      hintText:  AppStrings.yourname.getString(context),
                       readOnly: false,
                       onTap: () {},
                       controller: nameController),
@@ -130,7 +132,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                   ),
                   CustomTextField(
                       isObscure: false,
-                      hintText: 'Username',
+                      hintText:  AppStrings.username.getString(context),
                       readOnly: false,
                       onTap: () {},
                       controller: userNameController),
@@ -139,7 +141,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                   ),
                   CustomTextField(
                       isObscure: false,
-                      hintText: 'E-mail',
+                      hintText:  AppStrings.email.getString(context),
                       readOnly: false,
                       onTap: () {},
                       controller: emailController),
@@ -148,7 +150,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                   ),
                   CustomTextField(
                       isObscure: true,
-                      hintText: 'password',
+                      hintText:  AppStrings.password.getString(context),
                       readOnly: false,
                       onTap: () {},
                       controller: passwordController),
@@ -157,7 +159,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                   ),
                   CustomTextField(
                     isObscure: true,
-                    hintText: 'Retype password',
+                    hintText:  AppStrings.retypepassword.getString(context),
                     readOnly: false,
                     onTap: () {},
                     controller: retypePasswordController,
@@ -168,7 +170,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                   CustomTextField(
                     isObscure: false,
                     controller: dateController,
-                    hintText: 'Date',
+                    hintText:  AppStrings.date.getString(context),
                     readOnly: true,
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
@@ -219,7 +221,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                selectedCountry ?? 'Select your country',
+                                selectedCountry ??  AppStrings.selectyourcountry.getString(context),
                                 style: TextStyle(
                                   fontSize: 16.sp, // Adjust size as needed
                                 ),
@@ -241,7 +243,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                         width: 30.w,
                       ),
                       Text(
-                        'Remember me',
+                        AppStrings.rememberme.getString(context),
                         style: TextStyle(fontSize: 14.sp),
                       ),
                       SizedBox(
@@ -278,7 +280,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                     color: AppColors.kPrimaryColor2,
                     width: 320.w,
                     height: 40.w,
-                    buttonText: 'Signup',
+                    buttonText:  AppStrings.signup.getString(context),
                     borderRadius: 50.r,
                   ),
                   SizedBox(
@@ -286,7 +288,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                   ),
                   InkWell(
                     child: Text(
-                      'Forgot password?',
+                      AppStrings.forgetpassword.getString(context),
                       style: TextStyle(fontSize: 16.sp),
                     ),
                   ),
@@ -304,7 +306,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                         height: 33.h,
                         icon: FontAwesomeIcons.key,
                         borderRadius: 50.r,
-                        buttonText: 'Sign in',
+                        buttonText: AppStrings.signin.getString(context),
                         color: Colors.black,
                       ),
                       SizedBox(
@@ -316,7 +318,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                         height: 33.h,
                         icon: FontAwesomeIcons.penRuler,
                         borderRadius: 50.r,
-                        buttonText: 'Sign up',
+                        buttonText:  AppStrings.signup.getString(context),
                         color: AppColors.kPrimaryColor2,
                       ),
                     ],

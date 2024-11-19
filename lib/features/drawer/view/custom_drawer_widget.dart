@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/router.dart';
@@ -17,6 +18,8 @@ import 'package:genix/core/widgets/customlisttile.dart';
 import 'package:genix/core/widgets/custom_user_profile_image.dart';
 import 'package:genix/features/drawer/view%20model/theme_color_cubit/theme_cubit.dart';
 import 'package:genix/features/settings%20screen/views/view/settings_page.dart';
+
+import '../../../core/localization/all_app_strings.dart';
 
 class CustomDrawerWidget extends StatefulWidget {
   final bool isNightMode;
@@ -75,8 +78,8 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                                 SizedBox(width: 10.w),
                                 Text(
                                   state.account.data?.isActive == true
-                                      ? 'Active'
-                                      : 'Inactive',
+                                      ? '${AppStrings.active.getString(context)}'
+                                      : '${AppStrings.inactive.getString(context)}',
                                   style: TextStyle(
                                       color: Colors.grey, fontSize: 12.sp),
                                 ),
@@ -96,7 +99,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                             ),
                             child: Center(
                               child: Text(
-                                'Edit',
+                                '${AppStrings.edit.getString(context)}',
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 10.sp),
                                 textAlign: TextAlign.center,
@@ -117,14 +120,14 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
               SizedBox(height: 30.h),
               CustomListTile(
                 icon: FontAwesomeIcons.gear,
-                text: 'Settings',
+                text: '${AppStrings.settings.getString(context)}',
                 onTap: () {
                   GoRouter.of(context).push(SettingsPage.route, extra: 0);
                 },
               ),
               CustomListTile(
                 icon: FontAwesomeIcons.coins,
-                text: 'Get coins',
+                text: '${AppStrings.getcoins.getString(context)}',
                 onTap: () {
                   GoRouter.of(context).push(SettingsPage.route, extra: 4);
                 },
@@ -136,7 +139,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
               // ),
               CustomListTile(
                 icon: FontAwesomeIcons.arrowUp,
-                text: 'Promotions',
+                text: '${AppStrings.promotions.getString(context)}',
                 onTap: () {
                   GoRouter.of(context).push(Rout.kPromotionsScreen);
                 },
@@ -150,7 +153,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
               ),
               CustomListTile(
                 icon: FontAwesomeIcons.key,
-                text: 'Lock screen',
+                text: '${AppStrings.lockscreen.getString(context)}',
                 onTap: () async {
                   await context.read<PostLockCubit>().postLock();
                   GoRouter.of(context).go(LockPage.route);
@@ -158,7 +161,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
               ),
               CustomListTile(
                 icon: FontAwesomeIcons.rightFromBracket,
-                text: 'Logout',
+                text: '${AppStrings.logout.getString(context)}',
                 onTap: () async {
                   await showDialog(
                       context: context,
@@ -176,7 +179,7 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                     size: 20.sp,
                   ),
                   Text(
-                    'Dark mode',
+                    '${AppStrings.darkmode.getString(context)}',
                     style: TextStyle(
                       fontSize: 15.sp,
                     ),
@@ -228,7 +231,7 @@ class _LogOutDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Are you sure you want to log out?',
+                    '${AppStrings.areyousureyouwanttologout.getString(context)}',
                     style: TextStyle(fontSize: 17.sp),
                   ),
                   Row(
@@ -236,7 +239,7 @@ class _LogOutDialog extends StatelessWidget {
                     children: [
                       CustomButton(
                           color: AppColors.kPrimaryColor,
-                          buttonText: 'Yes',
+                          buttonText: '${AppStrings.yes.getString(context)}',
                           height: 30.h,
                           borderRadius: 30.r,
                           width: 80.w,
@@ -249,7 +252,7 @@ class _LogOutDialog extends StatelessWidget {
                           }),
                       CustomButton(
                           color: Colors.red,
-                          buttonText: 'no',
+                          buttonText: '${AppStrings.no.getString(context)}',
                           height: 30.h,
                           borderRadius: 30.r,
                           width: 80.w,

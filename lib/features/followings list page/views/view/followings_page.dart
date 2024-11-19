@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,6 +22,8 @@ import 'package:genix/features/followings%20list%20page/data/models/followings_m
 import 'package:genix/features/followings%20list%20page/view%20model/get%20followings/get_followings_cubit.dart';
 import 'package:genix/features/followings%20list%20page/views/widgets/following_widget.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class FollowingsPage extends StatefulWidget {
   const FollowingsPage({super.key, required this.id});
@@ -155,15 +158,15 @@ class _FollowingsPageState extends State<FollowingsPage> {
               ? const GlowingButtonBody()
               : CustomScrollView(
                   slivers: [
-                    const SliverToBoxAdapter(
-                      child: CustomHeaderWidget(text: 'Followings'),
+                     SliverToBoxAdapter(
+                      child: CustomHeaderWidget(text:'${AppStrings.followings.getString(context)}' ),
                     ),
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: 15.h, horizontal: 15.w),
-                        child: const CustomHeaderWidget2(
-                            text: 'Recent Followings'),
+                        child:  CustomHeaderWidget2(
+                            text: '${AppStrings.recentfollowings.getString(context)}'),
                       ),
                     ),
                     _followingsPaginationList()

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/widgets/custom_user_profile_image.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class ShortsCommentBubble extends StatelessWidget {
   const ShortsCommentBubble({super.key, required this.commentText});
@@ -25,11 +28,11 @@ class ShortsCommentBubble extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Name'),
-                          Text('1 day ago'),
+                          Text(AppStrings.name.getString(context)),
+                          Text(AppStrings.onedayago.getString(context)),
                         ],
                       ),
                       Text(

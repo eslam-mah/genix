@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
 import 'package:genix/features/home%20screen/data/models/posts_model/posts_model.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 class ReplyingTextField extends StatelessWidget {
   final PostsModel postsModel;
@@ -32,7 +35,7 @@ class ReplyingTextField extends StatelessWidget {
             ),
           ),
           hintText:
-              'Reply to ${postsModel.comments?.first.user?.showname} comment',
+          '${AppStrings.replyto.getString(context)}' '${postsModel.comments?.first.user?.showname}' '${AppStrings.comment.getString(context)}',
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black.withOpacity(0.5)),
             gapPadding: 0,

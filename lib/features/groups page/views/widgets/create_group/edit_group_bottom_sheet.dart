@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:genix/core/utils/colors.dart';
@@ -16,6 +17,8 @@ import 'package:genix/features/groups%20page/view%20model/update_group_details/u
 import 'package:genix/features/groups%20page/views/widgets/create_group/group_category_menu.dart';
 import 'package:genix/features/groups%20page/views/widgets/create_group/social_link_widget.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> editGroupBottomSheet(
   BuildContext context,
@@ -93,21 +96,21 @@ Future<dynamic> editGroupBottomSheet(
                                       textSize: 18.sp,
                                       fontFamily: '',
                                       fontWeight: FontWeight.bold,
-                                      text: 'Group name',
+                                      text: '${AppStrings.groupnmae.getString(context)}',
                                     ),
                                     CustomTextWidget(
                                       textSize: 12.sp,
                                       fontFamily: '',
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold,
-                                      text: '  required',
+                                      text: '${AppStrings.required.getString(context)}',
                                     ),
                                   ],
                                 ),
                                 spacerSmall,
                                 CustomTextField2(
                                     readOnly: false,
-                                    hintText: 'Group name',
+                                    hintText: '${AppStrings.groupnmae.getString(context)}',
                                     controller: groupNameController,
                                     icon: const Text('')),
                                 spacer,
@@ -117,14 +120,14 @@ Future<dynamic> editGroupBottomSheet(
                                       textSize: 18.sp,
                                       fontFamily: '',
                                       fontWeight: FontWeight.bold,
-                                      text: 'Category',
+                                      text: '${AppStrings.category.getString(context)}',
                                     ),
                                     CustomTextWidget(
                                       textSize: 12.sp,
                                       fontFamily: '',
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold,
-                                      text: '  required',
+                                      text:'${AppStrings.required.getString(context)}',
                                     ),
                                   ],
                                 ),
@@ -139,21 +142,21 @@ Future<dynamic> editGroupBottomSheet(
                                       textSize: 18.sp,
                                       fontFamily: '',
                                       fontWeight: FontWeight.bold,
-                                      text: 'Website',
+                                      text:'${AppStrings.website.getString(context)}',
                                     ),
                                     CustomTextWidget(
                                       textSize: 12.sp,
                                       fontFamily: '',
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold,
-                                      text: '  required',
+                                      text: '${AppStrings.required.getString(context)}',
                                     ),
                                   ],
                                 ),
                                 spacerSmall,
                                 CustomTextField2(
                                     readOnly: false,
-                                    hintText: 'Valid Website Url',
+                                    hintText: '${AppStrings.validwebsiteurl.getString(context)}',
                                     controller: groupWebsiteController,
                                     icon: const Text('')),
                                 spacer,
@@ -163,67 +166,67 @@ Future<dynamic> editGroupBottomSheet(
                                       textSize: 18.sp,
                                       fontFamily: '',
                                       fontWeight: FontWeight.bold,
-                                      text: 'About this group',
+                                      text: '${AppStrings.aboutthisgroup.getString(context)}',
                                     ),
                                     CustomTextWidget(
                                       textSize: 12.sp,
                                       fontFamily: '',
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold,
-                                      text: '  required',
+                                      text: '${AppStrings.required.getString(context)}',
                                     ),
                                   ],
                                 ),
                                 spacerSmall,
                                 BigTextField(
-                                    hintText: 'Write more about this group',
+                                    hintText: '${AppStrings.writemoreaboutthisgroup.getString(context)}',
                                     controller: groupAboutController),
                                 spacer,
                                 CustomTextWidget(
                                   textSize: 18.sp,
                                   fontFamily: '',
                                   fontWeight: FontWeight.bold,
-                                  text: 'Social links',
+                                  text: '${AppStrings.sociallinks.getString(context)}',
                                 ),
                                 spacerSmall,
                                 SocialLinksWidget(
                                   icon: FontAwesomeIcons.facebook,
-                                  hintText: 'Facebook profile link',
+                                  hintText: '${AppStrings.facebookprofilelink.getString(context)}',
                                   controller: facebookController,
                                 ),
                                 spacerSmall,
                                 SocialLinksWidget(
                                   icon: FontAwesomeIcons.xTwitter,
-                                  hintText: 'X profile link',
+                                  hintText: '${AppStrings.xprofilelink.getString(context)}',
                                   controller: xController,
                                 ),
                                 spacerSmall,
                                 SocialLinksWidget(
                                   icon: FontAwesomeIcons.instagram,
-                                  hintText: 'Instagram profile link',
+                                  hintText: '${AppStrings.instagramprofilelink.getString(context)}',
                                   controller: instagramController,
                                 ),
                                 spacerSmall,
                                 SocialLinksWidget(
                                   icon: FontAwesomeIcons.tiktok,
-                                  hintText: 'TikTok profile link',
+                                  hintText: '${AppStrings.tiktokprofilelink.getString(context)}',
                                   controller: tiktokController,
                                 ),
                                 spacerSmall,
                                 SocialLinksWidget(
                                     icon: FontAwesomeIcons.pinterest,
-                                    hintText: 'Pinterest profile link',
+                                    hintText:'${AppStrings.pinterestprofilelink.getString(context)}',
                                     controller: pinterestController),
                                 spacerSmall,
                                 SocialLinksWidget(
                                   icon: FontAwesomeIcons.steam,
-                                  hintText: 'Steam profile link',
+                                  hintText:'${AppStrings.steamprofilelink.getString(context)}',
                                   controller: steamController,
                                 ),
                                 spacerSmall,
                                 SocialLinksWidget(
                                   icon: FontAwesomeIcons.linkedin,
-                                  hintText: 'LinkedIn profile link',
+                                  hintText: '${AppStrings.linkedInprofilelink.getString(context)}',
                                   controller: linkedInController,
                                 ),
                                 spacer,
@@ -231,7 +234,7 @@ Future<dynamic> editGroupBottomSheet(
                                   textSize: 18.sp,
                                   fontFamily: '',
                                   fontWeight: FontWeight.bold,
-                                  text: 'Select Privacy',
+                                  text: '${AppStrings.selectprivacy.getString(context)}',
                                 ),
                                 spacerSmall,
                                 Row(
@@ -253,13 +256,13 @@ Future<dynamic> editGroupBottomSheet(
                                       textSize: 18.sp,
                                       fontFamily: '',
                                       fontWeight: FontWeight.bold,
-                                      text: 'Group will be public',
+                                      text: '${AppStrings.groupwillbepublic.getString(context)}',
                                     ),
                                   ],
                                 ),
                                 spacer,
                                 CustomButton(
-                                    buttonText: 'Submit Group',
+                                    buttonText: '${AppStrings.submitgroup.getString(context)}',
                                     height: 40.h,
                                     color: AppColors.kPrimaryColor,
                                     borderRadius: 10.r,
@@ -280,8 +283,7 @@ Future<dynamic> editGroupBottomSheet(
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
-                                            content: Text(
-                                              'All required fields should be filled',
+                                            content: Text('${AppStrings.allrequiredfieldsshouldbefilled.getString(context)}',
                                               style: TextStyle(fontSize: 13.sp),
                                             ),
                                             backgroundColor:
@@ -373,7 +375,7 @@ Future<dynamic> editGroupBottomSheet(
                 },
               );
             } else if (state is GetGroupByIdError) {
-              return const Center(child: Text('Error loading group data.'));
+              return  Center(child: Text('${AppStrings.errorloadinggroupdata.getString(context)}'));
             } else {
               return const Center(
                   child: CircularProgressIndicator(

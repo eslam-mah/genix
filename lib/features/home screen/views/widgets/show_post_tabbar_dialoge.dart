@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/widgets/customtextwidget.dart';
 import 'package:genix/features/groups%20page/view%20model/delete_group_member_post/delete_group_member_post_cubit.dart';
@@ -10,6 +11,8 @@ import 'package:genix/features/home%20screen/views/widgets/show_report_bottom_sh
 import 'package:genix/features/pages%20screen/view%20model/delete_page_member_post/delete_page_member_post_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
+import '../../../../core/localization/all_app_strings.dart';
 
 Future<dynamic> showPostTabBar(
     BuildContext context,
@@ -40,7 +43,7 @@ Future<dynamic> showPostTabBar(
                             textSize: 15.sp,
                             fontFamily: '',
                             fontWeight: FontWeight.normal,
-                            text: 'View post'),
+                            text: '${AppStrings.viewpost.getString(context)}'),
                       ),
                     ),
                     InkWell(
@@ -52,7 +55,7 @@ Future<dynamic> showPostTabBar(
                             textSize: 15.sp,
                             fontFamily: '',
                             fontWeight: FontWeight.normal,
-                            text: 'Promote'),
+                            text: '${AppStrings.promote.getString(context)}'),
                       ),
                     ),
                     InkWell(
@@ -67,7 +70,7 @@ Future<dynamic> showPostTabBar(
                             textSize: 15.sp,
                             fontFamily: '',
                             fontWeight: FontWeight.normal,
-                            text: 'Report'),
+                            text: '${AppStrings.report.getString(context)}'),
                       ),
                     ),
                     if (postsModel.user?.id == id) ...[
@@ -104,7 +107,7 @@ Future<dynamic> showPostTabBar(
                               textSize: 15.sp,
                               fontFamily: '',
                               fontWeight: FontWeight.normal,
-                              text: 'Delete'),
+                              text: '${AppStrings.delete.getString(context)}'),
                         ),
                       ),
                     ]
