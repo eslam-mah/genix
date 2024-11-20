@@ -69,6 +69,7 @@ abstract class Rout {
         );
       },
     ),
+
     GoRoute(
       path: kLoadingPage,
       builder: (context, state) => const CustomLoadingPage(),
