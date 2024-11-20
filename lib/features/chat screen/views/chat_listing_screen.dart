@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:genix/features/chat%20screen/views/create_new_chat_screen.dart';
 import 'package:genix/features/chat%20screen/views/cubit/chat_cubit/chat_cubit.dart';
 import 'package:genix/features/chat%20screen/views/widgets/chat_room_tile.dart';
 import 'package:go_router/go_router.dart';
@@ -26,6 +27,19 @@ class _ChatListingScreenState extends State<ChatListingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const NewCreateChatScreen()));
+        },
+      ),
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
@@ -35,18 +49,20 @@ class _ChatListingScreenState extends State<ChatListingScreen> {
               Icons.arrow_back_ios,
               color: Colors.white,
             )),
-        title:   Text('${AppStrings.chat.getString(context)}', style: TextStyle(color: Colors.white)),
+        title: Text('${AppStrings.chat.getString(context)}',
+            style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.green,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: TextButton(
-              child:  Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(Icons.error_outline, size: 22, color: Colors.white),
                   SizedBox(width: 8),
-                  Text('${AppStrings.spam.getString(context)}', style: TextStyle(fontSize: 16, color: Colors.white)),
+                  Text('${AppStrings.spam.getString(context)}',
+                      style: TextStyle(fontSize: 16, color: Colors.white)),
                 ],
               ),
               onPressed: () {},
@@ -59,7 +75,8 @@ class _ChatListingScreenState extends State<ChatListingScreen> {
         listener: (context, state) {},
         builder: (context, state) {
           if (state is ChatLoadingState) {
-            return Container(child: const Center(child: CircularProgressIndicator()));
+            return Container(
+                child: const Center(child: CircularProgressIndicator()));
           } else if (state is ChatSuccessState) {
             return SingleChildScrollView(
               child: Column(
@@ -70,11 +87,14 @@ class _ChatListingScreenState extends State<ChatListingScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: TextField(
                       decoration: InputDecoration(
-                        hintText: '${AppStrings.typeheretheusername.getString(context)}',
-                        prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                        hintText:
+                            '${AppStrings.typeheretheusername.getString(context)}',
+                        prefixIcon:
+                            const Icon(Icons.search, color: Colors.grey),
                         filled: true,
                         fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
                           borderSide: BorderSide.none,
@@ -96,7 +116,9 @@ class _ChatListingScreenState extends State<ChatListingScreen> {
               ),
             );
           } else if (state is ChatFailureState) {
-            return  Center(child: Text('${AppStrings.failedtoloadthechatrroms.getString(context)}'));
+            return Center(
+                child: Text(
+                    '${AppStrings.failedtoloadthechatrroms.getString(context)}'));
           } else {
             return const SizedBox();
           }
