@@ -12,7 +12,7 @@ final class AddPollInitial extends AddPollState {}
 final class AddPollLoading extends AddPollState {}
 
 final class AddPollSuccess extends AddPollState {
-  final PostsModel post;
+  final String post;
   const AddPollSuccess({required this.post});
 }
 

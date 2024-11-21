@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +20,10 @@ class FilePickerCubit extends Cubit<FilePickerState> {
       );
 
       if (result != null) {
-        emit(FilePickerSuccess(result.files));
+        final files = result.files
+            .map((platformFile) => File(platformFile.path!))
+            .toList();
+        emit(FilePickerSuccess(files));
       } else {
         emit(FilePickerFailure('No file picked'));
       }
@@ -30,9 +35,15 @@ class FilePickerCubit extends Cubit<FilePickerState> {
   void onClear() {
     emit(FilePickerInitial());
   }
+
   void removeFile(int index) {
-    final files = (state as FilePickerSuccess).files;
-    files.removeAt(index);
-    emit(FilePickerSuccess(files));
+    if (state is FilePickerSuccess) {
+      final files = List<File>.from((state as FilePickerSuccess).files);
+      files.removeAt(index);
+      emit(FilePickerSuccess(files));
+    }
   }
+
+  List<File> get files =>
+      state is FilePickerSuccess ? (state as FilePickerSuccess).files : [];
 }

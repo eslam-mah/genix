@@ -95,7 +95,7 @@ class _CustomProfileHeaderState extends State<CustomProfileHeader> {
                               .join()
                               .toUpperCase() ??
                           "",
-                      style: TextStyle(fontSize: 35.sp)),
+                      style: TextStyle(fontSize: 35.sp, color: Colors.white)),
                 ),
                 Text(
                   widget.profileModel.data?.user?.showname ?? '',

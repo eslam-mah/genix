@@ -11,11 +11,9 @@ import 'package:genix/features/search%20page/views/view/search_page.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomHomeAppBar extends StatelessWidget {
-  final PostsModel postsModel;
   final Function() refresh;
   const CustomHomeAppBar({
     super.key,
-    required this.postsModel,
     required this.refresh,
   });
 
@@ -43,7 +41,7 @@ class CustomHomeAppBar extends StatelessWidget {
         CustomAppBarIcon(
           icon: Icons.post_add_outlined,
           onTap: () async {
-            await addPostModalBottomSheet(context, postsModel, refresh);
+            await addPostModalBottomSheet(context, refresh);
           },
           size: 25.sp,
         )

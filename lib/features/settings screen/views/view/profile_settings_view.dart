@@ -261,16 +261,16 @@ class _ProfileSettingsBodyState extends State<ProfileSettingsBody> {
                 SizedBox(
                   width: 10.w,
                 ),
-                InkWell(
-                  onTap: () {
-                    // ignore: unused_element
-                    editProfilePicBottomSheet(
-                        context, Function(String) onImageSelected) {}
-                  },
-                  child: Text(AppStrings.changecap.getString(context),
-                      style: TextStyle(
-                          color: AppColors.kPrimaryColor2, fontSize: 12.sp)),
-                ),
+                // InkWell(
+                //   onTap: () {
+                //     // ignore: unused_element
+                //     editProfilePicBottomSheet(
+                //         context, Function(String) onImageSelected) {}
+                //   },
+                //   child: Text('CHANGE',
+                //       style: TextStyle(
+                //           color: AppColors.kPrimaryColor2, fontSize: 12.sp)),
+                // ),
               ],
             ),
             SizedBox(

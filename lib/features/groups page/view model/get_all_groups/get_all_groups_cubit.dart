@@ -9,9 +9,9 @@ part 'get_all_groups_state.dart';
 class GetAllGroupsCubit extends Cubit<GetAllGroupsState> {
   GetAllGroupsCubit() : super(GetAllGroupsInitial());
   final GroupsRepository groupsRepository = GroupsRepository();
-  Future<void> getAllGroups({required int page}) async {
+  Future<void> getAllGroups({int? page}) async {
     emit(GetAllGroupsLoading());
-    final result = await groupsRepository.getGroupsList(page: page);
+    final result = await groupsRepository.getGroupsList(page: page ?? 1);
     result.fold(
       (l) => emit(GetAllGroupsError()),
       (r) {

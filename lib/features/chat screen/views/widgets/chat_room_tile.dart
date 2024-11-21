@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:genix/core/extension/date_time_extension.dart';
 import 'package:genix/core/utils/router.dart';
 import 'package:genix/features/chat%20screen/models/chat_room.dart';
@@ -16,6 +17,9 @@ class ChatRoomTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (item.user == null && item.isGroup == 0) {
+      return const SizedBox();
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
       child: InkWell(
@@ -25,11 +29,12 @@ class ChatRoomTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
         child: Ink(
           decoration: BoxDecoration(
-            color: Colors.white,
+            // color: Colors.white,
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Row(
               children: [
                 SizedBox(
@@ -41,14 +46,20 @@ class ChatRoomTile extends StatelessWidget {
                       imageUrl: item.user?.profileImg ?? '',
                       fit: BoxFit.cover,
                       errorWidget: (context, url, error) => Container(
-                        color: Colors.grey,
-                        child: const Center(
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+                          color: Colors.grey,
+                          child: Container(
+                            color: Colors.purple,
+                            alignment: Alignment.center,
+                            child: Text(
+                                item.user?.showname
+                                        ?.split('')
+                                        .take(2)
+                                        .join()
+                                        .toUpperCase() ??
+                                    '',
+                                style: TextStyle(
+                                    fontSize: 18.sp, color: Colors.white)),
+                          )),
                     ),
                   ),
                 ),

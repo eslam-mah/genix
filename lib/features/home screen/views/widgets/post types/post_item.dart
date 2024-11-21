@@ -30,6 +30,7 @@ import 'package:genix/features/home%20screen/views/widgets/share_post/share_bott
 import 'package:genix/features/home%20screen/views/widgets/show_post_tabbar_dialoge.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/video_post.dart';
 import 'package:genix/features/profile%20screen/views/view/profile_page.dart';
+import 'package:genix/features/settings%20screen/data/models/settings_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
@@ -51,11 +52,13 @@ class PostItem extends StatefulWidget {
     required this.id,
     required this.refresh,
     required this.pagingController,
+    this.settingsModel,
   });
   final int id;
   final bool isNightModeEnabled;
   final PostsModel postsModel;
   final Function() refresh;
+  final SettingsModel? settingsModel;
   final PagingController<int, PostsModel> pagingController;
 
   @override
@@ -170,6 +173,7 @@ class _PostItemState extends State<PostItem> {
         return PollPost(
           postsModel: widget.postsModel,
           isNightMode: widget.isNightModeEnabled,
+          me: widget.settingsModel ?? SettingsModel(),
         );
       case PostType.event:
         return EventPost(
@@ -495,7 +499,10 @@ class _PostItemState extends State<PostItem> {
                           isNightMode: widget.isNightModeEnabled,
                           text: '${AppStrings.share.getString(context)}',
                           onTap: () {
-                            shareBottomSheet(context);
+                            shareBottomSheet(context,
+                                postModel: widget.postsModel,
+                                myAccount:
+                                    widget.settingsModel ?? SettingsModel());
                           },
                         ),
                       ],

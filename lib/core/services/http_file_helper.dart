@@ -28,6 +28,45 @@ class HttpFileHelper {
     return prefs.getString(PrefKeys.kToken);
   }
 
+  static Future<http.Response> postMessage({
+    required String url,
+    String? token,
+    String? content,
+    List<File>? files,
+  }) async {
+    token ??= await _getToken(); // Get token if not provided
+
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+
+    // Set headers
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept'] = 'application/json';
+    request.headers['Content-Type'] = 'multipart/form-data';
+
+    // Add fields
+    if (content != null) request.fields['content'] = content;
+
+    // Add files if any
+    if (files != null && files.isNotEmpty) {
+      for (var file in files) {
+        if (await file.exists()) {
+          var fileMimeType =
+              lookupMimeType(file.path) ?? 'application/octet-stream';
+          var fileMimeTypeData = fileMimeType.split('/');
+          request.files.add(await http.MultipartFile.fromPath(
+            'files[]',
+            file.path,
+            contentType: MediaType(fileMimeTypeData[0], fileMimeTypeData[1]),
+          ));
+        }
+      }
+    }
+
+    // Send request and handle response
+    final response = await request.send();
+    return await http.Response.fromStream(response);
+  }
+
   static Future<http.Response> patchProfile({
     required String linkUrl,
     String? token,
@@ -245,6 +284,45 @@ class HttpFileHelper {
     if (pollOptions != null && pollOptions.isNotEmpty) {
       for (int i = 0; i < pollOptions.length; i++) {
         request.fields['poll_options[$i]'] = pollOptions[i];
+      }
+    }
+
+    // Send request and handle response
+    final response = await request.send();
+    return await http.Response.fromStream(response);
+  }
+
+  Future<http.Response> sendMessage({
+    required String url,
+    String? token,
+    String? content,
+    List<File>? files,
+  }) async {
+    token ??= await _getToken(); // Get token if not provided
+
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+
+    // Set headers
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Accept'] = 'application/json';
+    request.headers['Content-Type'] = 'multipart/form-data';
+
+    // Add fields
+    if (content != null) request.fields['content'] = content;
+
+    // Add files if any
+    if (files != null && files.isNotEmpty) {
+      for (var file in files) {
+        if (await file.exists()) {
+          var fileMimeType =
+              lookupMimeType(file.path) ?? 'application/octet-stream';
+          var fileMimeTypeData = fileMimeType.split('/');
+          request.files.add(await http.MultipartFile.fromPath(
+            'files[]',
+            file.path,
+            contentType: MediaType(fileMimeTypeData[0], fileMimeTypeData[1]),
+          ));
+        }
       }
     }
 

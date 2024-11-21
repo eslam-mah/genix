@@ -8,9 +8,10 @@ part 'get_followings_state.dart';
 class GetFollowingsCubit extends Cubit<GetFollowingsState> {
   GetFollowingsCubit() : super(GetFollowingsInitial());
   final FollowingsRepository getFollowingsRepo = FollowingsRepository();
-  Future<void> getFollowings({required int id, required int page}) async {
+  Future<void> getFollowings({required int id, int? page}) async {
     emit(GetFollowingsLoading());
-    final result = await getFollowingsRepo.getFollowings(id: id, page: page);
+    final result =
+        await getFollowingsRepo.getFollowings(id: id, page: page ?? 1);
     result.fold((l) => emit(GetFollowingsError()), (r) {
       final followings = FollowingsList.fromJson(r as Map<String, dynamic>);
       emit(GetFollowingsSuccess(followings: followings));

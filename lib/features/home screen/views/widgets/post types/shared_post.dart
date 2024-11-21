@@ -13,6 +13,7 @@ import 'package:genix/features/home%20screen/views/widgets/post%20types/media_it
 import 'package:genix/features/home%20screen/views/widgets/post%20types/poll_post.dart';
 import 'package:genix/features/home%20screen/views/widgets/post%20types/video_post.dart';
 import 'package:genix/features/profile%20screen/views/view/profile_page.dart';
+import 'package:genix/features/settings%20screen/data/models/settings_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +27,8 @@ enum PostType { image, video, poll, link, event, short, content, media }
 
 class SharedPost extends StatefulWidget {
   final PostsModel postsModel;
-  const SharedPost({super.key, required this.postsModel});
+  final SettingsModel? settingsModel;
+  const SharedPost({super.key, required this.postsModel, this.settingsModel});
 
   @override
   State<SharedPost> createState() => _SharedPostState();
@@ -92,7 +94,10 @@ class _SharedPostState extends State<SharedPost> {
       case PostType.media:
         return MediaPost(postsModel: postModel); // Mixed media post
       case PostType.poll:
-        return PollPost(postsModel: postModel);
+        return PollPost(
+          postsModel: postModel,
+          me: widget.settingsModel ?? SettingsModel(),
+        );
       case PostType.event:
         return EventPost(postsModel: postModel);
       case PostType.link:

@@ -10,7 +10,7 @@ class RemoveLockCubit extends Cubit<RemoveLockState> {
   Future<void> removeLock({required String password}) async {
     emit(RemoveLockLoading());
     final result = await removeLockRepo.removeLockAccount(password: password);
-    result.fold((l) => emit(RemoveLockError()), (r) {
+    result.fold((l) => emit(RemoveLockError(error: l.message ?? '')), (r) {
       emit(const RemoveLockSuccess(lock: 'lock removed successfully'));
     });
   }

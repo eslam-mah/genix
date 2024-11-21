@@ -1,5 +1,6 @@
 import 'package:genix/features/chat%20screen/views/chat_listing_screen.dart';
 import 'package:genix/features/chat%20screen/views/chat_screen.dart';
+import 'package:genix/features/chat%20screen/views/create_new_chat_screen.dart';
 import 'package:genix/features/comments%20section/coments_router.dart';
 import 'package:genix/features/comments%20section/replies.dart';
 import 'package:genix/features/followers%20list%20page/followers_router.dart';
@@ -16,7 +17,6 @@ import 'package:genix/features/notifications%20screen/notifications_router.dart'
 import 'package:genix/features/pages%20screen/page_followers_router.dart';
 import 'package:genix/features/pages%20screen/page_screen_router.dart';
 import 'package:genix/features/pages%20screen/pages_router.dart';
-import 'package:genix/features/payments/payment_router.dart';
 import 'package:genix/features/photos%20page/my_photos_router.dart';
 import 'package:genix/features/photos%20page/photos_router.dart';
 import 'package:genix/features/profile%20screen/My_profile_router.dart';
@@ -41,6 +41,7 @@ abstract class Rout {
   static const kChatScreen = '/chat';
 
   static const kLoadingPage = '/custom_loading_page';
+  static const createNewChat = '/create_new_chat';
 
   static final router = GoRouter(routes: [
     GoRoute(
@@ -74,12 +75,13 @@ abstract class Rout {
       path: kLoadingPage,
       builder: (context, state) => const CustomLoadingPage(),
     ),
+    GoRoute(
+      path: createNewChat,
+      builder: (context, state) => NewCreateChatScreen(),
+    ),
 
     /// register
     ...RegisterRouter.goRoutes,
-
-    /// payment screen
-    ...PaymentRouter.goRoutes,
 
     /// story
     ...StoryRouter.goRoutes,

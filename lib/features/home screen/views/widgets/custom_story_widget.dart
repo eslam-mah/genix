@@ -92,7 +92,8 @@ class _CustomStoryWidgetState extends State<CustomStoryWidget> {
                                           .join()
                                           .toUpperCase() ??
                                       '',
-                                  style: TextStyle(fontSize: 17.sp),
+                                  style: TextStyle(
+                                      fontSize: 19.sp, color: Colors.white),
                                 ),
                               );
                             },

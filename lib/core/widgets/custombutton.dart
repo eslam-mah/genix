@@ -41,9 +41,16 @@ class CustomButton extends StatelessWidget {
                   width: 10.w,
                 ),
               ],
-              Text(
-                buttonText,
-                style: TextStyle(fontSize: 15.sp, color: Colors.white),
+              SizedBox(
+                width: width! * 0.8,
+                child: Text(
+                  buttonText,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ],
           )),

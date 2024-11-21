@@ -145,6 +145,13 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget> {
                 },
               ),
               CustomListTile(
+                icon: Icons.chat_bubble,
+                text: 'Chat',
+                onTap: () async {
+                  context.push(Rout.kChatsListing);
+                },
+              ),
+              CustomListTile(
                 icon: FontAwesomeIcons.key,
                 text: '${AppStrings.lockscreen.getString(context)}',
                 onTap: () async {

@@ -22,7 +22,8 @@ class LockRepository {
       {required String password}) async {
     return await HttpHelper.handleRequest((token) async {
       return await HttpHelper.deleteData(
-          linkUrl: ApiEndPoints.removeLock + "?password=$password",
+          linkUrl: ApiEndPoints.removeLock,
+          data: {"password": password},
           token: token);
     });
   }
