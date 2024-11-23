@@ -181,7 +181,7 @@ mixin AppLocaleEnglish {
     AppStrings.login: 'Log In',
     AppStrings.signin: 'sign in',
     AppStrings.signup: 'signup',
-    AppStrings.email: 'E-Main',
+    AppStrings.email: 'E-Mail',
     AppStrings.rememberme: 'Remember Me',
     AppStrings.forgetpassword: 'Forget Password',
     AppStrings.notifications: 'Notifications',

@@ -182,7 +182,7 @@ mixin AppStrings {
   static const String login = 'Log In';
   static const String signin = 'sign in';
   static const String signup = 'signup';
-  static const String email = 'E-Main';
+  static const String email = 'E-Mail';
   static const String rememberme = 'Remember Me';
   static const String forgetpassword = 'Forget Password';
   static const String notifications = 'Notifications';

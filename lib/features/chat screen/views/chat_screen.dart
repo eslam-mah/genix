@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
@@ -32,12 +33,17 @@ class _ChatScreenState extends State<ChatScreen> {
   final ChatRoomCubit _chatRoomCubit = ChatRoomCubit();
   final HandlerCubit<bool> _emojiViewCubit = HandlerCubit(false);
   final FilePickerCubit _filePickerCubit = FilePickerCubit();
-
+  Timer? _messageFetchTimer;
   @override
   void initState() {
     super.initState();
+    _chatRoomCubit.initializePusher();
     _chatRoomCubit.getChatRoomMessages(id: widget.chatRoom.id.toString());
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _messageFetchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        _chatRoomCubit.getChatRoomMessages2(id: widget.chatRoom.id.toString());
+      });
+    });
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -45,7 +51,16 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     });
   }
-
+  @override
+  void dispose() {
+    _messageFetchTimer?.cancel(); // Cancel the timer to prevent memory leaks
+    _messageController.dispose();
+    _scrollController.dispose();
+    _chatRoomCubit.close();
+    _emojiViewCubit.close();
+    _filePickerCubit.close();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -137,33 +152,46 @@ class _ChatScreenState extends State<ChatScreen> {
     return BlocBuilder<ChatRoomCubit, ChatRoomState>(
       bloc: _chatRoomCubit,
       builder: (context, stateMessage) {
+        // Show loading indicator while messages are loading
         if (stateMessage is ChatRoomLoading) {
           return const Center(
-              child: CircularProgressIndicator(
-            color: AppColors.kPrimaryColor,
-          ));
-        } else if (stateMessage is ChatRoomError) {
+            child: CircularProgressIndicator(
+              color: AppColors.kPrimaryColor,
+            ),
+          );
+        }
+
+        // Show error message if there is an issue
+        else if (stateMessage is ChatRoomError) {
           return Center(child: Text(stateMessage.error));
-        } else if (stateMessage is ChatRoomSuccess) {
+        }
+
+        // Display chat messages when loading is done
+        else if (stateMessage is ChatRoomSuccess) {
           return ListView.builder(
             padding: const EdgeInsets.all(10),
             controller: _scrollController,
-            reverse: true,
+            reverse: true, // Makes the list scroll to the bottom
             itemCount: stateMessage.loadingState == true
-                ? stateMessage.messages.length + 1
+                ? stateMessage.messages.length + 1 // Show loading indicator at the end if new messages are loading
                 : stateMessage.messages.length,
             itemBuilder: (context, index) {
-              if (stateMessage.loadingState == true &&
-                  index == stateMessage.messages.length) {
+              // Show loading indicator at the bottom if more messages are being loaded
+              if (stateMessage.loadingState == true && index == stateMessage.messages.length) {
                 return const Center(child: CircularProgressIndicator());
               }
+
+              // Show each chat message
               return ChatBubble(
                 message: stateMessage.messages[index],
               );
             },
           );
-        } else {
-          return  Center(child: Text('${AppStrings.nomessagesfound.getString(context)}'));
+        }
+
+        // Display a message when no chat messages are found
+        else {
+          return Center(child: Text('${AppStrings.nomessagesfound.getString(context)}'));
         }
       },
     );
@@ -206,12 +234,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       _emojiViewCubit.update(!_emojiViewCubit.state);
                     },
                   ),
-                  // IconButton(
-                  //   icon: const Icon(Icons.mic),
-                  //   onPressed: () {
-                  //     // Voice recording action
-                  //   },
-                  // ),
+
                 ],
               ),
             ),
@@ -337,18 +360,4 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void _sendMessage() {
-    if (_messageController.text.isEmpty) return;
-
-    // Your message sending logic here
-
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
-
-    // Clear the message input after sending
-    _messageController.clear();
-  }
 }
