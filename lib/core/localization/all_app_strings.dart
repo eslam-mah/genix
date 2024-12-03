@@ -386,7 +386,7 @@ mixin AppStrings {
   static const String mineightcharacters = "MIN 8 CHARACTERS";
   static const String twofactorauthenticationcap = "TWO FACTOR AUTHENTICATION";
   static const String twofactorauthentication = " Two factor authentication";
-  static const String enable = "Enable";
+  static const String enable = "Enable ";
   static const String enablecap = "ENABLE";
   static const String accountclosure = "Account Closure";
   static const String deleteyouraccountanddata = "Delete Your Account And Data";

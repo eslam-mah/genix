@@ -114,17 +114,30 @@ class HttpHelper {
         },
       );
 
-      if (response.statusCode == 202) {
-        final responseBody = jsonDecode(response.body);
+      final responseBody = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 202) {
         if (responseBody['success']) {
-          final token = responseBody['data']['token'];
-          await _saveToken(token); // Save token
-          print('Token stored successfully');
-          return Right(responseBody);
+          if (responseBody['data'].containsKey('two_factor') &&
+              responseBody['data']['two_factor'] == true) {
+            // 2FA required, no token provided yet
+            return Right(responseBody);
+          } else if (responseBody['data'].containsKey('token')) {
+            // Token available, save it
+            final token = responseBody['data']['token'];
+            await _saveToken(token);
+            print('Token stored successfully');
+            return Right(responseBody);
+          } else {
+            return Left(FailureModel(
+              responseStatus: HttpResponseStatus.invalidData,
+              message: 'Unexpected response format',
+            ));
+          }
         } else {
           return Left(FailureModel(
             responseStatus: HttpResponseStatus.invalidData,
-            message: responseBody['message'],
+            message: responseBody['message'] ?? 'Unknown error occurred',
           ));
         }
       } else {
@@ -136,10 +149,12 @@ class HttpHelper {
     } catch (e) {
       return Left(FailureModel(
         responseStatus: HttpResponseStatus.failure,
-        message: e.toString(),
+        message: 'An error occurred: ${e.toString()}',
       ));
     }
   }
+
+
 
   static Future<http.Response> postData(
       {required String linkUrl,

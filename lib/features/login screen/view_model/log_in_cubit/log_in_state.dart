@@ -16,10 +16,20 @@ final class LogInSuccess extends LogInState {
   final Map<dynamic, dynamic> data;
 
   const LogInSuccess({required this.data});
+
+  @override
+  List<Object> get props => [data];
+}
+
+final class LogInTwoFactorRequired extends LogInState {
+  const LogInTwoFactorRequired();
 }
 
 final class LogInError extends LogInState {
   final String message;
 
   const LogInError({required this.message});
+
+  @override
+  List<Object> get props => [message];
 }

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,6 +45,7 @@ import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_home_appbar.dart';
 
 import 'package:genix/features/home%20screen/views/widgets/post%20types/post_item.dart';
+import 'package:pusher_client/pusher_client.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/localization/all_app_strings.dart';
@@ -68,22 +72,81 @@ class _HomePageState extends State<HomePage> {
   late GetNewsFeedPostsCubit getPostsCubit;
   late GetStoriesCubit getStoriesCubit;
   bool isNightModeEnabled = false;
+  late PusherClient pusher;
 
   @override
   void initState() {
     super.initState();
+
+    // Initialize PusherClient
+    pusher = PusherClient(
+      'bea6d82af19725b37bd4',
+      PusherOptions(
+        cluster: 'eu',
+        encrypted: true,
+      ),
+    );
+
+    // Subscribe to a channel and bind an event
+    pusher.subscribe("chat").bind("call.store", (event) {
+      final callData = json.decode(event!.data!);
+      showIncomingCallDialog(callData);
+    });
+
+    // Initialize other data
     isNightModeEnabled = CacheData.getData(key: PrefKeys.kDarkMode) ?? false;
     getPostsCubit = BlocProvider.of<GetNewsFeedPostsCubit>(context);
     getStoriesCubit = BlocProvider.of<GetStoriesCubit>(context);
     context.read<GetMyAccountDetailsCubit>().getMyAccountDetails();
     context.read<GetStoriesCubit>().getStories(page: 1);
 
+    // Set up paging listeners
     _pagingController.addPageRequestListener((page) {
       getPostsCubit.getNewsFeedPosts(page: page);
     });
     _storiesPagingController.addPageRequestListener((page) {
       getStoriesCubit.getStories(page: page);
     });
+  }
+
+
+  void showIncomingCallDialog(Map<String, dynamic> callData) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Incoming Call"),
+        content: const Text("Do you want to accept the call?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context), // Reject
+            child: const Text("Reject"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close dialog
+              joinCall(callData['channel_name'], callData['token'],
+                  callData['is_video']);
+            },
+            child: const Text("Accept"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  late RtcEngine _engine;
+  Future<void> joinCall(String channelName, String token, bool isVideo) async {
+    if (isVideo) {
+      await _engine.enableVideo();
+    } else {
+      await _engine.disableVideo();
+    }
+    await _engine.joinChannel(
+      token: token,
+      channelId: channelName,
+      uid: 0,
+      options: const ChannelMediaOptions(),
+    );
   }
 
   void handleNightModeChanged(bool isNightMode) {
@@ -101,16 +164,20 @@ class _HomePageState extends State<HomePage> {
           listener: (context, state) {
             if (state is GetMyAccountDetailsError) {
               print('Error: ${state.message}');
-              if (state.message == '${AppStrings.youremailisnotverified.getString(context)}') {
+              if (state.message ==
+                  '${AppStrings.youremailisnotverified.getString(context)}') {
                 GoRouter.of(context).go(VerificationScreen.routeName);
-              } else if (state.message == "'${AppStrings.unauthenticated.getString(context)}'") {
+              } else if (state.message ==
+                  "'${AppStrings.unauthenticated.getString(context)}'") {
                 GoRouter.of(context)
                     .go(LoginScreen.route, extra: const LogInScreenArgs());
               } else if (state.message == "Your screen is locked.") {
                 GoRouter.of(context).go(LockPage.route);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                   SnackBar(content: Text('${AppStrings.somethingwentwrong.getString(context)}')),
+                  SnackBar(
+                      content: Text(
+                          AppStrings.somethingwentwrong.getString(context))),
                 );
               }
             }
@@ -136,14 +203,18 @@ class _HomePageState extends State<HomePage> {
           listener: (context, state) {
             if (state is DeletePostSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                 SnackBar(content: Text('${AppStrings.postdeletedsuccessfully.getString(context)}')),
+                SnackBar(
+                    content: Text(
+                        '${AppStrings.postdeletedsuccessfully.getString(context)}')),
               );
             } else if (state is DeletePostError) {
               final currentItems = _pagingController.itemList ?? [];
               final updatedItems = [...currentItems];
               _pagingController.itemList = updatedItems;
               ScaffoldMessenger.of(context).showSnackBar(
-                 SnackBar(content: Text('${AppStrings.failedtodeletepost.getString(context)}')),
+                SnackBar(
+                    content: Text(
+                        '${AppStrings.failedtodeletepost.getString(context)}')),
               );
             }
           },
@@ -152,7 +223,8 @@ class _HomePageState extends State<HomePage> {
           listener: (context, state) {
             if (state is AddPostSuccess) {
               List<PostsModel> items = _pagingController.itemList ?? [];
-              items.add(PostsModel(content: '${AppStrings.addingapost.getString(context)}'));
+              items.add(PostsModel(
+                  content: '${AppStrings.addingapost.getString(context)}'));
               _pagingController.itemList = items;
               setState(() {});
             }
@@ -236,8 +308,9 @@ class _HomePageState extends State<HomePage> {
 
                           return Column(
                             children: [
-                               CustomHeaderWidget(
-                                text: '${AppStrings.newsfeed.getString(context)}',
+                              CustomHeaderWidget(
+                                text:
+                                    '${AppStrings.newsfeed.getString(context)}',
                               ),
                               SizedBox(
                                 width: double.infinity,
@@ -363,7 +436,8 @@ class _HomePageState extends State<HomePage> {
                                       refresh: () {
                                         _pagingController.refresh();
                                       },
-                                      pagingController: _pagingController, settingsModel: state.account,
+                                      pagingController: _pagingController,
+                                      settingsModel: state.account,
                                     );
                                   } else {
                                     return PostShimmerEffect(

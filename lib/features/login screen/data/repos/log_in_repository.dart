@@ -7,11 +7,19 @@ class LogInRepository {
   Future<Either<FailureModel, Map>> logIn({
     required String email,
     required String password,
+    String? code, // Optional 2FA code
   }) async {
+    final data = {
+      'email': email,
+      'password': password,
+    };
+    if (code != null) {
+      data['code'] = code;
+    }
+
     return await HttpHelper.login(
-      linkUrl:
-          'https://api.genix.social/api/login', // Replace with your login URL
-      data: {'email': email, 'password': password},
+      linkUrl: ApiEndPoints.logIn,
+      data: data,
     );
   }
 }
