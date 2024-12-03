@@ -19,6 +19,7 @@ import 'package:genix/features/chat%20screen/views/cubit/file_picker_cubit/file_
 import 'package:genix/features/chat%20screen/views/widgets/chat_message_buble.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/agora/pusher_service_for_call.dart';
 import '../../../core/localization/all_app_strings.dart';
 import '../../../core/utils/api_end_points.dart';
 
@@ -45,7 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
     _chatRoomCubit.initializePusher();
     _chatRoomCubit.getChatRoomMessages(id: widget.chatRoom.id.toString());
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _messageFetchTimer = Timer.periodic(const Duration(seconds: 100), (timer) {
+      _messageFetchTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
         _chatRoomCubit.getChatRoomMessages2(id: widget.chatRoom.id.toString());
       });
     });
@@ -435,7 +436,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
           // Get Agora token
           String agoraToken = await getAgoraToken(channelId);
-
+          await CallPusherManager().notifyCall(channelId);
            navigateToCallScreen(channelName, agoraToken, withVideo);
         } else {
           throw Exception('Invalid response structure: ${response.body}');
@@ -500,6 +501,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
+
 }
 
 
