@@ -40,8 +40,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
   await CacheData.cacheInitialization();
-  NotificationService.initialize();
-
+  await NotificationService.initialize();
   // Load saved language preference
   final prefs = await SharedPreferences.getInstance();
   String savedLanguageCode = prefs.getString('language_code') ?? 'en';
@@ -87,11 +86,15 @@ class Genix extends StatelessWidget {
           providers: [
             BlocProvider(create: (context) => FirstLoadCubit()),
             BlocProvider(create: (context) => ThemeCubit()),
+            BlocProvider(
+              create: (context) => PusherBloc()..add(PusherConnect()),
+            ),
             BlocProvider(create: (context) => LogOutCubit()),
             BlocProvider(create: (context) => GetMyAccountDetailsCubit()),
             BlocProvider(create: (context) => GetLockCubit()),
             BlocProvider(create: (context) => LogInCubit()),
             BlocProvider(create: (context) => GetNewsFeedPostsCubit()),
+            BlocProvider(create: (context) => PusherBloc()),
           ],
           child: BlocBuilder<ThemeCubit, ThemeState>(
             builder: (context, themeState) {

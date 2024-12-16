@@ -3,13 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:genix/core/services/shared_preferences.dart';
 import 'package:genix/core/utils/pref_keys.dart';
 import 'package:genix/features/notifications%20screen/data/services/notification_services.dart';
-import 'package:pusher_client/pusher_client.dart';
+import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
+import 'dart:convert';
+
 part 'pusher_event.dart';
 part 'pusher_state.dart';
 
 class PusherBloc extends Bloc<PusherEvent, PusherState> {
-  late PusherClient pusher;
-  late Channel chatChannel;
+  late PusherChannelsFlutter pusher;
+  late PusherChannel chatChannel;
 
   PusherBloc() : super(PusherInitial()) {
     on<PusherConnect>(_onPusherConnect);
@@ -23,80 +25,98 @@ class PusherBloc extends Bloc<PusherEvent, PusherState> {
     on<PusherMyPostUpdated>(_onPusherMyPostUpdated);
   }
 
-  void _onPusherConnect(PusherConnect event, Emitter<PusherState> emit) {
+  Future<void> _onPusherConnect(
+      PusherConnect event, Emitter<PusherState> emit) async {
     String token = CacheData.getData(key: PrefKeys.kToken);
-    PusherOptions options = PusherOptions(
-      cluster: "eu",
-      encrypted: true,
-      auth: PusherAuth(
-        'https://api.genix.social/api/broadcasting/auth',
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
+    try {
+      pusher = PusherChannelsFlutter.getInstance();
+      await pusher.init(
+        apiKey: "bea6d82af19725b37bd4",
+        cluster: "eu",
+        authEndpoint: 'https://api.genix.social/api/broadcasting/auth',
+        authParams: {
+          "headers": {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
         },
-      ),
-    );
+        onConnectionStateChange: (String currentState, String previousState) {
+          print("Connection state changed: $previousState -> $currentState");
+        },
+        onError: (String message, int? code, dynamic e) {
+          print("Error: $message");
+        },
+      );
 
-    pusher = PusherClient(
-      "bea6d82af19725b37bd4",
-      options,
-      autoConnect: true,
-    );
+      await pusher.connect();
 
-    pusher.connect();
-    chatChannel = pusher.subscribe('chat-channel');
+      chatChannel = await pusher.subscribe(
+        channelName: '.chat.message.sent',
+        onEvent: _onEvent2,
+      );
 
-    // Listen for various events and add them to the bloc
-    chatChannel.bind('.chat.message.sent', (event) {
-      if (event != null) {
-        add(PusherMessageSent(event.data ?? ''));
+      emit(PusherConnected());
+    } catch (e) {
+      print("Pusher init failed: $e");
+    }
+  }
+
+  void _onEvent2(PusherEvent event) {
+    print(
+        '___________________________________ sending message ___________________________');
+  }
+
+  void _onEvent(PusherEvent event) {
+    // Log the raw event object
+    print("Received event: $event");
+
+    try {
+      // Assume event is a string representation of JSON and try to decode it
+      final rawEvent = event
+          .toString(); // Use `toString()` to get a string representation of the event
+      final decodedData = jsonDecode(rawEvent);
+
+      // Access event name and data from decoded JSON
+      final eventName = decodedData['event'] ?? '';
+      final eventData = decodedData['data'] ?? '';
+
+      if (eventName.isNotEmpty && eventData.isNotEmpty) {
+        // Add events based on eventName
+        switch (eventName) {
+          case '.chat.message.sent':
+            add(PusherMessageSent(eventData));
+            break;
+          case '.chat.message.read':
+            add(PusherMessageRead(eventData));
+            break;
+          case '.chat.call.store':
+            add(PusherCallStore(eventData));
+            break;
+          case '.chat.call.update':
+            add(PusherCallUpdate(eventData));
+            break;
+          case '.chat.call.delete':
+            add(PusherCallDelete(eventData));
+            break;
+          case '.posts.comment':
+            add(PusherPostComment(eventData));
+            break;
+          case '.posts.live.update':
+            add(PusherLiveUpdate(eventData));
+            break;
+          case '.posts.my-post.updated':
+            add(PusherMyPostUpdated(eventData));
+            break;
+          default:
+            print("Unhandled event: $eventName");
+        }
+      } else {
+        print("Event has missing or unexpected data structure");
       }
-    });
-
-    chatChannel.bind('.chat.message.read', (event) {
-      if (event != null) {
-        add(PusherMessageRead(event.data ?? ''));
-      }
-    });
-
-    chatChannel.bind('.chat.call.store', (event) {
-      if (event != null) {
-        add(PusherCallStore(event.data ?? ''));
-      }
-    });
-
-    chatChannel.bind('.chat.call.update', (event) {
-      if (event != null) {
-        add(PusherCallUpdate(event.data ?? ''));
-      }
-    });
-
-    chatChannel.bind('.chat.call.delete', (event) {
-      if (event != null) {
-        add(PusherCallDelete(event.data ?? ''));
-      }
-    });
-
-    chatChannel.bind('.posts.comment', (event) {
-      if (event != null) {
-        add(PusherPostComment(event.data ?? ''));
-      }
-    });
-
-    chatChannel.bind('.posts.live.update', (event) {
-      if (event != null) {
-        add(PusherLiveUpdate(event.data ?? ''));
-      }
-    });
-
-    chatChannel.bind('.posts.my-post.updated', (event) {
-      if (event != null) {
-        add(PusherMyPostUpdated(event.data ?? ''));
-      }
-    });
-
-    emit(PusherConnected());
+    } catch (e) {
+      print("Error while processing or decoding event data: $e");
+    }
   }
 
   void _onPusherMessageSent(

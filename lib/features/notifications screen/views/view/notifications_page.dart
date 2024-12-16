@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +22,7 @@ import 'package:genix/core/widgets/customglowingbutton.dart';
 
 import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/notifications%20screen/data/models/notifications_model.dart';
+import 'package:genix/features/notifications%20screen/data/services/notification_services.dart';
 import 'package:genix/features/notifications%20screen/view%20model/get%20all%20notifications/get_all_notifications_cubit.dart';
 import 'package:genix/features/notifications%20screen/views/widgets/notification_item.dart';
 import 'package:genix/features/notifications%20screen/views/widgets/notification_shimmer_item.dart';
@@ -106,13 +108,21 @@ class _NotificationsPageState extends State<NotificationsPage> {
             firstPageProgressIndicatorBuilder: (_) => NotificationShimmer(
                   isNightModeEnabled: isNightModeEnabled,
                 ),
-            newPageProgressIndicatorBuilder: (_) => NewPageProgressIndicator(),
-            noItemsFoundIndicatorBuilder: (_) => NoItemsFoundIndicator(),
+            newPageProgressIndicatorBuilder: (_) =>
+                const NewPageProgressIndicator(),
+            noItemsFoundIndicatorBuilder: (_) => const NoItemsFoundIndicator(),
             itemBuilder: (context, item, index) {
               print('++++++++++ $index');
-              return NotificationItem(
-                notification: item,
-                isNightMode: isNightModeEnabled,
+              return InkWell(
+                onTap: () {
+                  // _showNotification('Notification', item.data.content);
+                  NotificationService.showNotification(
+                      title: 'Notifications', body: 'item.data.content');
+                },
+                child: NotificationItem(
+                  notification: item,
+                  isNightMode: isNightModeEnabled,
+                ),
               );
             }),
       ),
@@ -204,7 +214,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
             ? const GlowingButtonBody()
             : Column(
                 children: [
-                   CustomHeaderWidget(text:'${AppStrings.notifications.getString(context)}'),
+                  CustomHeaderWidget(
+                      text: AppStrings.notifications.getString(context)),
                   Expanded(
                       child: Padding(
                     padding:
