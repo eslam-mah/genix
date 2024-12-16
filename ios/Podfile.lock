@@ -1,4 +1,44 @@
 PODS:
+  - agora_rtc_engine (6.3.2):
+    - AgoraIrisRTC_iOS (= 4.3.2-build.1)
+    - AgoraRtcEngine_iOS (= 4.3.2)
+    - Flutter
+  - AgoraIrisRTC_iOS (4.3.2-build.1)
+  - AgoraRtcEngine_iOS (4.3.2):
+    - AgoraRtcEngine_iOS/AIAEC (= 4.3.2)
+    - AgoraRtcEngine_iOS/AINS (= 4.3.2)
+    - AgoraRtcEngine_iOS/AudioBeauty (= 4.3.2)
+    - AgoraRtcEngine_iOS/ClearVision (= 4.3.2)
+    - AgoraRtcEngine_iOS/ContentInspect (= 4.3.2)
+    - AgoraRtcEngine_iOS/FaceCapture (= 4.3.2)
+    - AgoraRtcEngine_iOS/FaceDetection (= 4.3.2)
+    - AgoraRtcEngine_iOS/LipSync (= 4.3.2)
+    - AgoraRtcEngine_iOS/ReplayKit (= 4.3.2)
+    - AgoraRtcEngine_iOS/RtcBasic (= 4.3.2)
+    - AgoraRtcEngine_iOS/SpatialAudio (= 4.3.2)
+    - AgoraRtcEngine_iOS/VideoAv1CodecDec (= 4.3.2)
+    - AgoraRtcEngine_iOS/VideoAv1CodecEnc (= 4.3.2)
+    - AgoraRtcEngine_iOS/VideoCodecDec (= 4.3.2)
+    - AgoraRtcEngine_iOS/VideoCodecEnc (= 4.3.2)
+    - AgoraRtcEngine_iOS/VirtualBackground (= 4.3.2)
+    - AgoraRtcEngine_iOS/VQA (= 4.3.2)
+  - AgoraRtcEngine_iOS/AIAEC (4.3.2)
+  - AgoraRtcEngine_iOS/AINS (4.3.2)
+  - AgoraRtcEngine_iOS/AudioBeauty (4.3.2)
+  - AgoraRtcEngine_iOS/ClearVision (4.3.2)
+  - AgoraRtcEngine_iOS/ContentInspect (4.3.2)
+  - AgoraRtcEngine_iOS/FaceCapture (4.3.2)
+  - AgoraRtcEngine_iOS/FaceDetection (4.3.2)
+  - AgoraRtcEngine_iOS/LipSync (4.3.2)
+  - AgoraRtcEngine_iOS/ReplayKit (4.3.2)
+  - AgoraRtcEngine_iOS/RtcBasic (4.3.2)
+  - AgoraRtcEngine_iOS/SpatialAudio (4.3.2)
+  - AgoraRtcEngine_iOS/VideoAv1CodecDec (4.3.2)
+  - AgoraRtcEngine_iOS/VideoAv1CodecEnc (4.3.2)
+  - AgoraRtcEngine_iOS/VideoCodecDec (4.3.2)
+  - AgoraRtcEngine_iOS/VideoCodecEnc (4.3.2)
+  - AgoraRtcEngine_iOS/VirtualBackground (4.3.2)
+  - AgoraRtcEngine_iOS/VQA (4.3.2)
   - DKImagePickerController/Core (4.3.9):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
@@ -45,11 +85,15 @@ PODS:
     - Toast
   - image_picker_ios (0.0.1):
     - Flutter
+  - iris_method_channel (0.0.1):
+    - Flutter
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - permission_handler_apple (9.3.0):
+    - Flutter
   - pusher_client (2.0.0):
     - Flutter
     - PusherSwiftWithEncryption (~> 8.0.0)
@@ -116,6 +160,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - agora_rtc_engine (from `.symlinks/plugins/agora_rtc_engine/ios`)
   - emoji_picker_flutter (from `.symlinks/plugins/emoji_picker_flutter/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
@@ -123,8 +168,10 @@ DEPENDENCIES:
   - flutter_localization (from `.symlinks/plugins/flutter_localization/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - iris_method_channel (from `.symlinks/plugins/iris_method_channel/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - pusher_client (from `.symlinks/plugins/pusher_client/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
@@ -135,6 +182,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AgoraIrisRTC_iOS
+    - AgoraRtcEngine_iOS
     - DKImagePickerController
     - DKPhotoGallery
     - PusherSwiftWithEncryption
@@ -154,6 +203,8 @@ SPEC REPOS:
     - Toast
 
 EXTERNAL SOURCES:
+  agora_rtc_engine:
+    :path: ".symlinks/plugins/agora_rtc_engine/ios"
   emoji_picker_flutter:
     :path: ".symlinks/plugins/emoji_picker_flutter/ios"
   file_picker:
@@ -168,10 +219,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/fluttertoast/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
+  iris_method_channel:
+    :path: ".symlinks/plugins/iris_method_channel/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
   pusher_client:
     :path: ".symlinks/plugins/pusher_client/ios"
   shared_preferences_foundation:
@@ -188,6 +243,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/wakelock_plus/ios"
 
 SPEC CHECKSUMS:
+  agora_rtc_engine: 14229f6b2fb40ab33cabba2b9f9c5b1c454ecb8e
+  AgoraIrisRTC_iOS: 3cb15344a503a1a35ab6d60481732a8beeda98fe
+  AgoraRtcEngine_iOS: eaa97751fcfe1b50d9b067e0df92752a6a5f899f
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   emoji_picker_flutter: fe2e6151c5b548e975d546e6eeb567daf0962a58
@@ -197,8 +255,10 @@ SPEC CHECKSUMS:
   flutter_localization: f43b18844a2b3d2c71fd64f04ffd6b1e64dd54d4
   fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
+  iris_method_channel: 0617c689164d8154c020c50f63ca79f92b8a7b9d
   package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   pusher_client: ffcefc0aeeb910ef85e82c9bb333146adad0d8ce
   PusherSwiftWithEncryption: e8626abf1067a7e1b06afde720934fe1872498e3
   ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda

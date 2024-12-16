@@ -15,6 +15,9 @@ import 'package:genix/features/register%20screen/views/verification_screen.dart'
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pusher_client/pusher_client.dart';
+
+import '../../../core/agora/call_service.dart';
 
 class SplashScreenBody extends StatefulWidget {
   const SplashScreenBody({super.key});
@@ -24,14 +27,35 @@ class SplashScreenBody extends StatefulWidget {
 }
 
 class _SplashScreenBodyState extends State<SplashScreenBody> {
+  final CallService callService = CallService();
+
+  void startCall(String token, String channelName) {
+    callService.joinChannel(token, channelName);
+  }
+
+  void endCall() {
+    callService.leaveChannel();
+  }
+
+  late PusherClient pusher;
+  void initPusher() {
+    pusher = PusherClient(
+      "bea6d82af19725b37bd4",
+      PusherOptions(cluster: "eu"),
+    );
+
+    pusher.connect();
+  }
+
   @override
   void initState() {
     super.initState();
+    callService.initAgora();
+    initPusher();
     _initAuthCheck();
   }
 
   void _initAuthCheck() async {
-
     await Future.delayed(const Duration(seconds: 3));
     _checkAuthStatus();
   }

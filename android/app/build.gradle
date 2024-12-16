@@ -24,6 +24,9 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.genix"
+    compileSdk 34
+    ndkVersion "25.1.8937393"
+
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
     defaultConfig {
@@ -49,7 +52,7 @@ android {
         applicationId "com.example.genix"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

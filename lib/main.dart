@@ -32,15 +32,19 @@ import 'package:genix/features/notifications%20screen/view%20model/pusher_bloc/p
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'core/agora/pusher_service_for_call.dart';
 import 'core/localization/german.dart';
 import 'core/services/locator.dart';
 
+// final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final FlutterLocalization localization = FlutterLocalization.instance;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await CallPusherManager().initialize();
   setupLocator();
   await CacheData.cacheInitialization();
   await NotificationService.initialize();
+  NotificationService.initialize();
   // Load saved language preference
   final prefs = await SharedPreferences.getInstance();
   String savedLanguageCode = prefs.getString('language_code') ?? 'en';
@@ -77,6 +81,7 @@ class Genix extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CallPusherManager().setContext(context);
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,

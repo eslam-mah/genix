@@ -152,4 +152,7 @@ class ApiEndPoints {
   static const String getPromotionById = "$baseUrl/payments/promotion";
   static const String getGifts = "$baseUrl/payments/gifts";
 
+  static const enableTwoFactorAuthentication = "$baseUrl/user/two-factor-authentication";
+  static const confirmPasswordfor2Fa = "$baseUrl/user/confirm-password";
+
 }

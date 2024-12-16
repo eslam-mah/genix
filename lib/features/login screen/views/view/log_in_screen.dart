@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -64,17 +66,139 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     logInCubit = BlocProvider.of<LogInCubit>(context);
     context.read<FirstLoadCubit>().firstLoad();
   }
-
   void logIn() async {
     if (_formKey.currentState?.validate() ?? false) {
       setState(() {
         isLoading = true;
       });
+
       final email = emailController.text;
       final password = passwordController.text;
+
       await logInCubit.logIn(email: email, password: password);
     }
   }
+
+
+  void showTwoFactorDialog(BuildContext context, String email, String password) {
+    final TextEditingController codeController = TextEditingController();
+
+    showCupertinoModalPopup(
+      context: context,
+      builder: (dialogContext) => Container(
+        color: CupertinoColors.systemBackground.resolveFrom(dialogContext),
+        child: CupertinoAlertDialog(
+          title: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Icon(
+                  CupertinoIcons.lock_shield,
+                  size: 48,
+                  color: CupertinoColors.systemBlue.resolveFrom(dialogContext),
+                ),
+              ),
+              const Text(
+                'Verification Required',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: -0.5,
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 8),
+              Text(
+                'Enter the 6-digit code from your\nauthenticator app',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: CupertinoColors.secondaryLabel.resolveFrom(dialogContext),
+                  height: 1.3,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: CupertinoColors.tertiarySystemFill.resolveFrom(dialogContext),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: CupertinoColors.systemGrey5.resolveFrom(dialogContext),
+                    width: 0.5,
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: CupertinoTextField(
+                    controller: codeController,
+                    placeholder: '••••••',
+                    decoration: null,
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    maxLength: 6,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      letterSpacing: 8,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    placeholderStyle: TextStyle(
+                      fontSize: 24,
+                      letterSpacing: 8,
+                      color: CupertinoColors.placeholderText.resolveFrom(dialogContext),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'The code expires in 30 seconds',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: CupertinoColors.secondaryLabel.resolveFrom(dialogContext),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            CupertinoDialogAction(
+              onPressed: () => Navigator.pop(dialogContext),
+              isDestructiveAction: true,
+              child: const Text(
+                'Cancel',
+                style: TextStyle(fontWeight: FontWeight.w500),
+              ),
+            ),
+            CupertinoDialogAction(
+              onPressed: () async {
+                final code = codeController.text.trim();
+                if (code.isNotEmpty) {
+                  await logInCubit.logIn(
+                    email: email,
+                    password: password,
+                    code: code,
+                  );
+                  Navigator.pop(dialogContext);
+                }
+              },
+              isDefaultAction: true,
+              child: const Text(
+                'Verify',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +212,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
               isLoading = false;
             });
             ScaffoldMessenger.of(context).showSnackBar(
-               SnackBar(content: Text('${AppStrings.thesecredentialsdonotmatch.getString(context)}')),
+               SnackBar(content: Text(AppStrings.thesecredentialsdonotmatch.getString(context))),
             );
           } else if (state is LogInSuccess) {
             setState(() {
@@ -97,14 +221,20 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
             if (homeState is FirstLoadSuccess &&
                 homeState.status == HttpResponseStatus.success) {
               GoRouter.of(context).go(HomePage.routeName);
-              print(homeState.status);
+              if (kDebugMode) {
+                print(homeState.status);
+              }
             } else if (homeState is FirstLoadError ||
                 homeState is FirstLoadSuccess &&
                     homeState.firstLoad.data.user?.verified == false) {
               GoRouter.of(context).go(VerificationScreen.routeName);
             } else {
-              print(state);
-              print(homeState);
+              if (kDebugMode) {
+                print(state);
+              }
+              if (kDebugMode) {
+                print(homeState);
+              }
               GoRouter.of(context).push(Rout.kLoadingPage);
             }
           }
@@ -134,7 +264,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                       Icon(FontAwesomeIcons.key, size: 30.sp),
                       SizedBox(width: 10.w),
                       Text(
-                        '${AppStrings.login.getString(context)}',
+                        AppStrings.login.getString(context),
                         style: TextStyle(
                             fontSize: 24.sp, fontWeight: FontWeight.w400),
                       ),
@@ -144,7 +274,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   CustomTextField(
                     isObscure: false,
                     onTap: () {},
-                    hintText: '${AppStrings.email.getString(context)}',
+                    hintText: AppStrings.email.getString(context),
                     readOnly: false,
                     controller: emailController,
                   ),
@@ -152,7 +282,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   CustomTextField(
                     isObscure: true,
                     onTap: () {},
-                    hintText: '${AppStrings.password.getString(context)}',
+                    hintText: AppStrings.password.getString(context),
                     readOnly: false,
                     controller: passwordController,
                   ),
@@ -160,7 +290,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   Row(
                     children: [
                       SizedBox(width: 30.w),
-                      Text('${AppStrings.rememberme.getString(context)}', style: TextStyle(fontSize: 14.sp)),
+                      Text(AppStrings.rememberme.getString(context), style: TextStyle(fontSize: 14.sp)),
                       const Spacer(),
                       Switch(
                         value: true,
@@ -171,21 +301,47 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                     ],
                   ),
                   SizedBox(height: 50.h),
-                  CustomButton(
-                    onTap: logIn,
-                    color: AppColors.kPrimaryColor2,
-                    width: 320.w,
-                    height: 40.w,
-                    buttonText: '${AppStrings.login.getString(context)}',
-                    borderRadius: 50.r,
-                  ),
-                  SizedBox(height: 20.h),
+                BlocConsumer<LogInCubit, LogInState>(
+                  listener: (context, state) {
+                    if (state is LogInSuccess) {
+                      // Navigate to the home screen
+                      Navigator.pushReplacementNamed(context, '/home');
+                    } else if (state is LogInTwoFactorRequired) {
+                      // Show 2FA dialog
+                      showTwoFactorDialog(
+                        context,
+                        emailController.text,
+                        passwordController.text,
+                      );
+                    } else if (state is LogInError) {
+                      // Show error message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.message)),
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    return CustomButton(
+                      onTap: (){
+                        state is LogInLoading ? null : logIn();
+                      },
+                      color: AppColors.kPrimaryColor2,
+                      width: 320.w,
+                      height: 40.w,
+                      buttonText: state is LogInLoading
+                          ? 'Loading...' // Show loading text if login in progress
+                          : AppStrings.login.getString(context),
+                      borderRadius: 50.r,
+                    );
+                  },
+                ),
+                SizedBox(height: 20.h),
                   InkWell(
                     onTap: () {
                       // Handle forgot password action
                     },
                     child: Text(
-                      '${AppStrings.forgetpassword.getString(context)}',
+                      AppStrings.forgetpassword.getString(context),
                       style: TextStyle(fontSize: 16.sp),
                     ),
                   ),
@@ -199,7 +355,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                         height: 33.h,
                         icon: FontAwesomeIcons.key,
                         borderRadius: 50.r,
-                        buttonText:'${AppStrings.signin.getString(context)}',
+                        buttonText:AppStrings.signin.getString(context),
                         color: AppColors.kPrimaryColor2,
                       ),
                       SizedBox(width: 18.w),
@@ -211,7 +367,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                         height: 33.h,
                         icon: FontAwesomeIcons.penRuler,
                         borderRadius: 50.r,
-                        buttonText: '${AppStrings.signup.getString(context)}',
+                        buttonText: AppStrings.signup.getString(context),
                         color: Colors.black,
                       ),
                     ],
