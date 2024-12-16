@@ -40,7 +40,7 @@ import 'core/services/locator.dart';
 final FlutterLocalization localization = FlutterLocalization.instance;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await CallPusherManager().initialize();
+  // await CallPusherManager().initialize();
   setupLocator();
   await CacheData.cacheInitialization();
   await NotificationService.initialize();
@@ -81,7 +81,7 @@ class Genix extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CallPusherManager().setContext(context);
+    // CallPusherManager().setContext(context);
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,

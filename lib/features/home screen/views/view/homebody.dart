@@ -45,7 +45,6 @@ import 'package:genix/core/widgets/glowing_button_body.dart';
 import 'package:genix/features/home%20screen/views/widgets/custom_home_appbar.dart';
 
 import 'package:genix/features/home%20screen/views/widgets/post%20types/post_item.dart';
-import 'package:pusher_client/pusher_client.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/localization/all_app_strings.dart';
@@ -72,26 +71,14 @@ class _HomePageState extends State<HomePage> {
   late GetNewsFeedPostsCubit getPostsCubit;
   late GetStoriesCubit getStoriesCubit;
   bool isNightModeEnabled = false;
-  late PusherClient pusher;
 
   @override
   void initState() {
     super.initState();
 
     // Initialize PusherClient
-    pusher = PusherClient(
-      'bea6d82af19725b37bd4',
-      PusherOptions(
-        cluster: 'eu',
-        encrypted: true,
-      ),
-    );
 
     // Subscribe to a channel and bind an event
-    pusher.subscribe("chat").bind("call.store", (event) {
-      final callData = json.decode(event!.data!);
-      showIncomingCallDialog(callData);
-    });
 
     // Initialize other data
     isNightModeEnabled = CacheData.getData(key: PrefKeys.kDarkMode) ?? false;
@@ -108,7 +95,6 @@ class _HomePageState extends State<HomePage> {
       getStoriesCubit.getStories(page: page);
     });
   }
-
 
   void showIncomingCallDialog(Map<String, dynamic> callData) {
     showDialog(

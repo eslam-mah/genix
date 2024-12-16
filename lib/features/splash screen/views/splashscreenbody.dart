@@ -15,7 +15,7 @@ import 'package:genix/features/register%20screen/views/verification_screen.dart'
 import 'package:genix/features/settings%20screen/view%20model/get%20my%20account%20details/get_my_account_details_cubit.dart';
 import 'package:genix/features/splash%20screen/view%20model/first%20load/first_load_cubit.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pusher_client/pusher_client.dart';
+// import 'package:pusher_client/pusher_client.dart';
 
 import '../../../core/agora/call_service.dart';
 
@@ -37,21 +37,21 @@ class _SplashScreenBodyState extends State<SplashScreenBody> {
     callService.leaveChannel();
   }
 
-  late PusherClient pusher;
-  void initPusher() {
-    pusher = PusherClient(
-      "bea6d82af19725b37bd4",
-      PusherOptions(cluster: "eu"),
-    );
+  // late PusherClient pusher;
+  // void initPusher() {
+  //   pusher = PusherClient(
+  //     "bea6d82af19725b37bd4",
+  //     PusherOptions(cluster: "eu"),
+  //   );
 
-    pusher.connect();
-  }
+  //   pusher.connect();
+  // }
 
   @override
   void initState() {
     super.initState();
     callService.initAgora();
-    initPusher();
+    // initPusher();
     _initAuthCheck();
   }
 

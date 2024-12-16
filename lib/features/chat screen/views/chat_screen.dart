@@ -419,16 +419,17 @@ class _ChatScreenState extends State<ChatScreen> {
           final channelData = responseData['data'];
 
           // Safely access the channel properties
-          final String channelName = channelData['name']?.toString() ?? 'Unknown Channel';
+          final String channelName =
+              channelData['name']?.toString() ?? 'Unknown Channel';
           final String channelId = channelData['id']?.toString() ?? '';
           final bool withVideo = channelData['with_video'] ?? false;
 
           // Safely handle participants
           final List<dynamic> participants = channelData['participants'] ?? [];
-          final String firstParticipant = participants.isNotEmpty &&
-              participants.first['user'] != null ?
-          participants.first['user']['showname'] ?? 'Unknown' :
-          'Unknown';
+          final String firstParticipant =
+              participants.isNotEmpty && participants.first['user'] != null
+                  ? participants.first['user']['showname'] ?? 'Unknown'
+                  : 'Unknown';
 
           print('Channel Name: $channelName');
           print('Channel ID: $channelId');
@@ -436,13 +437,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
           // Get Agora token
           String agoraToken = await getAgoraToken(channelId);
-          await CallPusherManager().notifyCall(channelId);
-           navigateToCallScreen(channelName, agoraToken, withVideo);
+          // await CallPusherManager().notifyCall(channelId);
+          navigateToCallScreen(channelName, agoraToken, withVideo);
         } else {
           throw Exception('Invalid response structure: ${response.body}');
         }
       } else {
-        throw Exception('HTTP Error: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'HTTP Error: ${response.statusCode} - ${response.body}');
       }
     } catch (e, stackTrace) {
       print('Error in initiateCall: $e');
@@ -481,7 +483,8 @@ class _ChatScreenState extends State<ChatScreen> {
           throw Exception('Invalid token response format');
         }
       } else {
-        throw Exception('Failed to get Agora token. Status: ${response.statusCode}, Body: ${response.body}');
+        throw Exception(
+            'Failed to get Agora token. Status: ${response.statusCode}, Body: ${response.body}');
       }
     } catch (e) {
       print('Error getting Agora token: $e');
@@ -501,10 +504,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
-
 }
-
-
 
 class CallScreen extends StatefulWidget {
   final String channelName;
@@ -600,14 +600,14 @@ class _CallScreenState extends State<CallScreen> {
   Widget _buildLocalVideo() {
     return _localUserJoined
         ? AgoraVideoView(
-      controller: VideoViewController(
-        rtcEngine: _engine,
-        canvas: const VideoCanvas(uid: 0),
-      ),
-    )
+            controller: VideoViewController(
+              rtcEngine: _engine,
+              canvas: const VideoCanvas(uid: 0),
+            ),
+          )
         : const Center(
-      child: CircularProgressIndicator(),
-    );
+            child: CircularProgressIndicator(),
+          );
   }
 
   // Build UI for audio call
@@ -706,26 +706,26 @@ class _CallScreenState extends State<CallScreen> {
           // Main call view
           widget.isVideo
               ? Stack(
-            children: [
-              Center(child: _buildRemoteVideo()),
-              Positioned(
-                top: 90,
-                right: 20,
-                child: Container(
-                  width: 120,
-                  height: 160,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: _buildLocalVideo(),
-                  ),
-                ),
-              ),
-            ],
-          )
+                  children: [
+                    Center(child: _buildRemoteVideo()),
+                    Positioned(
+                      top: 90,
+                      right: 20,
+                      child: Container(
+                        width: 120,
+                        height: 160,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: _buildLocalVideo(),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               : _buildAudioCall(),
           // Controls overlay
           _buildControls(),
